@@ -1,0 +1,186 @@
+steps:
+  VSAT_SUPPLIER_HROC-7675:
+    operation:
+      config: {}
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 79878
+              stepCounter: "7675"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_SUPPLIER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18859
+                    stepCounter: "1635"
+                transform: ""
+          - columnReference:
+              columnCounter: 79879
+              stepCounter: "7675"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_SUPPKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18850
+                    stepCounter: "1635"
+                transform: ""
+          - columnReference:
+              columnCounter: 79880
+              stepCounter: "7675"
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_ACCTBAL
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18855
+                    stepCounter: "1635"
+                transform: ""
+          - columnReference:
+              columnCounter: 79881
+              stepCounter: "7675"
+            dataType: VARCHAR(101)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18856
+                    stepCounter: "1635"
+                transform: ""
+          - columnReference:
+              columnCounter: 79882
+              stepCounter: "7675"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_SUPPLIER_HASH_HROC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18860
+                    stepCounter: "1635"
+                transform: ""
+          - columnReference:
+              columnCounter: 79883
+              stepCounter: "7675"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18862
+                    stepCounter: "1635"
+                transform: ""
+          - columnReference:
+              columnCounter: 79884
+              stepCounter: "7675"
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18863
+                    stepCounter: "1635"
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79885
+              stepCounter: "7675"
+            config: {}
+            dataType: DATE
+            defaultValue: ""
+            description: End date of data range.
+            hashColumns: []
+            isLoadEndDate: true
+            name: LOAD_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CURRENT_DATE
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79886
+              stepCounter: "7675"
+            config: {}
+            dataType: INTEGER
+            defaultValue: ""
+            description: Load sequence
+            hashColumns: []
+            isLoadSequence: true
+            name: LOAD_SEQUENCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "0"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79887
+              stepCounter: "7675"
+            config: {}
+            dataType: CHAR(1)
+            defaultValue: ""
+            description: Flag indicating current active record
+            hashColumns: []
+            isCurrentFlag: true
+            name: CURRENT_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "'Y'"
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: SAT_SUPPLIER_HROC
+            join:
+              joinCondition: FROM {{ ref('DWH', 'SAT_SUPPLIER_HROC') }} "SAT_SUPPLIER_HROC"
+            name: VSAT_SUPPLIER_HROC
+            noLinkRefs: []
+      name: VSAT_SUPPLIER_HROC
+      overrideSQL: false
+      schema: ""
+      sqlType: "96"
+      type: sql
+    stepCounter: "7675"

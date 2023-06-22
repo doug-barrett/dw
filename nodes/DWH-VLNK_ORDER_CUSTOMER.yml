@@ -1,0 +1,140 @@
+steps:
+  VLNK_ORDER_CUSTOMER-1663:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19354
+              stepCounter: "1663"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_ORDER_CUSTOMER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18745
+                    stepCounter: "1627"
+                transform: ""
+          - columnReference:
+              columnCounter: 19355
+              stepCounter: "1663"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_ORDER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18743
+                    stepCounter: "1627"
+                transform: ""
+          - columnReference:
+              columnCounter: 19356
+              stepCounter: "1663"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_CUSTOMER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18744
+                    stepCounter: "1627"
+                transform: ""
+          - columnReference:
+              columnCounter: 19357
+              stepCounter: "1663"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: O_ORDERKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18734
+                    stepCounter: "1627"
+                transform: ""
+          - columnReference:
+              columnCounter: 19358
+              stepCounter: "1663"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: O_CUSTKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18735
+                    stepCounter: "1627"
+                transform: ""
+          - columnReference:
+              columnCounter: 19359
+              stepCounter: "1663"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18747
+                    stepCounter: "1627"
+                transform: ""
+          - columnReference:
+              columnCounter: 19360
+              stepCounter: "1663"
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18748
+                    stepCounter: "1627"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LNK_ORDERS: "1627"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: LNK_ORDERS
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'LNK_ORDERS') }} "LNK_ORDERS"
+                QUALIFY 1 = ROW_NUMBER() OVER (
+                    PARTITION BY "LNK_ORDERS"."H_ORDER_KEY"
+                    ORDER BY "LOAD_DATE") 
+            name: VLNK_ORDER_CUSTOMER
+            noLinkRefs: []
+      name: VLNK_ORDER_CUSTOMER
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1663"

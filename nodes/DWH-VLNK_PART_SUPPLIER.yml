@@ -1,0 +1,140 @@
+steps:
+  VLNK_PART_SUPPLIER-1664:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19361
+              stepCounter: "1664"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_SUPPLIER_PART_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18756
+                    stepCounter: "1628"
+                transform: ""
+          - columnReference:
+              columnCounter: 19362
+              stepCounter: "1664"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_PART_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18754
+                    stepCounter: "1628"
+                transform: ""
+          - columnReference:
+              columnCounter: 19363
+              stepCounter: "1664"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_SUPPLIER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18755
+                    stepCounter: "1628"
+                transform: ""
+          - columnReference:
+              columnCounter: 19364
+              stepCounter: "1664"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_PARTKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18749
+                    stepCounter: "1628"
+                transform: ""
+          - columnReference:
+              columnCounter: 19365
+              stepCounter: "1664"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_SUPPKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18750
+                    stepCounter: "1628"
+                transform: ""
+          - columnReference:
+              columnCounter: 19366
+              stepCounter: "1664"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18758
+                    stepCounter: "1628"
+                transform: ""
+          - columnReference:
+              columnCounter: 19367
+              stepCounter: "1664"
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18759
+                    stepCounter: "1628"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LNK_PARTSUPP: "1628"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: LNK_PARTSUPP
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'LNK_PARTSUPP') }} "LNK_PARTSUPP"
+                QUALIFY 1 = ROW_NUMBER() OVER (
+                    PARTITION BY "LNK_PARTSUPP"."PS_PARTKEY"
+                    ORDER BY "LOAD_DATE" )
+            name: VLNK_PART_SUPPLIER
+            noLinkRefs: []
+      name: VLNK_PART_SUPPLIER
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1664"

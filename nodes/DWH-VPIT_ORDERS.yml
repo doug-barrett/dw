@@ -1,0 +1,104 @@
+steps:
+  VPIT_ORDERS-1653:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19082
+              stepCounter: "1653"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_ORDER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18693
+                    stepCounter: "1624"
+                transform: ""
+          - columnReference:
+              columnCounter: 19083
+              stepCounter: "1653"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: O_ORDERKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18684
+                    stepCounter: "1624"
+                transform: ""
+          - columnReference:
+              columnCounter: 79889
+              stepCounter: "1653"
+            dataType: DATE
+            description: ""
+            name: SNAPSHOT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79769
+                    stepCounter: "7668"
+                transform: ""
+          - columnReference:
+              columnCounter: 19093
+              stepCounter: "1653"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE_SAT_ORDERS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79845
+                    stepCounter: "7672"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              HUB_ORDERS: "1624"
+              VSAT_ORDERS: "7663"
+              V_REF_SNAPSHOT: "7668"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: HUB_ORDERS
+              - locationName: DWH
+                nodeName: VSAT_ORDERS
+              - locationName: DWH
+                nodeName: V_REF_SNAPSHOT
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'HUB_ORDERS') }} "HUB_ORDERS"
+                JOIN {{ ref('DWH', 'V_REF_SNAPSHOT') }} "V_REF_SNAPSHOT"
+                ON 1 = 1
+                LEFT JOIN {{ ref('DWH', 'VSAT_ORDERS') }} "VSAT_ORDERS"
+                ON "HUB_ORDERS"."H_ORDER_KEY" = "VSAT_ORDERS"."H_ORDER_KEY"
+                AND "V_REF_SNAPSHOT"."SNAPSHOT_DATE" BETWEEN "VSAT_ORDERS"."LOAD_DATE" AND "VSAT_ORDERS"."LOAD_END_DATE"
+            name: VPIT_ORDERS
+            noLinkRefs: []
+      name: VPIT_ORDERS
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1653"

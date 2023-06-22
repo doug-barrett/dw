@@ -1,0 +1,114 @@
+steps:
+  VPIT_LINEITEM-1660:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19205
+              stepCounter: "1660"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_ORDER_LINE_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18730
+                    stepCounter: "1626"
+                transform: ""
+          - columnReference:
+              columnCounter: 19208
+              stepCounter: "1660"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_ORDERKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18993
+                    stepCounter: "1646"
+                transform: ""
+          - columnReference:
+              columnCounter: 19211
+              stepCounter: "1660"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_LINENUMBER
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18996
+                    stepCounter: "1646"
+                transform: ""
+          - columnReference:
+              columnCounter: 19225
+              stepCounter: "1660"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 19010
+                    stepCounter: "1646"
+                transform: ""
+          - columnReference:
+              columnCounter: 19226
+              stepCounter: "1660"
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 19011
+                    stepCounter: "1646"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LNK_LINEITEM: "1626"
+              VSAT_LINEITEM: "1646"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: LNK_LINEITEM
+              - locationName: DWH
+                nodeName: VSAT_LINEITEM
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'LNK_LINEITEM') }} "LNK_LINEITEM"
+                LEFT JOIN {{ ref('DWH', 'VSAT_LINEITEM') }} "VSAT_LINEITEM"
+                ON "LNK_LINEITEM"."L_ORDER_LINE_KEY" = "VSAT_LINEITEM"."L_ORDER_LINE_KEY"
+            name: VPIT_LINEITEM
+            noLinkRefs: []
+      name: VPIT_LINEITEM
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1660"

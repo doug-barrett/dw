@@ -1,0 +1,152 @@
+steps:
+  V_REF_SNAPSHOT-7668:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 79769
+              stepCounter: "7668"
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SNAPSHOT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79761
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79770
+              stepCounter: "7668"
+            dataType: SMALLINT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79762
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79771
+              stepCounter: "7668"
+            dataType: SMALLINT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MONTH
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79763
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79772
+              stepCounter: "7668"
+            dataType: CHAR(3)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MONTH_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79764
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79773
+              stepCounter: "7668"
+            dataType: SMALLINT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DAY_OF_MONTH
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79765
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79774
+              stepCounter: "7668"
+            dataType: VARCHAR(9)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DAY_OF_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79766
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79775
+              stepCounter: "7668"
+            dataType: SMALLINT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WEEK_OF_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79767
+                    stepCounter: "7667"
+                transform: ""
+          - columnReference:
+              columnCounter: 79776
+              stepCounter: "7668"
+            dataType: SMALLINT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DAY_OF_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79768
+                    stepCounter: "7667"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DATE_NODE: "7667"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: DATE_NODE
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'DATE_NODE') }} "DATE_NODE"
+                WHERE "DATE_KEY" = CURRENT_DATE
+            name: V_REF_SNAPSHOT
+            noLinkRefs: []
+      name: V_REF_SNAPSHOT
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "7668"

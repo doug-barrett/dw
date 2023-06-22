@@ -1,0 +1,214 @@
+steps:
+  VSAT_LSAT_PARTSUPP-7674:
+    operation:
+      config: {}
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 79866
+              stepCounter: "7674"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_SUPPLIER_PART_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18844
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79867
+              stepCounter: "7674"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_PARTKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18837
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79868
+              stepCounter: "7674"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_SUPPKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18838
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79869
+              stepCounter: "7674"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_AVAILQTY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18839
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79870
+              stepCounter: "7674"
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_SUPPLYCOST
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18840
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79871
+              stepCounter: "7674"
+            dataType: VARCHAR(199)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PS_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18841
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79872
+              stepCounter: "7674"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LS_SUPPLIER_PART_HASH
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18845
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79873
+              stepCounter: "7674"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18846
+                    stepCounter: "1634"
+                transform: ""
+          - columnReference:
+              columnCounter: 79874
+              stepCounter: "7674"
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18847
+                    stepCounter: "1634"
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79875
+              stepCounter: "7674"
+            config: {}
+            dataType: DATE
+            defaultValue: ""
+            description: End date of data range.
+            hashColumns: []
+            isLoadEndDate: true
+            name: LOAD_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CURRENT_DATE
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79876
+              stepCounter: "7674"
+            config: {}
+            dataType: INTEGER
+            defaultValue: ""
+            description: Load sequence
+            hashColumns: []
+            isLoadSequence: true
+            name: LOAD_SEQUENCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "0"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79877
+              stepCounter: "7674"
+            config: {}
+            dataType: CHAR(1)
+            defaultValue: ""
+            description: Flag indicating current active record
+            hashColumns: []
+            isCurrentFlag: true
+            name: CURRENT_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "'Y'"
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: LSAT_PARTSUPP
+            join:
+              joinCondition: FROM {{ ref('DWH', 'LSAT_PARTSUPP') }} "LSAT_PARTSUPP"
+            name: VSAT_LSAT_PARTSUPP
+            noLinkRefs: []
+      name: VSAT_LSAT_PARTSUPP
+      overrideSQL: false
+      schema: ""
+      sqlType: "96"
+      type: sql
+    stepCounter: "7674"

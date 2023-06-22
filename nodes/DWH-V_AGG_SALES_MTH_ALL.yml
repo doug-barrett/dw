@@ -1,0 +1,112 @@
+steps:
+  V_AGG_SALES_MTH_ALL-1711:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 20138
+              stepCounter: "1711"
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMMIT_MONTH
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20118
+                    stepCounter: "1710"
+                transform: ""
+          - columnReference:
+              columnCounter: 20139
+              stepCounter: "1711"
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_QUANTITY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20112
+                    stepCounter: "1710"
+                transform: SUM("AGG_SALES_MONTHLY"."L_QUANTITY")
+          - columnReference:
+              columnCounter: 20140
+              stepCounter: "1711"
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_EXTENDEDPRICE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20113
+                    stepCounter: "1710"
+                transform: SUM("AGG_SALES_MONTHLY"."L_EXTENDEDPRICE")
+          - columnReference:
+              columnCounter: 20141
+              stepCounter: "1711"
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_DISCOUNT
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20114
+                    stepCounter: "1710"
+                transform: SUM("AGG_SALES_MONTHLY"."L_DISCOUNT")
+          - columnReference:
+              columnCounter: 20142
+              stepCounter: "1711"
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_TAX
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20115
+                    stepCounter: "1710"
+                transform: SUM("AGG_SALES_MONTHLY"."L_TAX")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              AGG_SALES_MONTHLY: "1710"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: AGG_SALES_MONTHLY
+            join:
+              joinCondition: |-
+
+
+                FROM {{ ref('DWH', 'AGG_SALES_MONTHLY') }} "AGG_SALES_MONTHLY"
+                GROUP BY 1
+            name: V_AGG_SALES_MTH_ALL
+            noLinkRefs: []
+      name: V_AGG_SALES_MTH_ALL
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1711"

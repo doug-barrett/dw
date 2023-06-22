@@ -1,0 +1,242 @@
+steps:
+  VSAT_SUPPLIER_LROC-7669:
+    operation:
+      config: {}
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 79778
+              stepCounter: "7669"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_SUPPLIER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18769
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79779
+              stepCounter: "7669"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_SUPPKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18760
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79780
+              stepCounter: "7669"
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18761
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79781
+              stepCounter: "7669"
+            dataType: VARCHAR(40)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_ADDRESS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18762
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79782
+              stepCounter: "7669"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_NATIONKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18763
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79783
+              stepCounter: "7669"
+            dataType: VARCHAR(15)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_PHONE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18764
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79784
+              stepCounter: "7669"
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18767
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79785
+              stepCounter: "7669"
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: R_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18768
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79786
+              stepCounter: "7669"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_SUPPLIER_HASH_LROC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18849
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79787
+              stepCounter: "7669"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18771
+                    stepCounter: "1629"
+                transform: ""
+          - columnReference:
+              columnCounter: 79788
+              stepCounter: "7669"
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18772
+                    stepCounter: "1629"
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79789
+              stepCounter: "7669"
+            config: {}
+            dataType: DATE
+            defaultValue: ""
+            description: End date of data range.
+            hashColumns: []
+            isLoadEndDate: true
+            name: LOAD_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CURRENT_DATE
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79790
+              stepCounter: "7669"
+            config: {}
+            dataType: INTEGER
+            defaultValue: ""
+            description: Load sequence
+            hashColumns: []
+            isLoadSequence: true
+            name: LOAD_SEQUENCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "0"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79791
+              stepCounter: "7669"
+            config: {}
+            dataType: CHAR(1)
+            defaultValue: ""
+            description: Flag indicating current active record
+            hashColumns: []
+            isCurrentFlag: true
+            name: CURRENT_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "'Y'"
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: SAT_SUPPLIER_LROC
+            join:
+              joinCondition: FROM {{ ref('DWH', 'SAT_SUPPLIER_LROC') }} "SAT_SUPPLIER_LROC"
+            name: VSAT_SUPPLIER_LROC
+            noLinkRefs: []
+      name: VSAT_SUPPLIER_LROC
+      overrideSQL: false
+      schema: ""
+      sqlType: "96"
+      type: sql
+    stepCounter: "7669"

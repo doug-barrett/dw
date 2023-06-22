@@ -1,0 +1,245 @@
+steps:
+  STG_ORDERS-1617:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 18584
+              stepCounter: "1617"
+            dataType: NUMBER(38,0)
+            description: ""
+            name: O_ORDERKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18508
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18585
+              stepCounter: "1617"
+            dataType: NUMBER(38,0)
+            description: ""
+            name: O_CUSTKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18509
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18586
+              stepCounter: "1617"
+            dataType: VARCHAR(1)
+            description: ""
+            name: O_ORDERSTATUS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18510
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18587
+              stepCounter: "1617"
+            dataType: NUMBER(12,2)
+            description: ""
+            name: O_TOTALPRICE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18511
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18588
+              stepCounter: "1617"
+            dataType: DATE
+            description: ""
+            name: O_ORDERDATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18512
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18589
+              stepCounter: "1617"
+            dataType: VARCHAR(15)
+            description: ""
+            name: O_ORDERPRIORITY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18513
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18590
+              stepCounter: "1617"
+            dataType: VARCHAR(15)
+            description: ""
+            name: O_CLERK
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18514
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18591
+              stepCounter: "1617"
+            dataType: NUMBER(38,0)
+            description: ""
+            name: O_SHIPPRIORITY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18515
+                    stepCounter: "1608"
+                transform: ""
+          - columnReference:
+              columnCounter: 18592
+              stepCounter: "1617"
+            dataType: VARCHAR(79)
+            description: ""
+            name: O_COMMENT
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18516
+                    stepCounter: "1608"
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 18631
+              stepCounter: "1617"
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: ""
+            hashDetails:
+              hashAlgorithm: SHA1
+            hashedColumns:
+              - columnCounter: 18584
+                stepCounter: "1617"
+            name: H_ORDER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 18632
+              stepCounter: "1617"
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: ""
+            hashDetails:
+              hashAlgorithm: SHA1
+            hashedColumns:
+              - columnCounter: 18585
+                stepCounter: "1617"
+            name: H_CUSTOMER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 18633
+              stepCounter: "1617"
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: ""
+            hashDetails:
+              hashAlgorithm: SHA1
+            hashedColumns:
+              - columnCounter: 18584
+                stepCounter: "1617"
+              - columnCounter: 18585
+                stepCounter: "1617"
+            name: L_ORDER_CUSTOMER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 18634
+              stepCounter: "1617"
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: ""
+            hashDetails:
+              hashAlgorithm: SHA1
+            hashedColumns:
+              - columnCounter: 18586
+                stepCounter: "1617"
+              - columnCounter: 18587
+                stepCounter: "1617"
+              - columnCounter: 18588
+                stepCounter: "1617"
+              - columnCounter: 18589
+                stepCounter: "1617"
+              - columnCounter: 18590
+                stepCounter: "1617"
+              - columnCounter: 18591
+                stepCounter: "1617"
+              - columnCounter: 18592
+                stepCounter: "1617"
+            name: LS_ORDER_CUSTOMER_HASH
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: SOURCE
+                nodeName: ORDERS
+            join:
+              joinCondition: FROM {{ ref('SOURCE', 'ORDERS') }} "ORDERS"
+            name: STG_ORDERS
+            noLinkRefs: []
+      name: STG_ORDERS
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: "1617"

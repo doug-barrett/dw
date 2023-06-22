@@ -1,0 +1,124 @@
+steps:
+  VPIT_SUPPLIER-1650:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19060
+              stepCounter: "1650"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_SUPPLIER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18644
+                    stepCounter: "1621"
+                transform: ""
+          - columnReference:
+              columnCounter: 19061
+              stepCounter: "1650"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_SUPPKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18635
+                    stepCounter: "1621"
+                transform: ""
+          - columnReference:
+              columnCounter: 79888
+              stepCounter: "1650"
+            dataType: DATE
+            description: ""
+            name: SNAPSHOT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79769
+                    stepCounter: "7668"
+                transform: ""
+          - columnReference:
+              columnCounter: 19050
+              stepCounter: "1650"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE_LROC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79787
+                    stepCounter: "7669"
+                transform: ""
+          - columnReference:
+              columnCounter: 19062
+              stepCounter: "1650"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE_HROC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79883
+                    stepCounter: "7675"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              HUB_SUPPLIER: "1621"
+              VSAT_SUPPLIER_HROC: "7666"
+              VSAT_SUPPLIER_LROC: "7660"
+              V_REF_SNAPSHOT: "7668"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: HUB_SUPPLIER
+              - locationName: DWH
+                nodeName: VSAT_SUPPLIER_LROC
+              - locationName: DWH
+                nodeName: VSAT_SUPPLIER_HROC
+              - locationName: DWH
+                nodeName: V_REF_SNAPSHOT
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'HUB_SUPPLIER') }} "HUB_SUPPLIER"
+                JOIN {{ ref('DWH', 'V_REF_SNAPSHOT') }} "V_REF_SNAPSHOT"
+                ON 1 = 1
+                LEFT JOIN {{ ref('DWH', 'VSAT_SUPPLIER_LROC') }} "VSAT_SUPPLIER_LROC"
+                ON "HUB_SUPPLIER"."H_SUPPLIER_KEY" = "VSAT_SUPPLIER_LROC"."H_SUPPLIER_KEY"
+                AND "V_REF_SNAPSHOT"."SNAPSHOT_DATE" BETWEEN  "VSAT_SUPPLIER_LROC"."LOAD_DATE" AND "VSAT_SUPPLIER_LROC"."LOAD_END_DATE"
+                LEFT JOIN {{ ref('DWH', 'VSAT_SUPPLIER_HROC') }} "VSAT_SUPPLIER_HROC"
+                ON "HUB_SUPPLIER"."H_SUPPLIER_KEY" = "VSAT_SUPPLIER_HROC"."H_SUPPLIER_KEY"
+                AND "V_REF_SNAPSHOT"."SNAPSHOT_DATE" BETWEEN  "VSAT_SUPPLIER_HROC"."LOAD_DATE" AND "VSAT_SUPPLIER_HROC"."LOAD_END_DATE"
+            name: VPIT_SUPPLIER
+            noLinkRefs: []
+      name: VPIT_SUPPLIER
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1650"

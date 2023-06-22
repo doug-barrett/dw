@@ -1,0 +1,104 @@
+steps:
+  VPIT_PART-1655:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19123
+              stepCounter: "1655"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_PART_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18708
+                    stepCounter: "1625"
+                transform: ""
+          - columnReference:
+              columnCounter: 19124
+              stepCounter: "1655"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: P_PARTKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18699
+                    stepCounter: "1625"
+                transform: ""
+          - columnReference:
+              columnCounter: 79777
+              stepCounter: "1655"
+            dataType: DATE
+            description: ""
+            name: SNAPSHOT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79769
+                    stepCounter: "7668"
+                transform: ""
+          - columnReference:
+              columnCounter: 19134
+              stepCounter: "1655"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SAT_PART_LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79861
+                    stepCounter: "7673"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              HUB_PART: "1625"
+              VSAT_PART: "7673"
+              V_REF_SNAPSHOT: "7668"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: HUB_PART
+              - locationName: DWH
+                nodeName: V_REF_SNAPSHOT
+              - locationName: DWH
+                nodeName: VSAT_PART
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'HUB_PART') }} "HUB_PART"
+                JOIN {{ ref('DWH', 'V_REF_SNAPSHOT') }} "V_REF_SNAPSHOT"
+                ON 1 = 1
+                LEFT JOIN {{ ref('DWH', 'VSAT_PART') }} "VSAT_PART"
+                ON "HUB_PART"."H_PART_KEY" = "VSAT_PART"."H_PART_KEY"
+                AND "V_REF_SNAPSHOT"."SNAPSHOT_DATE" BETWEEN "VSAT_PART"."LOAD_DATE" AND "VSAT_PART"."LOAD_END_DATE"
+            name: VPIT_PART
+            noLinkRefs: []
+      name: VPIT_PART
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1655"

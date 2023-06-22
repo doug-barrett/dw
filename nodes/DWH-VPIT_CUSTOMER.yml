@@ -1,0 +1,104 @@
+steps:
+  VPIT_CUSTOMER-1658:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationID: ""
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 19170
+              stepCounter: "1658"
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_CUSTOMER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18658
+                    stepCounter: "1622"
+                transform: ""
+          - columnReference:
+              columnCounter: 19171
+              stepCounter: "1658"
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: C_CUSTKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18648
+                    stepCounter: "1622"
+                transform: ""
+          - columnReference:
+              columnCounter: 79890
+              stepCounter: "1658"
+            dataType: DATE
+            description: ""
+            name: SNAPSHOT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79769
+                    stepCounter: "7668"
+                transform: ""
+          - columnReference:
+              columnCounter: 19182
+              stepCounter: "1658"
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE_SAT_CUSTOMER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79804
+                    stepCounter: "7670"
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              HUB_CUSTOMER: "1622"
+              VSAT_CUSTOMER: "7661"
+              V_REF_SNAPSHOT: "7668"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: HUB_CUSTOMER
+              - locationName: DWH
+                nodeName: VSAT_CUSTOMER
+              - locationName: DWH
+                nodeName: V_REF_SNAPSHOT
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'HUB_CUSTOMER') }} "HUB_CUSTOMER"
+                JOIN {{ ref('DWH', 'V_REF_SNAPSHOT') }} "V_REF_SNAPSHOT"
+                ON 1 = 1
+                LEFT JOIN {{ ref('DWH', 'VSAT_CUSTOMER') }} "VSAT_CUSTOMER"
+                ON "HUB_CUSTOMER"."H_CUSTOMER_KEY" = "VSAT_CUSTOMER"."H_CUSTOMER_KEY"
+                AND "V_REF_SNAPSHOT"."SNAPSHOT_DATE" BETWEEN "VSAT_CUSTOMER"."LOAD_DATE" AND "VSAT_CUSTOMER"."LOAD_END_DATE"
+            name: VPIT_CUSTOMER
+            noLinkRefs: []
+      name: VPIT_CUSTOMER
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: "1658"
