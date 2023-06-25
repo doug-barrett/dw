@@ -41,7 +41,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_ORDERKEY
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 19208
@@ -118,7 +118,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_LINENUMBER
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 19211
@@ -132,7 +132,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_SUPPKEY
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18789
@@ -146,7 +146,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_QUANTITY
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18791
@@ -160,7 +160,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_EXTENDEDPRICE
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18792
@@ -174,7 +174,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_DISCOUNT
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18793
@@ -188,7 +188,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_TAX
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18794
@@ -202,7 +202,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_RETURNFLAG
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18795
@@ -216,7 +216,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_LINESTATUS
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18796
@@ -230,7 +230,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_SHIPDATE
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18797
@@ -244,7 +244,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_COMMITDATE
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18798
@@ -258,7 +258,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_RECEIPTDATE
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18799
@@ -272,7 +272,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_SHIPINSTRUCT
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18800
@@ -286,7 +286,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_SHIPMODE
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18801
@@ -300,7 +300,7 @@ steps:
             hashColumns: []
             hashDetails: null
             name: L_COMMENT
-            nullable: true
+            nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 18802
@@ -359,8 +359,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 19355
-                    stepCounter: "1663"
+                  - columnCounter: 19319
+                    stepCounter: "1660"
                 transform: ""
           - columnReference:
               columnCounter: 19324
@@ -373,8 +373,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 19362
-                    stepCounter: "1664"
+                  - columnCounter: 19320
+                    stepCounter: "1660"
                 transform: ""
           - columnReference:
               columnCounter: 19318
@@ -420,21 +420,21 @@ steps:
               customSQL: ""
             dependencies:
               - locationName: DWH
-                nodeName: DIM_CUSTOMER
+                nodeName: LSAT_LINEITEM
+              - locationName: DWH
+                nodeName: DIM_SUPPLIER
               - locationName: DWH
                 nodeName: DIM_ORDERS
               - locationName: DWH
                 nodeName: DIM_PART
               - locationName: DWH
-                nodeName: DIM_SUPPLIER
+                nodeName: DIM_CUSTOMER
               - locationName: DWH
-                nodeName: LSAT_LINEITEM
+                nodeName: VPIT_LINEITEM
               - locationName: DWH
                 nodeName: VLNK_ORDER_CUSTOMER
               - locationName: DWH
                 nodeName: VLNK_PART_SUPPLIER
-              - locationName: DWH
-                nodeName: VPIT_LINEITEM
             join:
               joinCondition: |-
                 FROM {{ ref('DWH', 'VPIT_LINEITEM') }} "VPIT_LINEITEM"

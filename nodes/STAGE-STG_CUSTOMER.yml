@@ -17,7 +17,15 @@ steps:
       locationName: STAGE
       materializationType: table
       metadata:
-        appliedNodeTests: []
+        appliedNodeTests:
+          - continueOnFailure: true
+            description: ""
+            name: Test for Test
+            runOrder: After
+            templateString: |
+              SELECT 1
+              FROM {{this}}
+              WHERE C_NAME LIKE 'TEST%'
         columns:
           - appliedColumnTests:
               hasNull: true

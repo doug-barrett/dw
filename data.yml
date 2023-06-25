@@ -7,17 +7,10 @@ jobs:
     name: dv
     steps: []
     subgraphs: []
-  Job-31:
-    excludeSelector: ""
-    id: 31
-    includeSelector: "+{  name: HUB_* } OR +{  name: SAT_* }"
-    name: New Job
-    steps: []
-    subgraphs: []
   Job-32:
     excludeSelector: ""
     id: 32
-    includeSelector: ""
+    includeSelector: "+{ location: DWH name: SAT_* } OR +{ location: DWH name: HUB_* }"
     name: New Job
     steps: []
     subgraphs: []
@@ -48,6 +41,22 @@ locations:
       "3":
         database: COALESCE_SAMPLE_DATABASE
         schema: TPCH_SF001
+  SOURCE1:
+    mappingDefinitions:
+      "3":
+        database: COALESCE_SAMPLE_DATABASE
+        schema: TPCH_SF001
+      "5":
+        database: ""
+        schema: ""
+  SOURCE2:
+    mappingDefinitions:
+      "3":
+        database: COALESCE_SAMPLE_DATABASE
+        schema: TPCH_SF001
+      "5":
+        database: ""
+        schema: ""
   STAGE:
     mappingDefinitions:
       "3":
@@ -4833,18 +4842,6 @@ subgraphs:
       - "1711"
       - "1712"
       - "1713"
-  Subgraph-53:
-    id: "53"
-    name: New Sub-Graph
-    steps:
-      - "1609"
-      - "1610"
-      - "1618"
-      - "1619"
-      - "1625"
-      - "1633"
-      - "1655"
-      - "1656"
   Subgraph-7:
     id: "7"
     name: Dim Supplier
