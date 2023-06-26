@@ -44,7 +44,7 @@ steps:
             hashDetails: null
             isBusinessKey: true
             name: P_PARTKEY
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 19124
@@ -58,11 +58,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_NAME
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79852
-                    stepCounter: "7673"
+                  - columnCounter: 18825
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19148
@@ -72,11 +72,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_MFGR
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79853
-                    stepCounter: "7673"
+                  - columnCounter: 18826
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19149
@@ -86,11 +86,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_BRAND
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79854
-                    stepCounter: "7673"
+                  - columnCounter: 18827
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19150
@@ -100,11 +100,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_TYPE
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79855
-                    stepCounter: "7673"
+                  - columnCounter: 18828
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19151
@@ -114,11 +114,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_SIZE
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79856
-                    stepCounter: "7673"
+                  - columnCounter: 18829
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19152
@@ -128,11 +128,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_CONTAINER
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79857
-                    stepCounter: "7673"
+                  - columnCounter: 18830
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19153
@@ -142,11 +142,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: P_RETAILPRICE
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79858
-                    stepCounter: "7673"
+                  - columnCounter: 18831
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19154
@@ -159,8 +159,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79859
-                    stepCounter: "7673"
+                  - columnCounter: 18832
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19137
@@ -173,8 +173,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 19123
-                    stepCounter: "1655"
+                  - columnCounter: 18833
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19155
@@ -187,8 +187,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79860
-                    stepCounter: "7673"
+                  - columnCounter: 18834
+                    stepCounter: "1633"
                 transform: ""
           - columnReference:
               columnCounter: 19139
@@ -215,8 +215,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79862
-                    stepCounter: "7673"
+                  - columnCounter: 18836
+                    stepCounter: "1633"
                 transform: ""
           - acceptedValues:
               strictMatch: true
@@ -258,21 +258,21 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
+              SAT_PART: "1633"
               VPIT_PART: "1655"
-              VSAT_PART: "7673"
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: DWH
-                nodeName: VPIT_PART
+                nodeName: SAT_PART
               - locationName: DWH
-                nodeName: VSAT_PART
+                nodeName: VPIT_PART
             join:
               joinCondition: |
                 FROM {{ ref('DWH', 'VPIT_PART') }} "VPIT_PART"
-                LEFT JOIN {{ ref('DWH', 'VSAT_PART') }} "VSAT_PART"
-                ON "VPIT_PART"."H_PART_KEY" = "VSAT_PART"."H_PART_KEY"
-                AND "VPIT_PART"."SAT_PART_LOAD_DATE" = VSAT_PART."LOAD_DATE"
+                LEFT JOIN {{ ref('DWH', 'SAT_PART') }} "SAT_PART"
+                ON "VPIT_PART"."H_PART_KEY" = "SAT_PART"."H_PART_KEY"
+                AND "VPIT_PART"."SAT_PART_LOAD_DATE" = SAT_PART."LOAD_DATE"
             name: DIM_PART
             noLinkRefs: []
       name: DIM_PART

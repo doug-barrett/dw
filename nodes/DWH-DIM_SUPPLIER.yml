@@ -44,7 +44,7 @@ steps:
             hashDetails: null
             isBusinessKey: true
             name: S_SUPPKEY
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 19061
@@ -58,11 +58,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: S_NAME
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79780
-                    stepCounter: "7669"
+                  - columnCounter: 18761
+                    stepCounter: "1629"
                 transform: ""
           - columnReference:
               columnCounter: 19075
@@ -72,11 +72,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: S_ADDRESS
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79781
-                    stepCounter: "7669"
+                  - columnCounter: 18762
+                    stepCounter: "1629"
                 transform: ""
           - columnReference:
               columnCounter: 19076
@@ -86,11 +86,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: S_NATIONKEY
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79782
-                    stepCounter: "7669"
+                  - columnCounter: 18763
+                    stepCounter: "1629"
                 transform: ""
           - columnReference:
               columnCounter: 19077
@@ -100,11 +100,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: S_PHONE
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79783
-                    stepCounter: "7669"
+                  - columnCounter: 18764
+                    stepCounter: "1629"
                 transform: ""
           - columnReference:
               columnCounter: 19078
@@ -114,11 +114,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: N_NAME
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79784
-                    stepCounter: "7669"
+                  - columnCounter: 18767
+                    stepCounter: "1629"
                 transform: ""
           - columnReference:
               columnCounter: 19079
@@ -128,11 +128,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: R_NAME
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79785
-                    stepCounter: "7669"
+                  - columnCounter: 18768
+                    stepCounter: "1629"
                 transform: ""
           - columnReference:
               columnCounter: 19080
@@ -142,11 +142,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: S_ACCTBAL
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79880
-                    stepCounter: "7675"
+                  - columnCounter: 18855
+                    stepCounter: "1635"
                 transform: ""
           - columnReference:
               columnCounter: 19081
@@ -159,8 +159,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79881
-                    stepCounter: "7675"
+                  - columnCounter: 18856
+                    stepCounter: "1635"
                 transform: ""
           - columnReference:
               columnCounter: 19064
@@ -244,27 +244,27 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
+              SAT_SUPPLIER_HROC: "1635"
+              SAT_SUPPLIER_LROC: "1629"
               VPIT_SUPPLIER: "1650"
-              VSAT_SUPPLIER_HROC: "7675"
-              VSAT_SUPPLIER_LROC: "7669"
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: DWH
+                nodeName: SAT_SUPPLIER_HROC
+              - locationName: DWH
+                nodeName: SAT_SUPPLIER_LROC
+              - locationName: DWH
                 nodeName: VPIT_SUPPLIER
-              - locationName: DWH
-                nodeName: VSAT_SUPPLIER_LROC
-              - locationName: DWH
-                nodeName: VSAT_SUPPLIER_HROC
             join:
               joinCondition: |
                 FROM  {{ ref('DWH', 'VPIT_SUPPLIER') }} "VPIT_SUPPLIER"
-                LEFT JOIN {{ ref('DWH', 'VSAT_SUPPLIER_HROC') }} "VSAT_SUPPLIER_HROC"
-                ON "VPIT_SUPPLIER"."H_SUPPLIER_KEY" = "VSAT_SUPPLIER_HROC"."H_SUPPLIER_KEY"
-                AND "VPIT_SUPPLIER"."LOAD_DATE_HROC" = "VSAT_SUPPLIER_HROC"."LOAD_DATE"
-                LEFT JOIN {{ ref('DWH', 'VSAT_SUPPLIER_LROC') }} "VSAT_SUPPLIER_LROC"
-                ON "VPIT_SUPPLIER"."H_SUPPLIER_KEY" = "VSAT_SUPPLIER_LROC"."H_SUPPLIER_KEY"
-                AND "VPIT_SUPPLIER"."LOAD_DATE_LROC" = "VSAT_SUPPLIER_LROC"."LOAD_DATE"
+                LEFT JOIN {{ ref('DWH', 'SAT_SUPPLIER_HROC') }} "SAT_SUPPLIER_HROC"
+                ON "VPIT_SUPPLIER"."H_SUPPLIER_KEY" = "SAT_SUPPLIER_HROC"."H_SUPPLIER_KEY"
+                AND "VPIT_SUPPLIER"."LOAD_DATE_HROC" = "SAT_SUPPLIER_HROC"."LOAD_DATE"
+                LEFT JOIN {{ ref('DWH', 'SAT_SUPPLIER_LROC') }} "SAT_SUPPLIER_LROC"
+                ON "VPIT_SUPPLIER"."H_SUPPLIER_KEY" = "SAT_SUPPLIER_LROC"."H_SUPPLIER_KEY"
+                AND "VPIT_SUPPLIER"."LOAD_DATE_LROC" = "SAT_SUPPLIER_LROC"."LOAD_DATE"
             name: DIM_SUPPLIER
             noLinkRefs: []
       name: DIM_SUPPLIER

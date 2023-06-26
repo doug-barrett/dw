@@ -61,8 +61,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79836
-                    stepCounter: "7672"
+                  - columnCounter: 18810
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19115
@@ -76,8 +76,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79837
-                    stepCounter: "7672"
+                  - columnCounter: 18811
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19116
@@ -90,8 +90,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79838
-                    stepCounter: "7672"
+                  - columnCounter: 18812
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19117
@@ -104,8 +104,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79839
-                    stepCounter: "7672"
+                  - columnCounter: 18813
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19118
@@ -118,8 +118,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79840
-                    stepCounter: "7672"
+                  - columnCounter: 18814
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19119
@@ -132,8 +132,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79841
-                    stepCounter: "7672"
+                  - columnCounter: 18815
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19120
@@ -146,8 +146,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79842
-                    stepCounter: "7672"
+                  - columnCounter: 18816
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19121
@@ -160,8 +160,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79843
-                    stepCounter: "7672"
+                  - columnCounter: 18817
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19096
@@ -188,8 +188,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79844
-                    stepCounter: "7672"
+                  - columnCounter: 18821
+                    stepCounter: "1632"
                 transform: ""
           - columnReference:
               columnCounter: 19107
@@ -216,8 +216,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79846
-                    stepCounter: "7672"
+                  - columnCounter: 18823
+                    stepCounter: "1632"
                 transform: ""
           - acceptedValues:
               strictMatch: true
@@ -331,21 +331,21 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
+              SAT_ORDERS: "1632"
               VPIT_ORDERS: "1653"
-              VSAT_ORDERS: "7672"
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: DWH
-                nodeName: VPIT_ORDERS
+                nodeName: SAT_ORDERS
               - locationName: DWH
-                nodeName: VSAT_ORDERS
+                nodeName: VPIT_ORDERS
             join:
               joinCondition: |
                 FROM {{ ref('DWH', 'VPIT_ORDERS') }} "VPIT_ORDERS"
-                JOIN {{ ref('DWH', 'VSAT_ORDERS') }} "VSAT_ORDERS"
-                ON "VPIT_ORDERS"."H_ORDER_KEY" = "VSAT_ORDERS"."H_ORDER_KEY"
-                AND "VPIT_ORDERS"."LOAD_DATE_SAT_ORDERS" = "VSAT_ORDERS"."LOAD_DATE"
+                JOIN {{ ref('DWH', 'SAT_ORDERS') }} "SAT_ORDERS"
+                ON "VPIT_ORDERS"."H_ORDER_KEY" = "SAT_ORDERS"."H_ORDER_KEY"
+                AND "VPIT_ORDERS"."LOAD_DATE_SAT_ORDERS" = "SAT_ORDERS"."LOAD_DATE"
             name: DIM_ORDERS
             noLinkRefs: []
       name: DIM_ORDERS

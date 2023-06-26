@@ -44,7 +44,7 @@ steps:
             hashDetails: null
             isBusinessKey: true
             name: C_CUSTKEY
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 19171
@@ -53,16 +53,16 @@ steps:
           - columnReference:
               columnCounter: 19195
               stepCounter: "1659"
-            dataType: VARCHAR(25)
+            dataType: VARCHAR
             description: ""
             hashColumns: []
             hashDetails: null
-            name: C_NAME
-            nullable: false
+            name: CUSTOMER_NAME
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79794
-                    stepCounter: "7670"
+                  - columnCounter: 18774
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19196
@@ -72,11 +72,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: C_ADDRESS
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79795
-                    stepCounter: "7670"
+                  - columnCounter: 18775
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19197
@@ -86,11 +86,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: C_NATIONKEY
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79796
-                    stepCounter: "7670"
+                  - columnCounter: 18776
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19198
@@ -100,11 +100,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: C_PHONE
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79797
-                    stepCounter: "7670"
+                  - columnCounter: 18777
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19199
@@ -115,11 +115,11 @@ steps:
             hashDetails: null
             isChangeTracking: true
             name: C_ACCTBAL
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79798
-                    stepCounter: "7670"
+                  - columnCounter: 18778
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19200
@@ -132,8 +132,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79799
-                    stepCounter: "7670"
+                  - columnCounter: 18779
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19201
@@ -146,8 +146,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79800
-                    stepCounter: "7670"
+                  - columnCounter: 18780
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19202
@@ -157,11 +157,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: N_NAME
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79801
-                    stepCounter: "7670"
+                  - columnCounter: 18781
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19203
@@ -171,11 +171,11 @@ steps:
             hashColumns: []
             hashDetails: null
             name: R_NAME
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79802
-                    stepCounter: "7670"
+                  - columnCounter: 18782
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19204
@@ -188,8 +188,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79803
-                    stepCounter: "7670"
+                  - columnCounter: 18784
+                    stepCounter: "1630"
                 transform: ""
           - columnReference:
               columnCounter: 19185
@@ -230,8 +230,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 79805
-                    stepCounter: "7670"
+                  - columnCounter: 18786
+                    stepCounter: "1630"
                 transform: ""
           - acceptedValues:
               strictMatch: true
@@ -345,21 +345,21 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
+              SAT_CUSTOMER: "1630"
               VPIT_CUSTOMER: "1658"
-              VSAT_CUSTOMER: "7670"
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: DWH
-                nodeName: VPIT_CUSTOMER
+                nodeName: SAT_CUSTOMER
               - locationName: DWH
-                nodeName: VSAT_CUSTOMER
+                nodeName: VPIT_CUSTOMER
             join:
               joinCondition: |
                 FROM {{ ref('DWH', 'VPIT_CUSTOMER') }} "VPIT_CUSTOMER"
-                LEFT JOIN {{ ref('DWH', 'VSAT_CUSTOMER') }} "VSAT_CUSTOMER"
-                ON "VPIT_CUSTOMER"."H_CUSTOMER_KEY" = "VSAT_CUSTOMER"."H_CUSTOMER_KEY"
-                AND "VPIT_CUSTOMER"."LOAD_DATE_SAT_CUSTOMER" = "VSAT_CUSTOMER"."LOAD_DATE"
+                LEFT JOIN {{ ref('DWH', 'SAT_CUSTOMER') }} "SAT_CUSTOMER"
+                ON "VPIT_CUSTOMER"."H_CUSTOMER_KEY" = "SAT_CUSTOMER"."H_CUSTOMER_KEY"
+                AND "VPIT_CUSTOMER"."LOAD_DATE_SAT_CUSTOMER" = "SAT_CUSTOMER"."LOAD_DATE"
             name: DIM_CUSTOMER
             noLinkRefs: []
       name: DIM_CUSTOMER
