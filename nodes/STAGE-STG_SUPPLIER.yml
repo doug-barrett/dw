@@ -38,12 +38,36 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: S_NAME
+            name: SUPPLIER
             nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 4a230584-0490-414a-a416-f373ae4c9949
                     stepCounter: 45298044-1b51-47c8-9057-2a06451207ec
+                transform: TRIM("SUPPLIER"."S_NAME")
+          - columnReference:
+              columnCounter: 6bfa0b96-7c1e-49b8-9086-5b0f9a99148d
+              stepCounter: a040ad63-8330-4a38-af83-5f0e6f86c9e2
+            dataType: VARCHAR(25)
+            description: ""
+            name: NATION
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 265f6f37-e4fc-4f5b-8954-68c7296afc63
+                    stepCounter: 25efe037-b108-4b57-8e43-6c45d2933420
+                transform: ""
+          - columnReference:
+              columnCounter: bdc5b4a7-c100-4f20-82a4-4fcb5b16d352
+              stepCounter: a040ad63-8330-4a38-af83-5f0e6f86c9e2
+            dataType: VARCHAR(25)
+            description: ""
+            name: REGION
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b288516f-e8e7-4d99-94a1-b6f5e484ea24
+                    stepCounter: 7647e00a-8226-4422-bde6-1c9ac81d0c36
                 transform: ""
           - columnReference:
               columnCounter: bebf9a3c-aeb1-4d3c-874a-8380c61477df
@@ -102,6 +126,24 @@ steps:
                     stepCounter: 45298044-1b51-47c8-9057-2a06451207ec
                 transform: ""
           - columnReference:
+              columnCounter: 2c56ed19-0cce-4da1-b909-a549d1486917
+              stepCounter: a040ad63-8330-4a38-af83-5f0e6f86c9e2
+            dataType: VARCHAR
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SUPPLIER_CATEGORY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8932e68d-1e59-48d0-8434-c26af149fe8a
+                    stepCounter: 45298044-1b51-47c8-9057-2a06451207ec
+                transform: |
+                  CASE WHEN "NATION"."N_NAME" <> 'UNITED STATES' THEN "REGION"."R_NAME"
+                       WHEN "SUPPLIER"."S_ACCTBAL" > 5000 THEN 'GOLD'
+                  ELSE 'SILVER'
+                  END
+          - columnReference:
               columnCounter: 9876d5c2-5ab0-4422-9394-ed18db0ff63f
               stepCounter: a040ad63-8330-4a38-af83-5f0e6f86c9e2
             dataType: VARCHAR(101)
@@ -118,13 +160,26 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              NATION: 25efe037-b108-4b57-8e43-6c45d2933420
+              REGION: 7647e00a-8226-4422-bde6-1c9ac81d0c36
+              SUPPLIER: 45298044-1b51-47c8-9057-2a06451207ec
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
+                nodeName: NATION
+              - locationName: SRC_SAMPLE
+                nodeName: REGION
+              - locationName: SRC_SAMPLE
                 nodeName: SUPPLIER
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+              joinCondition: |-
+                FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+                INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
+                ON "SUPPLIER"."S_NATIONKEY" = "NATION"."N_NATIONKEY"
+                INNER JOIN {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
+                ON "NATION"."N_REGIONKEY" = "REGION"."R_REGIONKEY"
             name: STG_SUPPLIER
             noLinkRefs: []
       name: STG_SUPPLIER
