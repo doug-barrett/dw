@@ -208,6 +208,20 @@ steps:
                     stepCounter: f3228762-423f-4f9f-a437-8f7d9a65dbc3
                 transform: ""
           - columnReference:
+              columnCounter: c0b68b87-6b77-4ebd-89fd-0ffe36fa7ab0
+              stepCounter: 52dda396-0ebc-4dfc-865f-c2493f943f36
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_SHIPDATE_KEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6de2c750-1681-4345-9b6b-2a06e30025ba
+                    stepCounter: f3228762-423f-4f9f-a437-8f7d9a65dbc3
+                transform: "{{date_sk('\"STG_LINEITEM\".\"L_SHIPDATE\"')}}"
+          - columnReference:
               columnCounter: 42e7366a-a85e-47a7-bde7-c86452a4a22c
               stepCounter: 52dda396-0ebc-4dfc-865f-c2493f943f36
             dataType: DATE
@@ -222,6 +236,20 @@ steps:
                     stepCounter: f3228762-423f-4f9f-a437-8f7d9a65dbc3
                 transform: ""
           - columnReference:
+              columnCounter: 6de319e3-991f-48ab-8ff9-8b5b70ac0d6c
+              stepCounter: 52dda396-0ebc-4dfc-865f-c2493f943f36
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_COMMITDATE_KEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f494b4de-d185-456c-ae3f-5fe4640d7b20
+                    stepCounter: f3228762-423f-4f9f-a437-8f7d9a65dbc3
+                transform: "{{date_sk('\"STG_LINEITEM\".\"L_COMMITDATE\"')}}"
+          - columnReference:
               columnCounter: 9ee2e168-9ce8-4499-81e8-d218bb14c477
               stepCounter: 52dda396-0ebc-4dfc-865f-c2493f943f36
             dataType: DATE
@@ -235,6 +263,20 @@ steps:
                   - columnCounter: 542807de-54b7-4672-a1dc-c62782564a7b
                     stepCounter: f3228762-423f-4f9f-a437-8f7d9a65dbc3
                 transform: ""
+          - columnReference:
+              columnCounter: c77e2846-ba60-4bd3-b374-49889d02d792
+              stepCounter: 52dda396-0ebc-4dfc-865f-c2493f943f36
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_RECEIPTDATE_KEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 542807de-54b7-4672-a1dc-c62782564a7b
+                    stepCounter: f3228762-423f-4f9f-a437-8f7d9a65dbc3
+                transform: "{{date_sk('\"STG_LINEITEM\".\"L_RECEIPTDATE\"')}}"
           - columnReference:
               columnCounter: c2c60693-aea9-432e-b059-41a8065b771e
               stepCounter: 52dda396-0ebc-4dfc-865f-c2493f943f36
@@ -407,7 +449,6 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              DIM_CUSTOMER: ac773769-d78c-4f85-ab5a-ea94d3e96439
               DIM_ORDERS: cc606cb9-da59-489a-9bf5-57cdd9c5dba9
               DIM_PART: 80bfb539-db66-4756-b17f-c5234dfcea70
               DIM_SUPPLIER: 10f2d59b-9785-4e39-8f1f-da072b1aaa2d
@@ -428,14 +469,14 @@ steps:
             join:
               joinCondition: |-
                 FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
-                INNER JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-                ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
                 INNER JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
                 ON "STG_LINEITEM"."O_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
                 INNER JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
                 ON "STG_LINEITEM"."L_SUPPKEY" = "DIM_SUPPLIER"."S_SUPPKEY"
                 INNER JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
                 ON "STG_LINEITEM"."L_PARTKEY" = "DIM_PART"."P_PARTKEY"
+                --INNER JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
+                --ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
             name: STG_FCT_LINEITEM
             noLinkRefs: []
       name: STG_FCT_LINEITEM

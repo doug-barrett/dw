@@ -71,7 +71,7 @@ locations:
 macros:
   Macro-1:
     id: "1"
-    macroString: |
+    macroString: |-
       {%- macro row_number(order_by, partition_by=[], order='') -%}
           ROW_NUMBER() OVER (
               {%- for p_col in partition_by %}
@@ -103,6 +103,11 @@ macros:
 
       {%- macro even_odd(column) -%}
           CASE WHEN MOD({{ column }}, 2) = 0 THEN 'EVEN' ELSE 'ODD' END
+      {%- endmacro %}
+
+
+      {%- macro date_sk(column) -%}
+          TO_NUMBER(TO_CHAR({{ column }}, 'YYYYMMDD'))
       {%- endmacro %}
 packages: {}
 projects: {}

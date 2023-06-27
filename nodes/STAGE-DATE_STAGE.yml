@@ -1,0 +1,198 @@
+steps:
+  DATE_STAGE-1183de85-3085-41a7-84b3-fcceb732b076:
+    operation:
+      config:
+        dateColumnName: "\"DATE_COL\""
+        daysToGenerate: "2000"
+        postSQL: ""
+        preSQL: ""
+        startingDate: DATEADD(DAY, -730, CURRENT_DATE)
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: be1dc93c-749a-4b29-9da3-456278d5ce2c
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: DATE
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isDate: true
+            name: DATE_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "{{ config.dateColumnName }}"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 883666d2-0401-494a-8981-00b96a4c2939
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: SMALLINT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isYear: true
+            name: YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: YEAR({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 8001f16e-c71b-4c6a-9b5f-427a2a6e33bb
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: SMALLINT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isMonth: true
+            name: MONTH
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: MONTH({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: c2a7f1d2-050e-4658-8fdf-e44e64ddb8cc
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: CHAR(3)
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isMonthName: true
+            name: MONTH_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: MONTHNAME({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: b89771ed-2c9f-4ded-a30d-37d16fdf274c
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: SMALLINT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isDayOfMonth: true
+            name: DAY_OF_MONTH
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: DAY({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 11b10d96-8f25-4ab6-ba08-828bc94fed76
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: VARCHAR(9)
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isDayOfWeek: true
+            name: DAY_OF_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: DAYOFWEEK({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 2ec57fba-72bb-4550-b098-195f765839cb
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: SMALLINT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isWeekOfYear: true
+            name: WEEK_OF_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: WEEKOFYEAR({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 69092d15-23f4-409a-964a-f545089d4330
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: SMALLINT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isYearColumn: true
+            name: DAY_OF_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: DAYOFYEAR({{ config.dateColumnName }})
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: a45f1118-53c3-4fe6-8156-ad828de9f747
+              stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
+            config: {}
+            dataType: SMALLINT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isYearColumn: true
+            name: QTR_OF_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: QUARTER({{ config.dateColumnName }})
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies: []
+            join:
+              joinCondition: ""
+            name: DATE_STAGE
+            noLinkRefs: []
+      name: DATE_STAGE
+      overrideSQL: false
+      schema: ""
+      sqlType: "4"
+      type: sql
+    stepCounter: 1183de85-3085-41a7-84b3-fcceb732b076
