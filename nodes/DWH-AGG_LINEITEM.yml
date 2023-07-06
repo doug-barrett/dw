@@ -1,0 +1,142 @@
+steps:
+  AGG_LINEITEM-bb4c80f0-65a0-48cd-93c2-affd5c9c75c2:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Lineitem data as defined by TPC-H
+      isDataVault: false
+      isMultisource: false
+      locationName: DWH
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 9b74bae3-919f-4f20-8495-e71e100e6237
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: L_ORDERKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5cadb9db-8d63-4bef-b327-1fe2fee5abaf
+                    stepCounter: 7508c7ea-6b7f-49f9-95fe-94e7ef9b3cb1
+                transform: ""
+          - columnReference:
+              columnCounter: 6ed9b474-f3ab-46d6-91be-00fa0032462b
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LINE_COUNT
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0b0172ec-d1c7-4ad1-804a-2d66a58401c5
+                    stepCounter: 7508c7ea-6b7f-49f9-95fe-94e7ef9b3cb1
+                transform: ""
+          - columnReference:
+              columnCounter: a51a6e44-fe3a-4ec3-946b-3f01c8164bcb
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_QUANTITY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 72a22990-bc23-429d-bb8d-5048e35caa21
+                    stepCounter: 7508c7ea-6b7f-49f9-95fe-94e7ef9b3cb1
+                transform: ""
+          - columnReference:
+              columnCounter: 6b5ba702-89e3-47eb-8bbc-7d8c812b729c
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: O_TOTALPRICE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79f46512-e130-4ace-982d-b277a148a304
+                    stepCounter: 7508c7ea-6b7f-49f9-95fe-94e7ef9b3cb1
+                transform: ""
+          - columnReference:
+              columnCounter: 81e0767e-585e-43d0-a683-aeb5997880c3
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            dataType: INTEGER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RECORD_COUNT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6ae00c25-337e-4955-8e22-463163270cf1
+                    stepCounter: 7508c7ea-6b7f-49f9-95fe-94e7ef9b3cb1
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 57635873-d022-4af1-a098-3f2311cd3c2f
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: e4f06c52-c409-4c77-8af7-bd3de993a55e
+              stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: VAGG_LINEITEM1
+            join:
+              joinCondition: FROM {{ ref('DWH', 'VAGG_LINEITEM1') }} "VAGG_LINEITEM1"
+            name: AGG_LINEITEM
+            noLinkRefs: []
+      name: AGG_LINEITEM
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: bb4c80f0-65a0-48cd-93c2-affd5c9c75c2

@@ -1,0 +1,68 @@
+steps:
+  AGG_LINEITEM2-d641a6bb-1475-4872-a9eb-fdd9744d7534:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Lineitem data as defined by TPC-H
+      isDataVault: false
+      isMultisource: false
+      locationName: DWH
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: dacdfe8b-17c9-460b-95f9-87a06b0fcec0
+              stepCounter: d641a6bb-1475-4872-a9eb-fdd9744d7534
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: L_ORDERKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 67c0b32e-8703-4fed-b8c4-3587c9b90202
+                    stepCounter: d89db795-2d7a-4067-86d7-6accec4eada6
+                transform: ""
+          - columnReference:
+              columnCounter: fda535a6-21d1-47ae-a1c6-0809300e1283
+              stepCounter: d641a6bb-1475-4872-a9eb-fdd9744d7534
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: L_QUANTITY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d1da876-8f7d-497c-a8dd-1658d90760ef
+                    stepCounter: d89db795-2d7a-4067-86d7-6accec4eada6
+                transform: SUM("FCT_LINEITEM1"."L_QUANTITY")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              FCT_LINEITEM1: d89db795-2d7a-4067-86d7-6accec4eada6
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: FCT_LINEITEM1
+            join:
+              joinCondition: |-
+                FROM {{ ref('DWH', 'FCT_LINEITEM1') }} "FCT_LINEITEM1"
+                GROUP BY "FCT_LINEITEM1"."L_ORDERKEY"
+            name: AGG_LINEITEM2
+            noLinkRefs: []
+      name: AGG_LINEITEM2
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: d641a6bb-1475-4872-a9eb-fdd9744d7534

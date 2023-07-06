@@ -1338,7 +1338,7 @@ stepTypes:
             	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
             	(
             		{% for col in columns %}
-            			"{{ col.name }}" {{ col.dataType }}
+            			"{{ col.name }}" {{ col.dataType }}  
             			{%- if not col.nullable %} NOT NULL
             				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
             			{% endif %}
@@ -3422,7 +3422,7 @@ stepTypes:
     version: 1
   StepType-72:
     id: "72"
-    isDisabled: true
+    isDisabled: false
     metadata:
       defaultStorageLocation: STAGE
       error: null
