@@ -1,0 +1,66 @@
+steps:
+  V_CAMPAIGN-5921b391-a25d-41bf-8f6d-97bcd10bcdbf:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: cc4a2024-1345-406d-992e-582fc8089120
+              stepCounter: 5921b391-a25d-41bf-8f6d-97bcd10bcdbf
+            dataType: VARIANT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: VALUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0aae7357-408b-435d-add0-9b512c48968e
+                    stepCounter: 9d5923fe-5280-4a3b-bc6d-d0730ffb7797
+                transform: ""
+          - columnReference:
+              columnCounter: 4068efa7-4b33-454a-af08-03f19f24dcb6
+              stepCounter: 5921b391-a25d-41bf-8f6d-97bcd10bcdbf
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: METADATA$FILENAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2c5d0c35-3a52-4ae0-adc6-04542ad0684c
+                    stepCounter: 9d5923fe-5280-4a3b-bc6d-d0730ffb7797
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              EXT_NODE: 9d5923fe-5280-4a3b-bc6d-d0730ffb7797
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: EXT_NODE
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'EXT_NODE') }} "EXT_NODE"
+                WHERE "METADATA$FILENAME" LIKE '%Campaign.json'
+            name: V_CAMPAIGN
+            noLinkRefs: []
+      name: V_CAMPAIGN
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 5921b391-a25d-41bf-8f6d-97bcd10bcdbf
