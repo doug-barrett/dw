@@ -72,6 +72,9 @@ macros:
   Macro-1:
     id: "1"
     macroString: |-
+
+
+
       {%- macro row_number(order_by, partition_by=[], order='') -%}
           ROW_NUMBER() OVER (
               {%- for p_col in partition_by %}
@@ -1495,9 +1498,9 @@ stepTypes:
           - displayName: Stage
             attributeName: fileLocation
             type: dropdownSelector
-            default: "DOUG_DB.PUBLIC.DOUGS32"
+            default: "DOUGS32"
             options:
-            - "DOUG_DB.PUBLIC.DOUGS32"
+            - "DOUGS32"
             - "Create external stages on Snowflake"
             - "Place them in the same storage location"
             - "List the storage locations in this dropdown"
@@ -1637,7 +1640,7 @@ stepTypes:
                 {% endfor %}
               {% endif %}
               
-              with location = @{{desiredState.config.fileLocation | upper }}
+              with location = @{{desiredState.parameters.stage_location}}.{{desiredState.config.fileLocation | upper}}
               pattern='{{ desiredState.config.filePattern }}'
               file_format = (type = {{ desiredState.config.fileType }}
               {% if desiredState.config.fileType == "CSV" %}
@@ -3695,9 +3698,9 @@ stepTypes:
           - displayName: Stage
             attributeName: fileLocation
             type: dropdownSelector
-            default: "DOUG_DB.PUBLIC.DOUGS3"
+            default: "DOUGS32"
             options:
-            - "DOUG_DB.PUBLIC.DOUGS3"
+            - "DOUGS32"
             - "Create external stages on Snowflake"
             - "Place them in the same storage location"
             - "List the storage locations in this dropdown"
@@ -3838,13 +3841,12 @@ stepTypes:
               {% endfor %}
 
             {{ stage('Create Snowpipe') }}
-
-            CREATE OR REPLACE PIPE {{ ref_no_link(node.location.name, 'PIPE_'+ node.name) }}
-              auto_ingest = {{config.autoIngest}}
-              {% if config.snsTopic | length > 0 %} aws_sns_topic = '{{config.snsTopic}}' {% endif %}
+            CREATE OR REPLACE PIPE  {{ this | replace (node.name, "PIPE_"+node.name) }}
+              auto_ingest = true
+              
             AS
               COPY INTO {{ this }} (VALUE)
-              FROM  @{{ config.fileLocation | upper  }}
+              FROM  @{{parameters.stage_location}}.{{ config.fileLocation | upper  }}
               FILE_FORMAT = (TYPE = '{{ config.fileType }}');
 
         run:
@@ -3991,7 +3993,7 @@ stepTypes:
           - displayName: Stage Name
             attributeName: stageName
             type: textBox
-            default: '@'
+            default: 'DOUGS32'
             isRequired: true
 
           - displayName: File Name(s) (Optional - Use single quotes and commas)
@@ -4165,12 +4167,8 @@ stepTypes:
       templates:
         create:
           templateString: |
-            {% set srcSchName = node.location.name %}
-            {% set db = storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
-            {% set sch = storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
-
-            {{ stage('Create Table') }}
-            CREATE OR REPLACE TABLE "{{ db }}"."{{ sch }}"."{{ node.name }}" (
+            { stage('Create Table') }}
+            CREATE OR REPLACE TABLE {{this}} (
                 {% for col in columns %}
                     "{{ col.name }}" {{ col.dataType }}
                 {%- if col.Description | length > 0 %} COMMENT '{{ col.Description }}'{% endif %}
@@ -4197,7 +4195,7 @@ stepTypes:
             {% endif %}
 
             {{ stage('Copy Into') }}
-                COPY INTO "{{ db }}"."{{ sch }}"."{{ node.name }}" (
+                COPY INTO {{this}} (
                     {%- for col in columns %}
                         "{{ col.name }}"
                     {%- if not loop.last -%}, {% endif %}
@@ -4208,7 +4206,7 @@ stepTypes:
                         {{ col.transform }}
                     {%- if not loop.last -%}, {% endif %}
                     {%- endfor %}
-                     FROM '@{{ db }}.{{ sch }}.{{ config.stageName }}') 
+                     FROM '@{{parameters.stage_location}}.{{ config.stageName }}') 
                 {{- fileNameSQL }}
                 {{ filePatternSQL }}
                 FILE_FORMAT = (FORMAT_NAME = '{{ db }}.{{ sch }}.{{ config.fileFormatName}}')
