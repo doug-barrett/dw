@@ -3441,9 +3441,9 @@ stepTypes:
           - displayName: Stage
             attributeName: stage
             type: dropdownSelector
-            default: "DOUG_DB.PUBLIC.PYTHON_TEST"
+            default: "DOUGS32"
             options:
-            - "DOUG_DB.PUBLIC.PYTHON_TEST"
+            - "DOUGS32"
             - "TPCH"
             - "RefData"
             - "Logs"
@@ -3452,7 +3452,7 @@ stepTypes:
           - displayName: Filename
             attributeName: filename
             type: textBox
-            default: Suppliers.xlsx
+            default: Marketing.xlsx
             isRequired: true
 
           - displayName: Worksheet (empty will take the first sheet)
@@ -3462,11 +3462,13 @@ stepTypes:
 
           - displayName: Number of rows to skip
             attributeName: skipRows
+            default: "0"
             type: textBox
             isRequired: false
           
           - displayName: Columns to be used (eg. C:D)
             attributeName: useCols
+            default: "A:E"
             type: textBox
             isRequired: false  
 
@@ -3485,7 +3487,7 @@ stepTypes:
               language python
               runtime_version = '3.8'
               packages = ('snowflake-snowpark-python', 'pandas', 'openpyxl') -- openpyxl required for pandas to read xlsx
-              imports = ('@{{ ref_no_link(node.location.name) | replace('""', '"' + config.stage + '"') | upper | trim }}/{{ config.filename | trim }}')
+              imports = ('@DOUG_DB.PUBLIC.{{ config.stage | upper | trim }}/{{ config.filename | trim }}')
               handler = 'leverage_external_mapping_file_py'
             as
             $$
