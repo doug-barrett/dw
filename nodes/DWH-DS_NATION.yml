@@ -1,0 +1,112 @@
+steps:
+  DS_NATION-b59eed12-cae1-43b7-8718-e9a9056d2477:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      dependencies: []
+      deployEnabled: false
+      description: ""
+      isMultisource: false
+      locationName: DWH
+      materializationType: table
+      metadata:
+        columns:
+          - columnReference:
+              columnCounter: e11f5485-e0ad-4e1b-8321-9cbdd4fe89e3
+              stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477
+            dataType: NUMBER(38)
+            defaultValue: ""
+            description: ""
+            name: N_NATIONKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 01c65720-345a-44db-a8eb-34dfb1d98d08
+                    stepCounter: e0eb618b-67e1-4b70-bf1b-f603491d1545
+                transform: ""
+          - columnReference:
+              columnCounter: 5bbfa6d8-75ed-4236-b2dc-754d89617bea
+              stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477
+            dataType: VARCHAR(25)
+            defaultValue: ""
+            description: ""
+            name: N_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 414ea940-787c-465f-9f4b-bb7ee091ea4d
+                    stepCounter: e0eb618b-67e1-4b70-bf1b-f603491d1545
+                transform: ""
+          - columnReference:
+              columnCounter: b5ae2c2d-326f-442c-8bdc-2824ff705de6
+              stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477
+            dataType: NUMBER(38)
+            defaultValue: ""
+            description: ""
+            name: N_REGIONKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 63b458d6-735b-4fe0-8741-c4c3624523b8
+                    stepCounter: e0eb618b-67e1-4b70-bf1b-f603491d1545
+                transform: ""
+          - columnReference:
+              columnCounter: ca1b9c40-1901-4f42-8c0a-c4910908b36a
+              stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477
+            dataType: VARCHAR(152)
+            defaultValue: ""
+            description: ""
+            name: N_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5e80cae6-bc6e-4894-9145-86c371272475
+                    stepCounter: e0eb618b-67e1-4b70-bf1b-f603491d1545
+                transform: ""
+          - columnReference:
+              columnCounter: 088471fa-38ca-426d-abf6-86c99142afbf
+              stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: Date and time the row was created in the data warehouse.
+            name: DSS_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+          - columnReference:
+              columnCounter: cbffc649-5308-4bda-95a9-095fc689d093
+              stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: Date and time the row was updated in the data warehouse.
+            name: DSS_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+        sourceMapping:
+          - aliases:
+              NATION: e0eb618b-67e1-4b70-bf1b-f603491d1545
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: SOURCE
+                nodeName: NATION
+            join:
+              joinCondition: FROM {{ ref('SOURCE','NATION') }} NATION
+            name: DS_NATION
+            noLinkRefs: []
+      name: DS_NATION
+      overrideSQL: false
+      sqlType: persistentStage
+      type: sql
+    stepCounter: b59eed12-cae1-43b7-8718-e9a9056d2477

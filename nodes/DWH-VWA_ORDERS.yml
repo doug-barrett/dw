@@ -1,0 +1,122 @@
+steps:
+  VWA_ORDERS-8544f6f4-5646-4c2c-98b1-61b7db8862cc:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      customOverride: false
+      dependencies: []
+      deployEnabled: false
+      description: ""
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        columns:
+          - columnReference:
+              columnCounter: 7152111f-4a59-4259-a62c-dd5e0a059085
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: INTEGER
+            defaultValue: ""
+            description: Financial year. Format YYYY.
+            name: FIN_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0e117fb6-b9a9-4346-bbec-0f19a2991812
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: ""
+          - columnReference:
+              columnCounter: b2c04a35-41e2-49cf-bf01-14dd339f7a5f
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: NUMBER(38)
+            defaultValue: ""
+            description: ""
+            name: L_ORDERKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bb88c38b-a424-4c93-bbd7-603034b68cfa
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: ""
+          - columnReference:
+              columnCounter: a23f3596-b84b-4b26-83ca-d866d08cbfed
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: VARCHAR(25)
+            defaultValue: ""
+            description: ""
+            name: CUSTOMER_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: dded3dba-4405-4975-9c79-d84d8479cea3
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: ""
+          - columnReference:
+              columnCounter: 42271655-e589-439b-a9d7-b3a43364ff41
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: NUMBER(12,2)
+            defaultValue: ""
+            description: ""
+            name: L_QUANTITY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7949f6fe-1a94-45ef-a7b6-55f004b0b0e1
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: SUM(VWA_ORDER_LINES.L_QUANTITY)
+          - columnReference:
+              columnCounter: 13652d71-4f31-452d-bba3-669b9229091e
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: NUMBER(12,2)
+            defaultValue: ""
+            description: ""
+            name: L_EXTENDEDPRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 295bd02c-e655-4311-b6a8-8ca7db7eabec
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: SUM(VWA_ORDER_LINES.L_EXTENDEDPRICE)
+          - columnReference:
+              columnCounter: 1ec71d77-2211-4f99-84ae-89c81a3dc0f6
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: NUMBER(12,2)
+            defaultValue: ""
+            description: ""
+            name: L_DISCOUNT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0781568e-dcec-4243-ac81-47f3a3e75286
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: SUM(VWA_ORDER_LINES.L_DISCOUNT)
+          - columnReference:
+              columnCounter: b7db52ab-2473-46a4-bac4-ce7e3ca087d5
+              stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
+            dataType: NUMBER(12,2)
+            defaultValue: ""
+            description: ""
+            name: L_TAX
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 35d690d5-8dc3-4e48-9e09-8acfb7938c0c
+                    stepCounter: 6700adde-1a70-43a3-9b7c-96b263148cdb
+                transform: SUM(VWA_ORDER_LINES.L_TAX)
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: VWA_ORDER_LINES
+            join:
+              joinCondition: GROUP BY 1, 2, 3
+            name: VWA_ORDERS
+            noLinkRefs: []
+      name: VWA_ORDERS
+      overrideSQL: false
+      sqlType: View
+      type: sql
+    stepCounter: 8544f6f4-5646-4c2c-98b1-61b7db8862cc
