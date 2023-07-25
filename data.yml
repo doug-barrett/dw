@@ -511,8 +511,7 @@ stepTypes:
         capitalized: Hub User-Defined
         short: 'HUB'
         plural: 'Hubs'
-
-        tagColor: '#92712E'
+        tagColor: 'blue'
 
         config:
         - groupName: Options
@@ -522,13 +521,17 @@ stepTypes:
             options: 
             - table
             - view
-            - HH
+            - Materialized View
             default: table
 
           - displayName: Hub Hash Column
             type: columnSelector
             attributeName: isHubHash
             isRequired: true
+
+          - type: toggleButton
+            attributeName: selectDistinct
+            displayName: Distinct
 
           - type: multisourceToggle
 
@@ -640,7 +643,7 @@ stepTypes:
         capitalized: Link User-Defined
         short: 'LNK'
         plural: 'Links'
-        tagColor: '#CA2287'
+        tagColor: 'red'
 
         config:
         - groupName: Options
@@ -698,7 +701,7 @@ stepTypes:
                            CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
                            (
                                {% for col in columns %}
-                                   "{{ col.name }}" {{ col.dataType }}
+                                   "{{ col.name }}" {{ col.dataType }} 
                                    {%- if not col.nullable %} NOT NULL
                                        {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
                                    {% endif %}
@@ -776,7 +779,7 @@ stepTypes:
         capitalized: Copy of Effectivity Satellite User-Defined
         short: 'EFF_SAT'
         plural: 'Satellites'
-        tagColor: '#627DE9'
+        tagColor: 'yellow'
 
         config:
         - groupName: Options
@@ -894,6 +897,86 @@ stepTypes:
 
             {% endif %}
     name: Satellite - Effectivity
+    version: 1
+  StepType-136:
+    id: "136"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: DWH
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Copy of View
+        short: V
+        tagColor: '#C4C4C4'
+        isDisabled: true
+        plural: Views
+
+        config:
+          - groupName: Options
+            items: 
+            - type: materializationSelector
+              options:
+                - view
+              default: view
+              isRequired: true
+
+            - type: toggleButton
+              attributeName: selectDistinct
+              displayName: Distinct
+
+            - type: multisourceToggle
+
+            - type: overrideSQLToggle
+
+            - displayName: Multi Source Strategy
+              attributeName: insertStrategy
+              type: dropdownSelector
+              default: UNION
+              options:
+              - "UNION"
+              - "UNION ALL" 
+              isRequired: true
+              enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+      templates:
+        create:
+          templateString: |
+            {% if node.override.create.enabled %}
+                
+                {{ node.override.create.script }}
+
+            {% else %}
+                {{ stage('Create View') }}
+                CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+                (
+                    {% for col in columns %}
+                        "{{ col.name }}"
+                        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+                )
+                {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+                AS
+                {% for source in sources %}
+                    SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+                    {% for col in source.columns %}
+                        {{ get_source_transform(col) }} AS "{{ col.name }}"
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+
+                    {{ source.join }}
+
+                    {% if not loop.last %}
+                        {% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
+                            {{ config.insertStrategy }}
+                        {% else %}
+                            UNION
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        run:
+          templateString: ""
+    name: Copy of View
     version: 1
   StepType-15:
     id: "15"
@@ -2631,12 +2714,10 @@ stepTypes:
       defaultStorageLocation: DWH
       error: null
       nodeMetadataSpec: |-
-
         capitalized: Satellite User-Defined
         short: 'SAT'
         plural: 'Satellites'
-        tagColor: '#627DE9'
-
+        tagColor: 'yellow'
         config:
         - groupName: Options
           items:
@@ -2755,7 +2836,7 @@ stepTypes:
       nodeMetadataSpec: |-
         capitalized: Copy of CURRENT SAT View
         short: VSAT
-        tagColor: 'red'
+        tagColor: 'yellow'
         isDisabled: true
         plural: Views
 
@@ -4804,6 +4885,7 @@ subgraphs:
       - "1657"
       - "1658"
       - "1659"
+      - 14d07224-5665-4078-bdc0-19f6c0da57cd
   Subgraph-50:
     id: "50"
     name: Raw DV
