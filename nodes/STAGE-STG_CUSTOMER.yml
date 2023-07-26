@@ -13,7 +13,7 @@ steps:
       isDataVault: false
       isMultisource: false
       locationName: STAGE
-      materializationType: table
+      materializationType: view
       metadata:
         appliedNodeTests: []
         columns:
@@ -153,7 +153,6 @@ steps:
                       ELSE 'SILVER'
                       END
                   END
-                  
           - columnReference:
               columnCounter: 7ff2632f-784f-472f-ace9-d77423d2b1f0
               stepCounter: ef5e3da9-ec09-49a6-b898-3aa6aafd3b57
@@ -183,7 +182,7 @@ steps:
                 nodeName: NATION
             join:
               joinCondition: |-
-                
+
                 FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
                 ON "CUSTOMER"."C_NATIONKEY"= "NATION"."N_NATIONKEY"

@@ -13,7 +13,7 @@ steps:
       isDataVault: false
       isMultisource: false
       locationName: STAGE
-      materializationType: table
+      materializationType: view
       metadata:
         appliedNodeTests: []
         columns:
@@ -327,11 +327,11 @@ steps:
                 FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
                 ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
-                
+
                 WHERE "ORDERS"."O_ORDERSTATUS" IN ('O','F')
-                
+
                 GROUP BY ALL 
-                
+
                 HAVING COUNT(DISTINCT "LINEITEM"."L_LINENUMBER") >  0
             name: STG_LINEITEM
             noLinkRefs: []
