@@ -1,0 +1,37 @@
+steps:
+  V_NODE-90229837-abba-4c2e-b5e8-6caa0ba505a1:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isDataVault: false
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns: []
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('DWH', 'V_NODE')}} AS (
+                		SELECT 
+                 FROM 
+                	)
+            dependencies: []
+            join:
+              joinCondition: ""
+            name: V_NODE
+            noLinkRefs: []
+      name: V_NODE
+      overrideSQL: true
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 90229837-abba-4c2e-b5e8-6caa0ba505a1

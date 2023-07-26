@@ -74,6 +74,18 @@ steps:
                     stepCounter: 59ff9cf6-e0c5-44ca-8ce8-fc35da771a05
                 transform: ""
           - columnReference:
+              columnCounter: 6b12adef-a41c-40c8-83cb-d661226df394
+              stepCounter: ef5e3da9-ec09-49a6-b898-3aa6aafd3b57
+            dataType: VARCHAR(25)
+            description: ""
+            name: N_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2cd36ea9-c3a8-4aa2-a7af-f22691989aaa
+                    stepCounter: c03e2bef-dc25-4b2a-b827-128cbdeec922
+                transform: ""
+          - columnReference:
               columnCounter: 272c19dd-7847-444d-91ed-fed28a46c701
               stepCounter: ef5e3da9-ec09-49a6-b898-3aa6aafd3b57
             dataType: VARCHAR(15)
@@ -116,6 +128,33 @@ steps:
                     stepCounter: 59ff9cf6-e0c5-44ca-8ce8-fc35da771a05
                 transform: ""
           - columnReference:
+              columnCounter: f6a600ca-4174-41ce-a880-1791663fa6a8
+              stepCounter: ef5e3da9-ec09-49a6-b898-3aa6aafd3b57
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MKT_CATEGORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0985d7eb-edbc-47b6-8916-652dc6db37f1
+                    stepCounter: 59ff9cf6-e0c5-44ca-8ce8-fc35da771a05
+                transform: |
+                  CASE WHEN "NATION"."N_NAME" <> 'UNITED STATES'
+                     THEN 'INTERNATIONAL'
+                  ELSE 
+                      CASE WHEN "CUSTOMER"."C_ACCTBAL" > 5000 
+                            AND "CUSTOMER"."C_COMMENT" IS NOT NULL 
+                           THEN 'GOLD'
+                           WHEN "CUSTOMER"."C_ACCTBAL" > 5000
+                            AND "CUSTOMER"."C_COMMENT" IS NULL 
+                           THEN 'PROSPECT'
+                      ELSE 'SILVER'
+                      END
+                  END
+                  
+          - columnReference:
               columnCounter: 7ff2632f-784f-472f-ace9-d77423d2b1f0
               stepCounter: ef5e3da9-ec09-49a6-b898-3aa6aafd3b57
             dataType: VARCHAR(117)
@@ -132,13 +171,22 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              CUSTOMER: 59ff9cf6-e0c5-44ca-8ce8-fc35da771a05
+              NATION: c03e2bef-dc25-4b2a-b827-128cbdeec922
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: CUSTOMER
+              - locationName: SRC_SAMPLE
+                nodeName: NATION
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+              joinCondition: |-
+                
+                FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+                INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
+                ON "CUSTOMER"."C_NATIONKEY"= "NATION"."N_NATIONKEY"
             name: STG_CUSTOMER
             noLinkRefs: []
       name: STG_CUSTOMER

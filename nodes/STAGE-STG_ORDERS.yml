@@ -74,6 +74,34 @@ steps:
                     stepCounter: c4980e5a-650d-4150-b272-521ec8a2148d
                 transform: ""
           - columnReference:
+              columnCounter: 347a68c4-e5b3-478f-92cf-3f63e5f9e578
+              stepCounter: 24fec925-2afe-4a88-b8a9-d201fbf4cbe7
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: XX
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 98697930-5359-4e4b-9c30-3299d1c2eb52
+                    stepCounter: c4980e5a-650d-4150-b272-521ec8a2148d
+                transform: "\"ORDERS\".\"O_TOTALPRICE\" + 10 "
+          - columnReference:
+              columnCounter: 47eb1c29-a76e-441f-9050-9adacf8b26ed
+              stepCounter: 24fec925-2afe-4a88-b8a9-d201fbf4cbe7
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: XX1
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 98697930-5359-4e4b-9c30-3299d1c2eb52
+                    stepCounter: c4980e5a-650d-4150-b272-521ec8a2148d
+                transform: XX
+          - columnReference:
               columnCounter: 4e7b6e82-6204-4d94-8ed5-1009ad38889f
               stepCounter: 24fec925-2afe-4a88-b8a9-d201fbf4cbe7
             dataType: DATE
@@ -146,13 +174,16 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              ORDERS: c4980e5a-650d-4150-b272-521ec8a2148d
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: ORDERS
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+              joinCondition: |
+                FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
             name: STG_ORDERS
             noLinkRefs: []
       name: STG_ORDERS
