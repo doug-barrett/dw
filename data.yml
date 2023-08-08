@@ -1,13 +1,20 @@
 defaultStorageMapping: DWH
 jobs:
   Job-5:
-    excludeSelector: ""
+    excludeSelector: "{ location: STAGE name: CDC_SUPPLIER }+"
     id: 5
     includeSelector: "+{ location: DWH name: FCT_* }"
     name: Process Fact Tables
     steps:
       - "58"
       - "1532"
+    subgraphs: []
+  Job-75:
+    excludeSelector: ""
+    id: 75
+    includeSelector: ""
+    name: New Job
+    steps: []
     subgraphs: []
 locations:
   DWH:
@@ -21,6 +28,9 @@ locations:
       "14":
         database: DOUG_DB
         schema: QA_DWH
+      "28":
+        database: DOUG_DB
+        schema: QA_DWH
       "3":
         database: DOUG_DB
         schema: PROD_DWH
@@ -32,6 +42,9 @@ locations:
       "14":
         database: FIVETRAN_DATABASE
         schema: RETAIL_DATA
+      "28":
+        database: FIVETRAN_DATABASE
+        schema: RETAIL_DATA
       "3":
         database: FIVETRAN_DATABASE
         schema: RETAIL_DATA
@@ -40,12 +53,18 @@ locations:
       "14":
         database: SNOWFLAKE_SAMPLE_DATA
         schema: TPCH_SF1
+      "28":
+        database: SNOWFLAKE_SAMPLE_DATA
+        schema: TPCH_SF1
       "3":
         database: SNOWFLAKE_SAMPLE_DATA
         schema: TPCH_SF1
   SRC_WEATHER:
     mappingDefinitions:
       "14":
+        database: COALESCE_SAMPLE_DATABASE
+        schema: WEATHER
+      "28":
         database: COALESCE_SAMPLE_DATABASE
         schema: WEATHER
       "3":
@@ -62,6 +81,9 @@ locations:
       "14":
         database: DOUG_DB
         schema: QA_STG
+      "28":
+        database: DOUG_DB
+        schema: QA_DWH
       "3":
         database: DOUG_DB
         schema: PROD_STG
@@ -1244,210 +1266,6 @@ stepTypes:
           templateString: ""
     name: Stage View
     version: 1
-  StepType-135:
-    id: "135"
-    isDisabled: false
-    metadata:
-      defaultStorageLocation: STAGE
-      error: null
-      nodeMetadataSpec: |-
-        capitalized: DOUGS STAGE
-        short: DOUG
-        plural: Dougs
-        tagColor: 'purple'
-
-        config:
-        - groupName: Documentation
-          items:
-          - displayName: Description
-            attributename: description
-            type: textBox
-            isRequired: false
-            default: "A model is created over a training dataset.  The first Source should contain training data.
-            The second source should be the dataset to analyze.
-              "
-
-          - displayName: ML Function
-            attributeName: MLFunction
-            type: dropdownSelector
-            default: ANOMALY DETECTION
-            options:
-            - "ANOMALY DETECTION"
-
-            isRequired: true
-            enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
-
-
-        - groupName: Hidden config
-          enableIf: "false"
-          items:
-          - displayName: Type
-            type: materializationSelector
-            default: table
-            options:
-            - table
-            isRequired: false
-
-        - groupName: Options
-          - type: multisourceToggle
-            default: true
-            isRequired: false
-
-        systemColumns:
-
-        - displayName: 'ANIMAL'
-          transform: ''
-          dataType: STRING
-          placement: beginning
-          attributeName: isAnimal
-      templates:
-        create:
-          templateString: |
-            {% if node.override.create.enabled %}
-            	
-            	{{ node.override.create.script }}
-
-            {% elif node.materializationType == 'table' %}
-            	{{ stage('Create Stage Table') }}
-
-            	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
-            	(
-            		{% for col in columns %}
-            			"{{ col.name }}" {{ col.dataType }}  
-            			{%- if not col.nullable %} NOT NULL
-            				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-            			{% endif %}
-            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-            			{%- if not loop.last -%}, {% endif %}
-            		{% endfor %}
-            	)
-            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
-
-
-            {% elif node.materializationType == 'view' %}
-                {{ stage('Create Stage View') }}
-
-                CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
-                (
-                    {% for col in columns %}
-                        "{{ col.name }}"
-                        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                        {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
-                )
-                {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
-                AS
-                {% for source in sources %}
-                    SELECT
-                    {% for col in source.columns %}
-                        {% if col.isAnimal %}'{{config.DougAnimal}}'
-                        {% else %}
-                        {{ get_source_transform(col) }} 
-                        {% endif %} AS "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
-
-                    {{ source.join }}
-
-                    {% if not loop.last %}
-                        {% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
-                            {{ config.insertStrategy }}
-                        {% else %}
-                            UNION
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-
-            {% endif %}
-        run:
-          templateString: |2
-
-                {% for test in node.tests if config.testsEnabled %}
-                    {% if test.runOrder == 'Before' %}
-                        {{ test_stage(test.name, test.continueOnFailure) }}
-                        {{ test.templateString }}
-                    {% endif %}
-                {% endfor %}
-
-            {% if node.materializationType == 'table' %}
-            	{% if config.preSQL %}
-            		{{ stage('Pre-SQL') }}
-            		{{ config.preSQL }}
-            	{% endif %}
-            	
-            	
-            	
-            		{% if config.truncateBefore %}
-            	
-            			{{ stage('Truncate Stage Table') }}
-            			TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
-            	
-            		{% endif %}
-            	
-            	
-            		{% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
-            			{{ stage( config.insertStrategy + ' Sources' | string ) }}
-            			INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
-            				(
-            					{% for col in columns %}
-            						"{{ col.name }}"
-            						{%- if not loop.last -%},{% endif %}
-            					{% endfor %}
-            				)
-            		{% endif %}
-            	
-            	
-            		{% for source in sources %}
-            	
-            			{% if config.insertStrategy == 'INSERT' %}
-            				{{ stage('Insert ' + source.name | string ) }}
-            	
-            				INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
-            				(
-            					{% for col in source.columns %}
-            						"{{ col.name }}"
-            						{%- if not loop.last -%},{% endif %}
-            					{% endfor %}
-            				)
-            			{% endif %}
-            	
-            			SELECT
-            			{% for col in source.columns %}
-                            {{ get_source_transform(col) }} AS "{{ col.name }}"
-            				{%- if not loop.last -%}, {% endif %}
-            			{% endfor %}
-            	
-            			{{ source.join }}
-            	
-            			{% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
-            				{{config.insertStrategy}}
-            			{% endif %}
-            	
-            		{% endfor %}
-            	
-            	{% if config.postSQL %}
-            		{{ stage('Post-SQL') }}
-            		{{ config.postSQL }}
-            	{% endif %}
-            {% endif %}
-
-            {% if config.testsEnabled %}
-            	{% for test in node.tests %}
-            		{% if test.runOrder == 'After' %}
-            			{{ test_stage(test.name, test.continueOnFailure) }}
-            			{{ test.templateString }}
-                    {% endif %}
-            	{% endfor %}
-
-            	{% for column in columns %}
-            		{% for test in column.tests %}
-            			{{ test_stage(column.name + ": " + test.name) }}
-            			{{ test.templateString }}
-            		{% endfor %}
-            	{% endfor %}
-            {% endif %}
-    name: ML Anomaly
-    version: 1
   StepType-138:
     id: "138"
     isDisabled: false
@@ -1524,9 +1342,9 @@ stepTypes:
             {% set source = sources[0] %}
             {% set src_node = source.dependencies[0].node %}
             {% set forecast_name = 'forecast_' ~ src_node.name %}
-            
+
             {{ stage('Create Forecast Model Instance') }}
-            
+
             CREATE OR REPLACE SNOWFLAKE.ML.FORECAST
              {{ ref_no_link(node.location.name, forecast_name) }}(
                 INPUT_DATA => SYSTEM$QUERY_REFERENCE('
@@ -1540,10 +1358,10 @@ stepTypes:
                 TIMESTAMP_COLNAME => '{{ config.tscol.name }}',
                 TARGET_COLNAME => '{{ config.tgtcol.name }}'
             )
-            
+
             {% if node.materializationType == 'table' %}
             	{{ stage('Create Forecast Table') }}
-            
+
             	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
             	(
             		{% for col in columns %}
@@ -1556,15 +1374,15 @@ stepTypes:
             		{% endfor %}
             	)
             	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
-            
-            
+
+
             {% elif node.materializationType == 'view' %}
-            
+
                 {{ stage('Refresh Forecast') }}
                 CALL {{ ref_no_link(node.location.name, forecast_name) }}!FORECAST({{ config.fcdays }})
-            
+
                 {{ stage('Create Forecast View') }}
-            
+
                 CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
                 (
                     {% for col in columns %}
@@ -1580,9 +1398,9 @@ stepTypes:
                     {{ get_source_transform(col) }} AS "{{ col.name }}"
                     {%- if not loop.last -%}, {% endif %}
                 {% endfor %}
-            
+
                 {{ source.join }}
-            
+
                 {% if config.unionforecast %}
                 UNION ALL
                 SELECT
@@ -1600,21 +1418,21 @@ stepTypes:
                 {% endfor %}
                 FROM TABLE(RESULT_SCAN(-1))
                 {% endif %}
-            
+
             {% endif %}
         run:
           templateString: |
             {% set source = sources[0] %}
             {% set src_node = source.dependencies[0].node %}
             {% set forecast_name = 'forecast_' ~ src_node.name %}
-            
+
             {% for test in node.tests if config.testsEnabled %}
                     {% if test.runOrder == 'Before' %}
                         {{ test_stage(test.name, test.continueOnFailure) }}
                         {{ test.templateString }}
                     {% endif %}
                 {% endfor %}
-            
+
             {% if node.materializationType == 'table' %}
             	{% if config.preSQL %}
             		{{ stage('Pre-SQL') }}
@@ -1632,10 +1450,10 @@ stepTypes:
             	
             	
             		{{ stage('Insert ' + source.name | string ) }}
-            
+
             		BEGIN
             		CALL {{ ref_no_link(node.location.name, forecast_name) }}!FORECAST({{ config.fcdays }});
-            
+
             		INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
             		(
             			{% for col in source.columns %}
@@ -1649,12 +1467,12 @@ stepTypes:
             			{{ get_source_transform(col) }} AS "{{ col.name }}"
             			{%- if not loop.last -%}, {% endif %}
             		{% endfor %}
-            
+
             		{{ source.join }}
-            
+
             		UNION ALL
             		{% endif %}
-            
+
             		SELECT
             		{% for col in source.columns %}
             			{% if col.id == config.tscol.id %}
@@ -1670,13 +1488,13 @@ stepTypes:
             		{% endfor %}
             		FROM TABLE(RESULT_SCAN(-1));
             		END
-            
+
             	{% if config.postSQL %}
             		{{ stage('Post-SQL') }}
             		{{ config.postSQL }}
             	{% endif %}
             {% endif %}
-            
+
             {% if config.testsEnabled %}
             	{% for test in node.tests %}
             		{% if test.runOrder == 'After' %}
@@ -1684,7 +1502,7 @@ stepTypes:
             			{{ test.templateString }}
                     {% endif %}
             	{% endfor %}
-            
+
             	{% for column in columns %}
             		{% for test in column.tests %}
             			{{ test_stage(column.name + ": " + test.name) }}
@@ -2639,12 +2457,6 @@ stepTypes:
             attributeName: insertZeroKey
             displayName: Insert Zero Key Record
             default: true
-
-          - type: toggleButton
-            attributeName: insertZeroKey1
-            displayName: Dougs Toggle
-            default: true
-
 
           - type: changeTrackingColumns
             isRequired: false
@@ -6515,5 +6327,11 @@ stepTypes:
             {% endif %}
     name: Persistent Stage
     version: 1
-subgraphs: {}
+subgraphs:
+  Subgraph-103:
+    id: "103"
+    name: New Subgraph
+    steps:
+      - 72baf804-e160-4ab2-8311-a63892822f61
+      - 4ef5412e-05f2-43cf-b3f9-a6f86137f28a
 version: 2
