@@ -55,7 +55,7 @@ steps:
               - columnReferences:
                   - columnCounter: ceeed118-a5ec-450d-8b13-9c9f2397f1d6
                     stepCounter: 91e43769-f973-4504-91e5-733b4ef88770
-                transform: ""
+                transform: NVL("DIM_CUSTOMER"."DIM_CUSTOMER_KEY", 0)
           - columnReference:
               columnCounter: 3db6d005-1931-4d98-af1e-38bcbf1ec18a
               stepCounter: 4974aabb-1827-41dc-9bb8-ae92ed1b22b0
@@ -67,7 +67,7 @@ steps:
               - columnReferences:
                   - columnCounter: 2215a597-6802-44f7-b972-9283c2ed3b84
                     stepCounter: 108b043f-9654-40f9-b0b3-b47f0c0036cd
-                transform: ""
+                transform: NVL("DIM_ORDERS"."DIM_ORDERS_KEY", 0)
           - columnReference:
               columnCounter: 12972735-1562-4874-8f4e-484c55cca215
               stepCounter: 4974aabb-1827-41dc-9bb8-ae92ed1b22b0
@@ -79,7 +79,7 @@ steps:
               - columnReferences:
                   - columnCounter: 8f3a3dbb-522e-4e68-99c7-ffc694de5d05
                     stepCounter: 1be6455f-f689-4301-9458-5af43ab4372f
-                transform: ""
+                transform: NVL("DIM_PART"."DIM_PART_KEY", 0)
           - columnReference:
               columnCounter: 287edd0f-daef-4176-8d94-4e48af513862
               stepCounter: 4974aabb-1827-41dc-9bb8-ae92ed1b22b0
@@ -91,7 +91,7 @@ steps:
               - columnReferences:
                   - columnCounter: 57408f15-69fd-411f-abc2-c267b54bafbc
                     stepCounter: 4859661c-4e7f-4d90-930f-cacce6bfe3f5
-                transform: ""
+                transform: NVL("DIM_SUPPLIER"."DIM_SUPPLIER_KEY", 0)
           - columnReference:
               columnCounter: ec5169e0-888c-4872-b638-a7d033a5ae0e
               stepCounter: 4974aabb-1827-41dc-9bb8-ae92ed1b22b0
@@ -487,13 +487,13 @@ steps:
             join:
               joinCondition: |
                 FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
-                INNER JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
+                LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
                 ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
-                INNER JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
+                LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
                 ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
-                INNER JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
+                LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
                 ON "STG_LINEITEM"."L_PARTKEY" = "DIM_PART"."P_PARTKEY"
-                INNER JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
+                LEFT JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
                 ON "STG_LINEITEM"."L_SUPPKEY"= "DIM_SUPPLIER"."S_SUPPKEY"
             name: STG_LINEITEM1
             noLinkRefs: []
