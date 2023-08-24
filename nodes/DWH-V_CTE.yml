@@ -239,7 +239,7 @@ steps:
                         JOIN {{ref('SRC_SAMPLE','NATION')}} N ON C.C_NATIONKEY = N.N_NATIONKEY
                         --LEFT JOIN DOUG_DB.DEV_STG.EXCLUDE_SUPPLIERS E ON L.L_SUPPKEY = E.E_SUPPKEY
                         WHERE --E.E_SUPPKEY IS NULL AND
-                          O.O_ORDERSTATUS = 'F'
+                        O.O_ORDERSTATUS = 'F'
                          AND YEAR(O.O_ORDERDATE) in (SELECT YR FROM sales_year)
                         GROUP BY SUPPKEY, NATION)
                     ,supplier_sales as (
