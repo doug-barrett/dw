@@ -1,0 +1,148 @@
+steps:
+  STG_CTE-c436d286-b866-4464-964b-56cddd28e5a9:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: fe232bbc-87f9-454f-8846-b2875ac6dab6
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SUPPKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 82113767-2f80-4e56-ad80-8b15c46fee9e
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: e1c4fd08-ecef-49a0-b7c0-67ce3f1cadd2
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: VARCHAR(53)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SUPP_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b2e3c45d-9ce1-43a4-952e-b0e6098faeb2
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: 81c002c3-4c19-4ad4-81c6-0aeb7369cd0d
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: NATION
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7b6cea48-aa7f-4fb1-91ee-2366bb6f6c24
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: 15351244-ce18-4865-8363-e3d002e81633
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: NUMBER(38,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TOTAL_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a5f7745c-134e-4376-8245-d0ce0c35eca0
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: 30b153f3-f5dc-4863-a29c-ea176ce55319
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: NUMBER(38,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TOP_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 38ace9d5-4523-4876-b3c6-1f87a40a05ea
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: 732d986b-c9eb-478c-8a66-adb493aa344f
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: NUMBER(38,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MID_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f938234b-a24e-42d6-a5be-d60cff6e1efd
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: 630bea47-1121-4de6-990d-666b0c136c9a
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: NUMBER(38,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BOTTOM_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 91d250ed-b197-4ae6-acf5-f444a23377f9
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+          - columnReference:
+              columnCounter: 8adb47c4-6c61-43d7-8ec7-0940ace3f2f6
+              stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TOP_NATIONS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 982ba747-0e5f-4c0c-9133-dd0ae763497a
+                    stepCounter: 2a3b15c6-1325-4c06-9dc6-269ace9c64d6
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: V_CTE
+            join:
+              joinCondition: FROM {{ ref('DWH', 'V_CTE') }} "V_CTE"
+            name: STG_CTE
+            noLinkRefs: []
+      name: STG_CTE
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: c436d286-b866-4464-964b-56cddd28e5a9
