@@ -1,13 +1,27 @@
 defaultStorageMapping: DWH
 jobs:
   Job-5:
-    excludeSelector: ""
+    excludeSelector: "+{ location: DWH name: DIM_* }"
     id: 5
     includeSelector: "+{ location: DWH name: FCT_* }"
     name: Process Fact Tables
     steps:
       - "58"
       - "1532"
+    subgraphs: []
+  Job-76:
+    excludeSelector: ""
+    id: 76
+    includeSelector: "+{ location: DWH name: DIM_* }"
+    name: Process Dimensions
+    steps: []
+    subgraphs: []
+  Job-77:
+    excludeSelector: ""
+    id: 77
+    includeSelector: "{subgraph: Customer}"
+    name: Process Subgraph Customers
+    steps: []
     subgraphs: []
 locations:
   DWH:
@@ -6627,4 +6641,8 @@ subgraphs:
       - b5f82f01-75b2-4371-83b2-16ef30b050af
       - df9d3e39-a2eb-4c23-8e93-137ba9daeebd
       - e6c0e051-5b41-4bf5-8606-43329da81810
+      - de9ae52e-a9a2-4b2e-bef7-8bbcf27d9754
+      - f923ca3e-1b50-42f5-ac34-1e8b5b3015e7
+      - b745c923-977d-45b8-9fa1-1ae30477fe35
+      - 7fd0860c-f26d-4a51-b9b3-97aeb381d9dc
 version: 2
