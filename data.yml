@@ -41,6 +41,9 @@ locations:
       "3":
         database: DOUG_DB
         schema: PROD_DWH
+      "42":
+        database: DOUG_DB
+        schema: QA_DWH
       "7":
         database: DOUG_DB
         schema: PROD_EDW
@@ -55,6 +58,9 @@ locations:
       "3":
         database: FIVETRAN_DATABASE
         schema: RETAIL_DATA
+      "42":
+        database: FIVETRAN_DATABASE
+        schema: RETAIL_DATA
   SRC_SAMPLE:
     mappingDefinitions:
       "14":
@@ -64,8 +70,11 @@ locations:
         database: SNOWFLAKE_SAMPLE_DATA
         schema: TPCH_SF1
       "3":
-        database: SNOWFLAKE_SAMPLE_DATA
-        schema: TPCH_SF1
+        database: DOUG_DB
+        schema: SAMPLE_DATA
+      "42":
+        database: DOUG_DB
+        schema: SAMPLE_DATA
   SRC_WEATHER:
     mappingDefinitions:
       "14":
@@ -75,6 +84,9 @@ locations:
         database: COALESCE_SAMPLE_DATABASE
         schema: WEATHER
       "3":
+        database: COALESCE_SAMPLE_DATABASE
+        schema: WEATHER
+      "42":
         database: COALESCE_SAMPLE_DATABASE
         schema: WEATHER
   STAGE:
@@ -94,6 +106,9 @@ locations:
       "3":
         database: DOUG_DB
         schema: PROD_STG
+      "42":
+        database: DOUG_DB
+        schema: QA_STG
       "7":
         database: DOUG_DB
         schema: PROD_STG
@@ -1062,7 +1077,7 @@ stepTypes:
             {% endif %}
         run:
           templateString: ""
-    name: CDC Incremental
+    name: CDC Table Incremental
     version: 1
   StepType-12:
     id: "12"
@@ -1808,6 +1823,115 @@ stepTypes:
             	{% endfor %}
             {% endif %}
     name: ML Forecast Multi-Series
+    version: 1
+  StepType-144:
+    id: "144"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: STAGE
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Stream
+        short: STR
+        tagColor: "yellow"
+        plural: CDC Tables
+
+        deployStrategy: advanced
+
+        config:
+
+        - groupName: Task
+          items:
+
+          - displayName: Initial Rows
+            attributeName: initialRows
+            type: toggleButton
+            default: true
+            isRequired: false
+
+          - displayName: Append Only
+            attributeName: appendOnly
+            type: toggleButton
+            default: false
+            isRequired: false
+
+        - groupName: Hidden config
+          enableIf: "false"
+          items:
+          - displayName: Type
+            type: materializationSelector
+            default: view
+            options:
+            - view
+            isRequired: true
+
+        systemColumns:
+        - displayName: "METADATA$ACTION"
+          transform: "METADATA$ACTION"
+          dataType: STRING
+          placement: end
+          attributeName: isStreamMetadataAction
+          description: Indicates the DML operation (INSERT, DELETE) recorded.
+        - displayName: "METADATA$ISUPDATE"
+          transform: "METADATA$ISUPDATE"
+          dataType: STRING
+          placement: end
+          attributeName: isStreamMetadataIsUpdate
+          description: Indicates whether the operation was part of an UPDATE statement.
+        - displayName: "METADATA$ROW_ID"
+          transform: "METADATA$ROW_ID"
+          dataType: STRING
+          placement: end
+          attributeName: isStreamMetadataRowId
+          description: Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
+      templates:
+        create:
+          templateString: |-
+            {% if desiredState == undefined %}
+              {{ stage('Drop Dynamic Table') }}
+              DROP STREAM {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+            {% else %}
+
+                {{ stage('Create Stream') }}
+                CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                ON TABLE {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
+                APPEND_ONLY = {% if desiredState.config.appendOnly is true %} TRUE {%- else -%} FALSE {% endif %} 
+                SHOW_INITIAL_ROWS = {% if desiredState.config.initialRows is true %} TRUE {%- else -%} FALSE {% endif %} 
+                COMMENT = 'CDC Stream on {{ this }}'
+
+            {% endif %}
+        run:
+          templateString: |-
+            {% if config.taskEnabled is true %}
+                {{ stage('Resume Task') }}
+                ALTER TASK
+                {% if config.taskCustomName != '' %}
+                    {{ ref_no_link(node.location.name, config.taskCustomName) }}
+                {% else %}
+                    {{ ref_no_link(node.location.name, "TSK_" + node.name) }}
+                {% endif %}
+                RESUME
+            {% else %}
+                {{ stage('Insert From Stream') }}
+                INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+                {% for source in sources %}
+                    SELECT
+                    {% for col in source.columns %}
+                        {% if col.name == 'CDC_ID' %}
+                            {{ ref_no_link(node.location.name, "SEQ_" + node.name) }}.NEXTVAL
+                        {% else %}
+                            {{ get_source_transform(col) }}
+                        {% endif %} AS "{{ col.name }}"
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+                    FROM {{ ref_no_link(node.location.name, "STR_" + node.name) }} AS "{{ sources[0].dependencies[0].node.name }}"
+                    {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+                        {{config.insertStrategy}}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+    name: Stream
     version: 1
   StepType-16:
     id: "16"
@@ -3678,7 +3802,7 @@ stepTypes:
     metadata:
       defaultStorageLocation: STAGE
       error: null
-      nodeMetadataSpec: |-
+      nodeMetadataSpec: |
         capitalized: Dynamic Table
         short: 'DYN'
         tagColor: '#C39BD3'
@@ -3719,19 +3843,6 @@ stepTypes:
             options:
             - view
             isRequired: true
-        systemColumns:
-
-        - displayName: SYSTEM_CREATE_DATE
-          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-          dataType: TIMESTAMP
-          placement: end
-          attributeName: isSystemCreateDate
-
-        - displayName: SYSTEM_UPDATE_DATE
-          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-          dataType: TIMESTAMP
-          placement: end
-          attributeName: isSystemUpdateDate
       templates:
         create:
           templateString: |-
@@ -3741,18 +3852,18 @@ stepTypes:
 
             {% else %}
 
-            {{ stage('Create Dynamic Table') }}
+              {{ stage('Create Dynamic Table') }}
 
-            CREATE OR REPLACE DYNAMIC TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-              LAG = '{{ desiredState.config.lagSchedule }}'
-              WAREHOUSE = {{ desiredState.config.Warehouse }}
-            AS
-              SELECT
-                {% for col in desiredState.sources[0].columns %}
-                    {{ get_source_transform(col) }} AS "{{ col.name }}"
-                  {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
-              {{ desiredState.sources[0].join }}
+              CREATE OR REPLACE DYNAMIC TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                LAG = '{{ desiredState.config.lagSchedule }}'
+                WAREHOUSE = {{ desiredState.config.Warehouse }}
+              AS
+                SELECT
+                  {% for col in desiredState.sources[0].columns %}
+                      {{ get_source_transform(col) }} AS "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                  {% endfor %}
+                {{ desiredState.sources[0].join }}
             ;
             {% endif %}
         run:
@@ -6644,5 +6755,4 @@ subgraphs:
       - de9ae52e-a9a2-4b2e-bef7-8bbcf27d9754
       - f923ca3e-1b50-42f5-ac34-1e8b5b3015e7
       - b745c923-977d-45b8-9fa1-1ae30477fe35
-      - 7fd0860c-f26d-4a51-b9b3-97aeb381d9dc
 version: 2
