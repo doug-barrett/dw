@@ -3,6 +3,7 @@ steps:
     operation:
       config:
         insertZeroKey: true
+        insertZeroKeyx: true
         postSQL: ""
         preSQL: ""
         testsEnabled: true
@@ -243,13 +244,20 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              STG_SUPPLIER: c5913ac8-b12d-41c7-b3fb-8ce011bbf23b
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: STAGE
+                nodeName: STG_ORDERS
+              - locationName: STAGE
                 nodeName: STG_SUPPLIER
             join:
-              joinCondition: FROM {{ ref('STAGE', 'STG_SUPPLIER') }} "STG_SUPPLIER"
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'STG_SUPPLIER') }} "STG_SUPPLIER"
+
+                -- {{ref('STAGE','STG_ORDERS')}}
             name: DIM_SUPPLIER
             noLinkRefs: []
       name: DIM_SUPPLIER

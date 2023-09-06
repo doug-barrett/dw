@@ -14,7 +14,15 @@ steps:
       locationName: STAGE
       materializationType: table
       metadata:
-        appliedNodeTests: []
+        appliedNodeTests:
+          - continueOnFailure: true
+            description: ""
+            name: Check for Test
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}}
+              WHERE CUSTOMER_NAME LIKE 'TEST'
         columns:
           - appliedColumnTests:
               hasNull: true
