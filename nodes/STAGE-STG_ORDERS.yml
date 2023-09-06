@@ -142,16 +142,41 @@ steps:
                   - columnCounter: 7df323ca-72fa-4d4d-b6cb-ca6867acb9f0
                     stepCounter: 76add5a6-acf9-4dda-9755-ad29b08856e4
                 transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: ef008ae6-92d2-48f0-b3ed-325f31aed9d9
+              stepCounter: 8653a741-16e7-42fc-886f-b40932c2619c
+            config: {}
+            dataType: DATE
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: O_REFRESHDATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'{{parameters.refresh_date}}'"
+            systemColumnType: None
+            transform: ""
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              ORDERS: 76add5a6-acf9-4dda-9755-ad29b08856e4
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: ORDERS
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+              joinCondition: |-
+                FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+                WHERE "O_ORDERDATE" = '{{parameters.refresh_date}}'
             name: STG_ORDERS
             noLinkRefs: []
       name: STG_ORDERS

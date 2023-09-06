@@ -19,7 +19,7 @@ jobs:
   Job-77:
     excludeSelector: ""
     id: 77
-    includeSelector: "{subgraph: Customer}"
+    includeSelector: "{ subgraph: \"Customer\" }"
     name: Process Subgraph Customers
     steps: []
     subgraphs: []
@@ -2862,7 +2862,7 @@ stepTypes:
       nodeMetadataSpec: |-
         capitalized: Dimension with Zero Key
         short: DIM
-        tagColor: 'blue'
+        tagColor: 'yellow'
         plural: Dimensions
 
         config:
@@ -2878,11 +2878,6 @@ stepTypes:
           - type: toggleButton
             attributeName: insertZeroKey
             displayName: Insert Zero Key Record
-            default: true
-
-          - type: toggleButton
-            attributeName: XX
-            displayName: Dougs Toggle
             default: true
 
 
@@ -2970,7 +2965,7 @@ stepTypes:
             	CREATE OR REPLACE TABLE {{ this }}
             	(
             		{% for col in columns %}
-            			"{{ col.name }}" {{ col.dataType }} 
+            			"{{ col.name }}" {{ col.dataType }}
             			{% if col.isSurrogateKey %}
             		        identity
             			{% endif %}
