@@ -2880,11 +2880,6 @@ stepTypes:
             displayName: Insert Zero Key Record
             default: true
 
-          - type: toggleButton
-            attributeName: insertZeroKeyx
-            displayName: Doug
-            default: true
-
           - type: changeTrackingColumns
             isRequired: false
 
@@ -2969,7 +2964,7 @@ stepTypes:
             	CREATE OR REPLACE TABLE {{ this }}
             	(
             		{% for col in columns %}
-            			"{{ col.name }}" {{ col.dataType }}
+            			"{{ col.name }}" {{ col.dataType }} 
             			{% if col.isSurrogateKey %}
             		        identity
             			{% endif %}

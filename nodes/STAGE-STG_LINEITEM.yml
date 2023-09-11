@@ -348,6 +348,18 @@ steps:
                   - columnCounter: bc9a178a-67f5-4f86-aecb-c5f082100804
                     stepCounter: f365857e-3fb9-4ab2-9d91-ba058b3f3ba3
                 transform: ""
+          - columnReference:
+              columnCounter: e3cdd056-bd8a-469a-b9a1-4d580bc9fee9
+              stepCounter: 786e9e60-f128-48f9-a556-b87230d890b8
+            dataType: VARCHAR(79)
+            description: ""
+            name: REFRESH_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bc9a178a-67f5-4f86-aecb-c5f082100804
+                    stepCounter: f365857e-3fb9-4ab2-9d91-ba058b3f3ba3
+                transform: "'{{parameters.refresh_date}}'"
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
@@ -363,12 +375,16 @@ steps:
                 nodeName: ORDERS
             join:
               joinCondition: |-
-
+                
                 FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
                 ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
+                WHERE "O_ORDERDATE" >= (SELECT NVL(MAX("O_ORDERDATE"),'1900-01-01') FROM {{ ref_no_link('DWH','FCT_LINEITEM1')}})
+                OR '{{parameters.refresh_type}}' = 'full'
             name: STG_LINEITEM
-            noLinkRefs: []
+            noLinkRefs:
+              - locationName: DWH
+                nodeName: FCT_LINEITEM1
       name: STG_LINEITEM
       overrideSQL: false
       schema: ""
