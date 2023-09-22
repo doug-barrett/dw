@@ -1,27 +1,11 @@
 defaultStorageMapping: DWH
 installedPackages: {}
 jobs:
-  Job-5:
-    excludeSelector: ""
-    id: 5
-    includeSelector: "+{ location: DWH name: FCT_* }"
-    name: Process Fact Tables
-    steps:
-      - "58"
-      - "1532"
-    subgraphs: []
-  Job-76:
-    excludeSelector: ""
-    id: 76
-    includeSelector: "+{ location: DWH name: DIM_* }"
-    name: Process Dimensions
-    steps: []
-    subgraphs: []
-  Job-77:
-    excludeSelector: ""
-    id: 77
-    includeSelector: "{ subgraph: \"Customer\" }"
-    name: Process Subgraph Customers
+  Job-79:
+    excludeSelector: "+{ location: STAGE name: STG_NATION_MAN } OR +{ location: STAGE name: STG_REGION_MAN } OR +{ location: STAGE name: STG_SUPPLIER_MAN }"
+    id: 79
+    includeSelector: "+{ location: DWH name: DS_NATION_SUPPLIER_REGION1 }"
+    name: Process  Nation Region Supplier
     steps: []
     subgraphs: []
 locations:
@@ -3558,27 +3542,26 @@ stepTypes:
             isRequired: true
       templates:
         create:
-          templateString: |-
-            {% if desiredState == undefined %}
-              {{ stage('Drop Dynamic Table') }}
-              DROP DYNAMIC TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+          templateString: |+
+            {{ stage('Testing states') }}
+            {% set dstate = desiredState != undefined %}
+            {% set cstate = currentState != undefined %}
 
-            {% else %}
-
-              {{ stage('Create Dynamic Table') }}
-
-              CREATE OR REPLACE DYNAMIC TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                LAG = '{{ desiredState.config.lagSchedule }}'
-                WAREHOUSE = {{ desiredState.config.Warehouse }}
-              AS
-                SELECT
-                  {% for col in desiredState.sources[0].columns %}
-                      {{ get_source_transform(col) }} AS "{{ col.name }}"
-                    {%- if not loop.last -%}, {% endif %}
-                  {% endfor %}
-                {{ desiredState.sources[0].join }}
-            ;
+            {% if cstate and not dstate %}
+              select 'Current State only'
             {% endif %}
+            {% if not cstate and  dstate %}
+              select 'Desired State only'
+            {% endif %}
+            {% if  cstate and  dstate %}
+              select 'Both states only'
+
+              {{ stage('Testing differences') }} 
+              {% for  col in desiredState.columns %}
+
+
+            {% endif %}
+
         run:
           templateString: ""
     name: Dynamic Table

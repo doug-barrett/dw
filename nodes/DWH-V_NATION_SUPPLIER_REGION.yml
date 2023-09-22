@@ -1,0 +1,207 @@
+steps:
+  V_NATION_SUPPLIER_REGION-1395066d-1b38-4b77-9e4c-3e5a7199f9a5:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: eb88a56b-edfb-4bbe-91fa-531e6ae2697d
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SYSTEM_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3b02ea3a-17c9-45f4-a398-b10e249e4960
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: 6963d6fe-5dc6-4c69-acf8-ad2b5e9d7b08
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_SUPPKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 87f5f80d-1f4b-4897-bc00-4a3f2d1f93de
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: 11bfef40-5317-4956-9abc-8122599be111
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9ca802d8-16d1-4bce-8540-56db56019db3
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: db513ef2-b162-4271-98bc-a97adce0ab3e
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: S_NAME1
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9ca802d8-16d1-4bce-8540-56db56019db3
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: LEAD(S_NAME, 1) OVER (PARTITION BY N_NATIONKEY ORDER BY SYSTEM_START_DATE)
+          - columnReference:
+              columnCounter: b84605d7-d4b6-4dad-8047-5c6c17aacbe1
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_NATIONKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2bea0f54-77d9-4fc3-a66e-8f6784a43c3d
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: 247c2eb9-bd18-4e70-9b11-b2ecf8146699
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6baa8556-3058-412f-959d-a3a67bddd24b
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: 0ec53dc9-0b4b-4318-a2f5-67d83d6e56df
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_NAME1
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6baa8556-3058-412f-959d-a3a67bddd24b
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: LEAD(N_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+          - columnReference:
+              columnCounter: 13bffbed-31b6-478f-a373-6763157b7f33
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(152)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8dccd819-181d-4599-b0ef-9db7c1a9a12e
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: f118062e-ee28-4d72-922f-fd0c0dde7fd0
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: R_REGIONKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2d841426-fd80-47a2-800c-6855f3162629
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: 4306fa93-0d65-4f58-ad8a-78a052adfb3e
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: R_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4155e59d-9d1a-4817-898b-7af3f9b3c8b1
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+          - columnReference:
+              columnCounter: ea3dd328-9808-4267-bf8e-577ffead73b0
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: R_NAME1
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4155e59d-9d1a-4817-898b-7af3f9b3c8b1
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: LEAD(R_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+          - columnReference:
+              columnCounter: a6f6a6ed-7948-4a3b-86b7-5dd40a1c50f2
+              stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            dataType: VARCHAR(152)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: R_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 670a3e03-fc62-4845-a7fd-bc366f68fb32
+                    stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              STG_NATION_SUPPLIER_REGION: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_NATION_SUPPLIER_REGION
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'STG_NATION_SUPPLIER_REGION') }} "STG_NATION_SUPPLIER_REGION"
+                QUALIFY S_NAME <> LEAD(S_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                OR N_NAME <> LEAD(N_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                OR R_NAME <> LEAD(R_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+            name: V_NATION_SUPPLIER_REGION
+            noLinkRefs: []
+      name: V_NATION_SUPPLIER_REGION
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5

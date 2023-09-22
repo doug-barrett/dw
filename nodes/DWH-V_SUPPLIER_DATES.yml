@@ -1,0 +1,101 @@
+steps:
+  V_SUPPLIER_DATES-b3675653-ab0d-4c97-8da0-c14de627ffba:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: true
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c279f105-4813-4483-8757-5efbf899be4a
+              stepCounter: b3675653-ab0d-4c97-8da0-c14de627ffba
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SYSTEM_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3a4ed5c3-409f-44e8-a5ee-6b6db8a7b2bb
+                    stepCounter: db1e9002-6a3a-48dd-8e12-77bff6169ca7
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 229bb284-e2af-489b-b3b7-2523b49e58cf
+                    stepCounter: 528787eb-fb1d-4954-a635-ebc847041856
+                transform: ""
+              - columnReferences:
+                  - columnCounter: ec3accea-64eb-410a-a842-d4636b8bc69d
+                    stepCounter: 1f138ada-9d21-48a9-9cc2-3fbf68a71804
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: e1ab75c4-83d1-4682-a4a4-5195d0a24a3e
+              stepCounter: b3675653-ab0d-4c97-8da0-c14de627ffba
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: SOURCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'SUPPLIER'"
+              - columnReferences: []
+                transform: "'NATION'"
+              - columnReferences: []
+                transform: "'REGION'"
+            systemColumnType: None
+            transform: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: DS_SUPPLIER
+            join:
+              joinCondition: FROM {{ ref('DWH', 'DS_SUPPLIER') }} "DS_SUPPLIER"
+            name: V_SUPPLIER
+            noLinkRefs: []
+          - aliases:
+              DS_NATION: 528787eb-fb1d-4954-a635-ebc847041856
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: DS_NATION
+            join:
+              joinCondition: FROM {{ ref('DWH', 'DS_NATION') }} "DS_NATION"
+            name: V_NATION
+            noLinkRefs: []
+          - aliases:
+              DS_REGION: 1f138ada-9d21-48a9-9cc2-3fbf68a71804
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: DS_REGION
+            join:
+              joinCondition: FROM {{ ref('DWH', 'DS_REGION') }} "DS_REGION"
+            name: V_REGION
+            noLinkRefs: []
+      name: V_SUPPLIER_DATES
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: b3675653-ab0d-4c97-8da0-c14de627ffba
