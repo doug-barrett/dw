@@ -1,5 +1,5 @@
 steps:
-  V_NATION_SUPPLIER_REGION1-c524d0ba-1caa-458e-8af6-ea2cdb810f46:
+  V_NATION_SUPPLIER_REGION_END_DATE-c524d0ba-1caa-458e-8af6-ea2cdb810f46:
     operation:
       config:
         insertStrategy: UNION
@@ -40,7 +40,35 @@ steps:
               - columnReferences:
                   - columnCounter: eb88a56b-edfb-4bbe-91fa-531e6ae2697d
                     stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
-                transform: LAG(SYSTEM_START_DATE, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                transform: LEAD(SYSTEM_START_DATE, 1, TO_DATE('2100-01-01')) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+          - columnReference:
+              columnCounter: bf9220c5-bfec-441a-8961-84ea3351f1c1
+              stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SYSTEM_VERSION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: eb88a56b-edfb-4bbe-91fa-531e6ae2697d
+                    stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+                transform: ROW_NUMBER() OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+          - columnReference:
+              columnCounter: c990bc5b-0c08-41fa-bfde-98f3be846518
+              stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
+            dataType: CHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SYSTEM_CURRENT_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: eb88a56b-edfb-4bbe-91fa-531e6ae2697d
+                    stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+                transform: CASE WHEN LEAD(SYSTEM_START_DATE, 1, TO_DATE('2100-01-01')) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE) = TO_DATE('2100-01-01') THEN 'Y' ELSE 'N' END
           - columnReference:
               columnCounter: de42072b-8e1e-47f0-917b-2c47a16f6d47
               stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
@@ -198,16 +226,18 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              V_NATION_SUPPLIER_REGION_CHANGE_DETECTION: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: DWH
-                nodeName: V_NATION_SUPPLIER_REGION
+                nodeName: V_NATION_SUPPLIER_REGION_CHANGE_DETECTION
             join:
-              joinCondition: FROM {{ ref('DWH', 'V_NATION_SUPPLIER_REGION') }} "V_NATION_SUPPLIER_REGION"
-            name: V_NATION_SUPPLIER_REGION1
+              joinCondition: FROM {{ ref('DWH', 'V_NATION_SUPPLIER_REGION_CHANGE_DETECTION') }} "V_NATION_SUPPLIER_REGION_CHANGE_DETECTION"
+            name: V_NATION_SUPPLIER_REGION_END_DATE
             noLinkRefs: []
-      name: V_NATION_SUPPLIER_REGION1
+      name: V_NATION_SUPPLIER_REGION_END_DATE
       overrideSQL: false
       schema: ""
       sqlType: View

@@ -1,5 +1,5 @@
 steps:
-  V_NATION_SUPPLIER_REGION-1395066d-1b38-4b77-9e4c-3e5a7199f9a5:
+  V_NATION_SUPPLIER_REGION_CHANGE_DETECTION-1395066d-1b38-4b77-9e4c-3e5a7199f9a5:
     operation:
       config:
         insertStrategy: UNION
@@ -68,7 +68,7 @@ steps:
               - columnReferences:
                   - columnCounter: 9ca802d8-16d1-4bce-8540-56db56019db3
                     stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
-                transform: LEAD(S_NAME, 1) OVER (PARTITION BY N_NATIONKEY ORDER BY SYSTEM_START_DATE)
+                transform: LAG(S_NAME, 1, '') OVER (PARTITION BY N_NATIONKEY ORDER BY SYSTEM_START_DATE)
           - columnReference:
               columnCounter: b84605d7-d4b6-4dad-8047-5c6c17aacbe1
               stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
@@ -110,7 +110,7 @@ steps:
               - columnReferences:
                   - columnCounter: 6baa8556-3058-412f-959d-a3a67bddd24b
                     stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
-                transform: LEAD(N_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                transform: LAG(N_NAME, 1, '') OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
           - columnReference:
               columnCounter: 13bffbed-31b6-478f-a373-6763157b7f33
               stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
@@ -166,7 +166,7 @@ steps:
               - columnReferences:
                   - columnCounter: 4155e59d-9d1a-4817-898b-7af3f9b3c8b1
                     stepCounter: 9b658da6-1cf1-42c2-802b-a2bf16eb454a
-                transform: LEAD(R_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                transform: LEAD(R_NAME, 1, '') OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
           - columnReference:
               columnCounter: a6f6a6ed-7948-4a3b-86b7-5dd40a1c50f2
               stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
@@ -194,12 +194,12 @@ steps:
             join:
               joinCondition: |-
                 FROM {{ ref('STAGE', 'STG_NATION_SUPPLIER_REGION') }} "STG_NATION_SUPPLIER_REGION"
-                QUALIFY S_NAME <> LEAD(S_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
-                OR N_NAME <> LEAD(N_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
-                OR R_NAME <> LEAD(R_NAME, 1) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
-            name: V_NATION_SUPPLIER_REGION
+                QUALIFY S_NAME <> LAG(S_NAME, 1, '') OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                OR N_NAME <> LAG(N_NAME, 1, '') OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                OR R_NAME <> LAG(R_NAME, 1, '') OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+            name: V_NATION_SUPPLIER_REGION_CHANGE_DETECTION
             noLinkRefs: []
-      name: V_NATION_SUPPLIER_REGION
+      name: V_NATION_SUPPLIER_REGION_CHANGE_DETECTION
       overrideSQL: false
       schema: ""
       sqlType: View

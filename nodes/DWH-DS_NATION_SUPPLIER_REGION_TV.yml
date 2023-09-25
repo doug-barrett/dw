@@ -1,5 +1,5 @@
 steps:
-  DS_NATION_SUPPLIER_REGION1-64ad1f21-c82b-4345-86fa-15db2ff6492a:
+  DS_NATION_SUPPLIER_REGION_TV-64ad1f21-c82b-4345-86fa-15db2ff6492a:
     operation:
       config:
         postSQL: ""
@@ -217,6 +217,30 @@ steps:
                   - columnCounter: 30411aee-bbc2-460d-94f3-d47436569c00
                     stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
                 transform: ""
+          - columnReference:
+              columnCounter: a550c445-3d6c-4d7f-a1bf-427ccb4f8214
+              stepCounter: 64ad1f21-c82b-4345-86fa-15db2ff6492a
+            dataType: NUMBER
+            description: ""
+            name: SYSTEM_VERSION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bf9220c5-bfec-441a-8961-84ea3351f1c1
+                    stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
+                transform: ""
+          - columnReference:
+              columnCounter: d8ae79bf-7663-4f6c-9334-039220b1c419
+              stepCounter: 64ad1f21-c82b-4345-86fa-15db2ff6492a
+            dataType: CHAR(1)
+            description: ""
+            name: SYSTEM_CURRENT_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c990bc5b-0c08-41fa-bfde-98f3be846518
+                    stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
+                transform: ""
           - acceptedValues:
               strictMatch: true
               values: []
@@ -256,16 +280,18 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              V_NATION_SUPPLIER_REGION_END_DATE: c524d0ba-1caa-458e-8af6-ea2cdb810f46
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: DWH
-                nodeName: V_NATION_SUPPLIER_REGION1
+                nodeName: V_NATION_SUPPLIER_REGION_END_DATE
             join:
-              joinCondition: FROM {{ ref('DWH', 'V_NATION_SUPPLIER_REGION1') }} "V_NATION_SUPPLIER_REGION1"
-            name: DS_NATION_SUPPLIER_REGION1
+              joinCondition: FROM {{ ref('DWH', 'V_NATION_SUPPLIER_REGION_END_DATE') }} "V_NATION_SUPPLIER_REGION_END_DATE"
+            name: DS_NATION_SUPPLIER_REGION_TV
             noLinkRefs: []
-      name: DS_NATION_SUPPLIER_REGION1
+      name: DS_NATION_SUPPLIER_REGION_TV
       overrideSQL: false
       schema: ""
       sqlType: "53"

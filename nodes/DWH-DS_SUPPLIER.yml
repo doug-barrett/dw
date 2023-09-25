@@ -258,13 +258,15 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              STG_SUPPLIER_HASH: 7412fb40-f5b6-4b53-9d94-172546b0042d
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: STAGE
-                nodeName: STG_SUPPLIER
+                nodeName: STG_SUPPLIER_HASH
             join:
-              joinCondition: FROM {{ ref('STAGE', 'STG_SUPPLIER') }} "STG_SUPPLIER"
+              joinCondition: FROM {{ ref('STAGE', 'STG_SUPPLIER_HASH') }} "STG_SUPPLIER_HASH"
             name: DS_SUPPLIER
             noLinkRefs: []
       name: DS_SUPPLIER

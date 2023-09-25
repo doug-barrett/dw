@@ -216,13 +216,15 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - customSQL:
+          - aliases:
+              STG_NATION_HASH: 8a81e862-e73f-443e-b947-1f1904fab66c
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: STAGE
-                nodeName: STG_NATION
+                nodeName: STG_NATION_HASH
             join:
-              joinCondition: FROM {{ ref('STAGE', 'STG_NATION') }} "STG_NATION"
+              joinCondition: FROM {{ ref('STAGE', 'STG_NATION_HASH') }} "STG_NATION_HASH"
             name: DS_NATION
             noLinkRefs: []
       name: DS_NATION
