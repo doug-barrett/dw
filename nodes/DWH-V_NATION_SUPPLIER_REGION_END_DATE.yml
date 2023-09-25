@@ -40,7 +40,7 @@ steps:
               - columnReferences:
                   - columnCounter: eb88a56b-edfb-4bbe-91fa-531e6ae2697d
                     stepCounter: 1395066d-1b38-4b77-9e4c-3e5a7199f9a5
-                transform: LEAD(SYSTEM_START_DATE, 1, TO_DATE('2100-01-01')) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE)
+                transform: DATEADD(SECOND, -1, LEAD(SYSTEM_START_DATE, 1, TO_DATE('2100-01-01')) OVER (PARTITION BY S_SUPPKEY ORDER BY SYSTEM_START_DATE))
           - columnReference:
               columnCounter: bf9220c5-bfec-441a-8961-84ea3351f1c1
               stepCounter: c524d0ba-1caa-458e-8af6-ea2cdb810f46
