@@ -1,0 +1,149 @@
+steps:
+  TMP_INVESTMENT_CONTACTS-491c1c56-7e98-447d-b01a-27d84222b009:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c6513b39-ae79-4fe5-989c-b639fc73201e
+              stepCounter: 491c1c56-7e98-447d-b01a-27d84222b009
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIO_SF_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 55dea062-1ca5-4196-b837-405f893f05ba
+              stepCounter: 491c1c56-7e98-447d-b01a-27d84222b009
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_OFFICER_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: e3c15a25-2f6f-4125-b465-b3ff1a4117ad
+              stepCounter: 491c1c56-7e98-447d-b01a-27d84222b009
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVESTMENT_CONTACTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_INVESTMENT_CONTACTS')}} AS (
+                    SELECT DISTINCT PORTFOLIO_SF_ID
+                        ,COVERAGE_OFFICER_ID_C AS COVERAGE_OFFICER_ID
+                        ,CASE 
+                            /* The LISTAGG function doesn't handle blanks automatically, so we add the OR clause. */
+                            WHEN LISTAGG(to_varchar(PE_Contact), '\\\\\\\\n') WITHIN GROUP (ORDER BY PE_Contact) IS NULL OR LISTAGG(TO_VARCHAR(PE_Contact), '\\\\\\\\n') WITHIN GROUP (ORDER BY PE_Contact) = ''
+                                THEN MAX(COVERAGE_CONTACT)
+                            ELSE LISTAGG(TO_VARCHAR(PE_Contact), '\\\\\\\\n') WITHIN GROUP (ORDER BY PE_Contact)
+                            END AS INVESTMENT_CONTACTS
+                    FROM (
+                        SELECT PORTFOLIO_SF_ID
+                            ,PE_Contact
+                        FROM {{ref('TGT_HL','TMP_FSCG')}}
+                        GROUP BY PORTFOLIO_SF_ID
+                            ,PE_Contact
+                        ) AS INVESTMENT_CONTACT
+                    LEFT JOIN (
+                        SELECT COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                            ,LISTAGG(TO_VARCHAR(COVERAGE_CONTACT_NAME_FORMULA_C), '\\\\\\\\n') WITHIN
+                        GROUP (
+                                ORDER BY COVERAGE_CONTACT_NAME_FORMULA_C
+                                ) AS COVERAGE_CONTACT
+                        FROM (
+                            SELECT COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                                ,COVERAGE_OFFICER_ID_C
+                                ,COVERAGE_CONTACT_NAME_FORMULA_C
+                            FROM {{ref('TGT_HL','VW_COVERAGE_CONTACT_C')}}
+                            WHERE UPPER(FOCUS_C) = UPPER('Sponsor')
+                            GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                                ,COVERAGE_OFFICER_ID_C
+                                ,COVERAGE_CONTACT_NAME_FORMULA_C
+                            ) AS COVERAGE_CONTACT_NAME_FORMULA__C
+                        GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                        ) AS COVERAGE_CONTACT ON PORTFOLIO_SF_ID = COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                    GROUP BY PORTFOLIO_SF_ID
+                        ,COVERAGE_OFFICER_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_FSCG
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_CONTACT_C
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT PORTFOLIO_SF_ID
+                        ,COVERAGE_OFFICER_ID_C AS COVERAGE_OFFICER_ID
+                        ,CASE 
+                            /* The LISTAGG function doesn't handle blanks automatically, so we add the OR clause. */
+                            WHEN LISTAGG(to_varchar(PE_Contact), '\\\\\\\\n') WITHIN GROUP (ORDER BY PE_Contact) IS NULL OR LISTAGG(TO_VARCHAR(PE_Contact), '\\\\\\\\n') WITHIN GROUP (ORDER BY PE_Contact) = ''
+                                THEN MAX(COVERAGE_CONTACT)
+                            ELSE LISTAGG(TO_VARCHAR(PE_Contact), '\\\\\\\\n') WITHIN GROUP (ORDER BY PE_Contact)
+                            END AS INVESTMENT_CONTACTS
+                    FROM (
+                        SELECT PORTFOLIO_SF_ID
+                            ,PE_Contact
+                        FROM {{ref('TGT_HL','TMP_FSCG')}}
+                        GROUP BY PORTFOLIO_SF_ID
+                            ,PE_Contact
+                        ) AS INVESTMENT_CONTACT
+                    LEFT JOIN (
+                        SELECT COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                            ,LISTAGG(TO_VARCHAR(COVERAGE_CONTACT_NAME_FORMULA_C), '\\\\\\\\n') WITHIN
+                        GROUP (
+                                ORDER BY COVERAGE_CONTACT_NAME_FORMULA_C
+                                ) AS COVERAGE_CONTACT
+                        FROM (
+                            SELECT COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                                ,COVERAGE_OFFICER_ID_C
+                                ,COVERAGE_CONTACT_NAME_FORMULA_C
+                            FROM {{ref('TGT_HL','VW_COVERAGE_CONTACT_C')}}
+                            WHERE UPPER(FOCUS_C) = UPPER('Sponsor')
+                            GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                                ,COVERAGE_OFFICER_ID_C
+                                ,COVERAGE_CONTACT_NAME_FORMULA_C
+                            ) AS COVERAGE_CONTACT_NAME_FORMULA__C
+                        GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                        ) AS COVERAGE_CONTACT ON PORTFOLIO_SF_ID = COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                    GROUP BY PORTFOLIO_SF_ID
+                        ,COVERAGE_OFFICER_ID
+            name: TMP_INVESTMENT_CONTACTS
+            noLinkRefs: []
+      name: TMP_INVESTMENT_CONTACTS
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 491c1c56-7e98-447d-b01a-27d84222b009

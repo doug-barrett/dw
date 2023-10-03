@@ -1,0 +1,259 @@
+steps:
+  TMP_FSCG-fdc3301c-3f46-4140-956d-e57b47e7103a:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: bf994a6a-5491-4ea1-acdb-e7d24f1bbff3
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIO_SF_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 930a5686-99a7-46a9-91d7-a86d39563d3b
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIOCOMPANY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: b0f89571-0d02-495a-8c43-955c94a74fcd
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: FLOAT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIO_EV_MM
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 6f73a414-9114-4f8a-b102-e3c1d655b6e6
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PE_INVESTMENT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: a5e7af37-0aa1-4b08-8993-267a8f2debda
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PE_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 233ed903-dde2-46a6-870b-ff345f015b42
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PE_CONTACT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 1352ba72-66cb-48e5-96c4-d72220cd1e0b
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVESTMENT_CONTACT_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 22d85130-b503-4efe-b21d-d640d98fc329
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FS_COVERAGE_OFFICER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 1f2902d2-d91a-4aaf-baa5-39b3f1629707
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FS_COVERAGE_OFFICER_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 6b5e5b04-54fd-423c-999a-d1b2eab9f62a
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SPONSOR_RANKING
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 5cf51527-f2e3-4f7a-a94e-0fbdf53e3d97
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HOLDING_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 23956e8a-0d9b-4cef-97d0-df5c5a211e38
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIO_OWNERSHIP
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 33e9d85c-53dd-444c-bdb5-689a780b1968
+              stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SPONSOR_SF_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_FSCG')}} AS (
+                	    SELECT DISTINCT 
+                        Portfolio.ID AS PORTFOLIO_SF_ID
+                        ,Portfolio.NAME AS PORTFOLIOCOMPANY
+                        ,InvestmentList.ENTERPRISE_VALUE_MM_C AS Portfolio_EV_MM
+                        ,InvestmentList.INVESTMENT_DATE_C AS PE_Investment_Date
+                         ,IFNULL(CAPIQPortfolio.NAME,CAPIQPortfolio_Sponsor.NAME) AS PE_NAME
+                        ,CONCAT(SFContact.CONTACT_FULL_NAME_C,' (',SFContact.TITLE,')') AS PE_CONTACT
+                        ,SFContact.ID AS INVESTMENT_CONTACT_ID
+                        ,HL_STAFF.LNAME AS FS_COVERAGE_OFFICER
+                        ,HL_STAFF.SF_CONTACTID AS FS_COVERAGE_OFFICER_ID
+                        ,InvestmentList.FS_PROSPECT_RANKING_C AS SPONSOR_RANKING
+                        ,InvestmentList.HOLDING_TYPE_C AS HOLDING_TYPE
+                        ,Portfolio.OWNERSHIP AS PORTFOLIO_OWNERSHIP
+                        ,CAPIQPortfolio.ID AS SPONSOR_SF_ID 
+                    FROM {{ref('TGT_HL','VW_ACCOUNT')}}  AS Portfolio
+                    INNER JOIN {{ref('TGT_HL','VW_INVESTMENT_LIST_C')}} AS InvestmentList ON InvestmentList.PORTFOLIO_C = Portfolio.ID
+                        AND UPPER(InvestmentList.STATUS_C) = UPPER('Current')
+                    INNER JOIN {{ref('TGT_HL','VW_ACCOUNT')}} AS CAPIQPortfolio ON CAPIQPortfolio.ID = InvestmentList.SPONSOR_C
+                        AND UPPER(InvestmentList.STATUS_C) = UPPER('Current')
+
+                    LEFT JOIN {{ref('TGT_HL','VW_ACCOUNT')}} AS CAPIQPortfolio_Sponsor ON CAPIQPortfolio_Sponsor.ID = CAPIQPortfolio.PARENT_SPONSOR_COMPANY_C
+                    
+                    LEFT JOIN {{ref('SRC_HL','CONTACT')}}  AS SFContact ON InvestmentList.INVESTMENT_CONTACT_C = SFContact.ID
+                    LEFT JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}}  AS COVERAGE_TEAM__C ON CAPIQPortfolio.ID = COVERAGE_TEAM__C.COMPANY_C
+                        AND UPPER(COVERAGE_TEAM__C.RECORD_TYPE_ID) = UPPER('012i0000001N7y9AAC') 
+                        AND UPPER(COVERAGE_TEAM__C.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    LEFT JOIN {{ref('SRC_HL','HL_STAFF')}} AS HL_STAFF ON COVERAGE_TEAM__C.OFFICER_C = HL_STAFF.SF_CONTACTID
+                        AND HL_STAFF.DEPARTURE_DATE IS NULL
+                  
+                	)
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: CONTACT
+              - locationName: SRC_HL
+                nodeName: HL_STAFF
+              - locationName: TGT_HL
+                nodeName: VW_ACCOUNT
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_TEAM_C
+              - locationName: TGT_HL
+                nodeName: VW_INVESTMENT_LIST_C
+            join:
+              joinCondition: |-
+                	    SELECT DISTINCT 
+                        Portfolio.ID AS PORTFOLIO_SF_ID
+                        ,Portfolio.NAME AS PORTFOLIOCOMPANY
+                        ,InvestmentList.ENTERPRISE_VALUE_MM_C AS Portfolio_EV_MM
+                        ,InvestmentList.INVESTMENT_DATE_C AS PE_Investment_Date
+                         ,IFNULL(CAPIQPortfolio.NAME,CAPIQPortfolio_Sponsor.NAME) AS PE_NAME
+                        ,CONCAT(SFContact.CONTACT_FULL_NAME_C,' (',SFContact.TITLE,')') AS PE_CONTACT
+                        ,SFContact.ID AS INVESTMENT_CONTACT_ID
+                        ,HL_STAFF.LNAME AS FS_COVERAGE_OFFICER
+                        ,HL_STAFF.SF_CONTACTID AS FS_COVERAGE_OFFICER_ID
+                        ,InvestmentList.FS_PROSPECT_RANKING_C AS SPONSOR_RANKING
+                        ,InvestmentList.HOLDING_TYPE_C AS HOLDING_TYPE
+                        ,Portfolio.OWNERSHIP AS PORTFOLIO_OWNERSHIP
+                        ,CAPIQPortfolio.ID AS SPONSOR_SF_ID 
+                    FROM {{ref('TGT_HL','VW_ACCOUNT')}}  AS Portfolio
+                    INNER JOIN {{ref('TGT_HL','VW_INVESTMENT_LIST_C')}} AS InvestmentList ON InvestmentList.PORTFOLIO_C = Portfolio.ID
+                        AND UPPER(InvestmentList.STATUS_C) = UPPER('Current')
+                    INNER JOIN {{ref('TGT_HL','VW_ACCOUNT')}} AS CAPIQPortfolio ON CAPIQPortfolio.ID = InvestmentList.SPONSOR_C
+                        AND UPPER(InvestmentList.STATUS_C) = UPPER('Current')
+
+                    LEFT JOIN {{ref('TGT_HL','VW_ACCOUNT')}} AS CAPIQPortfolio_Sponsor ON CAPIQPortfolio_Sponsor.ID = CAPIQPortfolio.PARENT_SPONSOR_COMPANY_C
+                    
+                    LEFT JOIN {{ref('SRC_HL','CONTACT')}}  AS SFContact ON InvestmentList.INVESTMENT_CONTACT_C = SFContact.ID
+                    LEFT JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}}  AS COVERAGE_TEAM__C ON CAPIQPortfolio.ID = COVERAGE_TEAM__C.COMPANY_C
+                        AND UPPER(COVERAGE_TEAM__C.RECORD_TYPE_ID) = UPPER('012i0000001N7y9AAC') 
+                        AND UPPER(COVERAGE_TEAM__C.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    LEFT JOIN {{ref('SRC_HL','HL_STAFF')}} AS HL_STAFF ON COVERAGE_TEAM__C.OFFICER_C = HL_STAFF.SF_CONTACTID
+                        AND HL_STAFF.DEPARTURE_DATE IS NULL
+                  
+            name: TMP_FSCG
+            noLinkRefs: []
+      name: TMP_FSCG
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: fdc3301c-3f46-4140-956d-e57b47e7103a

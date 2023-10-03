@@ -1,0 +1,227 @@
+steps:
+  TMP_ACTIVITY_LIST-62582b90-6fea-4a87-8683-f9f79fc543c9:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 25021abe-5050-4336-b358-bada84573ecf
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: c4c86e0c-8dec-4eaa-bcd1-c01451764392
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 02897324-a06b-4070-bcb5-b9e06ba5ca65
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WINNING_MANDATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 83f39396-f934-46bb-9432-51cab106bbfc
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 8844a1fe-fbe2-482e-9d32-a24e98f5563a
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LAST_ACTIVITY_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 860d1017-b6e8-4223-b2a3-f22221ef8523
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SF_DA_ACTIVITY_WITHIN_7DAYS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 936c3026-4ed7-4d57-9fbc-d0485e3ee16e
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SF_DA_ACTIVITY_WITHIN_30DAYS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: e1b93738-2fb9-4b0a-b2ec-9b610ea132ca
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SF_DA_FUTURE_ACTIVITY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 291f3149-4f12-4f5c-ae83-8cce68f5b114
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MARKET_MAPS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: ee4e01b3-31a6-4d78-99b1-c39293e45fb7
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MARKET_MAPS_POINTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: d2c4f2a8-9a91-451d-a9ad-65d2f65f0051
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DISCUSSED_CAPITAL_MARKETS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: d943e915-3af2-400c-be7f-22ef11c53c14
+              stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DISCUSSED_CAPITAL_MARKETS_POINTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_ACTIVITY_LIST')}} AS (
+                SELECT ACTIVITY_LIST.*, 
+                    CASE WHEN EarlistFutureActivitySF.EarliestFutureActivityDate IS NOT NULL
+                        AND EarlistFutureActivityDA.EarliestFutureActivityDate IS NOT NULL 
+                        THEN CASE WHEN EarlistFutureActivitySF.EarliestFutureActivityDate = EarlistFutureActivityDA.EarliestFutureActivityDate
+                                    THEN CONCAT(EarlistFutureActivitySF.EarliestFutureActivityDate,' (B)')
+                                    WHEN EarlistFutureActivitySF.EarliestFutureActivityDate < EarlistFutureActivityDA.EarliestFutureActivityDate
+                                    THEN CONCAT(EarlistFutureActivitySF.EarliestFutureActivityDate,' (S)')
+                                    ELSE CONCAT(EarlistFutureActivityDA.EarliestFutureActivityDate,' (D)')
+                                END 
+                        ELSE CASE WHEN EarlistFutureActivitySF.EarliestFutureActivityDate IS NOT NULL
+                                    THEN CONCAT(EarlistFutureActivitySF.EarliestFutureActivityDate,' (S)')
+                                    WHEN EarlistFutureActivityDA.EarliestFutureActivityDate IS NOT NULL
+                                    THEN CONCAT(EarlistFutureActivityDA.EarliestFutureActivityDate,' (D)')
+                                END
+                    END AS FUTURE_ACTIVITY_DATE         
+                FROM {{ref('TGT_HL','TMP_ACTIVITY_LIST1')}} ACTIVITY_LIST
+                LEFT JOIN {{ref('TGT_HL','TMP_FUTURE_ACTIVITY')}} EarlistFutureActivitySF
+                ON ACTIVITY_LIST.COMPANY_ID = EarlistFutureActivitySF.Activity_Company_ID
+                   AND ACTIVITY_LIST.HL_ATTENDEE_ID = EarlistFutureActivitySF.HL_Attendee_ID
+                LEFT JOIN {{ref('TGT_HL','TMP_FUTURE_ID')}} EarlistFutureActivityDA
+                ON ACTIVITY_LIST.COMPANY_ID = EarlistFutureActivityDA.OP_CO_ID   AND ACTIVITY_LIST.HL_ATTENDEE_ID = EarlistFutureActivityDA.HL_ATTENDEE_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_ACTIVITY_LIST1
+              - locationName: TGT_HL
+                nodeName: TMP_FUTURE_ACTIVITY
+              - locationName: TGT_HL
+                nodeName: TMP_FUTURE_ID
+            join:
+              joinCondition: |-
+                SELECT ACTIVITY_LIST.*, 
+                    CASE WHEN EarlistFutureActivitySF.EarliestFutureActivityDate IS NOT NULL
+                        AND EarlistFutureActivityDA.EarliestFutureActivityDate IS NOT NULL 
+                        THEN CASE WHEN EarlistFutureActivitySF.EarliestFutureActivityDate = EarlistFutureActivityDA.EarliestFutureActivityDate
+                                    THEN CONCAT(EarlistFutureActivitySF.EarliestFutureActivityDate,' (B)')
+                                    WHEN EarlistFutureActivitySF.EarliestFutureActivityDate < EarlistFutureActivityDA.EarliestFutureActivityDate
+                                    THEN CONCAT(EarlistFutureActivitySF.EarliestFutureActivityDate,' (S)')
+                                    ELSE CONCAT(EarlistFutureActivityDA.EarliestFutureActivityDate,' (D)')
+                                END 
+                        ELSE CASE WHEN EarlistFutureActivitySF.EarliestFutureActivityDate IS NOT NULL
+                                    THEN CONCAT(EarlistFutureActivitySF.EarliestFutureActivityDate,' (S)')
+                                    WHEN EarlistFutureActivityDA.EarliestFutureActivityDate IS NOT NULL
+                                    THEN CONCAT(EarlistFutureActivityDA.EarliestFutureActivityDate,' (D)')
+                                END
+                    END AS FUTURE_ACTIVITY_DATE         
+                FROM {{ref('TGT_HL','TMP_ACTIVITY_LIST1')}} ACTIVITY_LIST
+                LEFT JOIN {{ref('TGT_HL','TMP_FUTURE_ACTIVITY')}} EarlistFutureActivitySF
+                ON ACTIVITY_LIST.COMPANY_ID = EarlistFutureActivitySF.Activity_Company_ID
+                   AND ACTIVITY_LIST.HL_ATTENDEE_ID = EarlistFutureActivitySF.HL_Attendee_ID
+                LEFT JOIN {{ref('TGT_HL','TMP_FUTURE_ID')}} EarlistFutureActivityDA
+                ON ACTIVITY_LIST.COMPANY_ID = EarlistFutureActivityDA.OP_CO_ID   AND ACTIVITY_LIST.HL_ATTENDEE_ID = EarlistFutureActivityDA.HL_ATTENDEE_ID
+            name: TMP_ACTIVITY_LIST
+            noLinkRefs: []
+      name: TMP_ACTIVITY_LIST
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 62582b90-6fea-4a87-8683-f9f79fc543c9

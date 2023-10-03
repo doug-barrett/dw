@@ -1,0 +1,109 @@
+steps:
+  TMP_CLIENT_CONTACTS-a4931c31-dcee-465c-884a-609c37549ee5:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 7c6e4ac9-bdf1-4055-9c74-5cb77bd190a9
+              stepCounter: a4931c31-dcee-465c-884a-609c37549ee5
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 07f366a5-ea95-468e-ac86-555843dae3e4
+              stepCounter: a4931c31-dcee-465c-884a-609c37549ee5
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_OFFICER_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: fd0f3402-3002-443e-ad3f-65be1e6e151e
+              stepCounter: a4931c31-dcee-465c-884a-609c37549ee5
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CLIENT_CONTACTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_CLIENT_CONTACTS')}} AS (
+                    SELECT DISTINCT COVERAGE_TEAM_MEMBER_ACCOUNT_C AS COMPANY_ID
+                        ,COVERAGE_OFFICER_ID_C AS COVERAGE_OFFICER_ID
+                        ,LISTAGG(to_varchar(COVERAGE_CONTACT_NAME_FORMULA_C), '\\\\\\\\n') WITHIN
+                    GROUP (
+                            ORDER BY COVERAGE_CONTACT_NAME_FORMULA_C
+                            ) AS CLIENT_CONTACTS
+                    FROM (
+                        SELECT COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                            ,COVERAGE_CONTACT_NAME_FORMULA_C
+                        FROM {{ref('TGT_HL','VW_COVERAGE_CONTACT_C')}}
+                        WHERE UPPER(FOCUS_C) <> UPPER('Sponsor')
+                        GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                            ,COVERAGE_CONTACT_NAME_FORMULA_C
+                        ) AS COVERAGE_CONTACT_NAME_FORMULA__C
+                    GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                        ,COVERAGE_OFFICER_ID_C
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_CONTACT_C
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT COVERAGE_TEAM_MEMBER_ACCOUNT_C AS COMPANY_ID
+                        ,COVERAGE_OFFICER_ID_C AS COVERAGE_OFFICER_ID
+                        ,LISTAGG(to_varchar(COVERAGE_CONTACT_NAME_FORMULA_C), '\\\\\\\\n') WITHIN
+                    GROUP (
+                            ORDER BY COVERAGE_CONTACT_NAME_FORMULA_C
+                            ) AS CLIENT_CONTACTS
+                    FROM (
+                        SELECT COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                            ,COVERAGE_CONTACT_NAME_FORMULA_C
+                        FROM {{ref('TGT_HL','VW_COVERAGE_CONTACT_C')}}
+                        WHERE UPPER(FOCUS_C) <> UPPER('Sponsor')
+                        GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                            ,COVERAGE_OFFICER_ID_C
+                            ,COVERAGE_CONTACT_NAME_FORMULA_C
+                        ) AS COVERAGE_CONTACT_NAME_FORMULA__C
+                    GROUP BY COVERAGE_TEAM_MEMBER_ACCOUNT_C
+                        ,COVERAGE_OFFICER_ID_C
+            name: TMP_CLIENT_CONTACTS
+            noLinkRefs: []
+      name: TMP_CLIENT_CONTACTS
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: a4931c31-dcee-465c-884a-609c37549ee5

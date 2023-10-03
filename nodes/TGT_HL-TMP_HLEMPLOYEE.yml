@@ -1,0 +1,196 @@
+steps:
+  TMP_HLEMPLOYEE-d647d09e-d143-4d83-b592-01bed0860ee1:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 61a3634c-869b-4bed-9993-156d5e86a3e9
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: ff7328b6-e0ed-416e-9f19-3455ad66ad79
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOGIN_ID__C
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 920b5ed6-6529-4709-a4c9-ee60a4d5822a
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FULL_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: aca8911a-e640-480b-be20-356972a651ad
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEPARTMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: a371467b-73cd-43b6-8c12-e328b052ffac
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LINE_OF_BUSINESS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: f8cf7d9e-3435-4a8a-9da6-69411c3e614c
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TITLE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: ef6f1447-6818-430c-991d-a94934afd1b9
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INDUSTRY_UMBRELLA_REPORTING
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 97860684-3415-4c25-91ea-5c5eba568a63
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: OFFICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: c700005e-5c78-46b4-a6d7-bfe3c9b3fb84
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CF_STAFF_INDUSTRY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: cd0b19c5-97d3-4ddd-aed9-034384dfa993
+              stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INITIALS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              CONTACT: df17cb43-eb21-48c0-b3cd-30967973c80b
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_HLEMPLOYEE')}} AS (
+
+                    SELECT DISTINCT CONTACT.ID AS HL_ID
+                        ,CONTACT.LOGIN_ID_C AS LOGIN_ID__C
+                        ,CONTACT.CONTACT_FULL_NAME_C AS FULL_NAME
+                        ,CONTACT.DEPARTMENT AS DEPARTMENT
+                        ,CONTACT.LINE_OF_BUSINESS_C AS LINE_OF_BUSINESS
+                        ,CONTACT.TITLE AS TITLE
+                        ,CONTACT.INDUSTRY_UMBRELLA_REPORTING_C AS INDUSTRY_UMBRELLA_REPORTING
+                        ,CONTACT.OFFICE_C AS OFFICE
+                        ,CONTACT.STAFF_INDUSTRY_C AS CF_STAFF_INDUSTRY
+                        ,CONCAT (
+                            LEFT(CONTACT.FIRST_NAME, 1)
+                            ,CONTACT.LAST_NAME
+                            ) AS INITIALS
+                    FROM {{ref('SRC_HL','CONTACT')}} AS CONTACT 
+                    WHERE UPPER(CONTACT.RECORD_TYPE_ID) = UPPER('012i0000000tEheAAE') 
+                        AND UPPER(CONTACT.STATUS_C) = UPPER('Active') 
+                        AND (
+                            UPPER(CONTACT.LINE_OF_BUSINESS_C) = 'CF'
+                            OR UPPER(DEPARTMENT) = 'FSCG'
+                            OR (
+                                (
+                                    UPPER(LAST_NAME) = UPPER('SMT Coverage')
+                                    AND UPPER(FIRST_NAME) = 'ACE'
+                                    )
+                                AND CONTACT.LINE_OF_BUSINESS_C IS NULL
+                                )
+                            )
+                        AND (
+                            UPPER(CONTACT.TITLE) LIKE '%DIRECTO%'
+                            OR UPPER(CONTACT.TITLE) LIKE '%PRESIDENT%'
+                            OR UPPER(CONTACT.TITLE) = UPPER('Senior Advisor')
+                            OR UPPER(CONTACT.ACQUIRED_FROM_C) = 'GCA' 
+                            OR (
+                                UPPER(LAST_NAME) = UPPER('SMT Coverage')
+                                AND UPPER(FIRST_NAME) = 'ACE'
+                                ) 
+                            )
+                	)
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: CONTACT
+            join:
+              joinCondition: "    FROM {{ref('SRC_HL','CONTACT')}} AS CONTACT "
+            name: TMP_HLEMPLOYEE
+            noLinkRefs: []
+      name: TMP_HLEMPLOYEE
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: d647d09e-d143-4d83-b592-01bed0860ee1

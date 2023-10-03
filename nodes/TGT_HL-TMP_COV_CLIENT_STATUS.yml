@@ -1,0 +1,363 @@
+steps:
+  TMP_COV_CLIENT_STATUS-38bde4fb-628e-4e69-a1cd-21bf3c708d65:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: cf68102d-08f6-49aa-ad77-477b2907c110
+              stepCounter: 38bde4fb-628e-4e69-a1cd-21bf3c708d65
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 0896d033-7706-442a-802e-e456a0c672e0
+              stepCounter: 38bde4fb-628e-4e69-a1cd-21bf3c708d65
+            dataType: VARCHAR(47)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CLIENT_STATUS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_COV_CLIENT_STATUS')}} AS (
+                	     SELECT Company_ID
+                ,CASE
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Active') 
+                                AND UPPER(T.COV_Eng_LOB) = UPPER('CF') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Current Engagement (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = UPPER('CF')
+                                    AND UPPER(COV_Opp_Stage) = UPPER('Verbally Engaged')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Active Opportunity - Verbally Engaged (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = UPPER('CF')
+                                    AND
+                                    (
+                                      DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 30
+                                      OR DATEDIFF(DAY, COV_Opp_NBC_Approved_Date, GETDATE()) < 60
+                                    ) THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Pitch/NBC (active opportunity) (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Hold')
+                                AND UPPER(COV_Opp_LOB) = UPPER('CF')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Hold Engagement (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_JOB_TYPE) = UPPER('Sellside')
+                                    AND UPPER(T.COV_Eng_Status) = UPPER('Closed') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Roundtrip (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Active') 
+                                AND UPPER(T.COV_Eng_LOB) IN ('FVA', 'FR') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Current Engagement (FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) IN ('FVA', 'FR')
+                                    AND UPPER(COV_Opp_Stage) = UPPER('Verbally Engaged')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Active Opportunity - Verbally Engaged (FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) IN ('FVA', 'FR')
+                                    AND
+                                    (
+                                      DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 30
+                                      OR DATEDIFF(DAY, COV_Opp_NBC_Approved_Date, GETDATE()) < 60
+                                    ) THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Pitch/NBC (active opportunity)(FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Hold')
+                                AND UPPER(T.COV_Eng_LOB) IN ('FVA', 'FR')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Hold Engagement (FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Closed')
+                                AND UPPER(T.COV_Eng_LOB) = UPPER('CF') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Previous Engagement (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Closed')
+                                AND UPPER(T.COV_Eng_LOB) IN ('FVA', 'FR') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Previous Engagement (FVA, FR)'
+                   ELSE
+                     'N'
+                 END AS CLIENT_STATUS
+                 FROM
+                 (
+                        SELECT Company_ID
+                        ,Engagement.LINE_OF_BUSINESS_C COV_Eng_LOB
+                        ,Engagement.JOB_TYPE_C COV_Eng_JOB_TYPE
+                        ,Engagement.STATUS_C COV_Eng_Status
+                        ,COV_Opp_Status
+                        ,COV_Opp_LOB
+                        ,COV_Opp_Pitch_Date
+                        ,COV_Opp_NBC_Approved_Date
+                        ,COV_Opp_Stage
+                            ,ROW_NUMBER() OVER (
+                                PARTITION BY Company_ID ORDER BY Engagement.DATE_ENGAGED_C DESC NULLS LAST
+                                ) ROWNUM
+                        FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}} Coverage
+                        LEFT JOIN (
+                            SELECT SUBJECT_C
+                                ,LINE_OF_BUSINESS_C
+                                ,CLIENT_C
+                                ,DATE_ENGAGED_C
+                                ,STATUS_C
+                                ,JOB_TYPE_C
+                            FROM {{ ref('TGT_HL', 'VW_ENGAGEMENT_C')}} ENGAGEMENT__C 
+                                WHERE UPPER(IFNULL(ENGAGEMENT__C.DND_STATUS_C, '')) <> UPPER('Approved')
+                            ) Engagement ON (
+                                Coverage.Company_ID = Engagement.CLIENT_C
+                                OR Coverage.Company_ID = Engagement.SUBJECT_C
+                                )
+                            )T
+                            GROUP BY Company_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_DATASOURCE
+              - locationName: TGT_HL
+                nodeName: VW_ENGAGEMENT_C
+            join:
+              joinCondition: |
+                	     SELECT Company_ID
+                ,CASE
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Active') 
+                                AND UPPER(T.COV_Eng_LOB) = UPPER('CF') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Current Engagement (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = UPPER('CF')
+                                    AND UPPER(COV_Opp_Stage) = UPPER('Verbally Engaged')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Active Opportunity - Verbally Engaged (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = UPPER('CF')
+                                    AND
+                                    (
+                                      DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 30
+                                      OR DATEDIFF(DAY, COV_Opp_NBC_Approved_Date, GETDATE()) < 60
+                                    ) THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Pitch/NBC (active opportunity) (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Hold')
+                                AND UPPER(COV_Opp_LOB) = UPPER('CF')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Hold Engagement (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_JOB_TYPE) = UPPER('Sellside')
+                                    AND UPPER(T.COV_Eng_Status) = UPPER('Closed') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Roundtrip (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Active') 
+                                AND UPPER(T.COV_Eng_LOB) IN ('FVA', 'FR') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Current Engagement (FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) IN ('FVA', 'FR')
+                                    AND UPPER(COV_Opp_Stage) = UPPER('Verbally Engaged')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Active Opportunity - Verbally Engaged (FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) IN ('FVA', 'FR')
+                                    AND
+                                    (
+                                      DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 30
+                                      OR DATEDIFF(DAY, COV_Opp_NBC_Approved_Date, GETDATE()) < 60
+                                    ) THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Pitch/NBC (active opportunity)(FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Hold')
+                                AND UPPER(T.COV_Eng_LOB) IN ('FVA', 'FR')
+                               THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Hold Engagement (FVA, FR)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Closed')
+                                AND UPPER(T.COV_Eng_LOB) = UPPER('CF') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Previous Engagement (CF)'
+                   WHEN SUM( CASE
+                               WHEN UPPER(COV_Eng_Status) = UPPER('Closed')
+                                AND UPPER(T.COV_Eng_LOB) IN ('FVA', 'FR') THEN
+                                 1
+                               ELSE
+                                 0
+                             END
+                           ) >= 1 THEN
+                     'Previous Engagement (FVA, FR)'
+                   ELSE
+                     'N'
+                 END AS CLIENT_STATUS
+                 FROM
+                 (
+                        SELECT Company_ID
+                        ,Engagement.LINE_OF_BUSINESS_C COV_Eng_LOB
+                        ,Engagement.JOB_TYPE_C COV_Eng_JOB_TYPE
+                        ,Engagement.STATUS_C COV_Eng_Status
+                        ,COV_Opp_Status
+                        ,COV_Opp_LOB
+                        ,COV_Opp_Pitch_Date
+                        ,COV_Opp_NBC_Approved_Date
+                        ,COV_Opp_Stage
+                            ,ROW_NUMBER() OVER (
+                                PARTITION BY Company_ID ORDER BY Engagement.DATE_ENGAGED_C DESC NULLS LAST
+                                ) ROWNUM
+                        FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}} Coverage
+                        LEFT JOIN (
+                            SELECT SUBJECT_C
+                                ,LINE_OF_BUSINESS_C
+                                ,CLIENT_C
+                                ,DATE_ENGAGED_C
+                                ,STATUS_C
+                                ,JOB_TYPE_C
+                            FROM {{ ref('TGT_HL', 'VW_ENGAGEMENT_C')}} ENGAGEMENT__C 
+                                WHERE UPPER(IFNULL(ENGAGEMENT__C.DND_STATUS_C, '')) <> UPPER('Approved')
+                            ) Engagement ON (
+                                Coverage.Company_ID = Engagement.CLIENT_C
+                                OR Coverage.Company_ID = Engagement.SUBJECT_C
+                                )
+                            )T
+                            GROUP BY Company_ID
+            name: TMP_COV_CLIENT_STATUS
+            noLinkRefs: []
+      name: TMP_COV_CLIENT_STATUS
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 38bde4fb-628e-4e69-a1cd-21bf3c708d65

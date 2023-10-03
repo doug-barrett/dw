@@ -1,0 +1,100 @@
+steps:
+  TMP_GROUP_COMPANY_SECTOR-9fa59efc-c743-448b-bd4d-1815234db493:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: fea2cb06-cf6e-49f9-82bd-28fed925591e
+              stepCounter: 9fa59efc-c743-448b-bd4d-1815234db493
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FULL_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 34a2c6ae-dd5d-4ef7-8bee-bad29bce51c5
+              stepCounter: 9fa59efc-c743-448b-bd4d-1815234db493
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_SECTOR
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 084d6e79-9fec-4f4b-a575-b1ee5f815496
+              stepCounter: 9fa59efc-c743-448b-bd4d-1815234db493
+            dataType: VARCHAR(13)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CAL_GROUP_COMPANY_SECTOR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_GROUP_COMPANY_SECTOR')}} AS (
+                SELECT DISTINCT FULL_NAME
+                    ,COMPANY_SECONDARY_SECTOR AS COVERAGE_SECTOR
+                    ,CASE 
+                        WHEN COUNT(DISTINCT Company_ID) < 10
+                            THEN 'Other Sectors'
+                        WHEN UPPER(COMPANY_SECONDARY_SECTOR) LIKE UPPER('%Other%')
+                            THEN 'Other Sectors'
+                        WHEN COMPANY_SECONDARY_SECTOR = ''
+                            THEN '(Blank)'
+                        ELSE COMPANY_SECONDARY_SECTOR
+                        END AS CAL_GROUP_COMPANY_SECTOR
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}}
+                    GROUP BY FULL_NAME
+                    ,COMPANY_SECONDARY_SECTOR	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_DATASOURCE
+            join:
+              joinCondition: |-
+                SELECT DISTINCT FULL_NAME
+                    ,COMPANY_SECONDARY_SECTOR AS COVERAGE_SECTOR
+                    ,CASE 
+                        WHEN COUNT(DISTINCT Company_ID) < 10
+                            THEN 'Other Sectors'
+                        WHEN UPPER(COMPANY_SECONDARY_SECTOR) LIKE UPPER('%Other%')
+                            THEN 'Other Sectors'
+                        WHEN COMPANY_SECONDARY_SECTOR = ''
+                            THEN '(Blank)'
+                        ELSE COMPANY_SECONDARY_SECTOR
+                        END AS CAL_GROUP_COMPANY_SECTOR
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}}
+                    GROUP BY FULL_NAME
+                    ,COMPANY_SECONDARY_SECTOR	
+            name: TMP_GROUP_COMPANY_SECTOR
+            noLinkRefs: []
+      name: TMP_GROUP_COMPANY_SECTOR
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 9fa59efc-c743-448b-bd4d-1815234db493

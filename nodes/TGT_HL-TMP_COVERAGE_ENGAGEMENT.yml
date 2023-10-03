@@ -1,0 +1,143 @@
+steps:
+  TMP_COVERAGE_ENGAGEMENT-416f8116-39df-493d-8779-5f05512600ae:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c93f6743-f77d-4426-8fd7-bcf668ea6d6b
+              stepCounter: 416f8116-39df-493d-8779-5f05512600ae
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_OFFICER_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 5a355f76-e79a-4c52-b638-4d204829367b
+              stepCounter: 416f8116-39df-493d-8779-5f05512600ae
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_OFFICER_INDUSTRY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: ed8477bf-d2bc-4e94-a09d-07d79ab3d9a8
+              stepCounter: 416f8116-39df-493d-8779-5f05512600ae
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_OFFICER_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 483b86b8-07f3-48e4-b45f-4b11cdb766f7
+              stepCounter: 416f8116-39df-493d-8779-5f05512600ae
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: da9168c5-4b48-4b24-9e64-a7e671eb7ab5
+              stepCounter: 416f8116-39df-493d-8779-5f05512600ae
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_TIER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: d9564b17-5a5a-417b-bd31-292e499db787
+              stepCounter: 416f8116-39df-493d-8779-5f05512600ae
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_TEAM_STATUS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_COVERAGE_ENGAGEMENT')}} AS ( 
+                    SELECT DISTINCT SFContact.ID AS Coverage_Officer_ID
+                        ,HLEmployee.INDUSTRY_UMBRELLA_REPORTING AS Coverage_Officer_Industry
+                        ,HLEmployee.FULL_NAME AS Coverage_Officer_Name
+                        ,SFCompany.ID AS Company_ID
+                        ,SFCoverage.TIER_C AS Company_TIER
+                        ,SFCoverage.COVERAGE_TEAM_STATUS_C AS COVERAGE_TEAM_STATUS
+                    FROM {{ref('TGT_HL','VW_ACCOUNT')}} AS SFCompany 
+                    INNER JOIN (SELECT '' ID, '' DEVELOPER_NAME) RECORD_TYPE ON SFCompany.RECORD_TYPE_ID = RECORD_TYPE.ID
+                    INNER JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} AS SFCoverage 
+                        ON SFCompany.ID = SFCoverage.COMPANY_C
+                        AND UPPER(SFCoverage.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}} AS SFContact 
+                        ON SFCoverage.OFFICER_C = SFContact.ID
+                    INNER JOIN {{ref('TGT_HL','TMP_HLEMPLOYEE')}} AS HLEmployee ON SFContact.ID = HLEmployee.HL_ID
+                	)
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: CONTACT
+              - locationName: TGT_HL
+                nodeName: TMP_HLEMPLOYEE
+              - locationName: TGT_HL
+                nodeName: VW_ACCOUNT
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_TEAM_C
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT SFContact.ID AS Coverage_Officer_ID
+                        ,HLEmployee.INDUSTRY_UMBRELLA_REPORTING AS Coverage_Officer_Industry
+                        ,HLEmployee.FULL_NAME AS Coverage_Officer_Name
+                        ,SFCompany.ID AS Company_ID
+                        ,SFCoverage.TIER_C AS Company_TIER
+                        ,SFCoverage.COVERAGE_TEAM_STATUS_C AS COVERAGE_TEAM_STATUS
+                    FROM {{ref('TGT_HL','VW_ACCOUNT')}} AS SFCompany 
+                    INNER JOIN (SELECT '' ID, '' DEVELOPER_NAME) RECORD_TYPE ON SFCompany.RECORD_TYPE_ID = RECORD_TYPE.ID
+                    INNER JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} AS SFCoverage 
+                        ON SFCompany.ID = SFCoverage.COMPANY_C
+                        AND UPPER(SFCoverage.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}} AS SFContact 
+                        ON SFCoverage.OFFICER_C = SFContact.ID
+                    INNER JOIN {{ref('TGT_HL','TMP_HLEMPLOYEE')}} AS HLEmployee ON SFContact.ID = HLEmployee.HL_ID
+            name: TMP_COVERAGE_ENGAGEMENT
+            noLinkRefs: []
+      name: TMP_COVERAGE_ENGAGEMENT
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 416f8116-39df-493d-8779-5f05512600ae

@@ -1,0 +1,220 @@
+steps:
+  TMP_COCOVERAGEOFFICER-1b456da1-9a16-426c-ad49-46c006b7fcc4:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: a9be75b2-a351-41a9-8177-0ae3b4faa2e0
+              stepCounter: 1b456da1-9a16-426c-ad49-46c006b7fcc4
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COCOVERAGE_COMPANY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 02674df2-a011-448e-9741-63c15ff26a87
+              stepCounter: 1b456da1-9a16-426c-ad49-46c006b7fcc4
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRIMARY_COVERAGE_OFFICER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 349bb82c-8bb5-4ec4-a490-89b436141255
+              stepCounter: 1b456da1-9a16-426c-ad49-46c006b7fcc4
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: OTHER_COVERAGE_OFFICER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 3c56e172-982a-4d63-86c3-2ab7f57aeccc
+              stepCounter: 1b456da1-9a16-426c-ad49-46c006b7fcc4
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMBINED_COVERAGE_OFFICER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_COCOVERAGEOFFICER')}} AS (
+                    SELECT DISTINCT COCOVERAGE_COMPANY
+                        ,MAX(Combined_Primary_CoverageOfficer) PRIMARY_COVERAGE_OFFICER
+                        ,MAX(Combined_CoverageOfficer) OTHER_COVERAGE_OFFICER
+                        ,(
+                            CONCAT (
+                                COALESCE(MAX(Combined_Primary_CoverageOfficer), '')
+                                ,' '
+                                ,COALESCE(MAX(Combined_CoverageOfficer), '')
+                                )
+                            ) COMBINED_COVERAGE_OFFICER
+                    FROM (
+                        SELECT COMPANY_C AS COCOVERAGE_COMPANY
+                            ,CASE 
+                                WHEN COVERAGE_LEVEL_C = 'Primary'
+                                    THEN LISTAGG(TO_VARCHAR(REPLACE(Coverage_Officer_LName, '&#39;', '''')), ' ') WITHIN GROUP (
+                                            ORDER BY Coverage_Officer_LName
+                                            )
+                                END AS Combined_Primary_CoverageOfficer
+                            ,CASE 
+                                WHEN COVERAGE_LEVEL_C <> 'Primary'
+                                    THEN LISTAGG(to_varchar(REPLACE(Coverage_Officer_LName, '&#39;', '''')), ' ') WITHIN GROUP (
+                                            ORDER BY Coverage_Officer_LName
+                                            )
+                                END AS Combined_CoverageOfficer
+                        FROM (
+                            SELECT COMPANY_C
+                                ,COVERAGE_LEVEL_C
+                                ,CASE 
+                                    WHEN UPPER(coverageofficer) = UPPER('ACE SMT Coverage')
+                                        THEN ''
+                                    ELSE 
+                                        CONCAT (
+                                            right(CoverageOfficer, CHARINDEX(' ', reverse(CoverageOfficer)) - 1
+                                            )
+                                            ,'('
+                                            ,TIER_C
+                                            ,')'
+                                            ,PRIMARY_OFFICER
+                                            )
+                                    END AS Coverage_Officer_LName
+                            FROM (
+                                SELECT COMPANY_C
+                                    ,TIER_C
+                                    ,COVERAGE_LEVEL_C
+                                    ,CASE 
+                                        WHEN UPPER(COVERAGE_LEVEL_C) = UPPER('Primary')
+                                            THEN '*'
+                                        ELSE ''
+                                        END PRIMARY_OFFICER
+                                    ,LEFT(SUBSTRING(OFFICER_NAME_C, CHARINDEX('>', OFFICER_NAME_C) + 1, LEN(OFFICER_NAME_C) - CHARINDEX('>', OFFICER_NAME_C)), LEN(SUBSTRING(OFFICER_NAME_C, CHARINDEX('>', OFFICER_NAME_C) + 1, LEN(OFFICER_NAME_C) - CHARINDEX('>', OFFICER_NAME_C))) - 4) AS CoverageOfficer
+                                FROM {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}}
+                                WHERE UPPER(OFFICER_NAME_C) NOT LIKE UPPER('%Alex Boden%')
+                                    AND UPPER(COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                                    AND UPPER(TIER_C) IN (
+                                        'A'
+                                        ,'B'
+                                        ,'C'
+                                        )
+                                    AND UPPER(RECORD_TYPE_ID) = UPPER('012i0000001N7yEAAS')
+                                    ORDER BY COMPANY_C ,TIER_C ,COVERAGE_LEVEL_C, PRIMARY_OFFICER, CoverageOfficer
+                                ) COVERAGEOFFICER
+                                ORDER BY COMPANY_C, COVERAGE_LEVEL_C, Coverage_Officer_LName
+                            ) COVERAGEOFFICER
+                        GROUP BY COMPANY_C
+                            ,COVERAGE_LEVEL_C
+                        ) T
+                    GROUP BY COCOVERAGE_COMPANY
+
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_TEAM_C
+            join:
+              joinCondition: |2
+                   SELECT DISTINCT COCOVERAGE_COMPANY
+                        ,MAX(Combined_Primary_CoverageOfficer) PRIMARY_COVERAGE_OFFICER
+                        ,MAX(Combined_CoverageOfficer) OTHER_COVERAGE_OFFICER
+                        ,(
+                            CONCAT (
+                                COALESCE(MAX(Combined_Primary_CoverageOfficer), '')
+                                ,' '
+                                ,COALESCE(MAX(Combined_CoverageOfficer), '')
+                                )
+                            ) COMBINED_COVERAGE_OFFICER
+                    FROM (
+                        SELECT COMPANY_C AS COCOVERAGE_COMPANY
+                            ,CASE 
+                                WHEN COVERAGE_LEVEL_C = 'Primary'
+                                    THEN LISTAGG(TO_VARCHAR(REPLACE(Coverage_Officer_LName, '&#39;', '''')), ' ') WITHIN GROUP (
+                                            ORDER BY Coverage_Officer_LName
+                                            )
+                                END AS Combined_Primary_CoverageOfficer
+                            ,CASE 
+                                WHEN COVERAGE_LEVEL_C <> 'Primary'
+                                    THEN LISTAGG(to_varchar(REPLACE(Coverage_Officer_LName, '&#39;', '''')), ' ') WITHIN GROUP (
+                                            ORDER BY Coverage_Officer_LName
+                                            )
+                                END AS Combined_CoverageOfficer
+                        FROM (
+                            SELECT COMPANY_C
+                                ,COVERAGE_LEVEL_C
+                                ,CASE 
+                                    WHEN UPPER(coverageofficer) = UPPER('ACE SMT Coverage')
+                                        THEN ''
+                                    ELSE 
+                                        CONCAT (
+                                            right(CoverageOfficer, CHARINDEX(' ', reverse(CoverageOfficer)) - 1
+                                            )
+                                            ,'('
+                                            ,TIER_C
+                                            ,')'
+                                            ,PRIMARY_OFFICER
+                                            )
+                                    END AS Coverage_Officer_LName
+                            FROM (
+                                SELECT COMPANY_C
+                                    ,TIER_C
+                                    ,COVERAGE_LEVEL_C
+                                    ,CASE 
+                                        WHEN UPPER(COVERAGE_LEVEL_C) = UPPER('Primary')
+                                            THEN '*'
+                                        ELSE ''
+                                        END PRIMARY_OFFICER
+                                    ,LEFT(SUBSTRING(OFFICER_NAME_C, CHARINDEX('>', OFFICER_NAME_C) + 1, LEN(OFFICER_NAME_C) - CHARINDEX('>', OFFICER_NAME_C)), LEN(SUBSTRING(OFFICER_NAME_C, CHARINDEX('>', OFFICER_NAME_C) + 1, LEN(OFFICER_NAME_C) - CHARINDEX('>', OFFICER_NAME_C))) - 4) AS CoverageOfficer
+                                FROM {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}}
+                                WHERE UPPER(OFFICER_NAME_C) NOT LIKE UPPER('%Alex Boden%')
+                                    AND UPPER(COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                                    AND UPPER(TIER_C) IN (
+                                        'A'
+                                        ,'B'
+                                        ,'C'
+                                        )
+                                    AND UPPER(RECORD_TYPE_ID) = UPPER('012i0000001N7yEAAS')
+                                    ORDER BY COMPANY_C ,TIER_C ,COVERAGE_LEVEL_C, PRIMARY_OFFICER, CoverageOfficer
+                                ) COVERAGEOFFICER
+                                ORDER BY COMPANY_C, COVERAGE_LEVEL_C, Coverage_Officer_LName
+                            ) COVERAGEOFFICER
+                        GROUP BY COMPANY_C
+                            ,COVERAGE_LEVEL_C
+                        ) T
+                    GROUP BY COCOVERAGE_COMPANY
+            name: TMP_COCOVERAGEOFFICER
+            noLinkRefs: []
+      name: TMP_COCOVERAGEOFFICER
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 1b456da1-9a16-426c-ad49-46c006b7fcc4

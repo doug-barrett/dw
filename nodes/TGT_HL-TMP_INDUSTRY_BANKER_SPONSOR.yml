@@ -1,0 +1,103 @@
+steps:
+  TMP_INDUSTRY_BANKER_SPONSOR-d4d7b036-7098-43e7-9404-b12de185cfcc:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 2582df6b-1ccc-4f12-bfae-6e5f6c3a5e44
+              stepCounter: d4d7b036-7098-43e7-9404-b12de185cfcc
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INDUSTRY_BANKER_CONTACT_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 4312787e-42a6-49f5-b559-379785a80755
+              stepCounter: d4d7b036-7098-43e7-9404-b12de185cfcc
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIO_COMAPNY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 51b9d272-8ec4-4e06-9022-69e261915e14
+              stepCounter: d4d7b036-7098-43e7-9404-b12de185cfcc
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SPONSOR_COMAPNY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_INDUSTRY_BANKER_SPONSOR')}} AS (
+                    SELECT DISTINCT COVERAGE_TEAM__C.OFFICER_C AS INDUSTRY_BANKER_CONTACT_ID
+                        ,FSCG.PORTFOLIO_SF_ID AS PORTFOLIO_COMAPNY_ID
+                        ,FSCG.SPONSOR_SF_ID AS SPONSOR_COMAPNY_ID
+                    FROM {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} AS COVERAGE_TEAM__C
+                    INNER JOIN (
+                        SELECT DISTINCT PORTFOLIO_SF_ID
+                            ,SPONSOR_SF_ID
+                        FROM {{ref('TGT_HL','TMP_FSCG')}}
+                        ) AS FSCG ON COVERAGE_TEAM__C.COMPANY_C = FSCG.PORTFOLIO_SF_ID
+                        AND FSCG.SPONSOR_SF_ID IS NOT NULL
+                    WHERE UPPER(COVERAGE_TEAM__C.RECORD_TYPE_ID) = UPPER('012i0000001N7yEAAS')
+                        AND UPPER(COVERAGE_TEAM__C.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    GROUP BY COVERAGE_TEAM__C.OFFICER_C
+                        ,FSCG.PORTFOLIO_SF_ID
+                        ,FSCG.SPONSOR_SF_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_TEAM_C
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT COVERAGE_TEAM__C.OFFICER_C AS INDUSTRY_BANKER_CONTACT_ID
+                        ,FSCG.PORTFOLIO_SF_ID AS PORTFOLIO_COMAPNY_ID
+                        ,FSCG.SPONSOR_SF_ID AS SPONSOR_COMAPNY_ID
+                    FROM {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} AS COVERAGE_TEAM__C
+                    INNER JOIN (
+                        SELECT DISTINCT PORTFOLIO_SF_ID
+                            ,SPONSOR_SF_ID
+                        FROM {ref('TGT_HL','TMP_FSCG')}}
+                        ) AS FSCG ON COVERAGE_TEAM__C.COMPANY_C = FSCG.PORTFOLIO_SF_ID
+                        AND FSCG.SPONSOR_SF_ID IS NOT NULL
+                    WHERE UPPER(COVERAGE_TEAM__C.RECORD_TYPE_ID) = UPPER('012i0000001N7yEAAS')
+                        AND UPPER(COVERAGE_TEAM__C.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    GROUP BY COVERAGE_TEAM__C.OFFICER_C
+                        ,FSCG.PORTFOLIO_SF_ID
+                        ,FSCG.SPONSOR_SF_ID
+            name: TMP_INDUSTRY_BANKER_SPONSOR
+            noLinkRefs: []
+      name: TMP_INDUSTRY_BANKER_SPONSOR
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: d4d7b036-7098-43e7-9404-b12de185cfcc

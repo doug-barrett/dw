@@ -1,0 +1,89 @@
+steps:
+  VW_EXCHANGERATES-65f9d17c-9a7c-406f-842c-b9fac4ac019c:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 8160471f-2c16-4815-9559-b383d089b1ab
+              stepCounter: 65f9d17c-9a7c-406f-842c-b9fac4ac019c
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4fb6a753-8c32-4765-aa8d-6f09ee43a059
+                    stepCounter: 34370d5b-834e-42b2-bf23-f50ab238c277
+                transform: ""
+          - columnReference:
+              columnCounter: 753e65ea-4d61-4ff1-b6d5-77fe0db587b9
+              stepCounter: 65f9d17c-9a7c-406f-842c-b9fac4ac019c
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCYSYMBOL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7c86cc82-4736-424c-a1fb-a8886c5408ac
+                    stepCounter: 34370d5b-834e-42b2-bf23-f50ab238c277
+                transform: ""
+          - columnReference:
+              columnCounter: 1cf9c2f3-73d8-4888-9610-cfaaff053db0
+              stepCounter: 65f9d17c-9a7c-406f-842c-b9fac4ac019c
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: JDE_EFT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: dfc19c03-76e8-4fde-8217-9c605cd0cce8
+                    stepCounter: 34370d5b-834e-42b2-bf23-f50ab238c277
+                transform: ""
+          - columnReference:
+              columnCounter: c021c84c-a8d5-4271-a134-80667484a606
+              stepCounter: 65f9d17c-9a7c-406f-842c-b9fac4ac019c
+            dataType: FLOAT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RATE2BASE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d3c39bd6-5a9b-4148-a1e6-951f889fc734
+                    stepCounter: 34370d5b-834e-42b2-bf23-f50ab238c277
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: EXCHANGERATES
+            join:
+              joinCondition: FROM {{ ref('SRC_HL', 'EXCHANGERATES') }} "EXCHANGERATES"
+            name: VW_EXCHANGERATES
+            noLinkRefs: []
+      name: VW_EXCHANGERATES
+      overrideSQL: false
+      schema: ""
+      sqlType: "153"
+      type: sql
+    stepCounter: 65f9d17c-9a7c-406f-842c-b9fac4ac019c

@@ -1,0 +1,140 @@
+steps:
+  TMP_DOTALIGNLATESESTACTIVITY-079b5c7a-6dd0-490b-981c-a0565db7b58b:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 89dc3f63-10cc-43d5-8f7d-f9bc0580ec5a
+              stepCounter: 079b5c7a-6dd0-490b-981c-a0565db7b58b
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 5e7d11f3-2f0b-456c-8880-5776340b6233
+              stepCounter: 079b5c7a-6dd0-490b-981c-a0565db7b58b
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 52c83724-62ec-4507-b3e9-10f6f3e19e8a
+              stepCounter: 079b5c7a-6dd0-490b-981c-a0565db7b58b
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EXTERNAL_COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 6832bf31-4101-42bb-b847-5ed53734d095
+              stepCounter: 079b5c7a-6dd0-490b-981c-a0565db7b58b
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LATEST_ACTIVITY_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 2c21be5e-c45d-48fe-93fa-64326a0b7f49
+              stepCounter: 079b5c7a-6dd0-490b-981c-a0565db7b58b
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BEST_EMAIL_ADDRESS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_DOTALIGNLATESESTACTIVITY')}} AS (
+                    SELECT DISTINCT hl_attendee.ID AS HL_Attendee_ID
+                        ,hl_attendee.CONTACT_FULL_NAME_C AS HL_Attendee_Name
+                        ,external_contact.ACCOUNT_ID AS External_company_ID
+                        ,Activity_Date AS latest_activity_date
+                        ,best_email_address AS best_email_address
+                    FROM (
+                        SELECT '' best_email_address
+                            , '' email_address
+                            , '2020-01-01' activity_date
+                        ) DotAlign
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}}  external_contact 
+                        ON DotAlign.best_email_address = external_contact.EMAIL
+                        AND external_contact.RECORD_TYPE_ID = '012i0000000tEhjAAE' 
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}}  hl_attendee 
+                        ON DotAlign.email_address = hl_attendee.EMAIL
+                        AND hl_attendee.STATUS_C = 'Active' 
+                        AND hl_attendee.LINE_OF_BUSINESS_C = 'CF'
+                        AND hl_attendee.RECORD_TYPE_ID = '012i0000000tEheAAE'
+                    INNER JOIN {{ref('TGT_HL','TMP_HLEMPLOYEE')}} HLEmployee ON hl_attendee.id = HLEmployee.HL_ID
+                	)
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: CONTACT
+              - locationName: TGT_HL
+                nodeName: TMP_HLEMPLOYEE
+            join:
+              joinCondition: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_DOTALIGNLATESESTACTIVITY')}} AS (
+                    SELECT DISTINCT hl_attendee.ID AS HL_Attendee_ID
+                        ,hl_attendee.CONTACT_FULL_NAME_C AS HL_Attendee_Name
+                        ,external_contact.ACCOUNT_ID AS External_company_ID
+                        ,Activity_Date AS latest_activity_date
+                        ,best_email_address AS best_email_address
+                    FROM (
+                        SELECT '' best_email_address
+                            , '' email_address
+                            , '2020-01-01' activity_date
+                        ) DotAlign
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}}  external_contact 
+                        ON DotAlign.best_email_address = external_contact.EMAIL
+                        AND external_contact.RECORD_TYPE_ID = '012i0000000tEhjAAE' 
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}}  hl_attendee 
+                        ON DotAlign.email_address = hl_attendee.EMAIL
+                        AND hl_attendee.STATUS_C = 'Active' 
+                        AND hl_attendee.LINE_OF_BUSINESS_C = 'CF'
+                        AND hl_attendee.RECORD_TYPE_ID = '012i0000000tEheAAE'
+                    INNER JOIN {{ref('TGT_HL','TMP_HLEMPLOYEE')}} HLEmployee ON hl_attendee.id = HLEmployee.HL_ID
+                	)
+            name: TMP_DOTALIGNLATESESTACTIVITY
+            noLinkRefs: []
+      name: TMP_DOTALIGNLATESESTACTIVITY
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 079b5c7a-6dd0-490b-981c-a0565db7b58b

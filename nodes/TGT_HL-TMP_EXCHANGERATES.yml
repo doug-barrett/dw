@@ -1,0 +1,84 @@
+steps:
+  TMP_EXCHANGERATES-3381bebc-47ad-48ff-8215-13f9d38a1a53:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 9b15c9ac-5676-4d2f-accf-f106da480ef9
+              stepCounter: 3381bebc-47ad-48ff-8215-13f9d38a1a53
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 952669c0-4672-47af-a827-97e9ef0e7757
+              stepCounter: 3381bebc-47ad-48ff-8215-13f9d38a1a53
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: RATE2BASE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: d1d96371-9b8e-4d6f-bb65-e93e1c3c18e6
+              stepCounter: 3381bebc-47ad-48ff-8215-13f9d38a1a53
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: JDE_EFT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 4b52961c-356f-49ef-9407-a39ce9a6c9b8
+              stepCounter: 3381bebc-47ad-48ff-8215-13f9d38a1a53
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCYSYMBOL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies: []
+            join:
+              joinCondition: |2-
+                 FROM (   SELECT '' AS CURRENCY
+                        ,1 AS RATE2BASE
+                        ,'2020-01-01' AS JDE_EFT_DATE
+                        ,'' AS CurrencySymbol) A
+            name: TMP_EXCHANGERATES
+            noLinkRefs: []
+      name: TMP_EXCHANGERATES
+      overrideSQL: false
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 3381bebc-47ad-48ff-8215-13f9d38a1a53

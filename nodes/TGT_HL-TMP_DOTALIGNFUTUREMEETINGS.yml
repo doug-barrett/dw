@@ -1,0 +1,88 @@
+steps:
+  TMP_DOTALIGNFUTUREMEETINGS-c3f846bf-87a8-4ce7-988a-bad754c51997:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: f155c6e1-7008-4fce-945c-4c9304074978
+              stepCounter: c3f846bf-87a8-4ce7-988a-bad754c51997
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MEETING_ID
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 0594b4a7-202b-4414-988c-fb84a7474641
+              stepCounter: c3f846bf-87a8-4ce7-988a-bad754c51997
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: START_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 7d73fc89-fbad-4499-98f1-466ffeceb799
+              stepCounter: c3f846bf-87a8-4ce7-988a-bad754c51997
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EMAIL_ADDRESS
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_DOTALIGNFUTUREMEETINGS')}} AS (
+                    SELECT DISTINCT meeting_id
+                        ,start_date
+                        ,email_address
+                    FROM (
+                        SELECT da_meeting.meeting_id
+                            ,da_meeting.start_Date
+                            ,participant.email_address
+                        FROM (
+                            SELECT '' meeting_id
+                                , '2020-01-01' start_Date
+                            ) da_meeting
+                        JOIN (
+                            SELECT DISTINCT '' meeting_id
+                                ,'' email_address
+                            ) participant ON da_meeting.meeting_id = participant.meeting_id
+                        )
+
+                	)
+            dependencies: []
+            join:
+              joinCondition: ""
+            name: TMP_DOTALIGNFUTUREMEETINGS
+            noLinkRefs: []
+      name: TMP_DOTALIGNFUTUREMEETINGS
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: c3f846bf-87a8-4ce7-988a-bad754c51997

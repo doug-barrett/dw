@@ -1,0 +1,210 @@
+steps:
+  TMP_DOTALIGN_ACTIVITY-bcb566fd-93a0-4e6e-b270-8289a548e628:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: d04a3c7a-6613-4873-8b25-7744bca48ae6
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: b5c11170-90c2-479b-9b3b-8280117f3d70
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: cd90070c-56a1-4807-b29a-c85528c2eabe
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: OP_CO_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: aadc1e11-9f38-47a5-b0d4-76e08972471b
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WITHIN_7DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: d08321a8-0c44-459a-a46d-9a269a008bbb
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WITHIN_30DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: afbea880-9b0d-4658-b536-5fc823be7d64
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WITHIN_90DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: d630b69d-64b3-4548-90eb-6d3ac8f24629
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WITHIN_180DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 7de4d086-0e78-413d-8da3-048ef8ff4e8a
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WITHIN_365DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 3433d7b0-9bff-4fec-98fc-31973887552e
+              stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FUTURE_ACTIVITY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_DOTALIGN_ACTIVITY')}} AS (
+                    SELECT DISTINCT HL_Attendee_ID AS HL_ATTENDEE_ID
+                        ,HL_Attendee_Name AS HL_ATTENDEE_NAME
+                        ,OP_CO_ID AS OP_CO_ID
+                        --,Activity_Date
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 7 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_7DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 30 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_30DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 90 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_90DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 180 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_180DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 365 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_365DAYS
+                        ,count(CASE 
+                                WHEN DATEDIFF(DAY, GETDATE(), ACTIVITY_DATE) > 0
+                                    THEN ACTIVITY_DATE
+                                END) AS Future_Activity
+                    FROM {{ref('TGT_HL','TMP_DOTALIGN_ACTIVITY_DATE')}}
+                    GROUP BY HL_Attendee_ID
+                        ,HL_Attendee_Name
+                        ,OP_CO_ID
+                     
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_DOTALIGN_ACTIVITY_DATE
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT HL_Attendee_ID AS HL_ATTENDEE_ID
+                        ,HL_Attendee_Name AS HL_ATTENDEE_NAME
+                        ,OP_CO_ID AS OP_CO_ID
+                        --,Activity_Date
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 7 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_7DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 30 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_30DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 90 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_90DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 180 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_180DAYS
+                        ,count(DISTINCT CASE 
+                                WHEN DATEDIFF(DAY, ACTIVITY_DATE, GETDATE()) <= 365 AND ACTIVITY_DATE <= GETDATE()
+                                    THEN ACTIVITY_DATE
+                                END) AS ACTIVITY_WITHIN_365DAYS
+                        ,count(CASE 
+                                WHEN DATEDIFF(DAY, GETDATE(), ACTIVITY_DATE) > 0
+                                    THEN ACTIVITY_DATE
+                                END) AS Future_Activity
+                    FROM {{ref('TGT_HL','TMP_DOTALIGN_ACTIVITY_DATE')}}
+                    GROUP BY HL_Attendee_ID
+                        ,HL_Attendee_Name
+                        ,OP_CO_ID
+            name: TMP_DOTALIGN_ACTIVITY
+            noLinkRefs: []
+      name: TMP_DOTALIGN_ACTIVITY
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: bcb566fd-93a0-4e6e-b270-8289a548e628

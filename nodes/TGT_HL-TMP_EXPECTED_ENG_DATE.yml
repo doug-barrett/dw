@@ -1,0 +1,136 @@
+steps:
+  TMP_EXPECTED_ENG_DATE-719fa44c-e437-4af6-b274-7a5889f5cb93:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 8944b123-1904-4ed1-ae05-99132dc5c5bc
+              stepCounter: 719fa44c-e437-4af6-b274-7a5889f5cb93
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: c482482c-0387-4f87-b5b1-a969e5b44e8b
+              stepCounter: 719fa44c-e437-4af6-b274-7a5889f5cb93
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CONTACT_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 019e6cfc-368c-44d3-b426-c8843e6854e1
+              stepCounter: 719fa44c-e437-4af6-b274-7a5889f5cb93
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EXPECTED_ENGAGEMENT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_EXPECTED_ENG_DATE')}} AS (
+                      SELECT Company_ID AS COMPANY_ID
+                    ,CONTACT_ID AS CONTACT_ID
+                    ,MAX(EXPECTED_ENGAGEMENT_DATE) AS EXPECTED_ENGAGEMENT_DATE
+                    FROM (
+                    SELECT DISTINCT COV_DS.Company_ID
+                        ,CONTACT_ID
+                        ,CASE 
+                            WHEN UPPER(COV_Eng_Status) = UPPER('Active')
+                                AND UPPER(COV_Eng_LOB) = 'CF'
+                                THEN MAX(COV_Eng_ESTIMATED_CLOSE_DATE) 
+                            WHEN Company_Target_Engagement_Date IS NOT NULL
+                                THEN Company_Target_Engagement_Date
+                            WHEN EXPECTED_TRANSACTION_DATE IS NOT NULL
+                                THEN DATEADD(MONTH, - 9, EXPECTED_TRANSACTION_DATE)
+                            WHEN max(Sponsor_Investment_Date) IS NOT NULL
+                                OR max(Sponsor_Investment_Date) IS NOT NULL
+                                THEN DATEADD(YEAR, 4.25, CASE 
+                                            WHEN max(Sponsor_Investment_Date) <> ''
+                                                THEN CAST(REPLACE(max(Sponsor_Investment_Date), '/', '/01/') AS DATE)
+                                            END)
+                            END AS EXPECTED_ENGAGEMENT_DATE
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}} COV_DS
+                    GROUP BY COV_DS.Company_ID
+                        ,CONTACT_ID
+                        ,COV_Eng_Status
+                        ,COV_Eng_LOB
+                        ,Company_Target_Engagement_Date
+                        ,EXPECTED_TRANSACTION_DATE
+                    ) t
+                    GROUP BY Company_ID
+                    ,CONTACT_ID
+
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_DATASOURCE
+            join:
+              joinCondition: |2-
+                      SELECT Company_ID AS COMPANY_ID
+                    ,CONTACT_ID AS CONTACT_ID
+                    ,MAX(EXPECTED_ENGAGEMENT_DATE) AS EXPECTED_ENGAGEMENT_DATE
+                    FROM (
+                    SELECT DISTINCT COV_DS.Company_ID
+                        ,CONTACT_ID
+                        ,CASE 
+                            WHEN UPPER(COV_Eng_Status) = UPPER('Active')
+                                AND UPPER(COV_Eng_LOB) = 'CF'
+                                THEN MAX(COV_Eng_ESTIMATED_CLOSE_DATE) 
+                            WHEN Company_Target_Engagement_Date IS NOT NULL
+                                THEN Company_Target_Engagement_Date
+                            WHEN EXPECTED_TRANSACTION_DATE IS NOT NULL
+                                THEN DATEADD(MONTH, - 9, EXPECTED_TRANSACTION_DATE)
+                            WHEN max(Sponsor_Investment_Date) IS NOT NULL
+                                OR max(Sponsor_Investment_Date) IS NOT NULL
+                                THEN DATEADD(YEAR, 4.25, CASE 
+                                            WHEN max(Sponsor_Investment_Date) <> ''
+                                                THEN CAST(REPLACE(max(Sponsor_Investment_Date), '/', '/01/') AS DATE)
+                                            END)
+                            END AS EXPECTED_ENGAGEMENT_DATE
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}} COV_DS
+                    GROUP BY COV_DS.Company_ID
+                        ,CONTACT_ID
+                        ,COV_Eng_Status
+                        ,COV_Eng_LOB
+                        ,Company_Target_Engagement_Date
+                        ,EXPECTED_TRANSACTION_DATE
+                    ) t
+                    GROUP BY Company_ID
+                    ,CONTACT_ID
+            name: TMP_EXPECTED_ENG_DATE
+            noLinkRefs: []
+      name: TMP_EXPECTED_ENG_DATE
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 719fa44c-e437-4af6-b274-7a5889f5cb93

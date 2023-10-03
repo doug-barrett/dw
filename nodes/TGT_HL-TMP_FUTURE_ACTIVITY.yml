@@ -1,0 +1,97 @@
+steps:
+  TMP_FUTURE_ACTIVITY-f2a3639d-8ee2-4844-a3d0-ccb97ce50cc6:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: afdb7869-16f7-4f48-ba2e-fa8b9fa637b4
+              stepCounter: f2a3639d-8ee2-4844-a3d0-ccb97ce50cc6
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 536e2358-78d9-4e3a-8b8b-a74bf59936ef
+              stepCounter: f2a3639d-8ee2-4844-a3d0-ccb97ce50cc6
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 6b1f4039-022d-4182-a7ec-ba3bde254d9a
+              stepCounter: f2a3639d-8ee2-4844-a3d0-ccb97ce50cc6
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EARLIESTFUTUREACTIVITYDATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_FUTURE_ACTIVITY')}} AS (
+                SELECT SFFutureActivity.Activity_Company_ID
+                          ,SFFutureActivity.HL_Attendee_ID
+                          ,TO_VARCHAR(MIN(SFFutureActivity.Activity_Date), 'MM-DD-YYYY') AS EarliestFutureActivityDate
+                         FROM(
+                             SELECT Activity_Company_ID
+                              ,HL_Attendee_ID
+                              ,Activity_Date
+                             FROM {{ref('TGT_HL','TMP_COVERAGE_ACTIVITY')}}
+                             WHERE Activity_Date > SYSDATE()
+                             ) SFFutureActivity
+                         GROUP BY Activity_Company_ID
+                          ,HL_Attendee_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_ACTIVITY
+            join:
+              joinCondition: |-
+                SELECT SFFutureActivity.Activity_Company_ID
+                          ,SFFutureActivity.HL_Attendee_ID
+                          ,TO_VARCHAR(MIN(SFFutureActivity.Activity_Date), 'MM-DD-YYYY') AS EarliestFutureActivityDate
+                         FROM(
+                             SELECT Activity_Company_ID
+                              ,HL_Attendee_ID
+                              ,Activity_Date
+                             FROM {{ref('TGT_HL','TMP_COVERAGE_ACTIVITY')}}
+                             WHERE Activity_Date > SYSDATE()
+                             ) SFFutureActivity
+                         GROUP BY Activity_Company_ID
+                          ,HL_Attendee_ID
+            name: TMP_FUTURE_ACTIVITY
+            noLinkRefs: []
+      name: TMP_FUTURE_ACTIVITY
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: f2a3639d-8ee2-4844-a3d0-ccb97ce50cc6

@@ -1,0 +1,130 @@
+steps:
+  TMP_INCLUDE_EXCLUDE-6585db35-ed47-40cf-837f-a24712a52f6f:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: bd8db4c2-1f92-4e66-89b0-da5d5fa01505
+              stepCounter: 6585db35-ed47-40cf-837f-a24712a52f6f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 030a9880-19fc-42bd-920b-47a4e5a2f399
+              stepCounter: 6585db35-ed47-40cf-837f-a24712a52f6f
+            dataType: NUMBER(13,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CAL_INCLUDE_EXCLUDE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_INCLUDE_EXCLUDE')}} AS (
+                    SELECT DISTINCT Company_ID AS COMPANY_ID
+                    ,SUM(CASE 
+                            WHEN (
+                                    UPPER(COV_Eng_Status) = UPPER('Active')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    )
+                                OR (
+                                    UPPER(COV_Eng_Status) = UPPER('Hold')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND DATEDIFF(MONTH, (COV_Eng_LATEST_STAGE_CHANGE), GETDATE()) <= 6
+                                    )
+                                OR (
+                                    UPPER(COV_Eng_Status) = UPPER('Closed')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND DATEDIFF(MONTH, COV_Eng_CLOSE_DATE, GETDATE()) <= 6
+                                    )
+                                OR (
+                                    UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = 'CF'
+                                    AND DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 0
+                                    )
+                                OR (
+                                    UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = 'CF'
+                                    AND (
+                                        DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 30
+                                        OR DATEDIFF(DAY, COV_Opp_NBC_Approved_Date, GETDATE()) < 60
+                                        )
+                                    )
+                                THEN 1
+                            ELSE 0
+                            END) AS CAL_INCLUDE_EXCLUDE
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}}
+                    GROUP BY Company_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_DATASOURCE
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT Company_ID AS COMPANY_ID
+                    ,SUM(CASE 
+                            WHEN (
+                                    UPPER(COV_Eng_Status) = UPPER('Active')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    )
+                                OR (
+                                    UPPER(COV_Eng_Status) = UPPER('Hold')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND DATEDIFF(MONTH, (COV_Eng_LATEST_STAGE_CHANGE), GETDATE()) <= 6
+                                    )
+                                OR (
+                                    UPPER(COV_Eng_Status) = UPPER('Closed')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND DATEDIFF(MONTH, COV_Eng_CLOSE_DATE, GETDATE()) <= 6
+                                    )
+                                OR (
+                                    UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = 'CF'
+                                    AND DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 0
+                                    )
+                                OR (
+                                    UPPER(COV_Opp_Status) = UPPER('Active')
+                                    AND UPPER(COV_Opp_LOB) = 'CF'
+                                    AND (
+                                        DATEDIFF(DAY, COV_Opp_Pitch_Date, GETDATE()) < 30
+                                        OR DATEDIFF(DAY, COV_Opp_NBC_Approved_Date, GETDATE()) < 60
+                                        )
+                                    )
+                                THEN 1
+                            ELSE 0
+                            END) AS CAL_INCLUDE_EXCLUDE
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}}
+                    GROUP BY Company_ID
+                	
+            name: TMP_INCLUDE_EXCLUDE
+            noLinkRefs: []
+      name: TMP_INCLUDE_EXCLUDE
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 6585db35-ed47-40cf-837f-a24712a52f6f

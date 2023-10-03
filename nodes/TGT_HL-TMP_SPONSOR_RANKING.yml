@@ -1,0 +1,87 @@
+steps:
+  TMP_SPONSOR_RANKING-ec6fb91c-3157-414f-93d7-eff491d9567a:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 48f92256-03e9-411a-920a-681ffa9eccff
+              stepCounter: ec6fb91c-3157-414f-93d7-eff491d9567a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PORTFOLIO_SF_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: ecf1bbee-c74f-4e36-a586-e8ba5447ee12
+              stepCounter: ec6fb91c-3157-414f-93d7-eff491d9567a
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMBINED_SPONSOR_RANKING
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_SPONSOR_RANKING')}} AS (
+                SELECT DISTINCT PORTFOLIO_SF_ID
+                        ,LISTAGG(TO_VARCHAR(SPONSOR_RANKING), '\\\\\\\\n') WITHIN
+                    GROUP (
+                            ORDER BY SPONSOR_RANKING DESC
+                            ) AS COMBINED_SPONSOR_RANKING
+                    FROM (
+                        SELECT PORTFOLIO_SF_ID
+                            ,SPONSOR_RANKING
+                        FROM {{ ref('TGT_HL', 'TMP_FSCG')}}
+                        GROUP BY PORTFOLIO_SF_ID
+                            ,SPONSOR_RANKING
+                        ) AS SPONSOR_RANKING
+                    GROUP BY PORTFOLIO_SF_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_FSCG
+            join:
+              joinCondition: |-
+                SELECT DISTINCT PORTFOLIO_SF_ID
+                        ,LISTAGG(TO_VARCHAR(SPONSOR_RANKING), '\\\\\\\\n') WITHIN
+                    GROUP (
+                            ORDER BY SPONSOR_RANKING DESC
+                            ) AS COMBINED_SPONSOR_RANKING
+                    FROM (
+                        SELECT PORTFOLIO_SF_ID
+                            ,SPONSOR_RANKING
+                        FROM {{ ref('TGT_HL', 'TMP_FSCG')}}
+                        GROUP BY PORTFOLIO_SF_ID
+                            ,SPONSOR_RANKING
+                        ) AS SPONSOR_RANKING
+                    GROUP BY PORTFOLIO_SF_ID
+            name: TMP_SPONSOR_RANKING
+            noLinkRefs: []
+      name: TMP_SPONSOR_RANKING
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: ec6fb91c-3157-414f-93d7-eff491d9567a

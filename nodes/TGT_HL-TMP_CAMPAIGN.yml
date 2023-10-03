@@ -1,0 +1,187 @@
+steps:
+  TMP_CAMPAIGN-600d2a9c-ef1c-434e-9c59-781b49e782a7:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: e6885b38-567d-4e14-8764-50a70e17ded0
+              stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 92770b8e-7a0e-4955-942e-5873fb84d237
+              stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CONTACT_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 38e247fc-8479-49ef-a919-8e8eea0ed113
+              stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRESENTED_CONF
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 229cb038-5141-4506-94a9-0e6d5467a6cf
+              stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRESENTED_CONF_POINTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 86001b73-fa48-46c1-a8dc-6815dc58efc7
+              stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PLATINUM_OFFICER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 201ed202-99d9-4c64-9aa7-51d63dcb2742
+              stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PLATINUM_PORTFOLIO_COMPANY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_CAMPAIGN')}} AS (
+                    SELECT DISTINCT CONTACT.ACCOUNT_ID AS COMPANY_ID
+                        ,COVERAGE_TEAM__C.OFFICER_C AS CONTACT_ID
+                        ,CASE 
+                            WHEN 
+                                CAMPAIGN.MILESTONE_CHECKLIST_C = 1
+                                AND UPPER(CAMPAIGNMEMBER.STATUS) IN (
+                                     UPPER('Attended')
+                                    ,UPPER('Walk - In')
+                                    ,UPPER('On Demand')
+                                    )
+                                AND CAMPAIGNMEMBER.SPEAKER_PANELIST_C = 1
+                                THEN 'Presented at Conference'
+                            END PRESENTED_CONF
+                        ,CASE 
+                            WHEN 
+                                CAMPAIGN.MILESTONE_CHECKLIST_C = 1
+                                AND UPPER(CAMPAIGNMEMBER.STATUS) IN (
+                                     UPPER('Attended')
+                                    ,UPPER('Walk - In')
+                                    ,UPPER('On Demand')
+                                    )
+                                AND CAMPAIGNMEMBER.SPEAKER_PANELIST_C = 1
+                                THEN 1
+                            ELSE 0
+                            END PRESENTED_CONF_POINTS
+                        ,INDUSTRY_BANKER_SPONSOR.INDUSTRY_BANKER_CONTACT_ID AS PLATINUM_OFFICER
+                        ,INDUSTRY_BANKER_SPONSOR.PORTFOLIO_COMAPNY_ID AS PLATINUM_PORTFOLIO_COMPANY             
+                   FROM {{ref('TGT_HL','VW_CAMPAIGN')}} AS CAMPAIGN
+                    INNER JOIN (SELECT '' SPEAKER_PANELIST_C, '' CAMPAIGN_ID, '' STATUS, '' CONTACT_ID ) CAMPAIGNMEMBER 
+                    ON CAMPAIGN.ID = CAMPAIGNMEMBER.CAMPAIGN_ID
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}} AS CONTACT
+                        ON CAMPAIGNMEMBER.CONTACT_ID = CONTACT.ID
+                    INNER JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} AS COVERAGE_TEAM__C ON CONTACT.ACCOUNT_ID = COVERAGE_TEAM__C.COMPANY_C AND UPPER(COVERAGE_TEAM__C.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    INNER JOIN {{ref('TGT_HL','TMP_HLEMPLOYEE')}} HLEmployee ON COVERAGE_TEAM__C.OFFICER_C = HLEmployee.HL_ID
+                    LEFT JOIN {{ref('TGT_HL','TMP_INDUSTRY_BANKER_SPONSOR')}} AS INDUSTRY_BANKER_SPONSOR ON INDUSTRY_BANKER_SPONSOR.SPONSOR_COMAPNY_ID = CONTACT.ACCOUNT_ID AND CAMPAIGN.PLATINUM_EVENT_C = 1
+                	)
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: CONTACT
+              - locationName: TGT_HL
+                nodeName: TMP_HLEMPLOYEE
+              - locationName: TGT_HL
+                nodeName: TMP_INDUSTRY_BANKER_SPONSOR
+              - locationName: TGT_HL
+                nodeName: VW_CAMPAIGN
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_TEAM_C
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT CONTACT.ACCOUNT_ID AS COMPANY_ID
+                        ,COVERAGE_TEAM__C.OFFICER_C AS CONTACT_ID
+                        ,CASE 
+                            WHEN 
+                                CAMPAIGN.MILESTONE_CHECKLIST_C = 1
+                                AND UPPER(CAMPAIGNMEMBER.STATUS) IN (
+                                     UPPER('Attended')
+                                    ,UPPER('Walk - In')
+                                    ,UPPER('On Demand')
+                                    )
+                                AND CAMPAIGNMEMBER.SPEAKER_PANELIST_C = 1
+                                THEN 'Presented at Conference'
+                            END PRESENTED_CONF
+                        ,CASE 
+                            WHEN 
+                                CAMPAIGN.MILESTONE_CHECKLIST_C = 1
+                                AND UPPER(CAMPAIGNMEMBER.STATUS) IN (
+                                     UPPER('Attended')
+                                    ,UPPER('Walk - In')
+                                    ,UPPER('On Demand')
+                                    )
+                                AND CAMPAIGNMEMBER.SPEAKER_PANELIST_C = 1
+                                THEN 1
+                            ELSE 0
+                            END PRESENTED_CONF_POINTS
+                        ,INDUSTRY_BANKER_SPONSOR.INDUSTRY_BANKER_CONTACT_ID AS PLATINUM_OFFICER
+                        ,INDUSTRY_BANKER_SPONSOR.PORTFOLIO_COMAPNY_ID AS PLATINUM_PORTFOLIO_COMPANY             
+                   FROM {{ref('TGT_HL','VW_CAMPAIGN')}} AS CAMPAIGN
+                    INNER JOIN (SELECT '' SPEAKER_PANELIST_C, '' CAMPAIGN_ID, '' STATUS, '' CONTACT_ID ) CAMPAIGNMEMBER 
+                    ON CAMPAIGN.ID = CAMPAIGNMEMBER.CAMPAIGN_ID
+                    INNER JOIN {{ref('SRC_HL','CONTACT')}} AS CONTACT
+                        ON CAMPAIGNMEMBER.CONTACT_ID = CONTACT.ID
+                    INNER JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} AS COVERAGE_TEAM__C ON CONTACT.ACCOUNT_ID = COVERAGE_TEAM__C.COMPANY_C AND UPPER(COVERAGE_TEAM__C.COVERAGE_TEAM_STATUS_C) = UPPER('Active')
+                    INNER JOIN {{ref('TGT_HL','TMP_HLEMPLOYEE')}} HLEmployee ON COVERAGE_TEAM__C.OFFICER_C = HLEmployee.HL_ID
+                    LEFT JOIN {{ref('TGT_HL','TMP_INDUSTRY_BANKER_SPONSOR')}} AS INDUSTRY_BANKER_SPONSOR ON INDUSTRY_BANKER_SPONSOR.SPONSOR_COMAPNY_ID = CONTACT.ACCOUNT_ID AND CAMPAIGN.PLATINUM_EVENT_C = 1
+            name: TMP_CAMPAIGN
+            noLinkRefs: []
+      name: TMP_CAMPAIGN
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 600d2a9c-ef1c-434e-9c59-781b49e782a7

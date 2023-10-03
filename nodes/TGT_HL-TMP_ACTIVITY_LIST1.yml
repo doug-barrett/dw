@@ -1,0 +1,472 @@
+steps:
+  TMP_ACTIVITY_LIST1-57623791-6433-4cbd-aa31-75439296c9a0:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 8a81f68e-f1eb-4adf-836d-da040a424dc0
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 7d5f1f8a-59fa-4d2a-8a29-ff5181e5338b
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 46281f5b-dbbf-491a-b283-2aa5ecb434d8
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_WINNING_MANDATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: c2a7c232-09dd-4f02-bcc0-ad3d137d5f0f
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 5c1b4499-3e8f-4596-9ba6-036d9bbb0516
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LAST_ACTIVITY_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 16033063-2a54-487c-8962-8a327b4bdb40
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SF_DA_ACTIVITY_WITHIN_7DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 57f2b84d-7198-40a9-ae98-3c1fb193d82b
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: NUMBER(18,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SF_DA_ACTIVITY_WITHIN_30DAYS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: faa5c801-4838-41b4-a8ac-0e1c7876fd0b
+              stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SF_DA_FUTURE_ACTIVITY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_ACTIVITY_LIST1')}} AS (
+                    SELECT DISTINCT COMPANY_ID AS COMPANY_ID
+                        ,HL_ATTENDEE_ID AS HL_ATTENDEE_ID
+                        ,Activity_Winning_Mandate
+                        ,FLAG AS FLAG
+                        ,CASE 
+                            WHEN (
+                                    MAX_ACTIVITY_DATE = MAX_ACTIVITY_DATE_SF
+                                    AND MAX_ACTIVITY_DATE = MAX_ACTIVITY_DATE_DA
+                                    )
+
+                                THEN CONCAT (
+                                        TO_VARCHAR(To_Date(MAX_ACTIVITY_DATE), 'MM-DD-YYYY')
+                                        ,' (B)'
+                                        )
+                            WHEN
+                            ( 
+                            MAX_ACTIVITY_DATE > COALESCE(MAX_ACTIVITY_DATE_SF, TO_DATE('1900-01-01'))
+                            )
+                                 THEN CONCAT (
+                                        TO_VARCHAR(TO_Date(MAX_ACTIVITY_DATE), 'MM-DD-YYYY')
+                                        ,' (D)'
+                                        )
+                            WHEN 
+                                (
+                                    MAX_ACTIVITY_DATE > COALESCE(MAX_ACTIVITY_DATE_DA, TO_DATE('1900-01-01'))
+                                )  
+                                OR 
+                                (
+                                    MAX_ACTIVITY_DATE = COALESCE(MAX_ACTIVITY_DATE_SF, TO_DATE('1900-01-01'))
+                                    AND MAX_ACTIVITY_DATE < MAX_ACTIVITY_DATE_DA
+                                )
+                                THEN CONCAT (
+                                        TO_VARCHAR(MAX_ACTIVITY_DATE, 'MM-DD-YYYY')
+                                        ,' (S)'
+                                        )
+                            END AS LAST_ACTIVITY_DATE
+                        ,COUNT(CASE 
+                                WHEN UPPER(DATASOURCE) = UPPER('Both')
+                                    AND DATEDIFF(DAY, ACTIVITY_DATE_TIME, GETDATE()) <= 7
+                                    THEN ACTIVITY_DATE_TIME
+                                END) OVER (
+                            PARTITION BY COMPANY_ID
+                            ,HL_ATTENDEE_ID
+                            ) AS SF_DA_ACTIVITY_WITHIN_7DAYS
+                        ,COUNT(CASE 
+                                WHEN UPPER(DATASOURCE) = UPPER('Both')
+                                    AND DATEDIFF(DAY, ACTIVITY_DATE_TIME, GETDATE()) <= 30
+                                    THEN ACTIVITY_DATE_TIME
+                                END) OVER (
+                            PARTITION BY COMPANY_ID
+                            ,HL_ATTENDEE_ID
+                            ) AS SF_DA_ACTIVITY_WITHIN_30DAYS
+                        ,To_Varchar(COUNT(CASE 
+                                WHEN UPPER(DATASOURCE)='BOTH' 
+                                    AND DATEDIFF(DAY, ACTIVITY_DATE_TIME, GETDATE())> 0
+                                    THEN ACTIVITY_DATE_TIME                         
+                                END) OVER (
+                            PARTITION BY COMPANY_ID, HL_ATTENDEE_ID
+                            ))  AS SF_DA_FUTURE_ACTIVITY
+                    FROM (
+                        SELECT DISTINCT ALL_LIST.Activity_Company_ID AS COMPANY_ID
+                            ,ALL_LIST.HL_Attendee_ID AS HL_ATTENDEE_ID
+                            ,ALL_LIST.Activity_Date AS ACTIVITY_DATE_TIME
+                            ,ALL_LISt.flag AS FLAG
+                            ,SF_ACTIVITY.ACTIVITY_DATE AS SF_ACTIVITY_DATE
+                            ,SF_ACTIVITY.Activity_TIME AS SF_ACTIVITY_TIME
+                            ,SF_ACTIVITY.HL_Attendee_Name AS SF_HL_ATTENDEE_NAME
+                            ,SF_ACTIVITY.Activity_Attendee_Company AS SF_COMPANY_NAME
+                            ,DOT_ALIGN_ACTIVITY.ACTIVITY_DATE AS DA_ACTIVITY_DATE
+                            ,DOT_ALIGN_ACTIVITY.Activity_TIME AS DA_ACTIVITY_TIME
+                            ,DOT_ALIGN_ACTIVITY.HL_ATTENDEE_NAME AS DA_HL_ATTENDEE_NAME
+                            ,DOT_ALIGN_ACTIVITY.NAME AS DA_COMPANY_NAME
+                            ,DOT_ALIGN_ACTIVITY.flag AS SPONSOR_FLAG
+                            ,ALL_LIST.Activity_Winning_Mandate
+                            ,CASE 
+                                WHEN SF_ACTIVITY.Activity_Company_ID IS NOT NULL
+                                    AND DOT_ALIGN_ACTIVITY.OP_CO_ID IS NOT NULL
+                                    THEN 'Both'
+                                WHEN SF_ACTIVITY.Activity_Company_ID IS NOT NULL
+                                    AND DOT_ALIGN_ACTIVITY.OP_CO_ID IS NULL
+                                    THEN 'SF Only'
+                                WHEN SF_ACTIVITY.Activity_Company_ID IS NULL
+                                    AND DOT_ALIGN_ACTIVITY.OP_CO_ID IS NOT NULL
+                                    THEN 'DA Only'
+                                END AS DataSource
+                            ,MAX(SF_ACTIVITY.MAX_ACTIVITY_DATE_SF) OVER (
+                                PARTITION BY ALL_LIST.Activity_Company_ID
+                                ,ALL_LIST.HL_Attendee_ID
+                                ) AS MAX_ACTIVITY_DATE_SF
+                            ,MAX(DOT_ALIGN_ACTIVITY.MAX_ACTIVITY_DATE_DA) OVER (
+                                PARTITION BY ALL_LIST.Activity_Company_ID
+                                ,ALL_LIST.HL_Attendee_ID
+                                ) AS MAX_ACTIVITY_DATE_DA
+                            ,MAX(ALL_LIST.MAX_ACTIVITY_DATE) OVER (
+                                PARTITION BY ALL_LIST.Activity_Company_ID
+                                ,ALL_LIST.HL_Attendee_ID
+                                ) AS MAX_ACTIVITY_DATE
+                        FROM (
+                            SELECT Activity_Company_ID
+                                ,HL_Attendee_ID
+                                ,CAST(Activity_Date AS DATE) ACTIVITY_DATE
+                                ,Activity_Winning_Mandate
+                                ,FLAG
+                                ,MAX(CAST(Activity_Date AS DATE)) OVER (
+                                    PARTITION BY Activity_Company_ID
+                                    ,HL_Attendee_ID
+                                    ) AS MAX_ACTIVITY_DATE
+                            FROM (
+                                SELECT Activity_Company_ID
+                                    ,HL_Attendee_ID
+                                    ,Activity_Date
+                                    ,CASE 
+                                        WHEN Sponsor_id IS NOT NULL
+                                            AND trim(sponsor_id) <> ''
+                                            THEN 'Sponsor'
+                                        END AS Flag
+                                    ,Activity_Winning_Mandate                        
+                                FROM {{ref('TGT_HL','TMP_COVERAGE_ACTIVITY')}}
+                                WHERE CAST(Activity_Date AS DATE) <= SYSDATE()
+
+                                UNION
+
+                                SELECT OP_CO_ID
+                                    ,HL_ATTENDEE_ID
+                                    ,CAST(Activity_Date AS DATE)
+                                    ,Flag
+                                    ,null AS Activity_Winning_Mandate
+                                FROM {{ref('TGT_HL','TMP_DOTALIGN_ACTIVITY_DATE')}}
+                                WHERE CAST(ACTIVITY_DATE AS DATE) <= CAST(GETDATE() AS DATE)
+
+                                ) T
+                            ) ALL_LIST
+                        LEFT JOIN (
+                            SELECT DISTINCT Activity_Company_ID
+                                ,Activity_Date AS ACTIVITY_DATE_TIME
+                                ,CAST(Activity_Date AS DATE) ACTIVITY_DATE
+                                ,CAST(Activity_Date AS TIME(0)) AS Activity_TIME
+                                ,HL_Attendee_ID
+                                ,Activity_Attendee_Company
+                                ,HL_Attendee_Name
+                                ,max(CAST(Activity_Date AS DATE)) OVER (
+                                    PARTITION BY Activity_Company_ID
+                                    ,HL_Attendee_ID
+                                    ) AS MAX_ACTIVITY_DATE_SF
+                            FROM {{ref('TGT_HL','TMP_COVERAGE_ACTIVITY')}}
+                            ) SF_ACTIVITY ON ALL_LIST.Activity_Company_ID = SF_ACTIVITY.Activity_Company_ID
+                            AND SF_ACTIVITY.HL_Attendee_ID = ALL_LIST.HL_Attendee_ID
+                            AND SF_ACTIVITY.ACTIVITY_DATE = ALL_LIST.Activity_Date
+                        LEFT JOIN (
+                            SELECT DISTINCT OP_CO_ID
+                                ,ACTIVITY_DATE AS ACTIVITY_DATE_TIME
+                                ,CAST(ACTIVITY_DATE AS DATE) AS ACTIVITY_DATE
+                                ,CAST(ACTIVITY_DATE AS TIME(0)) AS Activity_TIME
+                                ,HL_ATTENDEE_ID
+                                ,ACCOUNT.NAME
+                                ,HL_ATTENDEE_NAME
+                                ,flag
+                                ,max(CAST(ACTIVITY_DATE AS DATE)) OVER (
+                                    PARTITION BY OP_CO_ID
+                                    ,HL_Attendee_ID
+                                    ) AS MAX_ACTIVITY_DATE_DA
+                            FROM {{ref('TGT_HL','TMP_DOTALIGN_ACTIVITY_DATE')}} DOTALIGN_ACTIVITY
+                            INNER JOIN {{ref('TGT_HL','VW_ACCOUNT')}} ACCOUNT ON DOTALIGN_ACTIVITY.OP_CO_ID = ACCOUNT.ID
+                            ) DOT_ALIGN_ACTIVITY ON ALL_LIST.Activity_Company_ID = DOT_ALIGN_ACTIVITY.OP_CO_ID
+                            AND DOT_ALIGN_ACTIVITY.HL_ATTENDEE_ID = ALL_LIST.HL_Attendee_ID
+                            AND ALL_LIST.Activity_Date = DOT_ALIGN_ACTIVITY.ACTIVITY_DATE
+                            WHERE CAST(IFNULL(DOT_ALIGN_ACTIVITY.ACTIVITY_DATE,ALL_LIST.Activity_Date) AS DATE) <= CAST(GETDATE() AS DATE)
+                        ) A
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_ACTIVITY
+              - locationName: TGT_HL
+                nodeName: TMP_DOTALIGN_ACTIVITY_DATE
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT COMPANY_ID AS COMPANY_ID
+                        ,HL_ATTENDEE_ID AS HL_ATTENDEE_ID
+                        ,Activity_Winning_Mandate
+                        ,FLAG AS FLAG
+                        ,CASE 
+                            WHEN (
+                                    MAX_ACTIVITY_DATE = MAX_ACTIVITY_DATE_SF
+                                    AND MAX_ACTIVITY_DATE = MAX_ACTIVITY_DATE_DA
+                                    )
+
+                                THEN CONCAT (
+                                        TO_VARCHAR(To_Date(MAX_ACTIVITY_DATE), 'MM-DD-YYYY')
+                                        ,' (B)'
+                                        )
+                            WHEN
+                            ( 
+                            MAX_ACTIVITY_DATE > COALESCE(MAX_ACTIVITY_DATE_SF, TO_DATE('1900-01-01'))
+                            )
+                                 THEN CONCAT (
+                                        TO_VARCHAR(TO_Date(MAX_ACTIVITY_DATE), 'MM-DD-YYYY')
+                                        ,' (D)'
+                                        )
+                            WHEN 
+                                (
+                                    MAX_ACTIVITY_DATE > COALESCE(MAX_ACTIVITY_DATE_DA, TO_DATE('1900-01-01'))
+                                ) 
+                                 
+                                OR 
+                                (
+                                    MAX_ACTIVITY_DATE = COALESCE(MAX_ACTIVITY_DATE_SF, TO_DATE('1900-01-01'))
+                                    AND MAX_ACTIVITY_DATE < MAX_ACTIVITY_DATE_DA
+                                )
+                                THEN CONCAT (
+                                        TO_VARCHAR(MAX_ACTIVITY_DATE, 'MM-DD-YYYY')
+                                        ,' (S)'
+                                        )
+                            END AS LAST_ACTIVITY_DATE
+                        ,COUNT(CASE 
+                                WHEN UPPER(DATASOURCE) = UPPER('Both')
+                                    AND DATEDIFF(DAY, ACTIVITY_DATE_TIME, GETDATE()) <= 7
+                                    THEN ACTIVITY_DATE_TIME
+                                END) OVER (
+                            PARTITION BY COMPANY_ID
+                            ,HL_ATTENDEE_ID
+                            ) AS SF_DA_ACTIVITY_WITHIN_7DAYS
+                        ,COUNT(CASE 
+                                WHEN UPPER(DATASOURCE) = UPPER('Both')
+                                    AND DATEDIFF(DAY, ACTIVITY_DATE_TIME, GETDATE()) <= 30
+                                    THEN ACTIVITY_DATE_TIME
+                                END) OVER (
+                            PARTITION BY COMPANY_ID
+                            ,HL_ATTENDEE_ID
+                            ) AS SF_DA_ACTIVITY_WITHIN_30DAYS
+                        ,To_Varchar(COUNT(CASE 
+                                WHEN UPPER(DATASOURCE)='BOTH' 
+                                    AND DATEDIFF(DAY, ACTIVITY_DATE_TIME, GETDATE())> 0
+                                    THEN ACTIVITY_DATE_TIME                         
+                                END) OVER (
+                            PARTITION BY COMPANY_ID, HL_ATTENDEE_ID
+                            ))  AS SF_DA_FUTURE_ACTIVITY
+                    FROM (
+                        SELECT DISTINCT ALL_LIST.Activity_Company_ID AS COMPANY_ID
+                            ,ALL_LIST.HL_Attendee_ID AS HL_ATTENDEE_ID
+                            ,ALL_LIST.Activity_Date AS ACTIVITY_DATE_TIME
+                            ,ALL_LISt.flag AS FLAG
+                            ,SF_ACTIVITY.ACTIVITY_DATE AS SF_ACTIVITY_DATE
+                            ,SF_ACTIVITY.Activity_TIME AS SF_ACTIVITY_TIME
+                            ,SF_ACTIVITY.HL_Attendee_Name AS SF_HL_ATTENDEE_NAME
+                            ,SF_ACTIVITY.Activity_Attendee_Company AS SF_COMPANY_NAME
+                            ,DOT_ALIGN_ACTIVITY.ACTIVITY_DATE AS DA_ACTIVITY_DATE
+                            ,DOT_ALIGN_ACTIVITY.Activity_TIME AS DA_ACTIVITY_TIME
+                            ,DOT_ALIGN_ACTIVITY.HL_ATTENDEE_NAME AS DA_HL_ATTENDEE_NAME
+                            ,DOT_ALIGN_ACTIVITY.NAME AS DA_COMPANY_NAME
+                            ,DOT_ALIGN_ACTIVITY.flag AS SPONSOR_FLAG
+                            ,ALL_LIST.Activity_Winning_Mandate
+                            ,CASE 
+                                WHEN SF_ACTIVITY.Activity_Company_ID IS NOT NULL
+                                    AND DOT_ALIGN_ACTIVITY.OP_CO_ID IS NOT NULL
+                                    THEN 'Both'
+                                WHEN SF_ACTIVITY.Activity_Company_ID IS NOT NULL
+                                    AND DOT_ALIGN_ACTIVITY.OP_CO_ID IS NULL
+                                    THEN 'SF Only'
+                                WHEN SF_ACTIVITY.Activity_Company_ID IS NULL
+                                    AND DOT_ALIGN_ACTIVITY.OP_CO_ID IS NOT NULL
+                                    THEN 'DA Only'
+                                END AS DataSource
+                            ,MAX(SF_ACTIVITY.MAX_ACTIVITY_DATE_SF) OVER (
+                                PARTITION BY ALL_LIST.Activity_Company_ID
+                                ,ALL_LIST.HL_Attendee_ID
+                                ) AS MAX_ACTIVITY_DATE_SF
+                            ,MAX(DOT_ALIGN_ACTIVITY.MAX_ACTIVITY_DATE_DA) OVER (
+                                PARTITION BY ALL_LIST.Activity_Company_ID
+                                ,ALL_LIST.HL_Attendee_ID
+                                ) AS MAX_ACTIVITY_DATE_DA
+                            ,MAX(ALL_LIST.MAX_ACTIVITY_DATE) OVER (
+                                PARTITION BY ALL_LIST.Activity_Company_ID
+                                ,ALL_LIST.HL_Attendee_ID
+                                ) AS MAX_ACTIVITY_DATE
+                        FROM (
+                            SELECT Activity_Company_ID
+                                ,HL_Attendee_ID
+                                ,CAST(Activity_Date AS DATE) ACTIVITY_DATE
+                                ,Activity_Winning_Mandate
+                                ,FLAG
+                                ,MAX(CAST(Activity_Date AS DATE)) OVER (
+                                    PARTITION BY Activity_Company_ID
+                                    ,HL_Attendee_ID
+                                    ) AS MAX_ACTIVITY_DATE
+                            FROM (
+                                SELECT Activity_Company_ID
+                                    ,HL_Attendee_ID
+                                    ,Activity_Date
+                                    ,CASE 
+                                        WHEN Sponsor_id IS NOT NULL
+                                            AND trim(sponsor_id) <> ''
+                                            THEN 'Sponsor'
+                                        END AS Flag
+                                    ,Activity_Winning_Mandate                        
+                                FROM {{ref('TGT_HL','TMP_COVERAGE_ACTIVITY')}}
+                                WHERE CAST(Activity_Date AS DATE) <= SYSDATE()
+
+                                UNION
+
+                                SELECT OP_CO_ID
+                                    ,HL_ATTENDEE_ID
+                                    ,CAST(Activity_Date AS DATE)
+                                    ,Flag
+                                    ,null AS Activity_Winning_Mandate
+                                FROM {{ref('TGT_HL','TMP_DOTALIGN_ACTIVITY_DATE')}}
+                                WHERE CAST(ACTIVITY_DATE AS DATE) <= CAST(GETDATE() AS DATE)
+
+                                ) T
+                            ) ALL_LIST
+                        LEFT JOIN (
+                            SELECT DISTINCT Activity_Company_ID
+                                ,Activity_Date AS ACTIVITY_DATE_TIME
+                                ,CAST(Activity_Date AS DATE) ACTIVITY_DATE
+                                ,CAST(Activity_Date AS TIME(0)) AS Activity_TIME
+                                ,HL_Attendee_ID
+                                ,Activity_Attendee_Company
+                                ,HL_Attendee_Name
+                                ,max(CAST(Activity_Date AS DATE)) OVER (
+                                    PARTITION BY Activity_Company_ID
+                                    ,HL_Attendee_ID
+                                    ) AS MAX_ACTIVITY_DATE_SF
+                            FROM {{ref('TGT_HL','TMP_COVERAGE_ACTIVITY')}}
+                            ) SF_ACTIVITY ON ALL_LIST.Activity_Company_ID = SF_ACTIVITY.Activity_Company_ID
+                            AND SF_ACTIVITY.HL_Attendee_ID = ALL_LIST.HL_Attendee_ID
+                            AND SF_ACTIVITY.ACTIVITY_DATE = ALL_LIST.Activity_Date
+                        LEFT JOIN (
+                            SELECT DISTINCT OP_CO_ID
+                                ,ACTIVITY_DATE AS ACTIVITY_DATE_TIME
+                                ,CAST(ACTIVITY_DATE AS DATE) AS ACTIVITY_DATE
+                                ,CAST(ACTIVITY_DATE AS TIME(0)) AS Activity_TIME
+                                ,HL_ATTENDEE_ID
+                                ,ACCOUNT.NAME
+                                ,HL_ATTENDEE_NAME
+                                ,flag
+                                ,max(CAST(ACTIVITY_DATE AS DATE)) OVER (
+                                    PARTITION BY OP_CO_ID
+                                    ,HL_Attendee_ID
+                                    ) AS MAX_ACTIVITY_DATE_DA
+                            FROM {{ref('TGT_HL','TMP_DOTALIGN_ACTIVITY_DATE')}} DOTALIGN_ACTIVITY
+                            INNER JOIN {{ref('TGT_HL','VW_ACCOUNT ACCOUNT')}} ON DOTALIGN_ACTIVITY.OP_CO_ID = ACCOUNT.ID
+                            ) DOT_ALIGN_ACTIVITY ON ALL_LIST.Activity_Company_ID = DOT_ALIGN_ACTIVITY.OP_CO_ID
+                            AND DOT_ALIGN_ACTIVITY.HL_ATTENDEE_ID = ALL_LIST.HL_Attendee_ID
+                            AND ALL_LIST.Activity_Date = DOT_ALIGN_ACTIVITY.ACTIVITY_DATE
+                            WHERE CAST(IFNULL(DOT_ALIGN_ACTIVITY.ACTIVITY_DATE,ALL_LIST.Activity_Date) AS DATE) <= CAST(GETDATE() AS DATE)
+                        ) A
+            name: TMP_ACTIVITY_LIST1
+            noLinkRefs: []
+      name: TMP_ACTIVITY_LIST1
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 57623791-6433-4cbd-aa31-75439296c9a0

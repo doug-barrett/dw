@@ -1,0 +1,233 @@
+steps:
+  TMP_DOTALIGN_ACTIVITY_DATE-cd47151a-60a6-42d6-bf42-ed6211fd6bbc:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 03cb0e49-1e77-4b8b-9539-85489a5539dc
+              stepCounter: cd47151a-60a6-42d6-bf42-ed6211fd6bbc
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 101caf92-3890-4cc9-b2f6-78f719d7ceb0
+              stepCounter: cd47151a-60a6-42d6-bf42-ed6211fd6bbc
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HL_ATTENDEE_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 13c298c4-076d-4a7d-9523-2e7c52d823e0
+              stepCounter: cd47151a-60a6-42d6-bf42-ed6211fd6bbc
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: OP_CO_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 26978191-3c75-46c1-ba8e-e652efa3e8bb
+              stepCounter: cd47151a-60a6-42d6-bf42-ed6211fd6bbc
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACTIVITY_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: ef47367b-d6ba-4054-b3c3-20b81c277b9a
+              stepCounter: cd47151a-60a6-42d6-bf42-ed6211fd6bbc
+            dataType: VARCHAR(7)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FLAG
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_DOTALIGN_ACTIVITY_DATE')}} AS (
+                    SELECT DISTINCT HL_Attendee_ID AS HL_ATTENDEE_ID
+                        ,HL_Attendee_Name AS HL_ATTENDEE_NAME
+                        ,OP_CO_ID AS OP_CO_ID
+                        ,ACTIVITY_DATE AS ACTIVITY_DATE
+                        ,FLAG AS FLAG
+                    FROM (
+                        SELECT HL_Attendee_ID
+                            ,HL_Attendee_Name
+                            ,External_company_ID
+                            ,OP_CO_ID
+                            ,Activity_Date
+                            ,flag
+                        FROM (
+                            SELECT HL_Attendee_ID
+                                ,HL_Attendee_Name
+                                ,External_company_ID
+                                ,External_company_ID AS OP_CO_ID
+                                ,DotAlignLatesestActivity.latest_activity_date Activity_Date
+                                ,'' flag
+                            FROM {{ref('TGT_HL','TMP_DOTALIGNLATESESTACTIVITY')}} DotAlignLatesestActivity
+
+                            UNION ALL
+
+                            SELECT HL_Attendee_ID
+                                ,HL_Attendee_Name
+                                ,external_contact.ACCOUNT_ID External_company_ID
+                                ,INDUSTRY_BANKER_SPONSOR.PORTFOLIO_COMAPNY_ID /***** NEW: Show Op Co Id *****/
+                                ,latest_activity_date
+                                ,'sponsor' flag
+                            FROM {{ref('TGT_HL','TMP_DOTALIGNLATESESTACTIVITY')}} AS DotAlignLatesestActivity
+                            /***** NEW: FILTER TO Investment *****/
+                            INNER JOIN {{ref('TGT_HL','TMP_INDUSTRY_BANKER_SPONSOR')}} AS INDUSTRY_BANKER_SPONSOR ON hl_attendee_ID = INDUSTRY_BANKER_SPONSOR.INDUSTRY_BANKER_CONTACT_ID
+                                AND External_company_ID = INDUSTRY_BANKER_SPONSOR.SPONSOR_COMAPNY_ID
+                            LEFT JOIN {{ref('SRC_HL','CONTACT')}} external_contact                     
+                                ON DotAlignLatesestActivity.best_email_address = external_contact.EMAIL
+                            ) T
+
+                        UNION ALL
+
+                        SELECT DISTINCT HL_Attendee.contactid HL_Attendee_ID
+                            ,HL_Attendee.CONTACT_FULL_NAME_C HL_Attendee_Name
+                            ,contact.ACCOUNT_ID External_company_ID
+                            ,contact.ACCOUNT_ID External_company_ID
+                            ,DotAlignFutureMeetings.start_date Activity_Date
+                            ,'' flag
+                        FROM {{ref('TGT_HL','TMP_DOTALIGNFUTUREMEETINGS')}} AS DotAlignFutureMeetings
+                        JOIN {{ref('SRC_HL','CONTACT')}} contact 
+                            ON DotAlignFutureMeetings.email_address = contact.EMAIL
+                        INNER JOIN (
+                            SELECT DISTINCT DotAlignFutureMeetings.meeting_id
+                                ,contact.ID contactid
+                                ,contact.CONTACT_FULL_NAME_C
+                                ,contact.EMAIL
+                                ,contact.ACCOUNT_ID
+                                ,DotAlignFutureMeetings.start_date
+                                ,DATEDIFF(DAY, DotAlignFutureMeetings.start_date, GETDATE()) d
+                            FROM {{ref('TGT_HL','TMP_DOTALIGNFUTUREMEETINGS')}} DotAlignFutureMeetings
+                            JOIN {{ref('SRC_HL','CONTACT')}} contact 
+                                ON DotAlignFutureMeetings.email_address = contact.EMAIL
+                            WHERE UPPER(contact.RECORD_TYPE_ID) = UPPER('012i0000000tEheAAE') 
+                                AND UPPER(contact.STATUS_C) = UPPER('Active') 
+                                AND UPPER(contact.LINE_OF_BUSINESS_C) = UPPER('CF')
+                            ) HL_Attendee ON HL_Attendee.meeting_id = DotAlignFutureMeetings.meeting_id
+                        WHERE UPPER(contact.RECORD_TYPE_ID) = UPPER('012i0000000tEhjAAE')
+                        ) DA_ACTIVITY
+                    )
+            dependencies:
+              - locationName: SRC_HL
+                nodeName: CONTACT
+              - locationName: TGT_HL
+                nodeName: TMP_DOTALIGNFUTUREMEETINGS
+              - locationName: TGT_HL
+                nodeName: TMP_DOTALIGNLATESESTACTIVITY
+              - locationName: TGT_HL
+                nodeName: TMP_INDUSTRY_BANKER_SPONSOR
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT HL_Attendee_ID AS HL_ATTENDEE_ID
+                        ,HL_Attendee_Name AS HL_ATTENDEE_NAME
+                        ,OP_CO_ID AS OP_CO_ID
+                        ,ACTIVITY_DATE AS ACTIVITY_DATE
+                        ,FLAG AS FLAG
+                    FROM (
+                        SELECT HL_Attendee_ID
+                            ,HL_Attendee_Name
+                            ,External_company_ID
+                            ,OP_CO_ID
+                            ,Activity_Date
+                            ,flag
+                        FROM (
+                            SELECT HL_Attendee_ID
+                                ,HL_Attendee_Name
+                                ,External_company_ID
+                                ,External_company_ID AS OP_CO_ID
+                                ,DotAlignLatesestActivity.latest_activity_date Activity_Date
+                                ,'' flag
+                            FROM {{ref('TGT_HL','TMP_DOTALIGNLATESESTACTIVITY')}} DotAlignLatesestActivity
+
+                            UNION ALL
+
+                            SELECT HL_Attendee_ID
+                                ,HL_Attendee_Name
+                                ,external_contact.ACCOUNT_ID External_company_ID
+                                ,INDUSTRY_BANKER_SPONSOR.PORTFOLIO_COMAPNY_ID /***** NEW: Show Op Co Id *****/
+                                ,latest_activity_date
+                                ,'sponsor' flag
+                            FROM {{ref('TGT_HL','TMP_DOTALIGNLATESESTACTIVITY')}} AS DotAlignLatesestActivity
+                            /***** NEW: FILTER TO Investment *****/
+                            INNER JOIN {{ref('TGT_HL','TMP_INDUSTRY_BANKER_SPONSOR')}} AS INDUSTRY_BANKER_SPONSOR ON hl_attendee_ID = INDUSTRY_BANKER_SPONSOR.INDUSTRY_BANKER_CONTACT_ID
+                                AND External_company_ID = INDUSTRY_BANKER_SPONSOR.SPONSOR_COMAPNY_ID
+                            LEFT JOIN {{ref('SRC_HL','CONTACT')}} external_contact                     
+                                ON DotAlignLatesestActivity.best_email_address = external_contact.EMAIL
+                            ) T
+
+                        UNION ALL
+
+                        SELECT DISTINCT HL_Attendee.contactid HL_Attendee_ID
+                            ,HL_Attendee.CONTACT_FULL_NAME_C HL_Attendee_Name
+                            ,contact.ACCOUNT_ID External_company_ID
+                            ,contact.ACCOUNT_ID External_company_ID
+                            ,DotAlignFutureMeetings.start_date Activity_Date
+                            ,'' flag
+                        FROM {{ref('TGT_HL','TMP_DOTALIGNFUTUREMEETINGS')}} AS DotAlignFutureMeetings
+                        JOIN {{ref('SRC_HL','CONTACT')}} contact 
+                            ON DotAlignFutureMeetings.email_address = contact.EMAIL
+                        INNER JOIN (
+                            SELECT DISTINCT DotAlignFutureMeetings.meeting_id
+                                ,contact.ID contactid
+                                ,contact.CONTACT_FULL_NAME_C
+                                ,contact.EMAIL
+                                ,contact.ACCOUNT_ID
+                                ,DotAlignFutureMeetings.start_date
+                                ,DATEDIFF(DAY, DotAlignFutureMeetings.start_date, GETDATE()) d
+                            FROM {{ref('TGT_HL','TMP_DOTALIGNFUTUREMEETINGS')}} DotAlignFutureMeetings
+                            JOIN {{ref('SRC_HL','CONTACT')}} contact 
+                                ON DotAlignFutureMeetings.email_address = contact.EMAIL
+                            WHERE UPPER(contact.RECORD_TYPE_ID) = UPPER('012i0000000tEheAAE') 
+                                AND UPPER(contact.STATUS_C) = UPPER('Active') 
+                                AND UPPER(contact.LINE_OF_BUSINESS_C) = UPPER('CF')
+                            ) HL_Attendee ON HL_Attendee.meeting_id = DotAlignFutureMeetings.meeting_id
+                        WHERE UPPER(contact.RECORD_TYPE_ID) = UPPER('012i0000000tEhjAAE')
+                        ) DA_ACTIVITY
+            name: TMP_DOTALIGN_ACTIVITY_DATE
+            noLinkRefs: []
+      name: TMP_DOTALIGN_ACTIVITY_DATE
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: cd47151a-60a6-42d6-bf42-ed6211fd6bbc

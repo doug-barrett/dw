@@ -1,0 +1,193 @@
+steps:
+  TMP_CLIENTDEALSTATUS-9d884a33-24ff-44e4-8010-598e1e493190:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: eb44d6d4-9495-4da6-9d9d-9501fe244ecf
+              stepCounter: 9d884a33-24ff-44e4-8010-598e1e493190
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 9eefeacf-0b49-4895-87e0-33058350efbc
+              stepCounter: 9d884a33-24ff-44e4-8010-598e1e493190
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CAL_CLIENTDEALSTATUS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_CLIENTDEALSTATUS')}} AS (
+                  SELECT COMPANY_ID
+                    ,CASE 
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 6
+                            THEN 'Engagement: CF active'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 5
+                            THEN 'Engagement: CF hold less 6 Mos'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 4
+                            THEN 'Engagement: CF closed less 6M'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 3
+                            THEN 'Opportunity: CF active with future pitch date'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 2
+                            THEN 'Opportunity: CF active with pitch date or approved NBC'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 1
+                            THEN 'Prospects for Action'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 0
+                            THEN 'Other to Review'
+                        END AS CAL_CLIENTDEALSTATUS
+                    FROM (
+                    SELECT DISTINCT COV_DS.Company_ID
+                        ,CASE 
+                            WHEN UPPER(COV_Eng_Status) = UPPER('Active')
+                                AND UPPER(COV_Eng_LOB) = 'CF'
+                                AND COV_ENG_BACKLOG_LOCAL > 50000
+                                THEN 6 
+                            WHEN UPPER(COV_Eng_Status) = UPPER('Hold')
+                                AND UPPER(COV_Eng_LOB) = 'CF'
+                                AND DATEDIFF(MONTH, MAX(COV_Eng_LATEST_STAGE_CHANGE), GETDATE()) <= 6
+                                THEN 5 
+                            WHEN (
+                                    UPPER(COV_Eng_Status) = UPPER('Closed')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND DATEDIFF(MONTH, MAX(COV_Eng_LATEST_STAGE_CHANGE), GETDATE()) <= 6
+                                    )
+                                OR (
+                                    UPPER(COV_Eng_Status) = UPPER('Active')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND COV_ENG_BACKLOG_LOCAL <= 50000
+                                    )
+                                THEN 4 
+                            WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                AND UPPER(COV_Opp_LOB) = 'CF'
+                                AND DATEDIFF(DAY, GETDATE(), MAX(COV_Opp_Pitch_Date)) > 0
+                                THEN 3 
+                            WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                AND UPPER(COV_Opp_LOB) = 'CF'
+                                AND (
+                                    DATEDIFF(DAY, MAX(COV_Opp_Pitch_Date), GETDATE()) < 30
+                                    OR DATEDIFF(DAY, MAX(COV_Opp_NBC_Approved_Date), GETDATE()) < 60
+                                    )
+                                THEN
+                                    2 
+                            WHEN MAX(INC_EXC.CAL_INCLUDE_EXCLUDE) = 0
+                                THEN 1 
+                            ELSE 0
+                            END AS CAL_CLIENTDEALSTATUS_CODE
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}} COV_DS
+                    LEFT JOIN {{ ref('TGT_HL', 'TMP_INCLUDE_EXCLUDE')}} INC_EXC ON COV_DS.Company_ID = INC_EXC.COMPANY_ID
+                    GROUP BY COV_DS.Company_ID
+                        ,COV_Eng_Status
+                        ,COV_Eng_LOB
+                        ,COV_ENG_BACKLOG_LOCAL
+                        ,COV_Opp_Status
+                        ,COV_Opp_LOB
+                    ) T
+                    GROUP BY COMPANY_ID
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_DATASOURCE
+              - locationName: TGT_HL
+                nodeName: TMP_INCLUDE_EXCLUDE
+            join:
+              joinCondition: |2-
+                  SELECT COMPANY_ID
+                    ,CASE 
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 6
+                            THEN 'Engagement: CF active'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 5
+                            THEN 'Engagement: CF hold less 6 Mos'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 4
+                            THEN 'Engagement: CF closed less 6M'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 3
+                            THEN 'Opportunity: CF active with future pitch date'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 2
+                            THEN 'Opportunity: CF active with pitch date or approved NBC'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 1
+                            THEN 'Prospects for Action'
+                        WHEN MAX(CAL_CLIENTDEALSTATUS_CODE) = 0
+                            THEN 'Other to Review'
+                        END AS CAL_CLIENTDEALSTATUS
+                    FROM (
+                    SELECT DISTINCT COV_DS.Company_ID
+                        ,CASE 
+                            WHEN UPPER(COV_Eng_Status) = UPPER('Active')
+                                AND UPPER(COV_Eng_LOB) = 'CF'
+                                AND COV_ENG_BACKLOG_LOCAL > 50000
+                                THEN 6 
+                            WHEN UPPER(COV_Eng_Status) = UPPER('Hold')
+                                AND UPPER(COV_Eng_LOB) = 'CF'
+                                AND DATEDIFF(MONTH, MAX(COV_Eng_LATEST_STAGE_CHANGE), GETDATE()) <= 6
+                                THEN 5 
+                            WHEN (
+                                    UPPER(COV_Eng_Status) = UPPER('Closed')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND DATEDIFF(MONTH, MAX(COV_Eng_LATEST_STAGE_CHANGE), GETDATE()) <= 6
+                                    )
+                                OR (
+                                    UPPER(COV_Eng_Status) = UPPER('Active')
+                                    AND UPPER(COV_Eng_LOB) = 'CF'
+                                    AND COV_ENG_BACKLOG_LOCAL <= 50000
+                                    )
+                                THEN 4 
+                            WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                AND UPPER(COV_Opp_LOB) = 'CF'
+                                AND DATEDIFF(DAY, GETDATE(), MAX(COV_Opp_Pitch_Date)) > 0
+                                THEN 3 
+                            WHEN UPPER(COV_Opp_Status) = UPPER('Active')
+                                AND UPPER(COV_Opp_LOB) = 'CF'
+                                AND (
+                                    DATEDIFF(DAY, MAX(COV_Opp_Pitch_Date), GETDATE()) < 30
+                                    OR DATEDIFF(DAY, MAX(COV_Opp_NBC_Approved_Date), GETDATE()) < 60
+                                    )
+                                THEN
+                                    2 
+                            WHEN MAX(INC_EXC.CAL_INCLUDE_EXCLUDE) = 0
+                                THEN 1 
+                            ELSE 0
+                            END AS CAL_CLIENTDEALSTATUS_CODE
+                    FROM {{ ref('TGT_HL', 'TMP_COVERAGE_DATASOURCE')}} COV_DS
+                    LEFT JOIN {{ ref('TGT_HL', 'TMP_INCLUDE_EXCLUDE')}} INC_EXC ON COV_DS.Company_ID = INC_EXC.COMPANY_ID
+                    GROUP BY COV_DS.Company_ID
+                        ,COV_Eng_Status
+                        ,COV_Eng_LOB
+                        ,COV_ENG_BACKLOG_LOCAL
+                        ,COV_Opp_Status
+                        ,COV_Opp_LOB
+                    ) T
+                    GROUP BY COMPANY_ID
+            name: TMP_CLIENTDEALSTATUS
+            noLinkRefs: []
+      name: TMP_CLIENTDEALSTATUS
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 9d884a33-24ff-44e4-8010-598e1e493190

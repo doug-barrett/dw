@@ -1,0 +1,341 @@
+steps:
+  TMP_WINNING_MANDATE_CHECKLIST-76ca9543-777d-4d91-b151-43bafe7567e3:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: TGT_HL
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: eb07df64-1635-4bcb-ba8b-8abe7414ecf5
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPANY_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 6810a4d0-9039-40a8-9518-67fd82ae2a64
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COVERAGE_OFFICER_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 0c1a21bf-2665-4b01-8d86-58300fec23f0
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(6,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WINNING_MANDATE_POINTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 917aa089-69de-4ece-93f0-04d5b5ac142f
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PE_ATTENDED_PLATINUM_EVENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 52d57007-11c6-4443-959d-10312c84fd07
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MET_WITH_SPONSOR_DEAL_TEAM
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: a65d2578-bf19-4423-8447-044b01e509a8
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MET_MANAGEMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 9a3130f0-9d7e-4677-9537-d38324aa2600
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRESENTED_AT_CONFERENCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 32442601-7694-4216-82ab-7ca381e0185a
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MARKET_MAPS_POINTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: 0a23c578-47f0-4b3a-8fef-31e28adb5ef7
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: NUMBER(1,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DISCUSSED_CAPITAL_MARKETS_POINTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - columnReference:
+              columnCounter: b519edda-520a-4996-a589-287c3d383de2
+              stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WINNING_MANDATE_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ ref('TGT_HL', 'TMP_WINNING_MANDATE_CHECKLIST')}} AS (
+                    SELECT DISTINCT COMPANY_ID AS COMPANY_ID
+                        ,COVERAGE_OFFICER_ID AS COVERAGE_OFFICER_ID
+                        ,(MET_WITH_SPONSOR_POINTS + MET_MANAGEMENT_POINTS + Presented_conf_points + PE_Platinum_points  + 0 + 0) AS WINNING_MANDATE_POINTS
+                        ,PE_Platinum_points AS PE_ATTENDED_PLATINUM_EVENT
+                        ,MET_WITH_SPONSOR_POINTS AS MET_WITH_SPONSOR_DEAL_TEAM
+                        ,MET_MANAGEMENT_POINTS AS MET_MANAGEMENT
+                        ,Presented_conf_points AS PRESENTED_AT_CONFERENCE
+                        ,0 MARKET_MAPS_POINTS
+                        ,0 DISCUSSED_CAPITAL_MARKETS_POINTS
+                        ,TRIM(LISTAGG(CONCAT (
+                            IFNULL(MET_WITH_SPONSOR, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(MET_MANAGEMENT, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(Presented_conf, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(PE_Platinum, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL('', '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL('', '')
+                            ), '\\\\\\\\n') WITHIN GROUP (
+                                ORDER BY COMPANY_ID
+                                    ,COVERAGE_OFFICER_ID
+                                )) AS WINNING_MANDATE_DESC
+                    FROM (
+                        SELECT COVERAGE_TEAM.COMPANY_C AS COMPANY_ID
+                            ,COVERAGE_TEAM.OFFICER_C AS COVERAGE_OFFICER_ID
+                            ,MAX(CASE 
+                                    WHEN UPPER(ACTIVITY_LIST.FLAG) = UPPER('Sponsor') AND sign(365-(DATEDIFF(DAY, TO_DATE(substr(ACTIVITY_LIST.LAST_ACTIVITY_DATE, 1, 10), 'MM-DD-YYYY'), GETDATE()))) = 1
+                                        THEN 1
+                                    ELSE 0
+                                    END) AS MET_WITH_SPONSOR_POINTS
+                            ,MAX(CASE 
+                                    WHEN ACTIVITY_LIST.COMPANY_ID IS NOT NULL
+                                        AND UPPER(ACTIVITY_LIST.FLAG) = UPPER('Sponsor') 
+                                        THEN 'Met with Sponsor Deal Team'
+                                    END) AS MET_WITH_SPONSOR
+                            ,MAX(CASE 
+                                    WHEN ACTIVITY_LIST.COMPANY_ID IS NOT NULL
+                                        AND UPPER(ACTIVITY_LIST.FLAG) <> UPPER('Sponsor') AND sign(365-(DATEDIFF(DAY, TO_DATE(substr(ACTIVITY_LIST.LAST_ACTIVITY_DATE, 1, 10), 'MM-DD-YYYY'), GETDATE()))) = 1
+                                        THEN 1
+                                    ELSE 0
+                                    END) AS MET_MANAGEMENT_POINTS
+                            ,MAX(CASE 
+                                    WHEN UPPER(ACTIVITY_LIST.FLAG) <> UPPER('Sponsor')
+                                        THEN 'Met Management'
+                                    END) AS MET_MANAGEMENT
+                            ,MAX(CASE 
+                                    WHEN CAMPAIGN.COMPANY_ID IS NOT NULL
+                                        THEN CAMPAIGN.Presented_conf
+                                    END) AS Presented_conf
+                            ,MAX(CASE 
+                                    WHEN CAMPAIGN.COMPANY_ID IS NOT NULL
+                                        THEN CAMPAIGN.PRESENTED_CONF_POINTS
+                                    ELSE 0
+                                    END) AS Presented_conf_points
+                            ,MAX(CASE 
+                                    WHEN PLATINUM_EVENTS.PLATINUM_PORTFOLIO_COMPANY IS NOT NULL
+                                        THEN 'PE attended Platinum Event'
+                                    END) AS PE_Platinum
+                            ,MAX(CASE 
+                                    WHEN PLATINUM_EVENTS.PLATINUM_PORTFOLIO_COMPANY IS NOT NULL
+                                        THEN 1
+                                    ELSE 0
+                                    END) AS PE_Platinum_points
+                            ,MAX(CASE WHEN '' IS NOT NULL THEN 'Shown Market Maps' END) AS Market_Maps                   
+                            ,MAX(IFNULL(0,0)) AS MARKET_MAPS_POINTS
+                            ,MAX(CASE WHEN '' IS NOT NULL THEN 'Discussed_Capital_Markets' END) AS Discussed_Capital_Markets
+                            ,MAX(IFNULL(0,0)) AS DISCUSSED_CAPITAL_MARKETS_POINTS
+                        FROM {{ref('TGT_HL','TMP_HLEMPLOYEE')}} HLEmployee
+                        INNER JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} COVERAGE_TEAM ON HLEmployee.HL_ID = COVERAGE_TEAM.OFFICER_C
+                        LEFT JOIN {{ref('TGT_HL','TMP_ACTIVITY_LIST')}} AS ACTIVITY_LIST ON ACTIVITY_LIST.HL_ATTENDEE_ID = HLEmployee.HL_ID
+                            AND COVERAGE_TEAM.COMPANY_C = ACTIVITY_LIST.COMPANY_ID
+                        LEFT JOIN {{ref('TGT_HL','TMP_CAMPAIGN')}}  AS CAMPAIGN ON HLEmployee.HL_ID = CAMPAIGN.CONTACT_ID
+                            AND COVERAGE_TEAM.COMPANY_C = CAMPAIGN.COMPANY_ID
+                        LEFT JOIN {{ref('TGT_HL','TMP_CAMPAIGN')}}  AS PLATINUM_EVENTS ON PLATINUM_EVENTS.PLATINUM_OFFICER = HLEmployee.HL_ID
+                            AND PLATINUM_EVENTS.PLATINUM_PORTFOLIO_COMPANY = COVERAGE_TEAM.COMPANY_C
+                        GROUP BY COVERAGE_TEAM.COMPANY_C
+                            ,COVERAGE_TEAM.OFFICER_C
+                        ) T
+                    GROUP BY COMPANY_ID
+                        ,COVERAGE_OFFICER_ID
+                        ,(MET_WITH_SPONSOR_POINTS + MET_MANAGEMENT_POINTS  + Presented_conf_points + PE_Platinum_points)
+                        ,PE_Platinum_points
+                        ,MET_WITH_SPONSOR_POINTS
+                        ,MET_MANAGEMENT_POINTS
+                        ,Presented_conf_points
+                	)
+            dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_ACTIVITY_LIST
+              - locationName: TGT_HL
+                nodeName: TMP_CAMPAIGN
+              - locationName: TGT_HL
+                nodeName: TMP_HLEMPLOYEE
+              - locationName: TGT_HL
+                nodeName: VW_COVERAGE_TEAM_C
+            join:
+              joinCondition: |2-
+                    SELECT DISTINCT COMPANY_ID AS COMPANY_ID
+                        ,COVERAGE_OFFICER_ID AS COVERAGE_OFFICER_ID
+                        ,(MET_WITH_SPONSOR_POINTS + MET_MANAGEMENT_POINTS + Presented_conf_points + PE_Platinum_points  + 0 + DISCUSSED_CAPITAL_MARKETS_POINTS) AS WINNING_MANDATE_POINTS
+                        ,PE_Platinum_points AS PE_ATTENDED_PLATINUM_EVENT
+                        ,MET_WITH_SPONSOR_POINTS AS MET_WITH_SPONSOR_DEAL_TEAM
+                        ,MET_MANAGEMENT_POINTS AS MET_MANAGEMENT
+                        ,Presented_conf_points AS PRESENTED_AT_CONFERENCE
+                        ,0 MARKET_MAPS_POINTS
+                        ,DISCUSSED_CAPITAL_MARKETS_POINTS
+                        ,TRIM(LISTAGG(CONCAT (
+                            IFNULL(MET_WITH_SPONSOR, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(MET_MANAGEMENT, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(Presented_conf, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(PE_Platinum, '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL('', '')
+                            ,'\\\\\\\\n'
+                            ,IFNULL(Discussed_Capital_Markets, '')
+                            ), '\\\\\\\\n') WITHIN GROUP (
+                                ORDER BY COMPANY_ID
+                                    ,COVERAGE_OFFICER_ID
+                                )) AS WINNING_MANDATE_DESC
+                    FROM (
+                        SELECT COVERAGE_TEAM.COMPANY_C AS COMPANY_ID
+                            ,COVERAGE_TEAM.OFFICER_C AS COVERAGE_OFFICER_ID
+                            ,MAX(CASE 
+                                    WHEN UPPER(ACTIVITY_LIST.FLAG) = UPPER('Sponsor') AND sign(365-(DATEDIFF(DAY, TO_DATE(substr(ACTIVITY_LIST.LAST_ACTIVITY_DATE, 1, 10), 'MM-DD-YYYY'), GETDATE()))) = 1
+                                        THEN 1
+                                    ELSE 0
+                                    END) AS MET_WITH_SPONSOR_POINTS
+                            ,MAX(CASE 
+                                    WHEN ACTIVITY_LIST.COMPANY_ID IS NOT NULL
+                                        AND UPPER(ACTIVITY_LIST.FLAG) = UPPER('Sponsor') 
+                                        THEN 'Met with Sponsor Deal Team'
+                                    END) AS MET_WITH_SPONSOR
+                            ,MAX(CASE 
+                                    WHEN ACTIVITY_LIST.COMPANY_ID IS NOT NULL
+                                        AND UPPER(ACTIVITY_LIST.FLAG) <> UPPER('Sponsor') AND sign(365-(DATEDIFF(DAY, TO_DATE(substr(ACTIVITY_LIST.LAST_ACTIVITY_DATE, 1, 10), 'MM-DD-YYYY'), GETDATE()))) = 1
+                                        THEN 1
+                                    ELSE 0
+                                    END) AS MET_MANAGEMENT_POINTS
+                            ,MAX(CASE 
+                                    WHEN UPPER(ACTIVITY_LIST.FLAG) <> UPPER('Sponsor')
+                                        THEN 'Met Management'
+                                    END) AS MET_MANAGEMENT
+                            ,MAX(CASE 
+                                    WHEN CAMPAIGN.COMPANY_ID IS NOT NULL
+                                        THEN CAMPAIGN.Presented_conf
+                                    END) AS Presented_conf
+                            ,MAX(CASE 
+                                    WHEN CAMPAIGN.COMPANY_ID IS NOT NULL
+                                        THEN CAMPAIGN.PRESENTED_CONF_POINTS
+                                    ELSE 0
+                                    END) AS Presented_conf_points
+                            ,MAX(CASE 
+                                    WHEN PLATINUM_EVENTS.PLATINUM_PORTFOLIO_COMPANY IS NOT NULL
+                                        THEN 'PE attended Platinum Event'
+                                    END) AS PE_Platinum
+                            ,MAX(CASE 
+                                    WHEN PLATINUM_EVENTS.PLATINUM_PORTFOLIO_COMPANY IS NOT NULL
+                                        THEN 1
+                                    ELSE 0
+                                    END) AS PE_Platinum_points
+                            ,MAX(CASE WHEN ACTIVITY_LIST.MARKET_MAPS IS NOT NULL THEN 'Shown Market Maps' END) AS Market_Maps                   
+                            ,MAX(IFNULL(ACTIVITY_LIST.MARKET_MAPS_POINTS,0)) AS MARKET_MAPS_POINTS
+                            ,MAX(CASE WHEN ACTIVITY_LIST.DISCUSSED_CAPITAL_MARKETS IS NOT NULL THEN 'Discussed_Capital_Markets' END) AS Discussed_Capital_Markets
+                            ,MAX(IFNULL(ACTIVITY_LIST.DISCUSSED_CAPITAL_MARKETS_POINTS,0)) AS DISCUSSED_CAPITAL_MARKETS_POINTS
+                        FROM {{ref('TGT_HL','TMP_HLEMPLOYEE')}} HLEmployee
+                        INNER JOIN {{ref('TGT_HL','VW_COVERAGE_TEAM_C')}} COVERAGE_TEAM ON HLEmployee.HL_ID = COVERAGE_TEAM.OFFICER_C
+                        LEFT JOIN {{ref('TGT_HL','TMP_ACTIVITY_LIST')}} AS ACTIVITY_LIST ON ACTIVITY_LIST.HL_ATTENDEE_ID = HLEmployee.HL_ID
+                            AND COVERAGE_TEAM.COMPANY_C = ACTIVITY_LIST.COMPANY_ID
+                        LEFT JOIN {{ref('TGT_HL','TMP_CAMPAIGN')}}  AS CAMPAIGN ON HLEmployee.HL_ID = CAMPAIGN.CONTACT_ID
+                            AND COVERAGE_TEAM.COMPANY_C = CAMPAIGN.COMPANY_ID
+                        LEFT JOIN {{ref('TGT_HL','TMP_CAMPAIGN')}}  AS PLATINUM_EVENTS ON PLATINUM_EVENTS.PLATINUM_OFFICER = HLEmployee.HL_ID
+                            AND PLATINUM_EVENTS.PLATINUM_PORTFOLIO_COMPANY = COVERAGE_TEAM.COMPANY_C
+                        GROUP BY COVERAGE_TEAM.COMPANY_C
+                            ,COVERAGE_TEAM.OFFICER_C
+                        ) T
+                    GROUP BY COMPANY_ID
+                        ,COVERAGE_OFFICER_ID
+                        ,(MET_WITH_SPONSOR_POINTS + MET_MANAGEMENT_POINTS  + Presented_conf_points + PE_Platinum_points  + MARKET_MAPS_POINTS + DISCUSSED_CAPITAL_MARKETS_POINTS)
+                        ,PE_Platinum_points
+                        ,MET_WITH_SPONSOR_POINTS
+                        ,MET_MANAGEMENT_POINTS
+                        ,Presented_conf_points
+                        ,MARKET_MAPS_POINTS
+                        ,DISCUSSED_CAPITAL_MARKETS_POINTS
+            name: TMP_WINNING_MANDATE_CHECKLIST
+            noLinkRefs: []
+      name: TMP_WINNING_MANDATE_CHECKLIST
+      overrideSQL: true
+      schema: ""
+      sqlType: "154"
+      type: sql
+    stepCounter: 76ca9543-777d-4d91-b151-43bafe7567e3
