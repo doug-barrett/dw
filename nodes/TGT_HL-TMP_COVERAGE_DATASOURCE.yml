@@ -1631,7 +1631,7 @@ steps:
                             THEN 'Staffed on Deal'
                         ELSE 'Not Staffed on Deal'
                         END AS COV_ENG_FLAG 
-                    FROM TMP_COVERAGE_TEMP AS Coverage 
+                    FROM {{ref('TGT_HL','TMP_COVERAGE_TEMP')}} AS Coverage 
                     LEFT JOIN (
                         SELECT SUBJECT_C
                             ,ENGAGEMENT_NUMBER_C
@@ -1699,6 +1699,8 @@ steps:
                         )
                     )
             dependencies:
+              - locationName: TGT_HL
+                nodeName: TMP_COVERAGE_TEMP
               - locationName: TGT_HL
                 nodeName: VW_ENGAGEMENT_C
               - locationName: TGT_HL
@@ -1917,7 +1919,7 @@ steps:
                             THEN 'Staffed on Deal'
                         ELSE 'Not Staffed on Deal'
                         END AS COV_ENG_FLAG 
-                    FROM TMP_COVERAGE_TEMP AS Coverage 
+                    FROM {{ref('TGT_HL','TMP_COVERAGE_TEMP')}} AS Coverage 
                     LEFT JOIN (
                         SELECT SUBJECT_C
                             ,ENGAGEMENT_NUMBER_C
