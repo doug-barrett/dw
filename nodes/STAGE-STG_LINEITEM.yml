@@ -364,19 +364,19 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              LINEITEM: 23995c72-40fe-4f8e-bd43-b0cd06c7188e
+              LINEITEM: cb1ebfd7-952c-4bde-a6cf-f0ef30243ad8
               ORDERS: f365857e-3fb9-4ab2-9d91-ba058b3f3ba3
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
-                nodeName: LINEITEM
-              - locationName: SRC_SAMPLE
                 nodeName: ORDERS
+              - locationName: STAGE
+                nodeName: STR_LINEITEM_X
             join:
               joinCondition: |-
                 
-                FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
+                FROM {{ ref('STAGE', 'STR_LINEITEM_X') }} "LINEITEM"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
                 ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
                 WHERE "O_ORDERDATE" >= (SELECT NVL(MAX("O_ORDERDATE"),'1900-01-01') FROM {{ ref_no_link('DWH','FCT_LINEITEM1')}})

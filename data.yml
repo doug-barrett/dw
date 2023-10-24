@@ -1855,35 +1855,7 @@ stepTypes:
 
             {% endif %}
         run:
-          templateString: |-
-            {% if config.taskEnabled is true %}
-                {{ stage('Resume Task') }}
-                ALTER TASK
-                {% if config.taskCustomName != '' %}
-                    {{ ref_no_link(node.location.name, config.taskCustomName) }}
-                {% else %}
-                    {{ ref_no_link(node.location.name, "TSK_" + node.name) }}
-                {% endif %}
-                RESUME
-            {% else %}
-                {{ stage('Insert From Stream') }}
-                INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
-                {% for source in sources %}
-                    SELECT
-                    {% for col in source.columns %}
-                        {% if col.name == 'CDC_ID' %}
-                            {{ ref_no_link(node.location.name, "SEQ_" + node.name) }}.NEXTVAL
-                        {% else %}
-                            {{ get_source_transform(col) }}
-                        {% endif %} AS "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
-                    FROM {{ ref_no_link(node.location.name, "STR_" + node.name) }} AS "{{ sources[0].dependencies[0].node.name }}"
-                    {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
-                        {{config.insertStrategy}}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+          templateString: ""
     name: Stream
     version: 1
   StepType-16:
