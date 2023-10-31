@@ -1802,7 +1802,7 @@ stepTypes:
 
         config:
 
-        - groupName: Task
+        - groupName: Stream
           items:
 
           - displayName: Initial Rows
@@ -1851,7 +1851,7 @@ stepTypes:
           templateString: |-
             {% if desiredState == undefined %}
               {{ stage('Drop Dynamic Table') }}
-              DROP STREAM {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+              DROP STREAM IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
             {% else %}
 
@@ -3782,7 +3782,7 @@ stepTypes:
           templateString: |-
             {% if desiredState == undefined %}
               {{ stage('Drop Dynamic Table') }}
-              DROP DYNAMIC TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+              DROP DYNAMIC TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
             {% else %}
 
