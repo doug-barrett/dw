@@ -1853,7 +1853,7 @@ stepTypes:
               {{ stage('Drop Dynamic Table') }}
               DROP STREAM IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
-            {% else %}
+            {% elif currentState  == undefined %}
 
                 {{ stage('Create Stream') }}
                 CREATE OR REPLACE STREAM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
@@ -3289,11 +3289,28 @@ stepTypes:
         - groupName: Options
           items:
 
-          - type: multisourceToggle
-            enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
-
           - type: businessKeyColumns
             isRequired: true
+
+          - displayName: Advanced Options
+            attributeName: advOptions
+            type: toggleButton
+            default: "true"
+
+        - groupName: Advanced
+          enableIf: "{{config.advOptions}}"
+          items:
+
+          - displayName: Type
+            type: materializationSelector
+            default: table
+            options:
+            - table
+            - view
+            isRequired: false
+
+          - type: multisourceToggle
+            enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
 
           - type: toggleButton
             attributeName: insertZeroKey
@@ -3310,7 +3327,7 @@ stepTypes:
             attributeName: testsEnabled
             type: toggleButton
             default: true
-            
+
           - displayName: Pre-SQL
             attributeName: preSQL
             type: textBox
@@ -3323,15 +3340,6 @@ stepTypes:
             syntax: sql
             isRequired: false
 
-        - groupName: Hidden config
-          enableIf: "false"
-          items:
-          - displayName: Type
-            type: materializationSelector
-            default: table
-            options:
-            - table
-            isRequired: false
 
         systemColumns:
         - displayName: '{{NODE_NAME}}_KEY'
