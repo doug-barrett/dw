@@ -1868,7 +1868,20 @@ stepTypes:
 
                 {{ stage('Create Stream View') }}
                 CREATE OR REPLACE VIEW {{ ref_no_link(desiredState.node.location.name, desiredState.node.name)  }}
-                AS SELECT * FROM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name + "_STR")  }}
+                (
+                    {% for col in desiredState.columns %}
+                        "{{ col.name }}"  {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+                )
+                {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+                AS
+                SELECT 
+                {% for col in desiredState.sources[0].columns %}
+                    "{{ col.name }}"::{{col.dataType}} as "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+                FROM {{ ref_no_link(desiredState.node.location.name, desiredState.node.name + "_STR")  }}
 
             {% endif %}
         run:
