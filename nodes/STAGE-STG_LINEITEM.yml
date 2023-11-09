@@ -51,7 +51,7 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: L_SUPPKEY
+            name: LINEITEM_SUPPKEY
             nullable: false
             sourceColumnReferences:
               - columnReferences:
@@ -121,7 +121,7 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: L_TAX
+            name: LINEITEM_TAX
             nullable: false
             sourceColumnReferences:
               - columnReferences:
@@ -135,7 +135,7 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: L_RETURNFLAG
+            name: LINEITEM_RETURNFLAG
             nullable: false
             sourceColumnReferences:
               - columnReferences:
@@ -163,7 +163,7 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: L_SHIPDATE
+            name: LINEITEM_SHIPDATE
             nullable: false
             sourceColumnReferences:
               - columnReferences:
@@ -205,7 +205,7 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: L_SHIPINSTRUCT
+            name: LINEITEM_SHIPINSTRUCT
             nullable: false
             sourceColumnReferences:
               - columnReferences:
@@ -219,7 +219,7 @@ steps:
             description: ""
             hashColumns: []
             hashDetails: null
-            name: L_SHIPMODE
+            name: LINEITEM_SHIPMODE
             nullable: false
             sourceColumnReferences:
               - columnReferences:
@@ -378,6 +378,7 @@ steps:
                 FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
                 ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
+                WHERE "ORDERS"."O_ORDERDATE" = '{{parameters.refresh_date}}'
             name: STG_LINEITEM
             noLinkRefs: []
       name: STG_LINEITEM
