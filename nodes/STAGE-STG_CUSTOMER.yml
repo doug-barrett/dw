@@ -160,18 +160,43 @@ steps:
                   - columnCounter: 0c8d6128-9134-4d9f-b997-fd35373cbc59
                     stepCounter: 80e8f09c-1ef2-4364-b749-3b40a8e00a31
                 transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: b9cc76f0-9f20-45b5-94a5-d3935c11eba1
+              stepCounter: 292696a8-eef8-40cc-b463-5e78021062d1
+            config: {}
+            dataType: INT
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: CUSTOMER_RANK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: RANK() OVER (PARTITION BY "CUSTOMER".C_NATIONKEY ORDER BY CUSTOMER.C_ACCTBAL DESC)
+            systemColumnType: None
+            transform: ""
         cteString: ""
         enabledColumnTestIDs:
           - hasNull
           - isDistinct
         sourceMapping:
-          - customSQL:
+          - aliases:
+              CUSTOMER: 80e8f09c-1ef2-4364-b749-3b40a8e00a31
+            customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: CUSTOMER
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+              joinCondition: |-
+                FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+                QUALIFY 1 = RANK() OVER (PARTITION BY "CUSTOMER".C_NATIONKEY ORDER BY CUSTOMER.C_ACCTBAL DESC)
             name: STG_CUSTOMER
             noLinkRefs: []
       name: STG_CUSTOMER
