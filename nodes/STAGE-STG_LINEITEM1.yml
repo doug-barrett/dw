@@ -456,7 +456,7 @@ steps:
               joinCondition: |-
                 FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
                 LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-                ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
+                ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."CUSTOMER_CUSTKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
                 ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
