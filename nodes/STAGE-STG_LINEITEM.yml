@@ -4,9 +4,9 @@ steps:
       config:
         insertStrategy: INSERT
         postSQL: ""
-        preSQL: ""
+        preSQL: DELETE FROM {{this}}
         testsEnabled: true
-        truncateBefore: true
+        truncateBefore: false
       database: ""
       deployEnabled: true
       description: ""
@@ -366,8 +366,11 @@ steps:
                 FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
                 ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
+                WHERE "ORDERS"."O_ORDERDATE" > (SELECT MAX("O_ORDERDATE") FROM {{ ref_no_link('DWH','FCT_LINEITEM1')}})
             name: STG_LINEITEM
-            noLinkRefs: []
+            noLinkRefs:
+              - locationName: DWH
+                nodeName: FCT_LINEITEM1
       name: STG_LINEITEM
       overrideSQL: false
       schema: ""

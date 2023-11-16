@@ -434,7 +434,7 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              DIM_CUSTOMER: 85c2d925-3837-4d4e-8172-23bf1d6dddae
+              DIM_CUSTOMER: ec1489cd-1cd9-4b89-a298-991637005a60
               DIM_ORDERS: f5d300fc-1f9b-4776-909c-71a3e081c794
               DIM_PART: f4bd8116-765f-4df4-ba1d-b4c63fefba5c
               DIM_SUPPLIER: d3d434d7-43d5-4124-98f7-18d185e7b6de
@@ -456,7 +456,7 @@ steps:
               joinCondition: |-
                 FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
                 LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-                ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."CUSTOMER_CUSTKEY"
+                ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
                 ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
