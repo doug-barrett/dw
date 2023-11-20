@@ -362,15 +362,12 @@ steps:
               - locationName: SRC_SAMPLE
                 nodeName: ORDERS
             join:
-              joinCondition: |-
+              joinCondition: |
                 FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
                 INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
                 ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
-                WHERE "ORDERS"."O_ORDERDATE" > (SELECT MAX("O_ORDERDATE") FROM {{ ref_no_link('DWH','FCT_LINEITEM1')}})
             name: STG_LINEITEM
-            noLinkRefs:
-              - locationName: DWH
-                nodeName: FCT_LINEITEM1
+            noLinkRefs: []
       name: STG_LINEITEM
       overrideSQL: false
       schema: ""

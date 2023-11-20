@@ -39,8 +39,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 5ea3086a-f164-4e1d-a422-9eab745cb66e
-                    stepCounter: 85c2d925-3837-4d4e-8172-23bf1d6dddae
+                  - columnCounter: 1a5adb98-1c2b-4fd2-89bc-8f1528983587
+                    stepCounter: ec1489cd-1cd9-4b89-a298-991637005a60
                 transform: ""
           - columnReference:
               columnCounter: 7da8b925-8ce0-4981-b4cd-b69305ebbef1
@@ -55,6 +55,18 @@ steps:
                     stepCounter: f5d300fc-1f9b-4776-909c-71a3e081c794
                 transform: ""
           - columnReference:
+              columnCounter: 3c1e7ccc-3e0b-45fb-9f8b-a66070cfcc5d
+              stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
+            dataType: NUMBER
+            description: ""
+            name: DIM_SUPPLIER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3a27d5bd-fb54-4ee1-b462-101378579864
+                    stepCounter: 0073a491-01be-4e7c-8929-a127e3dd7d66
+                transform: ""
+          - columnReference:
               columnCounter: d5582dfd-2a39-41b6-8c66-bef88816859e
               stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
             dataType: NUMBER
@@ -65,18 +77,6 @@ steps:
               - columnReferences:
                   - columnCounter: 46c6c978-dc7d-42c8-a6ab-8aa688ad66c9
                     stepCounter: f4bd8116-765f-4df4-ba1d-b4c63fefba5c
-                transform: ""
-          - columnReference:
-              columnCounter: b7cccdb4-62c8-44b9-9278-cb0ba6e4e215
-              stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
-            dataType: NUMBER
-            description: ""
-            name: DIM_SUPPLIER_KEY
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 2dd1ef67-1b01-4c6e-b9a2-20ab6fdd4016
-                    stepCounter: d3d434d7-43d5-4124-98f7-18d185e7b6de
                 transform: ""
           - columnReference:
               columnCounter: a9070474-64eb-4f52-916f-ff4bb80e657f
@@ -427,8 +427,8 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 5ebae918-888f-4886-95dd-2e7f99c40dd5
-                    stepCounter: 85c2d925-3837-4d4e-8172-23bf1d6dddae
+                  - columnCounter: 290bdb33-ded7-43be-825e-aca804b31dc9
+                    stepCounter: ec1489cd-1cd9-4b89-a298-991637005a60
                 transform: ""
         cteString: ""
         enabledColumnTestIDs: []
@@ -437,7 +437,7 @@ steps:
               DIM_CUSTOMER: ec1489cd-1cd9-4b89-a298-991637005a60
               DIM_ORDERS: f5d300fc-1f9b-4776-909c-71a3e081c794
               DIM_PART: f4bd8116-765f-4df4-ba1d-b4c63fefba5c
-              DIM_SUPPLIER: d3d434d7-43d5-4124-98f7-18d185e7b6de
+              DIM_SUPPLIER: 0073a491-01be-4e7c-8929-a127e3dd7d66
               STG_LINEITEM: 63334682-5b32-4673-851b-e920622b3670
             customSQL:
               customSQL: ""
@@ -461,7 +461,9 @@ steps:
                 ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
                 ON "STG_LINEITEM"."L_PARTKEY" = "DIM_PART"."P_PARTKEY"
-                LEFT JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
+
+
+                left JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
                 ON "STG_LINEITEM"."L_SUPPKEY"= "DIM_SUPPLIER"."S_SUPPKEY"
             name: STG_LINEITEM1
             noLinkRefs: []
