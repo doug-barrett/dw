@@ -4,7 +4,7 @@ jobs:
   Job-5:
     excludeSelector: ""
     id: 5
-    includeSelector: "+{ location: DWH name: FCT_* }"
+    includeSelector: "+{ location: DWH name: FCT_LINEITEM1 }"
     name: Process Fact Tables
     steps:
       - "58"
@@ -1023,7 +1023,7 @@ stepTypes:
                         {%- if not loop.last -%}, {% endif %}
                     {% endfor %}
                 )
-                {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+                {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description }}'{% endif %}
                 AS
                 SELECT 
                 {% for col in desiredState.sources[0].columns %}
