@@ -31,18 +31,6 @@ steps:
                     stepCounter: 63334682-5b32-4673-851b-e920622b3670
                 transform: ""
           - columnReference:
-              columnCounter: 0a8a7df2-2ecf-4ec1-ba74-bd2002a690c6
-              stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
-            dataType: NUMBER
-            description: ""
-            name: DIM_CUSTOMER_KEY
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 1a5adb98-1c2b-4fd2-89bc-8f1528983587
-                    stepCounter: ec1489cd-1cd9-4b89-a298-991637005a60
-                transform: ""
-          - columnReference:
               columnCounter: 7da8b925-8ce0-4981-b4cd-b69305ebbef1
               stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
             dataType: NUMBER
@@ -414,27 +402,10 @@ steps:
                   - columnCounter: bb79fcd3-84f1-45c4-831b-59897cfe8e59
                     stepCounter: 63334682-5b32-4673-851b-e920622b3670
                 transform: ""
-          - acceptedValues:
-              strictMatch: false
-              values: []
-            appliedColumnTests: {}
-            columnReference:
-              columnCounter: bf3eb1ea-3dc1-43b0-893d-4ab0bab93181
-              stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
-            dataType: STRING
-            description: ""
-            name: CUSTOMER_NAME
-            nullable: false
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 290bdb33-ded7-43be-825e-aca804b31dc9
-                    stepCounter: ec1489cd-1cd9-4b89-a298-991637005a60
-                transform: ""
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              DIM_CUSTOMER: ec1489cd-1cd9-4b89-a298-991637005a60
               DIM_ORDERS: f5d300fc-1f9b-4776-909c-71a3e081c794
               DIM_PART: f4bd8116-765f-4df4-ba1d-b4c63fefba5c
               DIM_SUPPLIER: 0073a491-01be-4e7c-8929-a127e3dd7d66
@@ -442,8 +413,6 @@ steps:
             customSQL:
               customSQL: ""
             dependencies:
-              - locationName: DWH
-                nodeName: DIM_CUSTOMER
               - locationName: DWH
                 nodeName: DIM_ORDERS
               - locationName: DWH
@@ -455,8 +424,6 @@ steps:
             join:
               joinCondition: |-
                 FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
-                LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-                ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
                 ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
                 LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
