@@ -1,13 +1,13 @@
 steps:
-  STG_CUSTOMER-6e236e3f-9024-4320-970c-cd1e85c28e6b:
+  STG_CUSTOMER3-11da4cad-14e6-4d53-890d-bc7cf7ac4d96:
     operation:
       config:
-        appendOnly: false
-        dfcmd: |-
-          df_filtered = df.filter(C_ACCTBAL > 5000)
-          df_distinct = df_filtered.distinct
-          df_final = df_distinct
-        initialRows: false
+        dfcmd: |2-
+           
+           df_filtered = df_raw.filter("C_ACCTBAL > 5000")
+           df_distinct = df_filtered.distinct()
+           df_final = df_distinct.na.drop(subset="C_PHONE")
+           
         pyLib: import snowflake.snowpark as snowpark
       database: ""
       deployEnabled: true
@@ -19,8 +19,8 @@ steps:
         appliedNodeTests: []
         columns:
           - columnReference:
-              columnCounter: 234eac5a-b888-4683-9b4e-06581dc2383e
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 2230330c-a462-473b-b793-af6d3e0a4cad
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: NUMBER(38,0)
             description: ""
             hashColumns: []
@@ -33,22 +33,22 @@ steps:
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
                 transform: ""
           - columnReference:
-              columnCounter: ac6284d3-f17d-432c-a283-712f70bc73a3
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 004cafc8-df19-4ce0-9444-4c7b16c33b3c
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: VARCHAR(25)
             description: ""
             hashColumns: []
             hashDetails: null
-            name: CUSTOMER_NAME
+            name: C_NAME
             nullable: false
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 4d83ab7f-4cac-45f3-8615-30dd0bac79a7
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
-                transform: UPPER("CUSTOMER"."C_NAME")
+                transform: ""
           - columnReference:
-              columnCounter: 68fb5299-f96b-450a-a918-47cacea19b55
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 5280f0a5-f8db-4442-8535-079a275b18ce
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: VARCHAR(40)
             description: ""
             hashColumns: []
@@ -61,8 +61,8 @@ steps:
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
                 transform: ""
           - columnReference:
-              columnCounter: a50563d8-4d95-4f66-a08f-a770d59f2b5a
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 3d9e87e7-09dc-4b3b-b09a-fb2fc10f76cf
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: NUMBER(38,0)
             description: ""
             hashColumns: []
@@ -75,8 +75,8 @@ steps:
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
                 transform: ""
           - columnReference:
-              columnCounter: 26a59a41-766d-4620-b42a-21fde4873b63
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 4f0c18d1-1f21-4401-a941-11b437fa6d82
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: VARCHAR(15)
             description: ""
             hashColumns: []
@@ -89,8 +89,8 @@ steps:
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
                 transform: ""
           - columnReference:
-              columnCounter: ce816312-2c84-4641-afeb-c827a032eb6e
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: be9e5a49-cd7f-4871-9a82-36b16b900819
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: NUMBER(12,2)
             description: ""
             hashColumns: []
@@ -103,8 +103,8 @@ steps:
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
                 transform: ""
           - columnReference:
-              columnCounter: ecbfdf6b-4a0e-4b6a-b936-230046ea86cf
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 9c9ffbcd-904e-4568-9866-a33fa808722c
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: VARCHAR(10)
             description: ""
             hashColumns: []
@@ -117,8 +117,8 @@ steps:
                     stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
                 transform: ""
           - columnReference:
-              columnCounter: ee4268c0-b7c0-47d6-9667-3c9dcd12b439
-              stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+              columnCounter: 8089f2fa-26b5-42f3-a225-8edd3bf321fa
+              stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96
             dataType: VARCHAR(117)
             description: ""
             hashColumns: []
@@ -141,11 +141,11 @@ steps:
                 nodeName: CUSTOMER
             join:
               joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
-            name: STG_CUSTOMER
+            name: STG_CUSTOMER3
             noLinkRefs: []
-      name: STG_CUSTOMER
+      name: STG_CUSTOMER3
       overrideSQL: false
       schema: ""
       sqlType: "180"
       type: sql
-    stepCounter: 6e236e3f-9024-4320-970c-cd1e85c28e6b
+    stepCounter: 11da4cad-14e6-4d53-890d-bc7cf7ac4d96

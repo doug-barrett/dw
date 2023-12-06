@@ -14,7 +14,19 @@ steps:
       locationName: STAGE
       materializationType: table
       metadata:
-        appliedNodeTests: []
+        appliedNodeTests:
+          - continueOnFailure: true
+            description: ""
+            name: Test
+            runOrder: After
+            templateString: |
+              SELECT 1
+              FROM {{this}}
+              WHERE P_NAME NOT IN (
+              {% for col in columns %}
+              	'{{ col.name }}'
+                  {%- if not loop.last -%}, {% endif %}
+              {% endfor %})
         columns:
           - columnReference:
               columnCounter: d46466bd-26f1-4b9a-9feb-27fbc4141c97
