@@ -1852,6 +1852,111 @@ stepTypes:
             {% endfor %}
     name: Unload
     version: 1
+  StepType-180:
+    id: "180"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: STAGE
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Snowpark Stage
+        short: PY
+        plural: Snowpark stages
+        tagColor: 'blue'
+
+        config:
+        - groupName: Options
+          items:
+          - type: materializationSelector
+            default: table
+            options:
+            - table
+            isRequired: true
+            enableIf: "false"
+
+          - displayName: Write Mode
+            attributeName: writeMode
+            type: dropdownSelector
+            default: overwrite
+            options: 
+            - overwrite
+            - append
+            enableIf: "true"
+
+          - displayName: Python Libraries
+            attributeName: pyLib
+            type: textBox 
+            syntax: sql
+            isRequired: false   
+            default: "import snowflake.snowpark as snowpark"
+
+          - displayName: Dataframe Commands (df_raw -> df_final)
+            attributeName: dfcmd
+            type: textBox 
+            syntax: sql
+            isRequired: true    
+            default: " \n
+        df_filtered = df_raw.filter(\"C_ACCTBAL > 5000\")\n
+        df_distinct = df_filtered.distinct()\n
+        df_final = df_distinct.na.drop(subset=\"C_PHONE\")\n
+        "
+
+          - displayName: "https://docs.snowflake.com/en/developer-guide/snowpark/reference/python/latest/dataframe"
+            attributeName: Info
+            type: label
+      templates:
+        create:
+          templateString: |-
+            {{ stage('Create Stage Table') }}
+
+            	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            	(
+            		{%- for col in columns %}
+            			"{{ col.name }}" {{ col.dataType }}
+            			{%- if not col.nullable %} NOT NULL
+            				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            			{% endif %}
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+
+            {{ stage('Create Python Procedure ') }}
+            {% set source = sources[0] %}
+
+            CREATE OR REPLACE PROCEDURE {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
+              returns string not null
+              language python
+              runtime_version = '3.8'
+              packages = ('snowflake-snowpark-python', 'pandas') 
+              handler = 'stage_py'
+            as
+            $$
+            {{ config.pyLib }}
+
+            def stage_py(snowpark_session):
+              df_raw = snowpark_session.sql('''SELECT 
+              {%- for col in source.columns %}
+                {{ get_source_transform(col) }} AS "{{ col.name }}"
+            	{%- if not loop.last -%}, {% endif %}
+              {%- endfor %} {{ source.join }} '''.rstrip())
+
+            {%- set dfca = config.dfcmd.split('\n') %}
+            {%- for dfc in dfca %}
+              {{ dfc.lstrip() }}
+            {%- endfor %}
+              df_final.write.mode("{{config.writeMode}}").save_as_table('{{this}}')
+              return str(df_raw.count()) + " rows input - " +  str(df_final.count()) + " rows output"
+            $$
+        run:
+          templateString: |-
+            {{ stage('Run Stored Procedure') }}
+            CALL {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
+    name: Snowpark Stage Table
+    version: 1
   StepType-20:
     id: "20"
     isDisabled: false

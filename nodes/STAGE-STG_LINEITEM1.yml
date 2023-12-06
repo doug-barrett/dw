@@ -14,7 +14,16 @@ steps:
       locationName: STAGE
       materializationType: table
       metadata:
-        appliedNodeTests: []
+        appliedNodeTests:
+          - continueOnFailure: true
+            description: ""
+            name: Test for Uniqeness
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}}
+              GROUP BY L_ORDERKEY, L_LINENUMBER
+              HAVING COUNT(1) > 1
         columns:
           - columnReference:
               columnCounter: 23cbf046-a05f-4af7-bc3f-646bf20f22b7
