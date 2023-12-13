@@ -1,0 +1,90 @@
+steps:
+  V_NATION1-4024f7eb-bd31-4429-bbdb-d5b2bcfe3414:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Nation data as defined by TPC-H
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: ced6f740-99c3-4f94-adcf-ec7dda6f4286
+              stepCounter: 4024f7eb-bd31-4429-bbdb-d5b2bcfe3414
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_NATIONKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 22e56205-fcc9-44d5-a5c0-7a4f356f96af
+                    stepCounter: 7988ecad-d754-4af4-bcd6-2731f52944c6
+                transform: ""
+          - columnReference:
+              columnCounter: b3ecdd37-1cde-4d67-8085-d0864245a689
+              stepCounter: 4024f7eb-bd31-4429-bbdb-d5b2bcfe3414
+            dataType: VARCHAR(25)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7c379888-eb53-4995-8f27-8f24a7bdf267
+                    stepCounter: 7988ecad-d754-4af4-bcd6-2731f52944c6
+                transform: ""
+          - columnReference:
+              columnCounter: 3b2dbc81-f744-43cf-bc94-dfcb0e421777
+              stepCounter: 4024f7eb-bd31-4429-bbdb-d5b2bcfe3414
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_REGIONKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 19c9704d-84d5-4882-b3e9-59b0c89f2e7e
+                    stepCounter: 7988ecad-d754-4af4-bcd6-2731f52944c6
+                transform: ""
+          - columnReference:
+              columnCounter: 504248c0-faf9-4a7a-816f-78c02fde9892
+              stepCounter: 4024f7eb-bd31-4429-bbdb-d5b2bcfe3414
+            dataType: VARCHAR(152)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: N_COMMENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c413d685-9339-4422-8503-9181e1ef9164
+                    stepCounter: 7988ecad-d754-4af4-bcd6-2731f52944c6
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: V_NATION
+            join:
+              joinCondition: FROM {{ ref('DWH', 'V_NATION') }} "V_NATION"
+            name: V_NATION1
+            noLinkRefs: []
+      name: V_NATION1
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 4024f7eb-bd31-4429-bbdb-d5b2bcfe3414
