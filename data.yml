@@ -1957,6 +1957,144 @@ stepTypes:
             CALL {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
     name: Snowpark Stage Table
     version: 1
+  StepType-187:
+    id: "187"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: STAGE
+      error: null
+      nodeMetadataSpec: |
+        capitalized: API Call
+        short: API
+        plural: Excel Files
+        tagColor: 'orange'
+        config:
+        - groupName: Documentation
+          items:
+
+          - displayName: Documentation
+            attributeName: doc
+            synatx: sql
+            type: textBox
+            default: "
+        -- Create a Network Rule on Snowflake
+        CREATE OR REPLACE  NETWORK RULE COALESCE_API_RULE
+        MODE = EGRESS
+        TYPE = HOST_PORT
+        VALUE_LIST = ('APP.COALESCESOFTWARE.IO');
+
+        -- Create Integration to access Coalesce API
+        CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION COALESCE_API_INTEGRATION
+        ALLOWED_NETWORK_RULES = (COALESCE_API_RULE)
+        ENABLED=TRUE;"
+
+        - groupName: Options
+          items:
+          - displayName: Snowflake EXTERNAL ACCESS INTEGRATION Name
+            attributeName: extIntegration
+            type: textBox
+            default: "COALESCE_API_INTEGRATION"
+            isRequired: true
+
+          - displayName: Method
+            attributeName: method
+            type: dropdownSelector
+            default: "get"
+            options:
+            - "get"
+            - "post"
+            - "put"
+            isRequired: true
+
+          - displayName: URI
+            attributeName: uri
+            type: textBox
+            default: 'https://app.coalescesoftware.io/api/v1/runs'
+            isRequired: true
+
+          - displayName: Headers
+            attributeName: headers
+            type: textBox
+            default: '{
+                "accept": "application/json",
+                "authorization/": "Bearer "
+            }'
+            isRequired: false
+
+          - displayName: Payload
+            attributeName: payload
+            type: textBox
+            default: ''
+            isRequired: false
+
+        systemColumns:
+        - displayName: 'URI'
+          attributeName: uri
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: 'RESPONSE'
+          attributeName: value
+          transform: ''
+          dataType: VARIANT
+          placement: end
+      templates:
+        create:
+          templateString: |-
+            {{ stage('Create Table') }}
+            CREATE OR REPLACE TABLE {{ this }}
+            	(
+            		{% for col in columns %}
+            			"{{ col.name }}" {{ col.dataType }}
+            			{% if col.isSurrogateKey %}
+            		        identity
+            			{% endif %}
+            			{%- if not col.nullable %} NOT NULL
+            				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            			{% endif %}
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+
+            {{ stage('Create Python Procedure ') }}
+            CREATE OR REPLACE PROCEDURE {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
+            RETURNS STRING
+            language python
+            runtime_version=3.8
+            handler = 'call_api'
+            external_access_integrations=(COALESCE_API_INTEGRATION)
+            packages = ('snowflake-snowpark-python','requests','pandas')
+            as 
+            $$
+            import _snowflake
+            import requests
+            import json
+            from snowflake.snowpark.functions import sql_expr
+            from snowflake.snowpark.functions import lit 
+
+            def call_api(snowpark_session):
+            	h = json.loads('''{{config.headers}}''')
+            	{% if config.payload != None and config.payload != "" %}p = json.loads('''{{config.payload}}'''){% endif%}
+            	uri = '''{{config.uri}}'''
+            	response = requests.{{ config.method }}(uri, headers=h {%- if config.payload != None and config.payload != ""%}, payload=p {%- endif%})
+            	data = response.text
+            	df = snowpark_session.create_dataframe([data]).to_df("RESPONSE")
+            	df = df.withColumn("RESPONSE",sql_expr("parse_json(RESPONSE)"))
+            	df = df.with_column('URI', lit(uri))
+            	df.write.mode("overwrite").save_as_table('{{this}}')
+            	return str(data)
+            $$;
+        run:
+          templateString: |-
+            {{ stage('Run Stored Procedure') }}
+            CALL {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
+    name: API Call
+    version: 1
   StepType-20:
     id: "20"
     isDisabled: false
