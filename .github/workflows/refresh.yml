@@ -1,0 +1,31 @@
+name: Refresh Data
+
+on:
+  # Set a schedule using cron
+  schedule:
+  - cron: "0 9 1 * *"
+  
+  # This option allows the workflow to be triggered manually
+  workflow_dispatch:
+  
+env:
+  COA_VERSION: latest # Versions released on NPM here: https://www.npmjs.com/package/@coalescesoftware/coa
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    
+    # Fetch coa config secret from GitHub Actions secret repository, then write coa config to a temporary file
+    - run: echo '${{ secrets.COA_CONFIG }}' >> COA_CONFIG
+    
+    # Install Coalesce CLI tool, if not installed already
+    - run: npm list | grep "@coalescesoftware/coa@${{ env.COA_VERSION }}" || npm install @coalescesoftware/coa@${{ env.COA_VERSION }}
+
+    # Execute coa CLI, starting coa refresh
+    - run: npx coa refresh --config COA_CONFIG
