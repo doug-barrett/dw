@@ -2778,7 +2778,7 @@ stepTypes:
         short: 'DYN'
         tagColor: '#C39BD3'
         isDisabled: false
-        plural: External Tables
+        plural: Dynamic Tables
 
         deployStrategy: advanced
 
@@ -2823,19 +2823,21 @@ stepTypes:
 
             {% else %}
 
+              {% if currentState != desiredState %}
+
               {{ stage('Create Dynamic Table') }}
 
-              CREATE OR REPLACE DYNAMIC TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
-                LAG = '{{ desiredState.config.lagSchedule }}'
-                WAREHOUSE = {{ desiredState.config.Warehouse }}
-              AS
-                SELECT
-                  {% for col in desiredState.sources[0].columns %}
-                      {{ get_source_transform(col) }} AS "{{ col.name }}"
-                    {%- if not loop.last -%}, {% endif %}
-                  {% endfor %}
-                {{ desiredState.sources[0].join }}
-            ;
+                CREATE OR REPLACE DYNAMIC TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+                  LAG = '{{ desiredState.config.lagSchedule }}'
+                  WAREHOUSE = {{ desiredState.config.Warehouse }}
+                AS
+                  SELECT
+                    {% for col in desiredState.sources[0].columns %}
+                        {{ get_source_transform(col) }} AS "{{ col.name }}"
+                      {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+                  {{ desiredState.sources[0].join }}
+              {% endif %}
             {% endif %}
         run:
           templateString: ""
