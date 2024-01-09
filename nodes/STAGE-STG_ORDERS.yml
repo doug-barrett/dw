@@ -145,16 +145,21 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              ORDERS: 024eb906-7f3e-46f5-87e2-b281b7f801be
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: ORDERS
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+              joinCondition: |-
+                FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+                WHERE "O_ORDERDATE" > (SELECT NVL(MAX("O_ORDERDATE"), '2000-01-01') FROM {{ ref_no_link('DWH','DIM_ORDERS')}})
             name: STG_ORDERS
-            noLinkRefs: []
+            noLinkRefs:
+              - locationName: DWH
+                nodeName: DIM_ORDERS
       name: STG_ORDERS
       overrideSQL: false
       schema: ""
