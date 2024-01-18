@@ -1,0 +1,79 @@
+steps:
+  V_CT_US_COVID_TESTS_OR-c961b6c3-221c-4e75-877f-008374e786e3:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: US COVID-19 testing and mortality
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 4ec186e8-1ab1-46c1-bb52-797078310431
+              stepCounter: c961b6c3-221c-4e75-877f-008374e786e3
+            dataType: VARCHAR(16777216)
+            description: ISO-3166-2 entity name (U.S. State)
+            hashColumns: []
+            hashDetails: null
+            name: PROVINCE_STATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1e7d545f-55f5-4dc9-8379-724eda0e18ec
+                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                transform: ""
+          - columnReference:
+              columnCounter: aef0178e-130d-484f-893b-79080007ff22
+              stepCounter: c961b6c3-221c-4e75-877f-008374e786e3
+            dataType: TIMESTAMP
+            description: Date of data point
+            hashColumns: []
+            hashDetails: null
+            name: DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b5c3fc84-2f03-41b4-89ea-6e4ece1b4c53
+                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                transform: "\"CT_US_COVID_TESTS\".\"DATE\"::TIMESTAMP"
+          - columnReference:
+              columnCounter: 0ff0815a-f99e-4ef6-8f67-a367c21487aa
+              stepCounter: c961b6c3-221c-4e75-877f-008374e786e3
+            dataType: FLOAT
+            description: Positive cases on date of report
+            hashColumns: []
+            hashDetails: null
+            name: POSITIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 119cc222-3f42-43da-8b6b-cdc6ffe639f7
+                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                transform: "\"CT_US_COVID_TESTS\".\"POSITIVE\"::FLOAT"
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              CT_US_COVID_TESTS: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: COVID
+                nodeName: CT_US_COVID_TESTS
+            join:
+              joinCondition: |-
+                FROM {{ ref('COVID', 'CT_US_COVID_TESTS') }} "CT_US_COVID_TESTS"
+                WHERE "PROVINCE_STATE" = 'Oregon'
+            name: V_CT_US_COVID_TESTS_OR
+            noLinkRefs: []
+      name: V_CT_US_COVID_TESTS_OR
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: c961b6c3-221c-4e75-877f-008374e786e3
