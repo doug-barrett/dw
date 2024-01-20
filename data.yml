@@ -35,8 +35,8 @@ locations:
   COVID:
     mappingDefinitions:
       "3":
-        database: ""
-        schema: ""
+        database: COVID19
+        schema: PUBLIC
   DWH:
     mappingDefinitions:
       "3":
@@ -2178,7 +2178,7 @@ stepTypes:
 
                 SELECT
                 {% for col in source.columns if col.forecast or col.lower_bound or col.upper_bound or col.id == config.tscol.id or col.id == config.tgtcol.id or (config.multiseries and col.id == config.seriescol.id) %}
-                    {%- if col.id == config.seriescol.id %}
+                    {%- if config.multiseries and col.id == config.seriescol.id %}
                         "SERIES"
                     {%- elif col.id == config.tscol.id %}
                         "TS"
