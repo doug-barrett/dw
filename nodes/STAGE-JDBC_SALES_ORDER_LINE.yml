@@ -1,0 +1,70 @@
+steps:
+  JDBC_SALES_ORDER_LINE-6820c960-b681-4143-938d-2ecdafda2d26:
+    operation:
+      config:
+        jdbc_driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc_url: jdbc:sqlserver://coalesce-source.database.windows.net:1433;database=coalesce_source
+        sql: SELECT * FROM saleslt.salesorderdetail
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: cbf0fae2-8d0d-44ad-8e27-31e84f2c972e
+              stepCounter: 6820c960-b681-4143-938d-2ecdafda2d26
+            config: {}
+            data: true
+            dataType: VARIANT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            name: DATA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 27d3bbba-e926-4511-91e7-0595f14b5250
+              stepCounter: 6820c960-b681-4143-938d-2ecdafda2d26
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_LOAD_TIMESTAMP
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies: []
+            join:
+              joinCondition: ""
+            name: JDBC_SALES_ORDER_LINE
+            noLinkRefs: []
+      name: JDBC_SALES_ORDER_LINE
+      overrideSQL: false
+      schema: ""
+      sqlType: "195"
+      type: sql
+    stepCounter: 6820c960-b681-4143-938d-2ecdafda2d26

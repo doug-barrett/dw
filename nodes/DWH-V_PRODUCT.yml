@@ -1,0 +1,62 @@
+steps:
+  V_PRODUCT-68806623-895c-409c-b455-57d0f4d49953:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: cd7c7ed7-057f-48ff-ab3b-9c6364a2431a
+              stepCounter: 68806623-895c-409c-b455-57d0f4d49953
+            dataType: VARIANT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DATA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3744f3fc-31c6-4a4c-8a59-8fb7f29d3bf3
+                    stepCounter: 7bf1f3d9-60bf-4666-b519-2807a51ad9a9
+                transform: ""
+          - columnReference:
+              columnCounter: b0a8560a-14e6-40a4-ad09-7a6e56f08990
+              stepCounter: 68806623-895c-409c-b455-57d0f4d49953
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SYSTEM_LOAD_TIMESTAMP
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c1ff73e5-a060-4ea0-8e59-8c017b8099c1
+                    stepCounter: 7bf1f3d9-60bf-4666-b519-2807a51ad9a9
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: JDBC_PRODUCT
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'JDBC_PRODUCT') }} "JDBC_PRODUCT"
+            name: V_PRODUCT
+            noLinkRefs: []
+      name: V_PRODUCT
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 68806623-895c-409c-b455-57d0f4d49953

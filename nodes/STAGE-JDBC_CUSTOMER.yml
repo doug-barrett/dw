@@ -1,0 +1,70 @@
+steps:
+  JDBC_CUSTOMER-6ec73382-fe2e-4bfc-86bf-5fea11272cf3:
+    operation:
+      config:
+        jdbc_driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc_url: jdbc:sqlserver://coalesce-source.database.windows.net:1433;database=coalesce_source
+        sql: SELECT * FROM saleslt.customer
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 0509de73-486d-4216-bf1e-9a39632b094e
+              stepCounter: 6ec73382-fe2e-4bfc-86bf-5fea11272cf3
+            config: {}
+            data: true
+            dataType: VARIANT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            name: DATA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 5a500fb0-008e-4fef-af07-4b448abb0318
+              stepCounter: 6ec73382-fe2e-4bfc-86bf-5fea11272cf3
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_LOAD_TIMESTAMP
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies: []
+            join:
+              joinCondition: ""
+            name: JDBC_CUSTOMER
+            noLinkRefs: []
+      name: JDBC_CUSTOMER
+      overrideSQL: false
+      schema: ""
+      sqlType: "195"
+      type: sql
+    stepCounter: 6ec73382-fe2e-4bfc-86bf-5fea11272cf3

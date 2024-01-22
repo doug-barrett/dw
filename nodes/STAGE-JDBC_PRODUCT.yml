@@ -1,0 +1,70 @@
+steps:
+  JDBC_PRODUCT-7bf1f3d9-60bf-4666-b519-2807a51ad9a9:
+    operation:
+      config:
+        jdbc_driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        jdbc_url: jdbc:sqlserver://coalesce-source.database.windows.net:1433;database=coalesce_source
+        sql: SELECT * FROM saleslt.product
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 3744f3fc-31c6-4a4c-8a59-8fb7f29d3bf3
+              stepCounter: 7bf1f3d9-60bf-4666-b519-2807a51ad9a9
+            config: {}
+            data: true
+            dataType: VARIANT
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            name: DATA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: c1ff73e5-a060-4ea0-8e59-8c017b8099c1
+              stepCounter: 7bf1f3d9-60bf-4666-b519-2807a51ad9a9
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_LOAD_TIMESTAMP
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies: []
+            join:
+              joinCondition: ""
+            name: JDBC_PRODUCT
+            noLinkRefs: []
+      name: JDBC_PRODUCT
+      overrideSQL: false
+      schema: ""
+      sqlType: "195"
+      type: sql
+    stepCounter: 7bf1f3d9-60bf-4666-b519-2807a51ad9a9
