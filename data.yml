@@ -2025,20 +2025,6 @@ stepTypes:
         plural: ML Forecasts
 
         config:
-        - groupName: Entity Options
-          items:
-          - type: materializationSelector
-            default: table
-            options:
-            - table
-            isRequired: true
-            enableIf: "false"
-
-          - displayName: Truncate Before
-            attributeName: truncateBefore
-            type: toggleButton
-            default: true
-            enableIf: "{{ node.materializationType == 'table' }}"
 
         - groupName: Forecast Model Input
           items:
@@ -2071,13 +2057,6 @@ stepTypes:
               isRequired: true
               default: '30'
 
-        - groupName: Forecast Model Output
-          items:
-            - type: toggleButton
-              displayName: 'Include Source Data'
-              attributeName: 'addsourcedata'
-              isRequired: false
-              default: 'true'
 
         systemColumns:
         - displayName: "FORECAST"
@@ -2105,25 +2084,6 @@ stepTypes:
             {% set src_node = source.dependencies[0].node %}
             {% set forecast_name = 'FORECAST_' ~ src_node.name %}
 
-            {{ stage('Create Forecast Model Instance') }}
-
-            CREATE OR REPLACE SNOWFLAKE.ML.FORECAST
-             {{ ref_no_link(node.location.name, forecast_name) }}(
-                INPUT_DATA => SYSTEM$QUERY_REFERENCE('
-                    SELECT
-                    {% for col in source.columns  if col.id == config.tscol.id or col.id == config.tgtcol.id or (config.multiseries and col.id == config.seriescol.id) %}
-                        {%- if col.name == config.tscol.name %}"{{ col.name }}"::TIMESTAMP
-                        {%- elif col.name == config.tgtcol.name %}"{{ col.name }}"::FLOAT
-                        {%- elif config.multiseries and col.name == config.seriescol.name %}"{{col.name}}"
-                        {%- endif %} AS "{{ col.name }}"
-                        {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
-                    {{ source.join }}
-                '),
-                {%if config.multiseries %}SERIES_COLNAME => '{{ config.seriescol.name }}', {% endif %}
-                TIMESTAMP_COLNAME => '{{ config.tscol.name }}',
-                TARGET_COLNAME => '{{ config.tgtcol.name }}'
-            )
 
             {{ stage('Create Forecast Table') }}
 
@@ -2143,6 +2103,28 @@ stepTypes:
             {% set source = sources[0] %}
             {% set src_node = source.dependencies[0].node %}
             {% set forecast_name = 'FORECAST_' ~ src_node.name %}
+
+
+            {{ stage('ReCreate Forecast Model Instance') }}
+
+            CREATE OR REPLACE SNOWFLAKE.ML.FORECAST
+             {{ ref_no_link(node.location.name, forecast_name) }}(
+                INPUT_DATA => SYSTEM$QUERY_REFERENCE('
+                    SELECT
+                    {% for col in source.columns  if col.id == config.tscol.id or col.id == config.tgtcol.id or (config.multiseries and col.id == config.seriescol.id) %}
+                        {%- if col.name == config.tscol.name %}"{{ col.name }}"::TIMESTAMP
+                        {%- elif col.name == config.tgtcol.name %}"{{ col.name }}"::FLOAT
+                        {%- elif config.multiseries and col.name == config.seriescol.name %}"{{col.name}}"
+                        {%- endif %} AS "{{ col.name }}"
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+                    {{ source.join }}
+                '),
+                {%if config.multiseries %}SERIES_COLNAME => '{{ config.seriescol.name }}', {% endif %}
+                TIMESTAMP_COLNAME => '{{ config.tscol.name }}',
+                TARGET_COLNAME => '{{ config.tgtcol.name }}'
+            )
+
 
             {% if config.truncateBefore %}
 
@@ -2164,7 +2146,6 @@ stepTypes:
                         {%- if not loop.last -%},{% endif %}
                     {% endfor %}
                 )
-                {% if config.addsourcedata %}
                 SELECT
                 {% for col in source.columns if col.forecast or col.lower_bound or col.upper_bound or col.id == config.tscol.id or col.id == config.tgtcol.id or (config.multiseries and col.id == config.seriescol.id) %}
                     {{ get_source_transform(col) }} AS "{{ col.name }}"
@@ -2174,7 +2155,6 @@ stepTypes:
                 {{ source.join }}
 
                 UNION ALL
-                {% endif %}
 
                 SELECT
                 {% for col in source.columns if col.forecast or col.lower_bound or col.upper_bound or col.id == config.tscol.id or col.id == config.tgtcol.id or (config.multiseries and col.id == config.seriescol.id) %}
@@ -2196,6 +2176,164 @@ stepTypes:
 
 
     name: ML Forecast Series
+    version: 1
+  StepType-197:
+    id: "197"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: ML FORECAST EX
+        short: ML_FCSTS
+        tagColor: 'red'
+        plural: ML Forecasts
+
+        config:
+
+        - groupName: Forecast Model Input
+          items:
+
+            - type: toggleButton
+              displayName: 'Multi-Series Forecast'
+              attributeName: 'multiseries'
+              isRequired: false
+              default: 'true'
+
+            - type: columnDropdownSelector
+              displayName: 'Series Column'
+              attributeName: 'seriescol'
+              isRequired: false
+              enableIf: "{{ config.multiseries }}"
+
+            - type: columnDropdownSelector
+              displayName: 'Timestamp Column'
+              attributeName: 'tscol'
+              isRequired: true
+
+            - type: columnDropdownSelector
+              displayName: 'Target Column'
+              attributeName: 'tgtcol'
+              isRequired: true
+
+
+        systemColumns:
+        - displayName: "FORECAST"
+          attributeName: forecast
+          transform: ""
+          dataType: FLOAT
+          placement: end
+          description: 'Generated by ML Forecast Model'
+        - displayName: "LOWER_BOUND"
+          attributeName: lower_bound
+          transform: ""
+          dataType: FLOAT
+          placement: end
+          description: 'Generated by ML Forecast Model'
+        - displayName: "UPPER_BOUND"
+          attributeName: upper_bound
+          transform: ""
+          dataType: FLOAT
+          placement: end
+          description: 'Generated by ML Forecast Model'
+      templates:
+        create:
+          templateString: |+
+            {% set source = sources[0] %}
+            {% set src_node = source.dependencies[0].node %}
+            {% set forecast_name = 'FORECAST_' ~ src_node.name %}
+
+            {{ stage('Create Forecast Table') }}
+
+            CREATE OR REPLACE TABLE {{ this }}
+            (
+                {% for col in columns %}
+                    "{{ col.name }}" 
+                    {%- if col.name == config.tscol.name %} TIMESTAMP 
+                    {%- elif col.name == config.tgtcol.name %} FLOAT 
+                    {%- else %} {{ col.dataType }}
+                    {%- endif %}
+                    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+            )
+            {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+        run:
+          templateString: |+
+            {% set source = sources[0] %}
+            {% set src_node = source.dependencies[0].node %}
+            {% set forecast_name = 'FORECAST_' ~ src_node.name %}
+
+            {{ stage('Truncate Forecast table') }}
+            TRUNCATE IF EXISTS {{ this }}
+
+            {{ stage('Populate Forecast Table') }}
+
+            INSERT INTO {{ this }}
+            (
+                {% for col in source.columns %}
+                    "{{ col.name }}" {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+            )
+            SELECT 
+                {% for col in source.columns %}
+                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+            {{ source.join }}
+
+
+
+            {{ stage('Create Forecast Model Instance') }}
+
+            CREATE OR REPLACE SNOWFLAKE.ML.FORECAST
+             {{ ref_no_link(node.location.name, forecast_name) }}(
+                INPUT_DATA => SYSTEM$QUERY_REFERENCE('
+                    SELECT
+                    {% for col in source.columns if not col.forecast and not col.upper_bound and not col.lower_bound %}
+                        "{{col.name}}"{%- if not loop.last -%}, {% endif %}
+                    {% endfor %}            
+                    FROM {{ this }}
+                    WHERE  "{{ config.tgtcol.name }}" IS NOT NULL
+                '),
+                {%if config.multiseries %}SERIES_COLNAME => '{{ config.seriescol.name }}', {% endif %}
+                TIMESTAMP_COLNAME => '{{ config.tscol.name }}',
+                TARGET_COLNAME => '{{ config.tgtcol.name }}'
+            )
+
+
+            {{ stage('Insert ' + source.name | string ) }}
+            BEGIN
+                CALL {{ ref_no_link(node.location.name, forecast_name) }}!FORECAST(
+                    INPUT_DATA => SYSTEM$QUERY_REFERENCE('
+                    SELECT 
+                    {% for col in source.columns if not col.forecast and not col.upper_bound and not col.lower_bound %}
+                        "{{col.name}}"{%- if not loop.last -%}, {% endif %}
+                    {% endfor %}            
+                    FROM {{ this }}
+                    WHERE  "{{ config.tgtcol.name }}" IS NULL
+                '),
+                {%if config.multiseries %}SERIES_COLNAME => '{{ config.seriescol.name }}', {% endif %}
+                TIMESTAMP_COLNAME => '{{ config.tscol.name }}' );
+
+                UPDATE {{ this }} SRC
+                SET 
+                    {% for col in source.columns if  col.forecast or col.lower_bound or col.upper_bound %}
+                        "{{ col.name }}" = RES."{{ col.name }}" 
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+                FROM TABLE(RESULT_SCAN(-1)) RES
+                WHERE 
+                    RES."TS" = SRC."{{ config.tscol.name }}"
+                    {% if config.multiseries  %}
+                    AND RES."SERIES" = SRC."{{ config.seriescol.name }}"            
+                    {% endif %};
+            END
+
+
+    name: ML Forecast Exogenous
     version: 1
   StepType-20:
     id: "20"
@@ -5707,4 +5845,9 @@ subgraphs:
     name: New Subgraph
     steps:
       - 786e9e60-f128-48f9-a556-b87230d890b8
+  Subgraph-123:
+    id: "123"
+    name: New Subgraph
+    steps:
+      - c961b6c3-221c-4e75-877f-008374e786e3
 version: 2

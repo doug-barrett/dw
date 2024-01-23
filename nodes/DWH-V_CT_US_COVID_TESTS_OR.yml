@@ -54,7 +54,31 @@ steps:
               - columnReferences:
                   - columnCounter: 119cc222-3f42-43da-8b6b-cdc6ffe639f7
                     stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
-                transform: "\"CT_US_COVID_TESTS\".\"POSITIVE\"::FLOAT"
+                transform: CASE WHEN DATE < '2021-01-01' THEN NVL("CT_US_COVID_TESTS"."POSITIVE"::FLOAT, 0) ELSE NULL END
+          - columnReference:
+              columnCounter: 98121387-42de-4c3d-b2f5-69c5d01c132b
+              stepCounter: c961b6c3-221c-4e75-877f-008374e786e3
+            dataType: NUMBER(38,0)
+            description: Negative tests on date of report
+            name: NEGATIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18eed9cf-adfc-4888-b77c-5175f2f9373a
+                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                transform: NVL("CT_US_COVID_TESTS"."NEGATIVE",0)
+          - columnReference:
+              columnCounter: 7b8e094b-b258-47cd-b67a-eb800ca9dc05
+              stepCounter: c961b6c3-221c-4e75-877f-008374e786e3
+            dataType: NUMBER(38,0)
+            description: Hospitalized cases of COVID-19 on date of report
+            name: HOSPITALIZED
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 118104f7-ba6f-4608-b8f6-333753e81a9f
+                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                transform: NVL("CT_US_COVID_TESTS"."HOSPITALIZED",0)
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
