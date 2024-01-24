@@ -1,0 +1,79 @@
+steps:
+  V_CDC_TESTING-fac96318-87b6-4aca-9220-7233a8479476:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: ddf562b9-b97e-4d77-b023-3461659d7920
+              stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+            dataType: VARCHAR(2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ISO3166_2
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 93ee2074-83cc-4c19-a8a1-d89f36ce93a8
+                    stepCounter: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+                transform: ""
+          - columnReference:
+              columnCounter: 11236eca-479a-4de2-8bf8-5ad72189c172
+              stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+            dataType: TIMESTAMP_NTZ(9)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 86b73ce0-21ab-4bc4-b99c-83e75a044d7c
+                    stepCounter: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+                transform: ""
+          - columnReference:
+              columnCounter: fe544174-4f8d-47e6-a7cf-a95600f9ef29
+              stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: POSITIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4b940e91-b7f8-40dd-bba9-31ea7312e5e2
+                    stepCounter: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              CDC_TESTING: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: COVID
+                nodeName: CDC_TESTING
+            join:
+              joinCondition: |-
+                FROM {{ ref('COVID', 'CDC_TESTING') }} "CDC_TESTING"
+                WHERE "ISO3166_1" = 'US' AND "ISO3166_2" = 'OR'
+            name: V_CDC_TESTING
+            noLinkRefs: []
+      name: V_CDC_TESTING
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: fac96318-87b6-4aca-9220-7233a8479476

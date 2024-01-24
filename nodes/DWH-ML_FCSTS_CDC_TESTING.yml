@@ -1,22 +1,22 @@
 steps:
-  ML_FCSTS_CT_US_COVID_TESTS1-ea1837b2-c21d-49cf-b5a3-8ec399a746d3:
+  ML_FCSTS_CDC_TESTING-4f610f6a-a298-47c2-9543-6fa733906122:
     operation:
       config:
         exvar: false
         fcdays: "30"
-        multiseries: "true"
+        multiseries: true
         seriescol:
-          columnCounter: 9d308410-afc0-432f-8219-afbae687ac25
-          stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+          columnCounter: d738e57a-213c-4fe3-abee-28f23a98e84c
+          stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
         tgtcol:
-          columnCounter: 9ba3fe24-724e-4209-a3e3-65453142b55c
-          stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+          columnCounter: 58d288fa-62a7-4573-8122-a3d49bf63261
+          stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
         tscol:
-          columnCounter: 351a1550-27ab-40a9-830a-ff9348b37416
-          stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+          columnCounter: 6d0a3504-6317-42cf-9ad3-e6f5b3b65192
+          stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
       database: ""
       deployEnabled: true
-      description: US COVID-19 testing and mortality
+      description: ""
       isMultisource: false
       locationName: DWH
       materializationType: table
@@ -24,54 +24,54 @@ steps:
         appliedNodeTests: []
         columns:
           - columnReference:
-              columnCounter: 9d308410-afc0-432f-8219-afbae687ac25
-              stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
-            dataType: VARCHAR(16777216)
-            description: ISO-3166-2 entity name (U.S. State)
+              columnCounter: d738e57a-213c-4fe3-abee-28f23a98e84c
+              stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
+            dataType: VARCHAR(2)
+            description: ""
             hashColumns: []
             hashDetails: null
-            name: PROVINCE_STATE
+            name: ISO3166_2
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 1e7d545f-55f5-4dc9-8379-724eda0e18ec
-                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                  - columnCounter: ddf562b9-b97e-4d77-b023-3461659d7920
+                    stepCounter: fac96318-87b6-4aca-9220-7233a8479476
                 transform: ""
           - columnReference:
-              columnCounter: 351a1550-27ab-40a9-830a-ff9348b37416
-              stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
-            dataType: DATE
-            description: Date of data point
+              columnCounter: 6d0a3504-6317-42cf-9ad3-e6f5b3b65192
+              stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
+            dataType: TIMESTAMP_NTZ(9)
+            description: ""
             hashColumns: []
             hashDetails: null
             name: DATE
-            nullable: false
+            nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: b5c3fc84-2f03-41b4-89ea-6e4ece1b4c53
-                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+                  - columnCounter: 11236eca-479a-4de2-8bf8-5ad72189c172
+                    stepCounter: fac96318-87b6-4aca-9220-7233a8479476
                 transform: ""
           - columnReference:
-              columnCounter: 9ba3fe24-724e-4209-a3e3-65453142b55c
-              stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+              columnCounter: 58d288fa-62a7-4573-8122-a3d49bf63261
+              stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
             dataType: NUMBER(38,0)
-            description: Positive cases on date of report
+            description: ""
             hashColumns: []
             hashDetails: null
             name: POSITIVE
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 119cc222-3f42-43da-8b6b-cdc6ffe639f7
-                    stepCounter: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
-                transform: CASE WHEN DATE > '2021-01-01' THEN NULL ELSE NVL(POSITIVE,0) END
+                  - columnCounter: fe544174-4f8d-47e6-a7cf-a95600f9ef29
+                    stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+                transform: ""
           - acceptedValues:
               strictMatch: true
               values: []
             appliedColumnTests: {}
             columnReference:
-              columnCounter: 4ffd216e-947f-4269-8203-0fd95869b8c9
-              stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+              columnCounter: c63babd3-0405-4fd5-89ad-b5ddeac82a56
+              stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
             config: {}
             dataType: FLOAT
             defaultValue: ""
@@ -88,8 +88,8 @@ steps:
               values: []
             appliedColumnTests: {}
             columnReference:
-              columnCounter: ecd18e59-2910-4de4-9669-836a28db9afa
-              stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+              columnCounter: 044cf8a5-9091-4571-a210-731f3c1ff86b
+              stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
             config: {}
             dataType: FLOAT
             defaultValue: ""
@@ -106,8 +106,8 @@ steps:
               values: []
             appliedColumnTests: {}
             columnReference:
-              columnCounter: 4c86a0a4-c739-4b3d-a013-1c1ed252f898
-              stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+              columnCounter: a2209ab8-c637-48a4-8f92-bf4364cf0fcd
+              stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122
             config: {}
             dataType: FLOAT
             defaultValue: ""
@@ -122,23 +122,19 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases:
-              CT_US_COVID_TESTS: ee98de4e-9d97-4bd5-9d2d-86bee4eca0bd
+          - aliases: {}
             customSQL:
               customSQL: ""
             dependencies:
-              - locationName: COVID
-                nodeName: CT_US_COVID_TESTS
+              - locationName: DWH
+                nodeName: V_CDC_TESTING
             join:
-              joinCondition: |-
-                FROM {{ ref('COVID', 'CT_US_COVID_TESTS') }} "CT_US_COVID_TESTS"
-                WHERE "PROVINCE_STATE" = 'Oregon'
-                AND DATE < '2021-01-01'
-            name: ML_FCSTS_CT_US_COVID_TESTS1
+              joinCondition: FROM {{ ref('DWH', 'V_CDC_TESTING') }} "V_CDC_TESTING"
+            name: ML_FCSTS_CDC_TESTING
             noLinkRefs: []
-      name: ML_FCSTS_CT_US_COVID_TESTS1
+      name: ML_FCSTS_CDC_TESTING
       overrideSQL: false
       schema: ""
       sqlType: "198"
       type: sql
-    stepCounter: ea1837b2-c21d-49cf-b5a3-8ec399a746d3
+    stepCounter: 4f610f6a-a298-47c2-9543-6fa733906122

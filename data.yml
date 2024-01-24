@@ -2444,9 +2444,9 @@ stepTypes:
 
             INSERT INTO {{ this }}
             (
-                {% for col in source.columns  %} 
+                {%- for col in source.columns  %} 
                     "{{ col.name }}" {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
+                {%- endfor %}
             )
             SELECT 
                 {% for col in source.columns  %} 
@@ -2507,9 +2507,9 @@ stepTypes:
 
                 INSERT INTO {{ this }}
                 (
-                    {% for col in source.columns  %} 
+                    {%- for col in source.columns  %} 
                         "{{ col.name }}" {%- if not loop.last -%}, {% endif %}
-                    {% endfor %}
+                    {%- endfor %}
                 )
                 SELECT 
                     {% for col in source.columns %}
