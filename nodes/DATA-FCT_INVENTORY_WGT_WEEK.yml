@@ -1,0 +1,126 @@
+steps:
+  FCT_INVENTORY_WGT_WEEK-4b5f00f4-5dec-4ced-8fc9-255807a28082:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: b2958028-6568-470e-8c4c-c5e28a5ed771
+              stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: FINANCIAL_YYWW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8505b335-8e87-4aff-98ec-560b8bf3ab63
+                    stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+                transform: ""
+          - columnReference:
+              columnCounter: 4c2069b4-a249-4bd5-b9fd-b255d8eebe2f
+              stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 213ff0ec-e73f-4c60-b3e9-b7885d18c8ab
+                    stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+                transform: ""
+          - columnReference:
+              columnCounter: f402c63f-7deb-4d3b-8a32-8c96dc187c7c
+              stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            dataType: VARCHAR(64)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: efd0af03-8501-4ebc-bbb1-512d6626dc06
+                    stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+                transform: ""
+          - columnReference:
+              columnCounter: d1f74f2f-753b-47c4-aded-b53b8a7a30d7
+              stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            dataType: NUMBER(13,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MIN_INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2955deab-9220-47e9-8674-a6c8d66df39a
+                    stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+                transform: ""
+          - columnReference:
+              columnCounter: 692bd9e0-cb32-443a-abba-a12c9addcc01
+              stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            dataType: DECIMAL(12,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_WGT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 231362f3-f6c1-46e3-ab53-4ee85abf91e3
+                    stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: dfb6a1dd-1bfb-4b27-b2cc-c0723ad1cded
+              stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_FCT_INVENTORY_WGT_WEEK
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'VW_FCT_INVENTORY_WGT_WEEK') }} "VW_FCT_INVENTORY_WGT_WEEK"
+            name: FCT_INVENTORY_WGT_WEEK
+            noLinkRefs: []
+      name: FCT_INVENTORY_WGT_WEEK
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082

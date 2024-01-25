@@ -1,0 +1,301 @@
+steps:
+  FCT_PRICE_ELASTICITY-0ee506cb-6080-4f01-badd-887972fa7949:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: TRUNCATE TABLE {{this}}
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Get the latest Price Elasticity for each Zone, Product, Holiday, Discount
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 036f52e6-c3c9-4e0e-b1ed-f5f7893ec7ba
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 70502005-ce55-4b51-b3e4-dca6b3da6ef1
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: d14a95fa-94a8-446a-8a4e-e758a9b36a78
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b48e9a1e-0627-4ebe-b339-bca36bc91140
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 4e72337d-80b0-44c1-8ccd-716b6ef8a792
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HOLIDAY_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1418ce07-8ec0-46db-b045-1b91f5318c72
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 7b090625-d394-4fed-a8f6-2a598dd8c6b3
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DISCOUNT_BUCKET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d0df81ec-e50e-4ff9-b67d-052f3dec9ce7
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 4465ea50-a0ca-4e60-aad2-7bd5ad9f3a04
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BRAND
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0298ca06-1688-4cd1-bb1d-d483869cfab8
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 74cccb87-de81-4f76-abc6-a1c39d099b31
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LEVEL3_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 62a1b482-52ab-4dcb-b32e-2648a69e5511
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 71db3285-5a90-440c-9e10-474d0710523c
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER(6,4)
+            description: ""
+            name: PRICE_ELASTICITY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 86ca719a-ad86-47cc-8950-4f0cdff25142
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: |-
+                  COALESCE(PRICE_ELASTICITY_PROD_HOL_DISC,
+                  PRICE_ELASTICITY_MA_BRAND_HOL_DISC,
+                  PRICE_ELASTICITY_MA_BRAND_DISC,
+                  PRICE_ELASTICITY_MA_DISC,
+                  PRICE_ELASTICITY_MA,
+                  2)
+          - columnReference:
+              columnCounter: fd3dc04d-755e-43af-a0e5-2cc0106ebeca
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER(6,4)
+            description: ""
+            name: PRICE_ELASTICITY_PROD_HOL_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 86ca719a-ad86-47cc-8950-4f0cdff25142
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: bae428a2-5e58-435c-bee4-9a218dba66ee
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER(6,4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_ELASTICITY_MA_BRAND_HOL_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2b0f403d-a51a-439f-b5ee-fe6cffe1ddf1
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 4b83e3dc-4cb2-4534-909d-efd924f99dc2
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER(6,4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_ELASTICITY_MA_BRAND_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 665e617e-1b6a-41be-ba63-52fbcd47d041
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 16162286-a7dd-4995-9557-efa74ff85893
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER(6,4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_ELASTICITY_MA_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: baf3d020-f378-4c80-8acb-f87aec38acbc
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: de8a2c7a-5df0-44e5-8e96-45a54af9e38f
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER(6,4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_ELASTICITY_MA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: eafb1a64-b7db-475e-99d3-41b279762303
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 2a2e3d1f-55cd-463e-a69f-844a0cbac4e9
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER
+            description: ""
+            name: RN_PROD_HOL_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1fdce5a2-64c7-420d-9868-87ee0880dfd4
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 7ddb75a4-051b-4caa-a5a1-7ac25f1440a0
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER
+            description: ""
+            name: RN_MA_BRAND_HOL_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a8ad7c17-5b07-458b-9ed0-7dc577d097c8
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 2a429e55-6c04-4b65-b076-822e087c264a
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER
+            description: ""
+            name: RN_MA_BRAND_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6d977920-3f4f-4d13-ba47-44510609d18c
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: 5a5ca4b9-5cf2-4f92-ba9d-b26eca68fae3
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER
+            description: ""
+            name: RN_MA_DISC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7bf08a2b-829f-4d88-a713-867b3595bac5
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - columnReference:
+              columnCounter: e43d3714-e6d2-436a-af41-c98700b5f419
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            dataType: NUMBER
+            description: ""
+            name: RN_MA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 648a825f-956b-41d6-ae0b-753ac5977119
+                    stepCounter: 6cfb9f73-799b-4396-88ff-1c4d3eaf9973
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 0850c34d-722b-4208-a94e-714dba17eab0
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 93356799-63d4-4397-8162-1b481e770905
+              stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_FCT_PRICE_ELASTICITY
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'VW_FCT_PRICE_ELASTICITY') }} "VW_FCT_PRICE_ELASTICITY"
+            name: FCT_PRICE_ELASTICITY
+            noLinkRefs: []
+      name: FCT_PRICE_ELASTICITY
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: 0ee506cb-6080-4f01-badd-887972fa7949

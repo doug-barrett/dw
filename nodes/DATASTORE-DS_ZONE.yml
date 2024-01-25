@@ -1,0 +1,101 @@
+steps:
+  DS_ZONE-dad91b29-a0e5-495a-b169-a3a7f78e66e2:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: |-
+        INSERT INTO    "C_DIXONS_DEV"."DS"."DS_ZONE_DETAIL" (
+            "ZONE_CODE" ,
+            "ZONE_NAME" ,
+            "ZONE_GEOGRAPHY" ,
+            "ZONE_DELIVERY" ,
+            "SYSTEM_CREATE_TIME" ,
+            "SYSTEM_UPDATE_TIME" )
+        SELECT  "ZONECODE" ,
+            "ZONENAME" ,
+            "ZONE_GEOGRAPHY" ,
+            "ZONE_DELIVERY" ,
+            "DSS_CREATE_TIME" ,
+            "DSS_UPDATE_TIME"
+        FROM WIIBIT.STAGE.DS_ZONE_DETAIL
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        columns:
+          - columnReference:
+              columnCounter: e83b5457-5e1f-454f-b032-abc16c0135cc
+              stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            dataType: INT
+            defaultValue: ""
+            description: ""
+            isBusinessKey: true
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a6424a19-f2ea-4f98-a57e-878b93dc308a
+                    stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+                transform: ""
+          - columnReference:
+              columnCounter: 9ea75405-c77b-49fe-89ae-289c301ec785
+              stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            name: ZONE_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a00c4910-4ef0-4f70-a658-8403513876b7
+                    stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+                transform: ""
+          - columnReference:
+              columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+              stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 12c2683e-2fda-47f4-a336-7c6fa8364592
+                    stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+                transform: SPLIT(LAND_ZONE."ZONENAME",' ')[0]
+          - columnReference:
+              columnCounter: 7db83807-ad7c-4368-9fc2-4c70574c03bb
+              stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            name: ZONE_DELIVERY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ce116f3b-f8cc-4982-966c-f7ab3a1d1316
+                    stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+                transform: SPLIT(LAND_ZONE."ZONENAME",' ')[1]
+        sourceMapping:
+          - aliases:
+              LAND_ZONE: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: LAND
+                nodeName: LAND_ZONE
+            join:
+              joinCondition: FROM {{ ref('LAND', 'LAND_ZONE') }} LAND_ZONE
+            name: DS_ZONE
+            noLinkRefs: []
+      name: DS_ZONE
+      overrideSQL: false
+      sqlType: "1"
+      type: sql
+    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2

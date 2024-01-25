@@ -1,0 +1,221 @@
+steps:
+  DS_SUPPLIER_REBATE-34345fae-180f-4d96-9eb7-f500b1a2892f:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c9b6e120-43c1-438e-a5dc-0c8276609d4c
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: FINANCIAL_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4002d1c2-ff8a-4b5f-927c-1f5be4257a85
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: ""
+          - columnReference:
+              columnCounter: ef0c27ce-2e44-4a64-b4c4-c25164c42ec7
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: DATE
+            description: ""
+            name: MIN_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: DIM_DATE.MIN_DATE
+          - columnReference:
+              columnCounter: eff71f51-67ab-46ed-8fdc-e7041114eb8a
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: DATE
+            description: ""
+            name: MAX_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: DIM_DATE.MAX_DATE
+          - columnReference:
+              columnCounter: e2d3f25d-e854-4d38-9246-db97e4d3ded8
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: MA_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ec3603a8-b912-47b4-9091-31d324d77ce4
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: RIGHT('0000'||TRIM("LAND_SUPPLIER_REBATE_MA_BRAND"."MA_CODE"),4)
+          - columnReference:
+              columnCounter: bd4a60ca-92db-4249-b6d2-fadd57ee17dd
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: BRAND
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d1604c12-1c7e-4ded-84a3-3b93af92b262
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: "SPLIT_PART(\"LAND_SUPPLIER_REBATE_MA_BRAND\".\"BRAND\", ': ',2)"
+          - columnReference:
+              columnCounter: 7b4263b4-64bf-4fd2-8d92-4a2a3b0a9f1c
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 693fdd59-fefb-445c-beff-61cf888f9ed7
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: ""
+          - columnReference:
+              columnCounter: 3951235e-225e-4503-b563-76f9d3086d79
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BRAND_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4a284e30-28f6-4f6d-8fc2-a3c0fde98946
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: ""
+          - columnReference:
+              columnCounter: 4bfdbcd8-638f-45db-9e25-499a43db8635
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BRAND_ORIGINAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d1604c12-1c7e-4ded-84a3-3b93af92b262
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: ""
+          - columnReference:
+              columnCounter: 4bf1b7e3-5526-48a1-9898-3dce0713e6de
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: APPLIED_TA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 572fb8eb-bcc7-4f43-ac25-470633fc2afa
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: ""
+          - columnReference:
+              columnCounter: fcf7236e-e968-4304-9bfd-5d72d7dd6379
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            dataType: NUMBER(5,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: APPLIED_TA_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 572fb8eb-bcc7-4f43-ac25-470633fc2afa
+                    stepCounter: e7623a14-2963-46b8-beb3-f3d82b2adaea
+                transform: TRY_CAST(REPLACE("LAND_SUPPLIER_REBATE_MA_BRAND"."APPLIED_TA",'%','') AS NUMBER(5,2))
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 66a7ed36-7ba5-4004-abac-2d6b560a32ff
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: ab747403-c564-498f-9bb1-0ff3145789f1
+              stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LAND_SUPPLIER_REBATE_MA_BRAND: e7623a14-2963-46b8-beb3-f3d82b2adaea
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_DATE
+              - locationName: LAND
+                nodeName: LAND_SUPPLIER_REBATE_MA_BRAND
+            join:
+              joinCondition: |
+                FROM {{ ref('LAND', 'LAND_SUPPLIER_REBATE_MA_BRAND') }} "LAND_SUPPLIER_REBATE_MA_BRAND"
+                CROSS JOIN (SELECT  "FINANCIAL_YEAR", MIN(CALENDAR_DATE) MIN_DATE, MAX(CALENDAR_DATE) MAX_DATE 
+                            FROM {{ ref('DATA','DIM_DATE') }} WHERE "CALENDAR_DATE" BETWEEN '2021-01-01' AND CURRENT_DATE
+                            GROUP BY "FINANCIAL_YEAR") DIM_DATE
+                WHERE LAND_SUPPLIER_REBATE_MA_BRAND.FINANCIAL_YEAR <= LAND_SUPPLIER_REBATE_MA_BRAND.FINANCIAL_YEAR
+                AND "LAND_SUPPLIER_REBATE_MA_BRAND"."FINANCIAL_YEAR" NOT IN (SELECT DISTINCT "FINANCIAL_YEAR" FROM {{this}})
+            name: DS_SUPPLIER_REBATE
+            noLinkRefs:
+              - locationName: DATASTORE
+                nodeName: DS_SUPPLIER_REBATE
+      name: DS_SUPPLIER_REBATE
+      overrideSQL: false
+      schema: ""
+      sqlType: "1"
+      type: sql
+    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f

@@ -1,0 +1,100 @@
+steps:
+  DIM_PAYMENT_METHOD-e8253432-4149-4513-b4ab-66ddae5c6e9f:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Type 1 Payment Dimension - no surrogate key required
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 77e62162-86e1-4d19-b6f9-dc9e16a932a3
+              stepCounter: e8253432-4149-4513-b4ab-66ddae5c6e9f
+            dataType: VARCHAR(2)
+            description: PAYMENT_METHOD_CODE
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PAYMENT_METHOD_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5adc89db-bc3e-4e9c-9b9a-2fc2f81f5632
+                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+                transform: ""
+          - columnReference:
+              columnCounter: 2ed13ab2-6db2-42a4-9ca4-280ededbf692
+              stepCounter: e8253432-4149-4513-b4ab-66ddae5c6e9f
+            dataType: VARCHAR(64)
+            description: PAYMENT_METHOD_DESC
+            hashColumns: []
+            hashDetails: null
+            name: PAYMENT_METHOD_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6177ded7-d5ac-426f-b628-48eb55059b9c
+                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 2b3c666f-33ad-49ef-ac5d-bc9021edc447
+              stepCounter: e8253432-4149-4513-b4ab-66ddae5c6e9f
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: d813fc58-0c9a-4640-8d10-0ea4a42547cb
+              stepCounter: e8253432-4149-4513-b4ab-66ddae5c6e9f
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_TLOG
+            join:
+              joinCondition: FROM (SELECT DISTINCT "PAYMENT_METHOD_CODE", "PAYMENT_METHOD_DESC" FROM {{ ref('DATASTORE', 'DS_TLOG') }}) "DS_TLOG"
+            name: DIM_PAYMENT_METHOD
+            noLinkRefs: []
+      name: DIM_PAYMENT_METHOD
+      overrideSQL: false
+      schema: ""
+      sqlType: "19"
+      type: sql
+    stepCounter: e8253432-4149-4513-b4ab-66ddae5c6e9f

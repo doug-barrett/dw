@@ -1,0 +1,505 @@
+steps:
+  FCT_SALES_EVENT-f40cbd4e-9b40-4fa8-b8f7-8127a9770fde:
+    operation:
+      config:
+        postSQL: |-
+          UPDATE {{ref('DATA', 'FCT_SALES_DAY')}}
+          SET UNITS_BASE = NVL(FCT_SALES_EVENT.BASE_UNITS_PER_DAY, 0), 
+              BASE_PRICE = NVL(FCT_SALES_EVENT.BASE_PRICE, 0), 
+              UNITS_UPLIFT = NVL(FCT_SALES_DAY.UNITS_NET, 0) - NVL(FCT_SALES_EVENT.BASE_UNITS_PER_DAY,0),
+              SALES_BASE = NVL(FCT_SALES_EVENT.BASE_SALES_PER_DAY, 0),
+              SALES_UPLIFT = NVL(FCT_SALES_DAY.SALES_ACTUAL,0) - NVL(FCT_SALES_EVENT.BASE_SALES_PER_DAY, 0),
+              MARGIN_BASE = NVL(BASE_MARGIN_PER_DAY, 0),
+              MARGIN_UPLIFT = NVL(FCT_SALES_DAY.MARGIN_NET,0) - NVL(BASE_MARGIN_PER_DAY, 0)
+              
+          FROM {{ref('DATA', 'FCT_SALES_EVENT')}}
+          WHERE FCT_SALES_DAY.DIM_EVENTS_REGION_KEY = FCT_SALES_EVENT.DIM_EVENTS_REGION_KEY
+          AND FCT_SALES_DAY.UNITS_BASE <> NVL(FCT_SALES_EVENT.BASE_UNITS_PER_DAY, 0)
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Updates the BASE_UNITS_PER_DAY in FCT_SALES_DAY in Post SQL
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c0719bbc-cad9-42a6-897a-702e8baa5d25
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: INTEGER
+            description: Generated artificial key
+            isBusinessKey: true
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 49dd0850-44f9-4372-8168-a426f61d21aa
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: c4c7e764-0ee4-41e9-b6a6-6637962a5d35
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: INTEGER
+            description: Generated artificial key
+            name: DIM_BASE_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cc3c0fb4-8aef-46bb-ac65-bf48926c9ae7
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: ec3038bb-eba6-452c-b04d-8c101a03990a
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: VARCHAR(64)
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 033e6dc2-46a8-4964-ba99-0ee1ad492bee
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 77ea71ee-c2b2-4041-9fb6-2a07524fcfbb
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: VARCHAR(50)
+            description: This is the product key
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 001d586f-1c26-40b1-b2ff-34ab3c9d900b
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 7e090a1e-9e1b-4bd9-815e-c65cabb37a28
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: DATE
+            description: ""
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d43807c8-da57-4551-8e8e-6338cfe29378
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 00972e30-8889-4dd2-8659-d79423fb4151
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f4e956d2-2d5c-4baf-b4b0-e8aefe0ddb22
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 4d401ef2-9a1c-469c-8837-c6f71cffb902
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: INT
+            description: ""
+            name: DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 67baff97-e9b6-4374-a046-277f1be6a157
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: c47ebe09-0f29-4f1c-ad2c-4ab03e604bf3
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: DATE
+            description: ""
+            name: BASE_EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 10798cbf-09de-4ddd-ab41-1ee985593283
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 9956dfa4-bb9e-415a-9352-08cd506ae50f
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: DATE
+            description: ""
+            name: BASE_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5465ab9c-04e3-4741-8295-28851f75fa5c
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 6c82055b-e962-4b21-ac78-3a18b7e8eecc
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: INT
+            description: ""
+            name: BASE_DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 21a17fb0-e749-4108-9db6-a717f57d19d1
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_DURATION" ELSE 0 END
+          - columnReference:
+              columnCounter: b40db0fb-0596-4a67-af27-252a2a62476c
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: DECIMAL(12,6)
+            description: ""
+            name: EVENT_BASE_RATIO
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d9111a01-c352-4e82-83a2-0bc5d43ff11b
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 86aee13f-4904-4351-ae18-15776bf64af4
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: VARCHAR(64)
+            description: ""
+            name: WAS_NOW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 04ae5208-3797-4017-9650-5318f9829254
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 90bf615e-689f-4038-bd92-2e1c9c951a68
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: VARCHAR(64)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: dda3119f-715a-41cb-b925-942741916ee5
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: ba61d0f0-c447-493f-9c2a-1fd83ac9ffc9
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: VARCHAR(64)
+            description: ""
+            name: BASE_EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 96590c49-641d-45e8-aca5-969fea6f3163
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: d9c9680d-8108-47ff-9182-8fd61af57c99
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8f76f547-7509-4f6a-a599-926920635703
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: f799df1a-6864-4b9b-be30-51092e3d642d
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 68ca2264-4b11-4d2b-9dbc-e316531e07e9
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_PRICE" ELSE 0 END
+          - columnReference:
+              columnCounter: 6ae14759-2add-484f-83d1-de446de1ab45
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: DISCOUNT_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d16c3c03-171b-4c33-bc49-c726b33966ca
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 3830864b-1296-44f5-b85d-6a900212a70a
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_UNITS_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3b48cc93-1cd8-4a75-ba10-e86b406caba4
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_UNITS_PER_DAY" ELSE 0 END
+          - columnReference:
+              columnCounter: 0dd88489-8581-4a64-9ff7-b834e0828c1a
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_SALES_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 55a542c0-fe7c-49ab-b17e-bf0c1eaa724b
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_SALES_PER_DAY" ELSE 0 END
+          - columnReference:
+              columnCounter: 7ee641ad-54e7-4388-ad39-fab111bb15e2
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_MARGIN_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3967f7fe-ca6d-4964-9ca3-5220598cccbd
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_MARGIN_PER_DAY" ELSE 0 END
+          - columnReference:
+              columnCounter: 018e3396-1209-4333-961f-d9ca3b6340b3
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UNITS_SALES_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5974aa4a-c089-42b5-a276-55327cf0099c
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: e21cb1c8-7de2-4875-a81e-047f57806dde
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cad20392-f189-4d58-85d3-f59d0b57a6b8
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: ae247fee-5df4-4bf7-a523-245c04e1387e
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7c7dd42b-9991-46ed-b049-361244559b2b
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_UNITS" ELSE 0 END
+          - columnReference:
+              columnCounter: d5016cc4-a10b-4349-bccd-3a305c647162
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UPLIFT_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5111d632-c4e4-48de-9e42-1d874e167e19
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: c845383d-1af7-4068-a7b2-83a3c749e765
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: SALES_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f288fe00-f673-4d13-881b-407d46f39095
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 4019854d-8f14-4420-923c-921bb2c20b4a
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9992fbe3-3183-4171-b7bf-bb5c5eaf3d93
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_SALES" ELSE 0 END
+          - columnReference:
+              columnCounter: 9fc0e49f-f568-41a3-bbd5-4005eb628d72
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UPLIFT_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 570d753b-b9ac-4134-aa81-0c16fb695b24
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: d9d3af86-b826-4353-8ebb-19aeccb7ccd7
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: MARGIN_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a95af349-fbd7-4e9f-b43d-a3b8ab77b546
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: ebe78b9b-b584-4049-9cc8-8bafbb1d7460
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_MARGIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b5b668c3-d297-432e-8eb5-d6b778d65567
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: CASE WHEN DIM_BASE_EVENTS_REGION_KEY > 0 THEN "VW_FCT_SALES_EVENT"."BASE_MARGIN" ELSE 0 END
+          - columnReference:
+              columnCounter: 98416ead-21a6-4fce-8fc5-21729350341d
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UPLIFT_MARGIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 564f4582-be6e-4560-b12b-3c8f6c7517a4
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: faaae3eb-a9d4-43b6-b44e-a28794a654f0
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: VARCHAR(3)
+            description: ""
+            name: CURRENCY_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 63397f7d-c447-45b5-89ee-55764591bfb9
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 99aeff39-2eab-45a6-b0f7-802446b51803
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_MIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 28f2d47a-f315-4c3b-aa3e-81a33801a99e
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 243a291c-ffc5-483b-81a4-0449c5e20755
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_WGT_MIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 13b51655-34bd-4960-8154-9f2ad4bfdfb8
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: 20d5a169-1057-4764-81f5-ba8f88e0de0b
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_AVG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4a3151aa-5b36-4473-84b4-22134d1f5751
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - columnReference:
+              columnCounter: a527a5b1-9170-480e-94cf-69fcb8fd7084
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            dataType: DECIMAL(12,6)
+            description: ""
+            name: INVENTORY_WGT_AVG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b0dc5a20-f9d9-4a8a-bfa1-6ce011a24f0e
+                    stepCounter: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 6af3b743-7e46-4d0e-874c-96bc271508d9
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 51b01ccc-39d9-4283-979b-ba5e84f3551f
+              stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_FCT_SALES_EVENT: 5b2be55d-2119-46b8-854b-c45fc9cd0d28
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_FCT_SALES_EVENT
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'VW_FCT_SALES_EVENT') }} "VW_FCT_SALES_EVENT"
+            name: FCT_SALES_EVENT
+            noLinkRefs: []
+      name: FCT_SALES_EVENT
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde

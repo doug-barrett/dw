@@ -1,0 +1,173 @@
+steps:
+  DS_INVENTORY_WGT-6214df34-3cd9-45e2-9ade-14ee5bb1f3d5:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: a3f37068-b315-4964-8356-8fd70124da71
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: DATE
+            description: ""
+            isBusinessKey: true
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d79a2a9f-2883-41bb-82fd-5cd0d0802a1d
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: ""
+          - columnReference:
+              columnCounter: e9f6300a-49b3-4920-9532-37a5f58f5f2a
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0115dd73-111d-4303-8635-65d295674b23
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: ""
+          - columnReference:
+              columnCounter: 06f52e52-6edb-43b5-90b7-3e514c70da51
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: VARCHAR(64)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d5f1aaa8-22f4-4783-8e13-f1bb1346eba9
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: ""
+          - columnReference:
+              columnCounter: 7ced0417-28a7-47f2-8b1c-9c99fa4143f1
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: NUMBER(13,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1892a251-44a2-4fdd-9764-2b101c3acf67
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: SUM("STG_INVENTORY_STORE_WGT"."INVENTORY")
+          - columnReference:
+              columnCounter: 9b216323-cc20-4b6c-8aa5-3eb04419442c
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: INTEGER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORES_WITH_INVENTORY_COUNT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2f12f685-ea61-416a-a3e2-84703e0707c2
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: SUM("STG_INVENTORY_STORE_WGT"."INVENTORY_FLAG")
+          - columnReference:
+              columnCounter: 6d6004d1-e4ab-4fc0-955b-0a9b8969698d
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: INTEGER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORES_COUNT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2f12f685-ea61-416a-a3e2-84703e0707c2
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: COUNT(1)
+          - columnReference:
+              columnCounter: 8cfed4b8-ef79-45f9-a40b-a7ad4d526263
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            dataType: DECIMAL(12,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_WGT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2f12f685-ea61-416a-a3e2-84703e0707c2
+                    stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+                transform: SUM("STG_INVENTORY_STORE_WGT"."INVENTORY_WGT")
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: d20c73bd-7de1-484f-adde-58b562b01520
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: e8d3b719-e807-45a0-a216-ccd450e9fd18
+              stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              STG_INVENTORY_STORE_WGT: f9d479c5-bb55-48fc-a88d-79f914230095
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_INVENTORY_STORE_WGT
+            join:
+              joinCondition: |
+                FROM  {{ ref('STAGE', 'STG_INVENTORY_STORE_WGT') }} "STG_INVENTORY_STORE_WGT"
+                GROUP BY 1 , 2, 3
+            name: DS_INVENTORY_WGT
+            noLinkRefs: []
+      name: DS_INVENTORY_WGT
+      overrideSQL: false
+      schema: ""
+      sqlType: "1"
+      type: sql
+    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5

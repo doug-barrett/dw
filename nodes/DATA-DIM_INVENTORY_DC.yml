@@ -1,0 +1,99 @@
+steps:
+  DIM_INVENTORY_DC-12229feb-c606-4c4f-8cba-d041fd816c7f:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Type 1 DC Dimension - no surrogate key
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 3e7d1e7f-e798-41d3-9ae8-d12faac5ad73
+              stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            dataType: VARCHAR(20)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: DC_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: aae8e46b-6731-4e3c-9fb1-0d92cdc8942c
+                    stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798
+                transform: ""
+          - columnReference:
+              columnCounter: 0cef2ed1-51df-4e51-9c54-48f15974acfe
+              stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DC_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d9a0a882-f4b2-494b-aa4e-a50057702be2
+                    stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: de417e93-1102-41c6-9e8c-bc0df3fd795e
+              stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 702ee6e8-ba9e-404b-896d-5d1df948054f
+              stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_DIM_INVENTORY_DC
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'VW_DIM_INVENTORY_DC') }} "VW_DIM_INVENTORY_DC"
+            name: DIM_INVENTORY_DC
+            noLinkRefs: []
+      name: DIM_INVENTORY_DC
+      overrideSQL: false
+      schema: ""
+      sqlType: "19"
+      type: sql
+    stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f

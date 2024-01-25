@@ -1,0 +1,115 @@
+steps:
+  DS_INVENTORY_DC-b7efa84b-2831-412b-b219-6607e13f8139:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 2e6c42f9-2ce4-405f-8e9c-60df3f576adf
+              stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+            dataType: VARCHAR(20)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: DC_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c0ccff67-2eea-46ab-b6c7-926ce1bca9a0
+                    stepCounter: 954e72db-d872-4069-b040-e27d12e30e8c
+                transform: ""
+          - columnReference:
+              columnCounter: a4a64290-b63e-43d4-a40a-eed11254dd75
+              stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DC_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3917f701-e03d-44ad-9479-879de3a0c09e
+                    stepCounter: 954e72db-d872-4069-b040-e27d12e30e8c
+                transform: ""
+          - columnReference:
+              columnCounter: 4c648241-5bf5-4440-8e35-17ac159ecd91
+              stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+            dataType: DATETIME
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PC_DT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5a1cbb1b-7831-46df-8b3f-ceab186c68a8
+                    stepCounter: 954e72db-d872-4069-b040-e27d12e30e8c
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 707d4ba6-7d8e-437a-9db1-70b031a72e3f
+              stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: de1775d6-8271-42f4-be9e-4ec150d12df0
+              stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LAND_DC_INFO: 954e72db-d872-4069-b040-e27d12e30e8c
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: LAND
+                nodeName: LAND_DC_INFO
+            join:
+              joinCondition: FROM {{ ref('LAND', 'LAND_DC_INFO') }} "LAND_DC_INFO"
+            name: DS_INVENTORY_DC
+            noLinkRefs: []
+      name: DS_INVENTORY_DC
+      overrideSQL: false
+      schema: ""
+      sqlType: "1"
+      type: sql
+    stepCounter: b7efa84b-2831-412b-b219-6607e13f8139

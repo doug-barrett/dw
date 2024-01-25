@@ -1,0 +1,113 @@
+steps:
+  DS_INVENTORY_STORE_STK-7263eb53-ab14-44c3-803c-55093773bd1a:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 1ed883b2-b6ec-4a0d-8901-fe06409e78f9
+              stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a366831c-e5c8-46a5-9901-f70b3bccb375
+                    stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+                transform: ""
+          - columnReference:
+              columnCounter: 1de0cc60-c93d-491a-907f-0733423cff82
+              stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 169be146-9ea7-419f-a2d1-57f802d6cd7f
+                    stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+                transform: RIGHT('000000'||"PRODKEY",6)
+          - columnReference:
+              columnCounter: d661d506-e9bc-4b65-b847-b5708f6d0ed0
+              stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: df478f1d-58ce-4ac1-812b-560eda920242
+                    stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+                transform: ""
+          - columnReference:
+              columnCounter: b3ba153c-a13f-49eb-80cf-78dbaf58f7ae
+              stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: UPDATED_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1dc8c09f-ae9c-428e-b62b-dcd45147fb53
+                    stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 1a6eba7c-13fd-4738-a8a0-c5750d62b666
+              stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LAND_INV_STORE_STK: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: LAND
+                nodeName: LAND_INV_STORE_STK
+            join:
+              joinCondition: FROM {{ ref('LAND', 'LAND_INV_STORE_STK') }} "LAND_INV_STORE_STK"
+            name: DS_INVENTORY_STORE_STK
+            noLinkRefs: []
+      name: DS_INVENTORY_STORE_STK
+      overrideSQL: false
+      schema: ""
+      sqlType: "1"
+      type: sql
+    stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a

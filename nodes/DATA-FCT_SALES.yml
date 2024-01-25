@@ -1,0 +1,432 @@
+steps:
+  FCT_SALES-edb69968-a252-4f04-91e2-f862df7f0842:
+    operation:
+      config:
+        postSQL: |-
+          UPDATE {{this}} FCT_SALES
+          SET DIM_EVENTS_KEY = DIM_EVENTS.DIM_EVENTS_KEY, 
+              DIM_EVENTS_REGION_KEY = DIM_EVENTS.DIM_EVENTS_REGION_KEY
+          FROM {{ref('DATA','DIM_EVENTS')}} DIM_EVENTS
+          WHERE FCT_SALES.ZONE_CODE = DIM_EVENTS.ZONE_CODE
+          AND FCT_SALES.PRODKEY = DIM_EVENTS.PRODKEY
+          AND FCT_SALES.TRANSACTION_DATE BETWEEN DIM_EVENTS.EFFECTIVE_DATE AND DIM_EVENTS.END_DATE
+          AND FCT_SALES.DIM_EVENTS_KEY <> DIM_EVENTS.DIM_EVENTS_KEY
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 85691663-fe98-4bbf-b11f-4f63a03b9740
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: TRANSACTION_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: db378028-aa0b-43f8-9fc7-70aebd2b9799
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 6e116a04-564e-4c48-a27c-152e26c382e6
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 302f9bb5-02f5-48d9-a528-e7f7299358c9
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 83e7af26-eb8b-4231-b2ff-3fd01f1f5166
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 69f53816-c283-41e2-abc1-ec2dee1e7f3a
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 03dd9d58-40d5-4e3b-9662-0b3cd5b4fe6a
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_EVENTS_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3debab10-0e98-4896-9aaa-c0c6b562b145
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 5b9a7d58-dd99-4804-a91e-3b1217ae51b4
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: INT
+            description: ""
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0eef50d2-01cc-4044-a125-1bbe28ab0ce4
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: ca77f8ff-6238-42e2-bae7-030090fbc23b
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_PRICE_COST_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 02d91381-55c5-43a4-b095-72f3bd9acc1b
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: e79ade5f-ec34-4bf6-8f33-714bd4d30eb4
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c004604b-50ac-4db3-b833-0ab1063b9d24
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 81463d31-4dc8-4560-998d-50017c4518e3
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d919e3d2-6556-4412-8725-10d9bc42b88a
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: c3b9b4bc-ca49-4e85-b3cc-6406a83345ea
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0bf78102-29be-444b-9052-7d98000f9cae
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: fa78b7c8-788d-4896-a8f7-62fbc6d43571
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 31fce012-5bd3-4cb6-a4e7-377c7002a6ad
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: de2ea0c6-1d1d-46b4-b385-86078f81cea2
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PROMO_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 021f4a4f-2367-400c-8195-cb39d495ae66
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 2537acf4-abd8-4fc5-ad7b-e0a689d11f2b
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e9bb1eed-c387-4cf7-99a9-fbd2fc88535a
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 79c6c981-52dc-4406-8152-21586a8c51af
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: PRICE_EX_VAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: de1b94ed-ac9a-4279-a927-278746b61736
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 30978c6f-a93b-4e76-9bea-48b7ef2cffe5
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: db88abe7-905d-41df-a6c1-c6d49bf4bc9f
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: a58f8ebd-a5da-4906-9597-bfe231b9eb04
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UNITS_RETURNS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4660137d-a625-41ce-aa40-a5e42bdb8bd1
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 66ffd1fe-45ab-479b-b4a9-f3ff3fcabfe2
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UNITS_NET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b5a32553-2a76-4b13-a77f-f0941538a796
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 3f307ae3-b3f8-45ec-a2f9-9883154f8957
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: AVG_PRICE_ACTUAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d0f4d89d-0215-42a7-90f1-31f80bebd81f
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: b7afac16-efb0-459c-9f56-4d9d2011f47c
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(15,2)
+            description: ""
+            name: SALES_TOTAL_ACTUAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c23f4968-3183-415b-b696-0926e9de89e1
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: d4e68d49-70a1-4d43-bd5c-bb0279f0115a
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: SALES_TOTAL_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ea9ba483-6d6e-4d2d-9001-0b0818e150af
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: ce985216-60ea-4375-92ef-2e5fc366bf44
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: SALES_TOTAL_NET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cf99a588-87e0-4c35-91eb-4ffd7693b1b5
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: fe13fc1d-bab6-4f41-af53-7ba6bb5314bd
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: MARGIN_TOTAL_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ff3a26f1-c228-44ec-b3f3-cf21e843cd9d
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 61e7d4e2-7de4-4e40-b6cb-2542eeb1967b
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: ACP_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 76ecfc4a-4287-4279-9baf-bbd233f9218e
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 8f0de424-8414-407e-937c-8f2421ae05b7
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UBC_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d8814574-dccb-45a7-81d2-7027b5c5ddc9
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 2ce695c6-f5e0-463e-aa06-898aa5688f1e
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: SOA_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2708d13e-6993-491a-b563-24b4f0b58c78
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: ab34435a-30ff-454b-aba9-a28d901d48fc
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: TA_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ca6cd13c-48df-4b13-9c98-06fb39aac361
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 3a65fd55-b827-4d8e-8be7-96137573b8f8
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: COST_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b027953e-3e84-4a7d-b691-8b52b4f8c4e0
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: bfecdfed-ac8e-472e-b856-8ff1f56d779a
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: NUMBER(16,2)
+            description: ""
+            name: MARGIN_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c4416154-61c5-4964-a969-ef19838b26ca
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 51d1a913-c191-408a-ba67-31c8e9e4e681
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(3)
+            description: ""
+            name: CURRENCY_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6ab850be-c0e2-4129-bca4-82d995a2d385
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - columnReference:
+              columnCounter: 75674ccf-a86c-449e-90db-29e221224e18
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            dataType: VARCHAR(2)
+            description: PAYMENT_METHOD_CODE
+            name: PAYMENT_METHOD_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fb731b34-c7e4-4e2d-81f3-441ea9c569fb
+                    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 2b715217-d8f7-45a5-a828-f170fc66d89d
+              stepCounter: edb69968-a252-4f04-91e2-f862df7f0842
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              STG_FCT_SALES: 80217ffd-0123-46d0-831b-f27e6326b209
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_FCT_SALES
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'STG_FCT_SALES') }} "STG_FCT_SALES"
+            name: FCT_SALES
+            noLinkRefs: []
+      name: FCT_SALES
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: edb69968-a252-4f04-91e2-f862df7f0842

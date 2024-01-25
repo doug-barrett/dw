@@ -1,0 +1,250 @@
+steps:
+  DIM_EVENTS_REGION-b4585615-226c-470e-8e85-be95816a6df2:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: |
+          UPDATE {{ref('DATA','DIM_EVENTS')}} DIM_EVENTS
+          SET DIM_EVENTS_REGION_KEY = E.DIM_EVENTS_REGION_KEY
+          FROM {{this}} E
+          WHERE DIM_EVENTS.ZONE_GEOGRAPHY = E.ZONE_GEOGRAPHY
+          AND DIM_EVENTS.PRODKEY = E.PRODKEY
+          AND DIM_EVENTS.EFFECTIVE_DATE = E.EFFECTIVE_DATE
+          AND DIM_EVENTS.DIM_EVENTS_REGION_KEY = 0
+
+          {{ stage('Update Base') }}
+          UPDATE {{this}}
+          SET DIM_BASE_EVENTS_KEY = BASE.DIM_EVENTS_REGION_KEY
+          FROM {{this}} BASE
+          WHERE DIM_EVENTS_REGION.ZONE_GEOGRAPHY = BASE.ZONE_GEOGRAPHY
+          AND DIM_EVENTS_REGION.PRODKEY = BASE.PRODKEY
+          AND DIM_EVENTS_REGION.BASE_EFFECTIVE_DATE = BASE.EFFECTIVE_DATE
+          AND DIM_EVENTS_REGION.DIM_BASE_EVENTS_KEY = 0
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: |-
+        Regional Events.
+        Post-SQL updates DIM_EVENTS with DIM_EVENTS_REGION_KEY.
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        columns:
+          - columnReference:
+              columnCounter: 546e14b9-c682-44e1-aca5-293a5b15141b
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: INTEGER
+            defaultValue: ""
+            description: Generated artificial key
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+          - columnReference:
+              columnCounter: 4eac2c7b-8ee9-4320-bd25-1fdd243b7ff1
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: VARCHAR(64)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e805f193-bd03-4e35-99f5-bfb2dafd8481
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: a9163f5d-17c9-4a2c-a3d1-7107ef1070ab
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: VARCHAR(64)
+            description: ""
+            isBusinessKey: true
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 27bacb4c-15f0-44a7-9e08-d85cee2d9f47
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 04051e5b-ddee-400e-860e-eb5525c2652f
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: CHAR(6)
+            description: This is the product key
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 45b2399f-8539-4365-b56f-11f14699e9a1
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: d7c8dcd9-76f9-4ce1-bf33-52f2c1966033
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: DATE
+            description: ""
+            isBusinessKey: true
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e1878ba3-1170-4673-925b-4c8e1b85807b
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 54ae9040-6db3-45be-914c-cf07ada4ed2c
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e5b562bd-74e4-4e5e-8ed5-3ebbe2d5098e
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 5c93352d-8419-42d5-880b-b2c00d1cf1c8
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: NUMBER(9,2)
+            description: ""
+            name: WAS_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2965ccd5-6c42-4e07-9ef5-4c932df6afc7
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 9672042f-7aae-4b02-b43f-67f823a84cc3
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: NUMBER(9,2)
+            description: ""
+            name: NOW_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7eb21d76-e90d-4252-85dd-f5f862ad6814
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: f0ac6e7c-2942-4b54-8e56-c5e4fbebde7f
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: VARCHAR(64)
+            description: ""
+            name: WAS_NOW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7d0d955f-3b8c-44c8-9c2d-4e3fcc292802
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 47b448fd-732b-4e31-95e9-e6d52f2ae1c3
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: INT
+            description: ""
+            name: DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18171891-a1b1-4571-a514-74b3504c66ff
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 4481aa14-ead4-4a50-86c6-7192530a533a
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: INT
+            description: ""
+            name: DIM_BASE_EVENTS_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "0"
+          - columnReference:
+              columnCounter: 45eb73d8-d2a4-49b3-b475-ed964a0c0047
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: DATE
+            description: ""
+            name: BASE_EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5de7e16a-d119-4d12-bf3a-1f93fd9915a1
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 6fbf2102-1a63-41de-ba03-0b629ed612d2
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: DATE
+            description: ""
+            name: BASE_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 09bf087e-6736-40bb-81a2-2c1be019d19a
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: 05e27c92-4385-4896-9a14-e248b522bfcb
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: INT
+            description: ""
+            name: BASE_DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 61058859-b55f-455f-a78b-21022d332ea6
+                    stepCounter: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+                transform: ""
+          - columnReference:
+              columnCounter: aa584909-2972-4f3c-9628-d149c404f20c
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: Date and time the row was created in the data warehouse.
+            name: DSS_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+          - columnReference:
+              columnCounter: c706d821-ec90-4f80-9fb9-fd20e8a90056
+              stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: Date and time the row was updated in the data warehouse.
+            name: DSS_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+        sourceMapping:
+          - aliases:
+              VW_EVENTS_REGION: e71b17ec-e0b8-4565-8dc1-2080df360a5e
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_EVENTS_REGION
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'VW_EVENTS_REGION') }} "VW_EVENTS_REGION"
+            name: DIM_EVENTS_REGION
+            noLinkRefs: []
+      name: DIM_EVENTS_REGION
+      overrideSQL: false
+      sqlType: "19"
+      type: sql
+    stepCounter: b4585615-226c-470e-8e85-be95816a6df2

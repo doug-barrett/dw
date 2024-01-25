@@ -1,0 +1,101 @@
+steps:
+  DS_PRODUCT_GROUP-c74b1ff3-7a83-4492-8c26-b85dc7e1f50a:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 18d3d1e3-7aac-4112-808c-78147644be82
+              stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 02317b05-9101-45ff-a071-efe7b3cb1113
+                    stepCounter: 5b0036c6-f73b-49a8-b51f-46597c418ac8
+                transform: RIGHT('000000'||"PRODUCTKEY",6)
+          - columnReference:
+              columnCounter: cc51217f-c410-4d05-b646-56c87fe9b110
+              stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: GROUP_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a4ff6fef-89d0-474b-9966-2ff016407626
+                    stepCounter: 5b0036c6-f73b-49a8-b51f-46597c418ac8
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: abf4b7d9-9ac1-4f98-935b-3a797fc9de3c
+              stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 021b8512-29e2-444d-98a3-f2f77f2c9a4b
+              stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemUpdateDate: true
+            name: SYSTEM_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              LAND_PROD_GROUP: 5b0036c6-f73b-49a8-b51f-46597c418ac8
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: LAND
+                nodeName: LAND_PROD_GROUP
+            join:
+              joinCondition: FROM {{ ref('LAND', 'LAND_PROD_GROUP') }} "LAND_PROD_GROUP"
+            name: DS_PRODUCT_GROUP
+            noLinkRefs: []
+      name: DS_PRODUCT_GROUP
+      overrideSQL: false
+      schema: ""
+      sqlType: "1"
+      type: sql
+    stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a

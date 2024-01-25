@@ -1,0 +1,111 @@
+steps:
+  FCT_INVENTORY_DC-41708d9c-50ea-4410-bb0f-d4febd4c39b7:
+    operation:
+      config:
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATA
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c21638b8-9062-4a7c-ae06-75961b554d7a
+              stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: DC_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 790a679d-cb18-43e7-b9e0-08e03525fa99
+                    stepCounter: a8d64918-a5cc-42fe-b75c-69824eca67f7
+                transform: ""
+          - columnReference:
+              columnCounter: 08d7b62b-33e8-4f0f-991c-735e76fab57c
+              stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 025a3a44-7486-4a3d-b204-06bb0ac3f1a4
+                    stepCounter: a8d64918-a5cc-42fe-b75c-69824eca67f7
+                transform: ""
+          - columnReference:
+              columnCounter: e327dff9-14bb-41e1-a207-669076229ef8
+              stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 79531475-63bb-4563-b8a4-b9dc07f9686e
+                    stepCounter: a8d64918-a5cc-42fe-b75c-69824eca67f7
+                transform: ""
+          - columnReference:
+              columnCounter: 8efdec7a-6a0d-4416-820e-a44789bf33d8
+              stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            isBusinessKey: true
+            name: UPDATED_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ddf7c11c-87f1-49a3-b21b-46c2b4f12db6
+                    stepCounter: a8d64918-a5cc-42fe-b75c-69824eca67f7
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 21acd070-92f1-4ff0-ab71-04ca3553284e
+              stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemCreateDate: true
+            name: SYSTEM_CREATE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_FCT_INVENTORY_DC
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'STG_FCT_INVENTORY_DC') }} "STG_FCT_INVENTORY_DC"
+            name: FCT_INVENTORY_DC
+            noLinkRefs: []
+      name: FCT_INVENTORY_DC
+      overrideSQL: false
+      schema: ""
+      sqlType: Fact
+      type: sql
+    stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
