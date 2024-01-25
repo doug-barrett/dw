@@ -1,0 +1,250 @@
+steps:
+  VW_DIM_EVENTS-f678e8cf-4171-42f1-89a2-f9e61af192a7:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        selectDistinct: false
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 93fd3a83-a52a-4780-8e15-9bebe0a16dba
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: CHAR(6)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8095"
+                    stepCounter: "613"
+                transform: ""
+          - columnReference:
+              columnCounter: fae4b3bb-ef14-4468-976c-afc8abb804ed
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8096"
+                    stepCounter: "613"
+                transform: ""
+          - columnReference:
+              columnCounter: bd6743ed-8a2d-4f15-abaf-d496f41e8a61
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e2d17dda-eabd-44ab-88c4-607609cacd28
+                    stepCounter: "613"
+                transform: ""
+          - columnReference:
+              columnCounter: 709fdf6e-45ff-4bb5-8e9f-e78623157d45
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8097"
+                    stepCounter: "613"
+                transform: ""
+          - columnReference:
+              columnCounter: 6fb273d1-fe7f-45dc-8d69-6752dedde177
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: NEXT_EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8097"
+                    stepCounter: "613"
+                transform: LEAD("STG_DIM_EVENTS_PERIODS"."EFFECTIVE_DATE", 1) OVER (PARTITION BY "STG_DIM_EVENTS_PERIODS".ZONE_CODE, "STG_DIM_EVENTS_PERIODS".PRODKEY ORDER BY "STG_DIM_EVENTS_PERIODS".EFFECTIVE_DATE)
+          - columnReference:
+              columnCounter: 17d194e4-ce6a-419f-8a8a-e5393e9be4a3
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: END_DATE_CALC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8098"
+                    stepCounter: "613"
+                transform: |-
+                  CASE WHEN NEXT_EFFECTIVE_DATE IS NOT NULL AND "STG_DIM_EVENTS_PERIODS"."END_DATE" >= NEXT_EFFECTIVE_DATE 
+                  THEN NEXT_EFFECTIVE_DATE - 1
+                  ELSE "STG_DIM_EVENTS_PERIODS"."END_DATE"
+                  END
+          - columnReference:
+              columnCounter: 48fe67b4-2ddc-4c7f-a8aa-42783e526ffb
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8098"
+                    stepCounter: "613"
+                transform: END_DATE_CALC
+          - columnReference:
+              columnCounter: 9e8bd725-e595-4644-bb54-2fdf512dd21b
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WAS_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8099"
+                    stepCounter: "613"
+                transform: ""
+          - columnReference:
+              columnCounter: bc62c30d-4517-4590-8099-f82063f946b6
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: NOW_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8100"
+                    stepCounter: "613"
+                transform: NVL("STG_DIM_EVENTS_PERIODS"."NOW_PRICE", 0)
+          - columnReference:
+              columnCounter: 45977e00-300e-4e62-a402-d3b92fedad9f
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WAS_NOW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8100"
+                    stepCounter: "613"
+                transform: |-
+                  CASE WHEN "STG_DIM_EVENTS_PERIODS".EVENT_TYPE = 'EVENT' THEN 'WAS ' || TO_CHAR(TO_NUMBER(NVL("STG_DIM_EVENTS_PERIODS"."WAS_PRICE", 0), 10, 2))
+                   || ' NOW ' || TO_CHAR(TO_NUMBER(NVL("STG_DIM_EVENTS_PERIODS"."NOW_PRICE", 0), 10, 2))
+                  ELSE ''
+                  END
+          - columnReference:
+              columnCounter: b395845e-5ed0-4eab-9125-8acbe083af82
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8097"
+                    stepCounter: "613"
+                transform: DATEDIFF(DAY, "STG_DIM_EVENTS_PERIODS"."EFFECTIVE_DATE", END_DATE_CALC) + 1
+          - columnReference:
+              columnCounter: 5806d75b-0e1c-4604-9bac-96d10d53ac1c
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "8121"
+                    stepCounter: "613"
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: ad3fdc28-2cf7-452c-bbbe-b6d1a88fdd03
+              stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7
+            config: {}
+            dataType: DECIMAL(12,2)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: EVENT_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1ae492c4-01c6-4fec-a9b8-836559ca5763
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: "NVL(\"DS_TLOG_DAY\".\"UNITS_SALES\",0) "
+            systemColumnType: None
+            transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              STG_DIM_EVENTS_PERIODS: "613"
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_TLOG_DAY
+              - locationName: STAGE
+                nodeName: STG_DIM_EVENTS_PERIODS
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'STG_DIM_EVENTS_PERIODS') }} "STG_DIM_EVENTS_PERIODS"
+                LEFT JOIN (
+                    SELECT "STG_DIM_EVENTS_PERIODS"."ZONE_CODE", "STG_DIM_EVENTS_PERIODS"."PRODKEY", "STG_DIM_EVENTS_PERIODS"."EFFECTIVE_DATE", SUM("DS_TLOG_DAY"."UNITS_SALES") UNITS_SALES
+                    FROM {{ ref('STAGE', 'STG_DIM_EVENTS_PERIODS') }} "STG_DIM_EVENTS_PERIODS"
+                    JOIN {{ ref('DATASTORE', 'DS_TLOG_DAY') }} "DS_TLOG_DAY" 
+                    ON "STG_DIM_EVENTS_PERIODS"."ZONE_CODE" = "DS_TLOG_DAY".ZONE_CODE
+                    AND "STG_DIM_EVENTS_PERIODS"."PRODKEY" = "DS_TLOG_DAY"."PRODKEY"
+                    AND "DS_TLOG_DAY"."TRANSACTION_DATE" BETWEEN "STG_DIM_EVENTS_PERIODS"."EFFECTIVE_DATE" AND "STG_DIM_EVENTS_PERIODS"."END_DATE"
+                    GROUP BY "STG_DIM_EVENTS_PERIODS"."ZONE_CODE", "STG_DIM_EVENTS_PERIODS"."PRODKEY", "STG_DIM_EVENTS_PERIODS"."EFFECTIVE_DATE") DS_TLOG_DAY
+                ON "STG_DIM_EVENTS_PERIODS"."ZONE_CODE" = "DS_TLOG_DAY"."ZONE_CODE"
+                AND "STG_DIM_EVENTS_PERIODS"."PRODKEY" = "DS_TLOG_DAY"."PRODKEY"
+                AND "STG_DIM_EVENTS_PERIODS"."EFFECTIVE_DATE" = "DS_TLOG_DAY"."EFFECTIVE_DATE"
+            name: VW_DIM_EVENTS
+            noLinkRefs: []
+      name: VW_DIM_EVENTS
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: f678e8cf-4171-42f1-89a2-f9e61af192a7

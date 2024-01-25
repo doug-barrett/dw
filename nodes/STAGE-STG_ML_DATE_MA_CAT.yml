@@ -1,0 +1,72 @@
+steps:
+  STG_ML_DATE_MA_CAT-84c5ab19-0359-4da4-a29f-e355062d76cc:
+    operation:
+      config:
+        insertStrategy: UNION
+        postSQL: null
+        preSQL: null
+        selectDistinct: false
+        testsEnabled: false
+        truncateBefore: false
+      database: ""
+      deployEnabled: true
+      description: Used to assemble data for Multi-series (non Exogenous varible) Machine Learning data set
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c36f9c65-1cfc-46ed-ae0c-c39dbc3bbfc3
+              stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: ""
+          - columnReference:
+              columnCounter: 62700dbf-8151-4a71-afe0-33dd5273b2fb
+              stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: MA_CAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d51521a9-8a90-4dce-ac03-335f02066694
+                    stepCounter: 0813ddc0-613c-4ce4-bce8-0a10ec464af8
+                transform: MA_CAT
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_DATE: 2d9f453e-f432-4a19-a605-81709e23d574
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_DATE
+              - locationName: VIEWS
+                nodeName: VWA_PRODUCT
+            join:
+              joinCondition: |
+                FROM {{ ref('DATA','DIM_DATE')}} DIM_DATE
+                CROSS JOIN (SELECT DISTINCT MA_CAT FROM {{ref('VIEWS','VWA_PRODUCT')}} WHERE PRICE_CATEGORY <> 'UNKNOWN' AND VOLUME_CATEGORY <> 'UNKNOWN') VWA_PRODUCT
+                WHERE DIM_DATE."CALENDAR_DATE" BETWEEN DATEADD(MONTH, -30, CURRENT_DATE)  AND CURRENT_DATE -1
+            name: STG_ML_DATE_MA_CAT
+            noLinkRefs: []
+      name: STG_ML_DATE_MA_CAT
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc

@@ -1,0 +1,88 @@
+steps:
+  STG_ML_DATE_MA_CAT_SALES-cbfdd124-b7b6-452a-b143-776ec5b2855c:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 406b6a7b-88c2-4098-a92e-da578a935483
+              stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c36f9c65-1cfc-46ed-ae0c-c39dbc3bbfc3
+                    stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+                transform: ""
+          - columnReference:
+              columnCounter: 96082a5f-aed4-4dd6-a11d-7fa9ffc808ab
+              stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+            dataType: STRING
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: MA_CAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 62700dbf-8151-4a71-afe0-33dd5273b2fb
+                    stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+                transform: ""
+          - columnReference:
+              columnCounter: a1ea5302-f172-4d83-bab7-d6904e8daad2
+              stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+            dataType: FLOAT
+            description: ""
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2e4dabe9-3f0d-4fad-a223-a329fe63706d
+                    stepCounter: 45d67377-5ec6-4f4c-aab9-a27ef8329b43
+                transform: NVL(UNITS_SALES, 0)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              STG_ML_DATE_MA_CAT: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_ML_DATE_MA_CAT
+              - locationName: VIEWS
+                nodeName: VWA_SALES_DAY
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'STG_ML_DATE_MA_CAT') }} "STG_ML_DATE_MA_CAT"
+                LEFT JOIN (
+                    SELECT "TRANSACTION_DATE", MA_CAT, SUM(UNITS_SALES) UNITS_SALES
+                    FROM {{ ref('VIEWS', 'VWA_SALES_DAY') }}
+                    WHERE  "ZONE_GEOGRAPHY" = 'UK'
+                    GROUP BY 1, 2) "VWA_SALES_DAY"
+                ON "STG_ML_DATE_MA_CAT"."TRANSACTION_DATE" = "VWA_SALES_DAY"."TRANSACTION_DATE"
+                AND "STG_ML_DATE_MA_CAT"."MA_CAT" = "VWA_SALES_DAY".MA_CAT
+            name: STG_ML_DATE_MA_CAT_SALES
+            noLinkRefs: []
+      name: STG_ML_DATE_MA_CAT_SALES
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c

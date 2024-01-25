@@ -1,0 +1,77 @@
+steps:
+  SQL_EVENTS-a09ef102-4ad5-4163-a713-31f957297b74:
+    operation:
+      config:
+        SQLstmt: |-
+          DELETE 
+          FROM {{ref_no_link('DATA', 'DIM_EVENTS')}} 
+          WHERE EVENT_TYPE = 'BASE ALL'
+          AND EXISTS (SELECT 1 
+                      FROM {{ref_no_link('DATA', 'DIM_EVENTS')}} EVT
+                      WHERE EVT.EVENT_TYPE = 'EVENT'
+                        AND DIM_EVENTS.ZONE_CODE = EVT.ZONE_CODE
+                        AND DIM_EVENTS.PRODKEY = EVT.PRODKEY)
+      database: ""
+      deployEnabled: true
+      description: Delete Base ALL events (products that have never been promoted) when a promotion is added for a product / geography
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: b407cbe5-d712-4975-b322-55b50b65922d
+              stepCounter: a09ef102-4ad5-4163-a713-31f957297b74
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSQL: true
+            name: SYSTEM_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: CURRENT_TIMESTAMP
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: faa4769c-1d7b-437b-b1af-f3d1db1130e3
+              stepCounter: a09ef102-4ad5-4163-a713-31f957297b74
+            config: {}
+            dataType: VARCHAR
+            defaultValue: ""
+            description: ""
+            hashColumns: []
+            isSystemStartDate: true
+            name: SQL_STMT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS
+            join:
+              joinCondition: FROM {{ ref('DATA', 'DIM_EVENTS') }} "DIM_EVENTS"
+            name: SQL_EVENTS
+            noLinkRefs: []
+      name: SQL_EVENTS
+      overrideSQL: false
+      schema: ""
+      sqlType: "25"
+      type: sql
+    stepCounter: a09ef102-4ad5-4163-a713-31f957297b74

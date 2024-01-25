@@ -1,0 +1,148 @@
+steps:
+  VW_MEASURES_BASE-f754b968-8ad1-4d4e-9086-9c91f6ae625b:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 99c7d754-f1f6-4825-8819-e5a1ad27a54c
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bcede211-1839-4363-b6da-6fa314efe9ac
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: ""
+          - columnReference:
+              columnCounter: a87fe17e-c808-4a4b-9dc3-a23ae4d70a67
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 67539d7f-ec1f-4f62-95c0-e1a6e99796f7
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: ""
+          - columnReference:
+              columnCounter: 017c9265-ae17-48aa-a4f8-3a2d8bd9ac43
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 53776bbd-937c-4506-a163-dedff0387a4a
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: MIN("FCT_SALES_DAY"."TRANSACTION_DATE")
+          - columnReference:
+              columnCounter: 1f227176-7c60-40b1-822f-2f58775ab5f6
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 53776bbd-937c-4506-a163-dedff0387a4a
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: MAX("FCT_SALES_DAY"."TRANSACTION_DATE")
+          - columnReference:
+              columnCounter: 7c5dea34-eebc-4d89-ba68-3461b9aee19e
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_MODE_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5d150ba2-db3a-4e0f-962a-44deec271577
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: MODE("FCT_SALES_DAY"."PRICE")
+          - columnReference:
+              columnCounter: 7bfed98d-48a3-40e6-8605-58bac1a6e512
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1820fabd-6601-408b-87cf-7222cfc72522
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: SUM("FCT_SALES_DAY"."UNITS_SALES")
+          - columnReference:
+              columnCounter: a544ff74-8a73-4e40-92d8-72057cdb0049
+              stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_UNITS_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1820fabd-6601-408b-87cf-7222cfc72522
+                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+                transform: SUM("FCT_SALES_DAY"."UNITS_SALES") / 21
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              FCT_SALES_DAY: 91c3542a-c2f9-472c-8706-d613acb63e06
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS_REGION
+              - locationName: DATA
+                nodeName: FCT_SALES_DAY
+            join:
+              joinCondition: |
+                FROM {{ ref('DATA','FCT_SALES_DAY')}} "FCT_SALES_DAY"
+                JOIN (
+                   SELECT DIM_EVENTS_REGION_KEY, ZONE_GEOGRAPHY, PRODKEY,
+                        CASE WHEN END_DATE > CURRENT_DATE THEN CURRENT_DATE ELSE END_DATE END END_DATE, 
+                        DATEADD(DAY, -21, CASE WHEN END_DATE > CURRENT_DATE THEN CURRENT_DATE ELSE END_DATE END) START_DATE
+                   FROM {{ ref('DATA','DIM_EVENTS_REGION')}}
+                   WHERE "EVENT_TYPE" LIKE 'BASE%'
+                   AND DURATION >= 21
+                   QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY "ZONE_GEOGRAPHY", PRODKEY ORDER BY EFFECTIVE_DATE DESC)) DIM_EVENTS_REGION
+                ON FCT_SALES_DAY.DIM_EVENTS_REGION_KEY = DIM_EVENTS_REGION.DIM_EVENTS_REGION_KEY
+                AND FCT_SALES_DAY.TRANSACTION_DATE BETWEEN DIM_EVENTS_REGION.START_DATE AND DIM_EVENTS_REGION.END_DATE
+                GROUP BY FCT_SALES_DAY.ZONE_GEOGRAPHY, FCT_SALES_DAY.PRODKEY
+                    
+            name: VW_MEASURES_BASE
+            noLinkRefs: []
+      name: VW_MEASURES_BASE
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b

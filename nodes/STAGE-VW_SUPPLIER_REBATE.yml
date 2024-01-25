@@ -1,0 +1,120 @@
+steps:
+  VW_SUPPLIER_REBATE-7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c2e80615-7cdd-4e66-b3c4-baab9ffce944
+              stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FINANCIAL_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c9b6e120-43c1-438e-a5dc-0c8276609d4c
+                    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+                transform: ""
+          - columnReference:
+              columnCounter: 49be731a-4baf-460d-849f-6b927c4426ab
+              stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e
+            dataType: DATE
+            description: ""
+            name: START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: START_DATE
+          - columnReference:
+              columnCounter: 56d785cd-ce35-4454-9580-8f9b7b65143d
+              stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: END_DATE
+          - columnReference:
+              columnCounter: 9aba03a7-0600-439a-85fb-414c8c050a08
+              stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MA_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e2d3f25d-e854-4d38-9246-db97e4d3ded8
+                    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+                transform: ""
+          - columnReference:
+              columnCounter: 358b0e04-e222-490b-b1ec-353d748916b8
+              stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BRAND
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bd4a60ca-92db-4249-b6d2-fadd57ee17dd
+                    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+                transform: ""
+          - columnReference:
+              columnCounter: b82deeab-e2ff-4d5b-a1e3-6f812aeca56a
+              stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e
+            dataType: NUMBER(5,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: APPLIED_TA_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fcf7236e-e968-4304-9bfd-5d72d7dd6379
+                    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_SUPPLIER_REBATE: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_DATE
+              - locationName: DATASTORE
+                nodeName: DS_SUPPLIER_REBATE
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATASTORE', 'DS_SUPPLIER_REBATE') }} "DS_SUPPLIER_REBATE"
+                JOIN (SELECT "FINANCIAL_YEAR", MIN("CALENDAR_DATE") START_DATE, MAX("CALENDAR_DATE") END_DATE FROM {{ ref('DATA', 'DIM_DATE')}} GROUP BY 1) "DIM_DATE"
+                ON "DS_SUPPLIER_REBATE"."FINANCIAL_YEAR" = "DIM_DATE"."FINANCIAL_YEAR"
+            name: VW_SUPPLIER_REBATE
+            noLinkRefs: []
+      name: VW_SUPPLIER_REBATE
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 7bfba6cf-fb55-49c6-b9cb-ac74badfcb9e

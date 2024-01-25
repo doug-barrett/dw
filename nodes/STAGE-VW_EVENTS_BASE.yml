@@ -1,0 +1,274 @@
+steps:
+  VW_EVENTS_BASE-e29230b4-b3ae-4119-9155-e4b3663ead34:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Used to apply Base Events to DIM_EVENTS
+      isMultisource: true
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 55338d24-59e0-40fb-8b3e-a15816f85367
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_EVENTS_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ca75ac06-f7a4-4f8c-9300-4c60defaafa1
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+              - columnReferences:
+                  - columnCounter: ca75ac06-f7a4-4f8c-9300-4c60defaafa1
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+          - columnReference:
+              columnCounter: fe6d5fd8-dd06-4f81-8d46-6efb7bba6425
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: INT
+            description: ""
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 154321e3-fbe5-4ff5-89db-b83bca824e56
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 154321e3-fbe5-4ff5-89db-b83bca824e56
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+          - columnReference:
+              columnCounter: 8a5d3da9-4fa0-4cd1-9178-334a5514b79f
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: CHAR(6)
+            description: This is the product key
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: db55c32b-f3c7-4a48-8368-d2840e03b078
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+              - columnReferences:
+                  - columnCounter: db55c32b-f3c7-4a48-8368-d2840e03b078
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+          - columnReference:
+              columnCounter: 5cf66fcd-8070-4772-94d7-d88833ff99eb
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: DATE
+            description: ""
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8e51a680-1dc3-4d38-b7a8-63ee84ab62cf
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 8e51a680-1dc3-4d38-b7a8-63ee84ab62cf
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+          - columnReference:
+              columnCounter: b4bdee04-887d-4df3-89db-e0cb39ee1fa1
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_BASE_EVENTS_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ca75ac06-f7a4-4f8c-9300-4c60defaafa1
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: "\"DIM_EVENTS_BASE\".\"DIM_EVENTS_KEY\""
+              - columnReferences:
+                  - columnCounter: ca75ac06-f7a4-4f8c-9300-4c60defaafa1
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: DIM_EVENTS_BASE."DIM_EVENTS_KEY"
+          - columnReference:
+              columnCounter: 9ececc7b-8d52-4ed8-a4eb-5b788dc15873
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8e51a680-1dc3-4d38-b7a8-63ee84ab62cf
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: "\"DIM_EVENTS_BASE\".\"EFFECTIVE_DATE\""
+              - columnReferences:
+                  - columnCounter: 8e51a680-1dc3-4d38-b7a8-63ee84ab62cf
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: DIM_EVENTS_BASE."EFFECTIVE_DATE"
+          - columnReference:
+              columnCounter: 59457d04-857d-47d3-a794-cf13e1974d38
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 002e6247-c720-4273-a348-976df543e144
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: "\"DIM_EVENTS_BASE\".\"END_DATE\""
+              - columnReferences:
+                  - columnCounter: 002e6247-c720-4273-a348-976df543e144
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: DIM_EVENTS_BASE."END_DATE"
+          - columnReference:
+              columnCounter: e7b5f4c7-ec39-4652-85d6-e58f40530214
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: BASE_DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4e877954-235c-4c6f-bbbf-73e0b8a59311
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: "\"DIM_EVENTS_BASE\".\"DURATION\""
+              - columnReferences:
+                  - columnCounter: 4e877954-235c-4c6f-bbbf-73e0b8a59311
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: DIM_EVENTS_BASE."DURATION"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 18a746e3-f5ae-4db5-8e8e-feef450c1ca5
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            config: {}
+            dataType: DECIMAL(12,2)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: BASE_UNITS_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2d2f6f5c-b736-4c39-9cfe-31abf32c4e67
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: "\"DIM_EVENTS_BASE\".\"EVENT_UNITS_PER_DAY\""
+              - columnReferences:
+                  - columnCounter: 2d2f6f5c-b736-4c39-9cfe-31abf32c4e67
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: DIM_EVENTS_BASE."EVENT_UNITS_PER_DAY"
+            systemColumnType: None
+            transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: e0a37fbc-e562-4524-b7cc-1655d7d769bd
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            config: {}
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: BASE_MATCH_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'PREVIOUS BASE, 21+ DAY DURATION'"
+              - columnReferences: []
+                transform: "'PREVIOUS BASE, 7+ DAY DURATION'"
+            systemColumnType: None
+            transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: a3aba64f-3bc1-4a96-b8c2-99c3b3da3d2f
+              stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34
+            config: {}
+            dataType: INT
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: BASE_MATCH_PRIORITY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "1"
+              - columnReferences: []
+                transform: "2"
+            systemColumnType: None
+            transform: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_EVENTS: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+              DIM_EVENTS_BASE: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS
+            join:
+              joinCondition: |-
+                FROM {{ref('DATA','DIM_EVENTS')}} DIM_EVENTS
+                JOIN {{ref('DATA','DIM_EVENTS')}} DIM_EVENTS_BASE
+                 ON DIM_EVENTS."ZONE_CODE" = DIM_EVENTS_BASE."ZONE_CODE" 
+                AND DIM_EVENTS."PRODKEY" = DIM_EVENTS_BASE."PRODKEY"
+                AND DIM_EVENTS."EVENT_TYPE" = 'EVENT'
+                AND DIM_EVENTS_BASE."EVENT_TYPE" LIKE 'BASE%'
+                AND DIM_EVENTS_BASE."DURATION" >= 21
+                AND DIM_EVENTS."EFFECTIVE_DATE" > DIM_EVENTS_BASE."EFFECTIVE_DATE"
+                QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY DIM_EVENTS."DIM_EVENTS_KEY" ORDER BY DIM_EVENTS_BASE."EFFECTIVE_DATE" DESC)
+            name: VW_EVENTS_BASE_21
+            noLinkRefs: []
+          - aliases:
+              DIM_EVENTS: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+              DIM_EVENTS_BASE: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS
+            join:
+              joinCondition: |-
+                FROM {{ref('DATA','DIM_EVENTS')}} DIM_EVENTS
+                JOIN {{ref('DATA','DIM_EVENTS')}} DIM_EVENTS_BASE
+                 ON DIM_EVENTS."ZONE_CODE" = DIM_EVENTS_BASE."ZONE_CODE" 
+                AND DIM_EVENTS."PRODKEY" = DIM_EVENTS_BASE."PRODKEY"
+                AND DIM_EVENTS."EVENT_TYPE" = 'EVENT'
+                AND DIM_EVENTS_BASE."EVENT_TYPE" LIKE 'BASE%'
+                AND DIM_EVENTS_BASE."DURATION" BETWEEN 7 AND 20
+                AND DIM_EVENTS."EFFECTIVE_DATE" > DIM_EVENTS_BASE."EFFECTIVE_DATE"
+                QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY DIM_EVENTS."DIM_EVENTS_KEY" ORDER BY DIM_EVENTS_BASE."EFFECTIVE_DATE" DESC)
+            name: VW_EVENTS_BASE_7
+            noLinkRefs: []
+      name: VW_EVENTS_BASE
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: e29230b4-b3ae-4119-9155-e4b3663ead34

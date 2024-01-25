@@ -1,0 +1,328 @@
+steps:
+  VW_DIM_PRICE_COST-23da740e-50c5-4361-b916-251759082ddb:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Change
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: cd6bfbcb-be15-46f6-ae5e-4e84731aa8a7
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ab24f5cd-4934-4316-88d9-833a838a73e5
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 32972bc1-5543-4181-98c6-e615a53f03cc
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7c9f7041-8ce7-4649-819f-e55a18e36b8e
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 4e764fc9-d27e-49b2-949a-8a9f74b481d2
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PC_DT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ad454901-83a3-46f9-8e18-c781187bee43
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: ead65366-c901-400e-a0bc-e59d110bd824
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PC_DT_END
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ad454901-83a3-46f9-8e18-c781187bee43
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 28580aae-7669-4760-a772-7a784293968d
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: caf80271-9275-4e9a-a52c-733a20787f47
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 23f718c1-8976-4345-a402-39009cedae5f
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_EX_VAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: caf80271-9275-4e9a-a52c-733a20787f47
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: PRICE  / (1 + (NVL(VAT_PERCENT,20) / 100))
+          - columnReference:
+              columnCounter: dcc81357-3e13-4ea3-8ffa-bbe0072bf1c2
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 05c8cb6d-4150-4a21-9023-d4fe013b1c48
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ACP+UBC-SOA
+          - columnReference:
+              columnCounter: 558f7025-7f26-4401-84a3-310d960c0425
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: VAT_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9ef2a537-2d14-4113-8f96-df18b285617d
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 46840482-834e-49db-b29b-c55578fa851e
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ACP
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f8f4d51c-f702-40fb-81ee-45cd33e76987
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 1b1c3b29-fbf7-4984-a773-ff49c1d6f09c
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UBC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c435a63c-b37a-4315-95f2-bf3fe813e8a8
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: a2b7a506-7381-4963-95f1-a0f81407f76a
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TAKE_IN_COST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: aeddabca-29fb-4e59-8d63-b9aeb96c5f91
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: c4e320b0-86d5-48e2-9734-94e26039ceab
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SOA
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8e09d2e1-54c2-44e9-bec4-b7c91e6d9d5e
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 7b59b551-f42d-456b-a48a-3da4c284b036
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(5,2)
+            description: ""
+            name: APPLIED_TA_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fcf7236e-e968-4304-9bfd-5d72d7dd6379
+                    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+                transform: ""
+          - columnReference:
+              columnCounter: f1dd70c6-25f7-4661-9a5d-d5c11d8bbafe
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            name: APPLIED_TA_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fcf7236e-e968-4304-9bfd-5d72d7dd6379
+                    stepCounter: 34345fae-180f-4d96-9eb7-f500b1a2892f
+                transform: COST*(APPLIED_TA_PERCENT/100)
+          - columnReference:
+              columnCounter: 74be8106-f3e7-4a55-b950-1c713c83eaea
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MARGIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 05c8cb6d-4150-4a21-9023-d4fe013b1c48
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: PRICE_EX_VAT - COST + APPLIED_TA_PER_UNIT
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 4dda2c6b-130d-4a12-9d03-c886b2948643
+              stepCounter: 23da740e-50c5-4361-b916-251759082ddb
+            config: {}
+            dataType: TIMESTAMP_NTZ(9)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+            systemColumnType: None
+            transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_DATE: 2d9f453e-f432-4a19-a605-81709e23d574
+              DS_PRICE_COST: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+              DS_PRODUCT: 3c49b8ad-a39f-4dc6-975c-0dd2c4ce0f25
+              DS_SUPPLIER_REBATE: 34345fae-180f-4d96-9eb7-f500b1a2892f
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ this }} AS (
+                  SELECT 	
+                      ZONE_CODE 	
+                    , PRODKEY
+                    , PC_DT	
+                    , LEAD(PC_DT_END, 1,TO_DATE('2100-01-01')) OVER (PARTITION BY PRODKEY, ZONE_CODE ORDER BY PC_DT) -1 PC_DT_END
+                    , PRICE	
+                    , (PRICE  / (1 + (NVL(VAT_PERCENT,20) / 100))) PRICE_EX_VAT
+                    , (ACP + UBC - SOA) COST	
+                    , CASE WHEN VAT_PERCENT <> 0 THEN VAT_PERCENT ELSE CASE WHEN ZONE_CODE in (4, 5) THEN 23 ELSE 20 END END VAT_PERCENT	
+                    , ACP	
+                    , UBC	
+                    , TAKE_IN_COST
+                    , SOA
+                    , APPLIED_TA_PERCENT
+                    , NVL(COST *(APPLIED_TA_PERCENT/100),0) APPLIED_TA_PER_UNIT
+                    , (PRICE_EX_VAT - COST + APPLIED_TA_PER_UNIT) MARGIN
+                    , TO_TIMESTAMP(CURRENT_TIMESTAMP) SYSTEM_CREATE_TIME
+                  FROM (	
+                      SELECT DS_PRICE_COST.prodkey	
+                        , CASE WHEN DS_PRICE_COST.pc_dt = MIN(DS_PRICE_COST.pc_dt) OVER (PARTITION BY DS_PRICE_COST.prodkey, DS_PRICE_COST.ZONE_CODE ORDER BY DS_PRICE_COST.pc_dt) 
+                              THEN TO_DATE('2000-01-01') 
+                          ELSE DS_PRICE_COST.PC_DT 
+                          END pc_dt	
+                        , DS_PRICE_COST.pc_dt pc_dt_end	
+                        , DS_PRICE_COST.ZONE_CODE	
+                        , NVL(DS_PRICE_COST.price, 0) price	
+                        , NVL(DS_PRICE_COST.VAT_PERCENT,0) VAT_PERCENT	
+                        , NVL(DS_PRICE_COST.acp,0) acp	
+                        , NVL(DS_PRICE_COST.ubc,0) ubc	
+                        , NVL(DS_PRICE_COST.soa,0) soa
+                        , DS_PRICE_COST.TAKE_IN_COST
+                        , NVL(DS_SUPPLIER_REBATE.APPLIED_TA_PERCENT, 0) APPLIED_TA_PERCENT
+                      FROM {{ref('DATASTORE','DS_PRICE_COST')}} DS_PRICE_COST
+                      JOIN {{ref('DATASTORE','DS_PRODUCT')}} DS_PRODUCT ON DS_PRICE_COST.PRODKEY = DS_PRODUCT.PRODKEY
+                      JOIN {{ref('DATA', 'DIM_DATE')}} ON DS_PRICE_COST.PC_DT = DIM_DATE.CALENDAR_DATE
+                      LEFT JOIN {{ref('DATASTORE','DS_SUPPLIER_REBATE')}} DS_SUPPLIER_REBATE 
+                        ON DIM_DATE.FINANCIAL_YEAR = DS_SUPPLIER_REBATE.FINANCIAL_YEAR
+                       AND DS_PRODUCT.LEVEL3_CODE = DS_SUPPLIER_REBATE.MA_CODE
+                       AND UPPER(DS_PRODUCT.BRAND) = UPPER(DS_SUPPLIER_REBATE.BRAND)
+                      QUALIFY 	
+                          LAG(NVL(DS_PRICE_COST.price, 0), 1, 0) OVER (PARTITION BY DS_PRICE_COST.ZONE_CODE, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) <> NVL(DS_PRICE_COST.price,0)	
+                        OR LAG(NVL(DS_PRICE_COST.acp,0), 1, 0)    OVER (PARTITION BY DS_PRICE_COST.ZONE_CODE, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) <> NVL(DS_PRICE_COST.acp,0)	
+                        OR LAG(NVL(DS_PRICE_COST.ubc,0), 1, 0)    OVER (PARTITION BY DS_PRICE_COST.ZONE_CODE, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) <> NVL(DS_PRICE_COST.ubc,0)	
+                        OR LAG(NVL(DS_PRICE_COST.soa,0), 1, 0)    OVER (PARTITION BY DS_PRICE_COST.ZONE_CODE, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) <> NVL(DS_PRICE_COST.soa,0)
+                        OR LAG(NVL(APPLIED_TA_PERCENT,0), 1, 0)   OVER (PARTITION BY DS_PRICE_COST.ZONE_CODE, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) <> NVL(APPLIED_TA_PERCENT,0)
+                  ) PC
+                )
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_DATE
+              - locationName: DATASTORE
+                nodeName: DS_PRICE_COST
+              - locationName: DATASTORE
+                nodeName: DS_PRODUCT
+              - locationName: DATASTORE
+                nodeName: DS_SUPPLIER_REBATE
+            join:
+              joinCondition: |2-
+
+                  FROM {{ref('DATASTORE','DS_PRICE_COST')}} DS_PRICE_COST
+                  JOIN {{ref('DATASTORE','DS_PRODUCT')}} DS_PRODUCT ON DS_PRICE_COST.PRODKEY = DS_PRODUCT.PRODKEY
+                  JOIN {{ref('DATA', 'DIM_DATE')}} ON DS_PRICE_COST.PC_DT = DIM_DATE.CALENDAR_DATE
+                  LEFT JOIN {{ref('DATASTORE','DS_SUPPLIER_REBATE')}} DS_SUPPLIER_REBATE 
+                    ON DIM_DATE.FINANCIAL_YEAR = DS_SUPPLIER_REBATE.FINANCIAL_YEAR
+                   AND DS_PRODUCT.LEVEL3_CODE = DS_SUPPLIER_REBATE.MA_CODE
+                   AND DS_PRODUCT.BRAND = DS_SUPPLIER_RETBATE.BRAND
+            name: VW_DIM_PRICE_COST
+            noLinkRefs: []
+      name: VW_DIM_PRICE_COST
+      overrideSQL: true
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 23da740e-50c5-4361-b916-251759082ddb

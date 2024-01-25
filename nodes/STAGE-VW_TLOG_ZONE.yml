@@ -1,0 +1,271 @@
+steps:
+  VW_TLOG_ZONE-8ea642ef-4606-44d0-8121-571a15ba33fa:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Add zone / geography to each transaction based on store code
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 91ad445f-207b-421f-9a78-58dc951a04c9
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b12fd06a-a9ea-462e-8f8f-daf95036dc92
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 12a36f2e-cfdc-4e2a-ac26-f688ace90519
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 29182d7a-9622-400e-b9be-a4a69bc48b83
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: d34baf39-f35c-4a72-8266-897d360ae000
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4c07fa78-69b0-4bba-9595-dd24ab11aa2e
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 0c56ae92-2c32-48f6-9794-dbcb8da69ada
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d87ac593-72e7-4ba0-acb1-b75df113690a
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: bff87bc4-2e76-48e6-bfdd-40a10e02327c
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7ff69c1e-dd44-4aef-9a08-feca19289f6b
+                    stepCounter: b598b9b3-9334-4652-9464-6fbe8ec60392
+                transform: |-
+                  NVL("VW_STORE_ZONE"."ZONE_CODE", 
+                      CASE WHEN VW_TLOG."CURRENCY_CODE" = 'GBP' THEN 1
+                      ELSE 4
+                      END)
+          - columnReference:
+              columnCounter: 5ef34ca2-716d-4f2f-8be9-524cd0a96acd
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7bb36c00-00ed-4e3f-bd42-cce0825a31a3
+                    stepCounter: b598b9b3-9334-4652-9464-6fbe8ec60392
+                transform: |-
+                  NVL("VW_STORE_ZONE"."ZONE_GEOGRAPHY", 
+                      CASE WHEN VW_TLOG."CURRENCY_CODE" = 'GBP' THEN 'UK'
+                      ELSE 'IRELAND'
+                      END)
+          - columnReference:
+              columnCounter: 0655aaad-a61b-4396-b516-3023e2c319a8
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ebc2b6e5-a30a-4b59-b0f7-1fd846202eec
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 780cc3bb-4eaa-4c4d-ade3-ca01aec3686c
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PROMO_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fc121b94-25d7-4e70-8bf8-f973dd531023
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 40065bd4-ae45-47ab-80cf-912801264d86
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(3)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCY_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 874996ee-f33b-4277-9a54-209b7b93c3a9
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 1440df35-c07f-4376-8fdc-2b53cc851ca4
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DECIMAL(15,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 93cbd2ca-3e05-4608-8a55-02c67e683716
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 985d496c-d3c2-4af1-8b63-f631e3442e8c
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c3a6edac-86a2-41e5-bbaa-e369e5b32ffb
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 59e82c9a-1338-4ebc-8c83-df1376c9fc66
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: REGULAR_REVENUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: dd0f416f-ea8d-435e-9406-8825e14100f8
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 03f5c161-5656-4326-a67b-d37c8c4855f2
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_INC_VAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2b4ce51a-069c-4c04-a644-a2afcac93e06
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 79a4f16d-1b1f-4d6f-a069-f1c9cd8cbe56
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: VAT_REVENUE_AMOUNT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ae1bef50-93e3-48a6-a6f5-f9463b952096
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 91e7014c-acb7-4efb-8c05-9ebe66236537
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: VAT_TOTAL_COST_AMOUNT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 85c4cbac-75c8-4d65-a8a7-bbe6fc7d6d82
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+          - columnReference:
+              columnCounter: 77778ca5-65f6-4f65-98a2-7b353e1e940b
+              stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            dataType: VARCHAR(2)
+            description: PAYMENT_METHOD_CODE
+            name: PAYMENT_METHOD_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 23f2ba4a-4814-43bc-9282-3d9d583ac178
+                    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_STORE_ZONE: b598b9b3-9334-4652-9464-6fbe8ec60392
+              VW_TLOG: 40946110-8612-4578-98c1-7f839666893a
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_STORE_ZONE
+              - locationName: STAGE
+                nodeName: VW_TLOG
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'VW_TLOG') }} "VW_TLOG"
+                LEFT JOIN {{ ref('STAGE', 'VW_STORE_ZONE') }} "VW_STORE_ZONE"
+                ON "VW_TLOG"."STORE_CODE" = "VW_STORE_ZONE"."STORE_CODE"
+            name: VW_TLOG_ZONE
+            noLinkRefs: []
+      name: VW_TLOG_ZONE
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa

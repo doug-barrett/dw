@@ -1,0 +1,141 @@
+steps:
+  STG_FCT_INVENTORY_STORE-e53fe604-0e25-46fa-b968-1c9361fc63b3:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c2c0bbe2-9872-42ec-98ca-a62739f4438e
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1ed883b2-b6ec-4a0d-8901-fe06409e78f9
+                    stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+                transform: ""
+          - columnReference:
+              columnCounter: 0e0ada2c-351d-4f0c-90d3-81d1648038da
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1de0cc60-c93d-491a-907f-0733423cff82
+                    stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+                transform: ""
+          - columnReference:
+              columnCounter: 6fa20c6a-ecbe-4318-bafd-5ab18a16e7c6
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UPDATED_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b3ba153c-a13f-49eb-80cf-78dbaf58f7ae
+                    stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+                transform: ""
+          - columnReference:
+              columnCounter: 3798c80f-8e46-43de-9881-9a39138f1e11
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: INT
+            description: ""
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7ff69c1e-dd44-4aef-9a08-feca19289f6b
+                    stepCounter: b598b9b3-9334-4652-9464-6fbe8ec60392
+                transform: ""
+          - columnReference:
+              columnCounter: 59f1f15e-178b-4bce-9d5a-a224a12f27b5
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: VARCHAR(64)
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7bb36c00-00ed-4e3f-bd42-cce0825a31a3
+                    stepCounter: b598b9b3-9334-4652-9464-6fbe8ec60392
+                transform: ""
+          - columnReference:
+              columnCounter: adc37165-a5cd-4367-aa0b-98efd292a6af
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d661d506-e9bc-4b65-b847-b5708f6d0ed0
+                    stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+                transform: ""
+          - columnReference:
+              columnCounter: ad0d0297-d2fe-4849-b133-5bdfe6c5aabf
+              stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3
+            dataType: TIMESTAMP
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1a6eba7c-13fd-4738-a8a0-c5750d62b666
+                    stepCounter: 7263eb53-ab14-44c3-803c-55093773bd1a
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_INVENTORY_STORE_STK: 7263eb53-ab14-44c3-803c-55093773bd1a
+              VW_STORE_ZONE: b598b9b3-9334-4652-9464-6fbe8ec60392
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_INVENTORY_STORE_STK
+              - locationName: STAGE
+                nodeName: VW_STORE_ZONE
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATASTORE', 'DS_INVENTORY_STORE_STK') }} "DS_INVENTORY_STORE_STK"
+                LEFT JOIN {{ ref('STAGE', 'VW_STORE_ZONE') }} "VW_STORE_ZONE"
+                ON "DS_INVENTORY_STORE_STK"."STORE_CODE" = "VW_STORE_ZONE"."STORE_CODE"
+                WHERE "DS_INVENTORY_STORE_STK"."UPDATED_DATE" > (SELECT NVL(MAX("UPDATED_DATE"),'2000-01-01') FROM {{ ref_no_link('DATA','FCT_INVENTORY_STORE')}})
+            name: STG_FCT_INVENTORY_STORE
+            noLinkRefs:
+              - locationName: DATA
+                nodeName: FCT_INVENTORY_STORE
+      name: STG_FCT_INVENTORY_STORE
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: e53fe604-0e25-46fa-b968-1c9361fc63b3

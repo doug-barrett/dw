@@ -1,0 +1,576 @@
+steps:
+  STG_FCT_SALES-80217ffd-0123-46d0-831b-f27e6326b209:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests:
+          - continueOnFailure: false
+            description: ""
+            name: Test uniqueness
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}}
+              GROUP BY TRANSACTION_ID, PRODKEY, PAYMENT_METHOD_CODE
+              HAVING COUNT(1)>1
+        columns:
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: false
+            columnReference:
+              columnCounter: db378028-aa0b-43f8-9fc7-70aebd2b9799
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6efa9a0b-1ecc-4e4e-9c1d-1b232d112ed4
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 302f9bb5-02f5-48d9-a528-e7f7299358c9
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0023a3d1-a143-4ae9-ae5c-3442da028504
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 69f53816-c283-41e2-abc1-ec2dee1e7f3a
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4e64baa9-236a-4556-a2fd-7f6b908fd4b0
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - columnReference:
+              columnCounter: 02d91381-55c5-43a4-b095-72f3bd9acc1b
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER
+            description: ""
+            name: DIM_PRICE_COST_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b9c64486-0b93-4f82-9a4d-ab29529f6d88
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: NVL("DIM_PRICE_COST_2"."DIM_PRICE_COST_KEY",0)
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 3debab10-0e98-4896-9aaa-c0c6b562b145
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER
+            description: ""
+            name: DIM_EVENTS_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ca75ac06-f7a4-4f8c-9300-4c60defaafa1
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: NVL("DIM_EVENTS"."DIM_EVENTS_KEY",0)
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 0eef50d2-01cc-4044-a125-1bbe28ab0ce4
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: INT
+            description: ""
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6f2580ea-7f12-439c-b7e9-9a88a2302fbf
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: NVL("DIM_EVENTS"."DIM_EVENTS_REGION_KEY",0)
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: c004604b-50ac-4db3-b833-0ab1063b9d24
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c89fe81b-7867-46cf-91d8-a71f5093603d
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: d919e3d2-6556-4412-8725-10d9bc42b88a
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d3d9dd03-1bee-40d2-9c03-31f1495186f5
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 0bf78102-29be-444b-9052-7d98000f9cae
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1f4cd9dc-2f60-4299-998b-82c7b74809ae
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 31fce012-5bd3-4cb6-a4e7-377c7002a6ad
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1b667bf4-c3de-434c-bdeb-98c7b658d6ef
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 021f4a4f-2367-400c-8195-cb39d495ae66
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PROMO_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20f72d37-5a2f-41e1-bd74-e3e7386e8230
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: e9bb1eed-c387-4cf7-99a9-fbd2fc88535a
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20bc0d9e-176f-432f-bf0f-c4fc58a14ef0
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: de1b94ed-ac9a-4279-a927-278746b61736
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: PRICE_EX_VAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f51b7f19-2037-4d52-8076-56d9e2707ea7
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: a7be1863-23cc-4086-a9c9-497392114fa0
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: ACP_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 19319ffd-22e2-4bfb-b760-b6a5bde7fb90
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: 9af3e186-69da-4842-af34-6059966b1576
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: UBC_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0fa365f9-b094-4b7d-8ecd-fc56a05485bb
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: 17259c5a-3204-4180-a657-8193bfe37153
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: SOA_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8422efb7-9468-41cc-9c2e-85d121290ba0
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: 952188dc-5b81-4a81-99b7-dd9e4f7d2c48
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(9,2)
+            description: ""
+            name: APPLIED_TA_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0e62936c-b5c3-4d52-9910-617f59a2cb41
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: c6509afe-41e3-415a-9fca-e9069b08a10e
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: COST_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4e56b131-2f38-46da-92f0-288f3c5d9783
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - columnReference:
+              columnCounter: efad5dce-8c62-4dff-9e0c-16c418fd6c6a
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: MARGIN_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 87800304-cf21-414d-8876-c5a8bbc30ae5
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: db88abe7-905d-41df-a6c1-c6d49bf4bc9f
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b7cc83d4-62cc-459c-a2f2-d13320c682d5
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: CASE WHEN "VW_STG_FCT_SALES"."UNITS" > 0 THEN "VW_STG_FCT_SALES"."UNITS" ELSE 0 END
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 4660137d-a625-41ce-aa40-a5e42bdb8bd1
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_RETURNS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b7cc83d4-62cc-459c-a2f2-d13320c682d5
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: CASE WHEN "VW_STG_FCT_SALES"."UNITS" < 0  THEN "VW_STG_FCT_SALES"."UNITS" ELSE 0 END
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: b5a32553-2a76-4b13-a77f-f0941538a796
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_NET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b7cc83d4-62cc-459c-a2f2-d13320c682d5
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: d0f4d89d-0215-42a7-90f1-31f80bebd81f
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: AVG_PRICE_ACTUAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4ee77888-1256-4ae5-b6fc-162143abcd61
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: "CASE WHEN \"VW_STG_FCT_SALES\".UNITS >= 1 THEN \"VW_STG_FCT_SALES\".\"SALES_INC_VAT\" / \"VW_STG_FCT_SALES\".\"UNITS\" ELSE 0 END "
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: c23f4968-3183-415b-b696-0926e9de89e1
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_TOTAL_ACTUAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4ee77888-1256-4ae5-b6fc-162143abcd61
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: ea9ba483-6d6e-4d2d-9001-0b0818e150af
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: SALES_TOTAL_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20bc0d9e-176f-432f-bf0f-c4fc58a14ef0
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: UNITS_SALES * "DIM_PRICE_COST_2"."PRICE"
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: cf99a588-87e0-4c35-91eb-4ffd7693b1b5
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: SALES_TOTAL_NET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 20bc0d9e-176f-432f-bf0f-c4fc58a14ef0
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"PRICE\""
+          - columnReference:
+              columnCounter: ff3a26f1-c228-44ec-b3f3-cf21e843cd9d
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: MARGIN_TOTAL_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 87800304-cf21-414d-8876-c5a8bbc30ae5
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: UNITS_SALES * "DIM_PRICE_COST_2"."MARGIN_PER_UNIT"
+          - columnReference:
+              columnCounter: 76ecfc4a-4287-4279-9baf-bbd233f9218e
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            name: ACP_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 19319ffd-22e2-4bfb-b760-b6a5bde7fb90
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"ACP_PER_UNIT\""
+          - columnReference:
+              columnCounter: d8814574-dccb-45a7-81d2-7027b5c5ddc9
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            name: UBC_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0fa365f9-b094-4b7d-8ecd-fc56a05485bb
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"UBC_PER_UNIT\""
+          - columnReference:
+              columnCounter: 2708d13e-6993-491a-b563-24b4f0b58c78
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            name: SOA_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8422efb7-9468-41cc-9c2e-85d121290ba0
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"SOA_PER_UNIT\""
+          - columnReference:
+              columnCounter: ca6cd13c-48df-4b13-9c98-06fb39aac361
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            name: TA_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0e62936c-b5c3-4d52-9910-617f59a2cb41
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"APPLIED_TA_PER_UNIT\""
+          - columnReference:
+              columnCounter: b027953e-3e84-4a7d-b691-8b52b4f8c4e0
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            name: COST_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4e56b131-2f38-46da-92f0-288f3c5d9783
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"COST_PER_UNIT\""
+          - columnReference:
+              columnCounter: c4416154-61c5-4964-a969-ef19838b26ca
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: NUMBER(16,2)
+            description: ""
+            name: MARGIN_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 87800304-cf21-414d-8876-c5a8bbc30ae5
+                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+                transform: "\"VW_STG_FCT_SALES\".UNITS * \"DIM_PRICE_COST_2\".\"MARGIN_PER_UNIT\""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 6ab850be-c0e2-4129-bca4-82d995a2d385
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(3)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCY_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f910fe1b-eb9f-4680-9a03-ca9d9947dcc6
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+          - columnReference:
+              columnCounter: fb731b34-c7e4-4e2d-81f3-441ea9c569fb
+              stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209
+            dataType: VARCHAR(2)
+            description: PAYMENT_METHOD_CODE
+            name: PAYMENT_METHOD_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bda2b9e0-e24c-4263-a737-a85c77956887
+                    stepCounter: c8626908-14c1-4ed5-96ba-80b6b15c458e
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs:
+          - hasNull
+          - isDistinct
+        sourceMapping:
+          - aliases:
+              DIM_EVENTS: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+              DIM_PRICE_COST_2: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+              VW_STG_FCT_SALES: c8626908-14c1-4ed5-96ba-80b6b15c458e
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS
+              - locationName: DATA
+                nodeName: DIM_EVENTS_REGION
+              - locationName: DATA
+                nodeName: DIM_PRICE_COST_2
+              - locationName: STAGE
+                nodeName: VW_STG_FCT_SALES
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'VW_STG_FCT_SALES') }} "VW_STG_FCT_SALES"
+                LEFT JOIN {{ ref('DATA', 'DIM_EVENTS') }} "DIM_EVENTS"
+                ON "VW_STG_FCT_SALES"."ZONE_CODE" = "DIM_EVENTS"."ZONE_CODE"
+                AND "VW_STG_FCT_SALES"."PRODKEY" = "DIM_EVENTS"."PRODKEY"
+                AND "VW_STG_FCT_SALES"."TRANSACTION_DATE" BETWEEN "DIM_EVENTS"."EFFECTIVE_DATE" AND "DIM_EVENTS"."END_DATE"
+                /*
+                Leave this reference in for the Processing dependencies so that DIM_EVENTS_REGION is populated first
+                 {{ ref('DATA', 'DIM_EVENTS_REGION') }} "DIM_EVENTS_REGION"
+
+                */
+                LEFT JOIN {{ ref('DATA', 'DIM_PRICE_COST_2') }} "DIM_PRICE_COST_2"
+                ON "VW_STG_FCT_SALES"."ZONE_CODE" = "DIM_PRICE_COST_2"."ZONE_CODE"
+                AND "VW_STG_FCT_SALES"."PRODKEY" = "DIM_PRICE_COST_2"."PRODKEY"
+                AND "VW_STG_FCT_SALES"."TRANSACTION_DATE" BETWEEN "DIM_PRICE_COST_2"."PC_DT" AND "DIM_PRICE_COST_2"."PC_DT_END"
+            name: STG_FCT_SALES
+            noLinkRefs: []
+      name: STG_FCT_SALES
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: 80217ffd-0123-46d0-831b-f27e6326b209

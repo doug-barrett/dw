@@ -1,0 +1,61 @@
+steps:
+  VW_DIM_INVENTORY_DC-8924505c-b8c1-4304-84ae-5d2d2ac3f798:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: aae8e46b-6731-4e3c-9fb1-0d92cdc8942c
+              stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798
+            dataType: VARCHAR(20)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DC_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2e6c42f9-2ce4-405f-8e9c-60df3f576adf
+                    stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+                transform: ""
+          - columnReference:
+              columnCounter: d9a0a882-f4b2-494b-aa4e-a50057702be2
+              stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DC_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a4a64290-b63e-43d4-a40a-eed11254dd75
+                    stepCounter: b7efa84b-2831-412b-b219-6607e13f8139
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_INVENTORY_DC
+            join:
+              joinCondition: FROM {{ ref('DATASTORE', 'DS_INVENTORY_DC') }} "DS_INVENTORY_DC"
+            name: VW_DIM_INVENTORY_DC
+            noLinkRefs: []
+      name: VW_DIM_INVENTORY_DC
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798

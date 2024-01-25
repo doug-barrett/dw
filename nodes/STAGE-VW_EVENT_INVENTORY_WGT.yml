@@ -1,0 +1,154 @@
+steps:
+  VW_EVENT_INVENTORY_WGT-14be523b-b355-49a6-ad14-da397ed80444:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 8c8cb056-0d8d-4021-b644-f7a211eaf9f6
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: INT
+            description: ""
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6f2580ea-7f12-439c-b7e9-9a88a2302fbf
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: ""
+          - columnReference:
+              columnCounter: 14c7f2f8-710d-4ee7-9f5d-ec2fac3d1b4c
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a3f37068-b315-4964-8356-8fd70124da71
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: MAX("DS_INVENTORY_WGT"."TRANSACTION_DATE")
+          - columnReference:
+              columnCounter: 91ca932c-c546-40b0-badf-16265534fd4d
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e9f6300a-49b3-4920-9532-37a5f58f5f2a
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: MAX("DS_INVENTORY_WGT"."ZONE_GEOGRAPHY")
+          - columnReference:
+              columnCounter: 0ec65839-54c1-4cf2-a6c6-f221050b8447
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: VARCHAR(64)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 06f52e52-6edb-43b5-90b7-3e514c70da51
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: MAX("DS_INVENTORY_WGT"."PRODKEY")
+          - columnReference:
+              columnCounter: ec770be2-38d0-4a29-86ae-2ba2cf0c87a7
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: NUMBER(13,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_MIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7ced0417-28a7-47f2-8b1c-9c99fa4143f1
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: MIN("DS_INVENTORY_WGT"."INVENTORY")
+          - columnReference:
+              columnCounter: a9bbf52b-02f3-40c1-8f2e-14ebc11d12cd
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: DECIMAL(12,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_WGT_MIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8cfed4b8-ef79-45f9-a40b-a7ad4d526263
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: MIN("DS_INVENTORY_WGT"."INVENTORY_WGT")
+          - columnReference:
+              columnCounter: e8212466-1f8a-44f8-93e3-0fa156dbdb35
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: NUMBER(13,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_AVG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7ced0417-28a7-47f2-8b1c-9c99fa4143f1
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: AVG("DS_INVENTORY_WGT"."INVENTORY")
+          - columnReference:
+              columnCounter: 1a6328cf-9d9b-4315-8d54-7a027534088a
+              stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            dataType: DECIMAL(12,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_WGT_AVG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8cfed4b8-ef79-45f9-a40b-a7ad4d526263
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: AVG("DS_INVENTORY_WGT"."INVENTORY_WGT")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_EVENTS: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+              DS_INVENTORY_WGT: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS
+              - locationName: DATASTORE
+                nodeName: DS_INVENTORY_WGT
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATA', 'DIM_EVENTS') }} "DIM_EVENTS"
+                INNER JOIN {{ ref('DATASTORE', 'DS_INVENTORY_WGT') }} "DS_INVENTORY_WGT"
+                ON "DIM_EVENTS"."ZONE_GEOGRAPHY" = "DS_INVENTORY_WGT"."ZONE_GEOGRAPHY"
+                AND "DIM_EVENTS"."PRODKEY" = "DS_INVENTORY_WGT"."PRODKEY"
+                AND "DS_INVENTORY_WGT"."TRANSACTION_DATE" BETWEEN "DIM_EVENTS"."EFFECTIVE_DATE" AND "DIM_EVENTS"."END_DATE"
+                GROUP BY "DIM_EVENTS_REGION_KEY"
+            name: VW_EVENT_INVENTORY_WGT
+            noLinkRefs: []
+      name: VW_EVENT_INVENTORY_WGT
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 14be523b-b355-49a6-ad14-da397ed80444

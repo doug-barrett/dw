@@ -1,0 +1,166 @@
+steps:
+  VW_FCT_FNR_FORECAST-0c98422f-f9c6-4c11-bce6-7a1a7328781d:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: bfc3dd18-ea3b-4aee-97b0-4c0392298c6e
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bebc55fb-6e25-4bd1-b4e9-085f63c3aaff
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: ""
+          - columnReference:
+              columnCounter: f80eb9d7-884b-4c4b-b0c4-c1d10bddcab1
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 69584ffd-4bee-4a37-bc44-8bf4c1bec774
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: ""
+          - columnReference:
+              columnCounter: 4c460dc6-00a0-48a0-a891-49e0f05e14f2
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: CHAR(6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 58336ebf-9ac2-4011-b4c5-8c09ec8d6c53
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: ""
+          - columnReference:
+              columnCounter: 0eea6040-cc31-41e0-921b-248408aebb71
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 29f0232d-c2d3-4ce6-9700-5c9e24992c80
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: MAX("VW_FNR_FORECAST"."LOAD_DATE_LATEST")
+          - columnReference:
+              columnCounter: 634f8960-e19a-450e-8094-bf3aa4fae9f4
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE_FIRST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a8d5de64-44b2-421b-87fe-843f92b39885
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: MIN("VW_FNR_FORECAST"."LOAD_DATE_FIRST")
+          - columnReference:
+              columnCounter: f043b171-5545-4919-8b8a-eb553d478c59
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_UNITS_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cdea0a67-3f1b-40de-a306-0e765c43599e
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: SUM("VW_FNR_FORECAST"."FNR_FORECAST_UNITS_LATEST")
+          - columnReference:
+              columnCounter: 82c50c4e-7546-4ce2-b78d-a1dc98bbf54b
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_APPROVED_UNITS_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ed1a1a68-c589-46cc-a723-269d098fc9d2
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: SUM("VW_FNR_FORECAST"."FNR_FORECAST_APPROVED_UNITS_LATEST")
+          - columnReference:
+              columnCounter: ea09cd17-b043-4d48-96bb-6d4bd81082d1
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_UNITS_FIRST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fdd8d544-0719-4ae6-83d6-c90f1b905a82
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: SUM("VW_FNR_FORECAST"."FNR_FORECAST_UNITS_FIRST")
+          - columnReference:
+              columnCounter: 96e35983-b60f-4431-9f8f-4c996efc5e11
+              stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_APPROVED_UNITS_FIRST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 16789259-9cbe-4801-a047-9ed0a5c76354
+                    stepCounter: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+                transform: SUM("VW_FNR_FORECAST"."FNR_FORECAST_APPROVED_UNITS_FIRST")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_FNR_FORECAST: 9a4cdd7d-f7ce-42a8-9f5a-fd3c4def01ae
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_FNR_FORECAST
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'VW_FNR_FORECAST') }} "VW_FNR_FORECAST"
+                WHERE "LOAD_DATE_LATEST" >  (SELECT NVL(MAX("LOAD_DATE_LATEST"), '2000-01-01') FROM {{ ref_no_link('DATA', 'FCT_FNR_FORECAST')}})
+                GROUP BY "FNR_DATE", "ZONE_GEOGRAPHY", "PRODKEY"
+            name: VW_FCT_FNR_FORECAST
+            noLinkRefs:
+              - locationName: DATA
+                nodeName: FCT_FNR_FORECAST
+      name: VW_FCT_FNR_FORECAST
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 0c98422f-f9c6-4c11-bce6-7a1a7328781d

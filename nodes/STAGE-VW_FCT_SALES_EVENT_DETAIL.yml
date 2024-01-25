@@ -1,0 +1,384 @@
+steps:
+  VW_FCT_SALES_EVENT_DETAIL-b2a1690f-8a0c-465d-8627-5336dfb810b2:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: false
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 8b188750-7dab-488f-ab9d-bac1bbb33ae7
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: INTEGER
+            description: Generated artificial key
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 37ab9b69-0748-4432-8c5e-5c6470fd5382
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 2c1748bd-d61b-4c68-9875-f744baba9709
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8daceb26-c351-46dc-9af2-5bdfbf489d99
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 11601898-5725-4614-8d5f-0db156903100
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c9742a69-a31c-4dc1-857a-ded82bbd8abd
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 1d291ded-b3b8-4260-b169-4223a3a21a21
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c2c935e3-b0ad-4888-85c2-ac5d3581ff3b
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 98ffcf95-0400-4e63-95fa-86c1153beec4
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3c0ad013-ba12-4d94-9e6c-a06d5f2c7be5
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: ec3da1b7-b1e8-4362-9062-a6fe322e866f
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WAS_NOW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1f733499-4561-4eb3-a524-1470b58c93bb
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: d1aadd9e-bdde-47eb-b9b2-40c0a5573fd6
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EVENT_DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3c0ad013-ba12-4d94-9e6c-a06d5f2c7be5
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: |-
+                  DATEDIFF(DAY, EFFECTIVE_DATE, 
+                  CASE WHEN END_DATE > CURRENT_DATE THEN CURRENT_DATE 
+                  ELSE END_DATE 
+                  END) + 1
+          - columnReference:
+              columnCounter: c46cb12c-b892-4601-916c-8fe840a56645
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9ac89351-2446-4c6b-9054-19f2a019e6ef
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 19942d45-56e3-4219-918c-075c1b1f559f
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d9093cc3-fb7e-4781-9377-be34f55e6f91
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 9bc3cb8c-abfc-4cb7-84ea-5416f452b25b
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d805e68a-7ec4-40d2-96a4-e0c32df380f8
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 30b9a31c-5f0f-4899-b190-754ce4587c1f
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_SALES_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d805e68a-7ec4-40d2-96a4-e0c32df380f8
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: |-
+                  CASE WHEN EVENT_DURATION >= 1 THEN UNITS_SALES / EVENT_DURATION
+                  ELSE 0
+                  END
+          - columnReference:
+              columnCounter: c397109b-a608-456a-a5fd-499de80b938f
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_NET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0f790cf4-0f52-4163-89d6-ba28b57ea580
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 45efeff1-8bac-46b2-9018-654487c65f60
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: AVG_PRICE_ACTUAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8a763616-731a-41bc-be21-11b6b93ce66d
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: a28e59de-88eb-462c-b864-640e13479ca4
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_ACTUAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: deb06b61-0b52-4fd6-80c8-1e852caa839e
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: c340636a-77bb-4159-b486-2ce4129425ac
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 99294a83-158a-44a8-96b2-6622ead612f6
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: fee8b470-afdc-402b-b9c5-87a3755c0743
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 99294a83-158a-44a8-96b2-6622ead612f6
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: |-
+                  CASE WHEN EVENT_DURATION >= 1 THEN SALES_SALES / EVENT_DURATION
+                  ELSE 0
+                  END
+          - columnReference:
+              columnCounter: f48e4254-2951-4e76-90a7-7de9b5cf4251
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_NET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 98e4e81b-0eda-4d3b-bc8a-7c9612a724ad
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: c4d8f304-b7b1-43bf-9cf5-697b55fd46cd
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MARGIN_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9f7a85d5-b50e-4f69-aa15-ec6422c34fc6
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: b46b546a-ef7b-4e54-ae49-c87c93f12ebd
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MARGIN_SALES_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9f7a85d5-b50e-4f69-aa15-ec6422c34fc6
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: |-
+                  CASE WHEN EVENT_DURATION >= 1 THEN MARGIN_SALES / EVENT_DURATION
+                  ELSE 0
+                  END
+          - columnReference:
+              columnCounter: 5c72f962-8d01-4dea-ba3a-1b5860c36c65
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: VARCHAR(3)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CURRENCY_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6be0c926-3033-4137-946e-7ecb3b04e855
+                    stepCounter: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+                transform: ""
+          - columnReference:
+              columnCounter: 87f1004b-f5fe-48fc-9b3b-9cd2b3a95697
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_MIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ec770be2-38d0-4a29-86ae-2ba2cf0c87a7
+                    stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+                transform: ""
+          - columnReference:
+              columnCounter: 6e83f7f1-b82f-49a5-9836-b3f52760e96d
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_WGT_MIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a9bbf52b-02f3-40c1-8f2e-14ebc11d12cd
+                    stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+                transform: ""
+          - columnReference:
+              columnCounter: 40ee39f9-578d-458b-ac24-7b092a3036be
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_AVG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e8212466-1f8a-44f8-93e3-0fa156dbdb35
+                    stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+                transform: ""
+          - columnReference:
+              columnCounter: 7f00eb09-3209-40e1-971c-5c5a904af155
+              stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2
+            dataType: NUMBER(16,2)
+            description: ""
+            name: INVENTORY_WGT_AVG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1a6328cf-9d9b-4315-8d54-7a027534088a
+                    stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_EVENT_INVENTORY_WGT: 14be523b-b355-49a6-ad14-da397ed80444
+              VW_SALES_EVENT_DETAIL: b4fdfd39-b6c1-4e05-961a-41bbdc187c77
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_EVENT_INVENTORY_WGT
+              - locationName: STAGE
+                nodeName: VW_SALES_EVENT_DETAIL
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'VW_SALES_EVENT_DETAIL') }} "VW_SALES_EVENT_DETAIL"
+                LEFT JOIN {{ ref('STAGE', 'VW_EVENT_INVENTORY_WGT') }} "VW_EVENT_INVENTORY_WGT"
+                ON "VW_SALES_EVENT_DETAIL"."DIM_EVENTS_REGION_KEY" = "VW_EVENT_INVENTORY_WGT"."DIM_EVENTS_REGION_KEY"
+            name: VW_FCT_SALES_EVENT_DETAIL
+            noLinkRefs: []
+      name: VW_FCT_SALES_EVENT_DETAIL
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: b2a1690f-8a0c-465d-8627-5336dfb810b2

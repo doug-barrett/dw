@@ -1,0 +1,515 @@
+steps:
+  VWA_FORECAST_EVENT_MATCH-67493d1a-86d5-49a8-ae94-0a9ee8f80171:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: VIEWS
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 45d80f85-3183-4b20-8cc8-0a1590819107
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ead93c77-192e-4fd3-904a-78101312f0ba
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: 8756c8d7-1a93-4f82-8ee1-ea6a803e2cc9
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: CHAR(6)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 969262c0-a9e2-4e55-9269-01833680b852
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: 9cc4fd2d-3393-41e3-92e7-dbcea92e9c75
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER
+            description: Generated artificial key
+            hashColumns: []
+            hashDetails: null
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6753d9b1-bab1-4152-9dc5-9a2b586172f9
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: a7d4ae1f-99b8-4ee8-88eb-3914f84e8c68
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_FORECAST_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d3c421bf-8910-4b06-820a-0eb9eb71932a
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: f37640c0-3a0f-49cd-8f0d-568a6619dc33
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: CHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MATCHING_EVENT_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d3c421bf-8910-4b06-820a-0eb9eb71932a
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: CASE WHEN NVL("VW_FORECAST_EVENT_MATCH"."DIM_EVENTS_REGION_KEY",0) > 0 THEN 'Y' ELSE 'N' END
+          - columnReference:
+              columnCounter: 8614b304-844c-4f29-b29f-e50ae5bcb25d
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: CHAR(1)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MATCHING_FORECAST_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d3c421bf-8910-4b06-820a-0eb9eb71932a
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: CASE WHEN NVL("VW_FORECAST_EVENT_MATCH"."DIM_FORECAST_KEY",0) > 0 THEN 'Y' ELSE 'N' END
+          - columnReference:
+              columnCounter: 8d6b2a34-8642-4ac0-98ae-2626259b41c9
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: VARCHAR(64)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4eac2c7b-8ee9-4320-bd25-1fdd243b7ff1
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: 61371e3b-e165-4deb-a8b3-78e31364b827
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: DATE
+            description: ""
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d7c8dcd9-76f9-4ce1-bf33-52f2c1966033
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: 2ea29bdb-24be-4108-9adb-5c9f2c554929
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 54ae9040-6db3-45be-914c-cf07ada4ed2c
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: a56ab99c-11ac-48bf-afcd-965666cbbf47
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(9,2)
+            description: ""
+            name: WAS_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5c93352d-8419-42d5-880b-b2c00d1cf1c8
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: 2ea25a81-4124-458a-8f58-8c96832788c0
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(9,2)
+            description: ""
+            name: NOW_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9672042f-7aae-4b02-b43f-67f823a84cc3
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: a902be52-e948-41f1-b638-c42161680be1
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: VARCHAR(64)
+            description: ""
+            name: WAS_NOW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f0ac6e7c-2942-4b54-8e56-c5e4fbebde7f
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: b15a4c3a-52eb-42e5-a597-889c01a4c2cc
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: INT
+            description: ""
+            name: DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 47b448fd-732b-4e31-95e9-e6d52f2ae1c3
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: c99abaf9-1456-4185-9981-e50380cabfd2
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(16,2)
+            description: ""
+            name: BASE_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f799df1a-6864-4b9b-be30-51092e3d642d
+                    stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+                transform: ""
+          - columnReference:
+              columnCounter: 8d7be905-ae42-4cde-bd0e-f312a607b467
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: INT
+            description: ""
+            name: EVENT_DAYS_OPEN_SO_FAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 47b448fd-732b-4e31-95e9-e6d52f2ae1c3
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: |-
+                  CASE WHEN CURRENT_DATE > "DIM_EVENTS_REGION".END_DATE  THEN "DIM_EVENTS_REGION"."DURATION"
+                  WHEN  CURRENT_DATE < "DIM_EVENTS_REGION".EFFECTIVE_DATE  THEN 0
+                  ELSE  DATEDIFF(DAY, "DIM_EVENTS_REGION".EFFECTIVE_DATE, CURRENT_DATE) + 1 END
+          - columnReference:
+              columnCounter: 003096bb-b135-4091-b435-d8f2f29e8178
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(38,0)
+            description: ""
+            name: FORECAST_DAYS_OPEN_SO_FAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 43edc85b-a6df-45f1-a910-c3ccf1dcf144
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."DAYS_OPEN_SO_FAR",0)
+          - columnReference:
+              columnCounter: 356c081e-3335-4067-83ee-8c46ee8491b0
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: INT
+            description: ""
+            name: EVENT_DAYS_LEFT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 47b448fd-732b-4e31-95e9-e6d52f2ae1c3
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: |-
+                  CASE WHEN "VW_FORECAST_EVENT_MATCH"."DIM_EVENTS_REGION_KEY" > 0 AND CURRENT_DATE BETWEEN "DIM_EVENTS_REGION".EFFECTIVE_DATE AND "DIM_EVENTS_REGION".END_DATE
+                  THEN DATEDIFF(DAY, CURRENT_DATE, "DIM_EVENTS_REGION"."END_DATE") + 1 END
+          - columnReference:
+              columnCounter: 569feea6-5d08-4668-b73f-291191d07dad
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: CHAR(1)
+            description: ""
+            name: EVENT_OPEN_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 47b448fd-732b-4e31-95e9-e6d52f2ae1c3
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: |-
+                  CASE WHEN "VW_FORECAST_EVENT_MATCH"."DIM_EVENTS_REGION_KEY" > 0 AND CURRENT_DATE BETWEEN "DIM_EVENTS_REGION".EFFECTIVE_DATE AND "DIM_EVENTS_REGION".END_DATE
+                  THEN 'Y' ELSE 'N' END
+          - columnReference:
+              columnCounter: ee6e8888-9b65-46f0-8b38-4a06ea54389b
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: CHAR(1)
+            description: ""
+            name: FORECAST_OPEN_FLAG
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ae13a8e7-4421-4213-9bf6-f8787c8b375f
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 48bb5a31-e1fe-48b0-9f45-ed9b36a34d5a
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(16,2)
+            description: ""
+            name: EVENT_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e21cb1c8-7de2-4875-a81e-047f57806dde
+                    stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+                transform: ""
+          - columnReference:
+              columnCounter: e257b0ba-97b6-433f-9f81-5ed79f922a39
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_UNITS_SO_FAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a840471a-4958-4f52-bc02-8f71f1a3b867
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."UNITS_SO_FAR",0)
+          - columnReference:
+              columnCounter: e192f2df-dbb0-49bb-b03c-77e4976e9c18
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: UNITS_VARIANCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a840471a-4958-4f52-bc02-8f71f1a3b867
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: "\"FCT_SALES_EVENT\".\"UNITS_SALES\" - NVL(\"VW_PROMO_PLAN_DETAILS\".\"UNITS_SO_FAR\",0)"
+          - columnReference:
+              columnCounter: 516aa3a2-e6a9-41bf-8768-c3c294a311cb
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: EVENT_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c845383d-1af7-4068-a7b2-83a3c749e765
+                    stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+                transform: ""
+          - columnReference:
+              columnCounter: 5b91a59d-c793-4ec3-be0a-efd40602c9fb
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_SALES_SO_FAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2b022f79-bd3a-409a-adb1-a27da2858dbd
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."SALES_SO_FAR",0)
+          - columnReference:
+              columnCounter: 0cebd47f-0d27-4282-b7c5-e675b24df221
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: SALES_VARIANCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2b022f79-bd3a-409a-adb1-a27da2858dbd
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: "\"FCT_SALES_EVENT\".\"SALES_SALES\" - NVL(\"VW_PROMO_PLAN_DETAILS\".\"SALES_SO_FAR\",0)"
+          - columnReference:
+              columnCounter: 69f0c756-ae62-4e43-b260-0784b0740d98
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: DECIMAL(16,2)
+            description: ""
+            name: EVENT_MARGIN
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d9d3af86-b826-4353-8ebb-19aeccb7ccd7
+                    stepCounter: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+                transform: ""
+          - columnReference:
+              columnCounter: 57d1c6e0-b46d-4aeb-8320-e259b3da3139
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_MARGIN_SO_FAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d58cf412-416d-4598-89f9-7c353b27b660
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."MARGIN_SO_FAR",0)
+          - columnReference:
+              columnCounter: 3207eabf-824c-4539-bfad-b205a619569c
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: MARGIN_VARIANCE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d58cf412-416d-4598-89f9-7c353b27b660
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: "\"FCT_SALES_EVENT\".\"MARGIN_SALES\" - NVL(\"VW_PROMO_PLAN_DETAILS\".\"MARGIN_SO_FAR\",0)"
+          - columnReference:
+              columnCounter: 47e159cc-7ac5-47c0-a54c-83ff64289e05
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FORECAST_APPROVAL_STATUS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3de01d8a-4212-4c98-afbf-61d1f63043fe
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: fda01bdd-83e1-46a2-99cf-bfad85f04311
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FORECAST_EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3f307c7f-7595-4b34-93df-302226c9b1f0
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: 7972001c-c39f-4c1f-89a0-a7774fc537ed
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FORECAST_EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d7a5a36a-b712-47a8-9dd0-248770444172
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: af4b7d1b-53b9-42a6-9bb5-30b612bad1cc
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FORECAST_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c1274a4d-cdf2-4e0a-b286-e7fead2e64e2
+                    stepCounter: adbe4884-3461-4672-82a2-03d0dd82e8de
+                transform: ""
+          - columnReference:
+              columnCounter: 97f91828-3eea-4a13-87ee-3a996bd82277
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_WAS_PRICE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5ac4669c-e0a9-4160-bcbf-78166b0be476
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."WAS_PRICE",0)
+          - columnReference:
+              columnCounter: f55064aa-6620-4154-97b3-e5243543ea76
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_NOW_PRICE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 90b4b5c2-830c-45d6-946e-0935d2c1f1b2
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."NOW_PRICE",0)
+          - columnReference:
+              columnCounter: e2e0cae1-f3c8-4d27-8d74-dbde9ddadfdf
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_SOA_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: faf95c28-6187-4f64-93ce-43fc71f62fcc
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."SOA_PER_UNIT",0)
+          - columnReference:
+              columnCounter: b5f2fa12-5f1e-4cd9-8e73-e612ef944600
+              stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171
+            dataType: NUMBER(12,2)
+            description: ""
+            name: FORECAST_SOA_2_PER_UNIT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3f977779-6d72-43cb-abc4-bd034cfbfb25
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: NVL("VW_PROMO_PLAN_DETAILS"."SOA_2_PER_UNIT",0)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_EVENTS_REGION: b4585615-226c-470e-8e85-be95816a6df2
+              FCT_SALES_EVENT: f40cbd4e-9b40-4fa8-b8f7-8127a9770fde
+              VWA_PRODUCT: 0813ddc0-613c-4ce4-bce8-0a10ec464af8
+              VW_FORECAST_EVENT_MATCH: adbe4884-3461-4672-82a2-03d0dd82e8de
+              VW_PROMO_PLAN_DETAILS: f1b73f83-0018-4028-a745-69af2a60739a
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS_REGION
+              - locationName: DATA
+                nodeName: FCT_SALES_EVENT
+              - locationName: STAGE
+                nodeName: VW_FORECAST_EVENT_MATCH
+              - locationName: STAGE
+                nodeName: VW_PROMO_PLAN_DETAILS
+              - locationName: VIEWS
+                nodeName: VWA_PRODUCT
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'VW_FORECAST_EVENT_MATCH') }} "VW_FORECAST_EVENT_MATCH"
+                INNER JOIN {{ ref('VIEWS', 'VWA_PRODUCT') }} "VWA_PRODUCT"
+                ON "VW_FORECAST_EVENT_MATCH"."PRODKEY" = "VWA_PRODUCT"."PRODKEY"
+                LEFT JOIN {{ ref('DATA', 'DIM_EVENTS_REGION') }} "DIM_EVENTS_REGION"
+                ON "VW_FORECAST_EVENT_MATCH"."DIM_EVENTS_REGION_KEY" = "DIM_EVENTS_REGION"."DIM_EVENTS_REGION_KEY"
+                LEFT JOIN {{ ref('DATA', 'FCT_SALES_EVENT') }} "FCT_SALES_EVENT"
+                ON "VW_FORECAST_EVENT_MATCH"."DIM_EVENTS_REGION_KEY" = "FCT_SALES_EVENT"."DIM_EVENTS_REGION_KEY"
+                LEFT JOIN {{ ref('STAGE', 'VW_PROMO_PLAN_DETAILS') }} "VW_PROMO_PLAN_DETAILS"
+                ON "VW_FORECAST_EVENT_MATCH"."DIM_FORECAST_KEY" = "VW_PROMO_PLAN_DETAILS"."DIM_FORECAST_KEY"
+            name: VWA_FORECAST_EVENT_MATCH
+            noLinkRefs: []
+      name: VWA_FORECAST_EVENT_MATCH
+      overrideSQL: false
+      schema: ""
+      sqlType: "17"
+      type: sql
+    stepCounter: 67493d1a-86d5-49a8-ae94-0a9ee8f80171

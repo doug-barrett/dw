@@ -1,0 +1,193 @@
+steps:
+  STG_STORE_WGT-6c152345-7089-4a3e-a1fb-f86646dfb4df:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests:
+          - continueOnFailure: true
+            description: ""
+            name: Test Uniqueness
+            runOrder: After
+            templateString: |-
+              SELECT STORE_CODE, PRODKEY, COUNT(1)
+              FROM {{this}}
+              GROUP BY 1, 2
+              HAVING COUNT(1) > 1
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 1f511ba1-affb-4272-b028-12cf1a7ffd6d
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            config: {}
+            dataType: DATE
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: AS_AT_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: CURRENT_DATE
+            systemColumnType: None
+            transform: ""
+          - columnReference:
+              columnCounter: b46915cf-ce64-492b-84fd-c4b469b73bc4
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: VARCHAR(50)
+            description: This is the product key
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d34baf39-f35c-4a72-8266-897d360ae000
+                    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+                transform: ""
+          - columnReference:
+              columnCounter: 9edf67b1-6baa-4ad6-9a86-4ae16efc6ddb
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+          - columnReference:
+              columnCounter: 05b5c253-cf69-4bb4-a77d-b60c80df0d0d
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: VARCHAR(64)
+            description: ""
+            name: ZONE_DELIVERY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7db83807-ad7c-4368-9fc2-4c70574c03bb
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+          - columnReference:
+              columnCounter: 73fd0a83-46ba-4b9e-888d-cfb8bbbc873a
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0c56ae92-2c32-48f6-9794-dbcb8da69ada
+                    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+                transform: ""
+          - columnReference:
+              columnCounter: f6104ce0-97c1-41b4-9629-ca35459eeace
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 03f5c161-5656-4326-a67b-d37c8c4855f2
+                    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+                transform: SUM("VW_TLOG_ZONE"."SALES_INC_VAT")
+          - columnReference:
+              columnCounter: 86ce8f86-7f9f-455d-92b3-d2f810e81e68
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SALES_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 03f5c161-5656-4326-a67b-d37c8c4855f2
+                    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+                transform: SUM(SUM("VW_TLOG_ZONE"."SALES_INC_VAT")) OVER (PARTITION BY DS_ZONE.ZONE_GEOGRAPHY, "VW_TLOG_ZONE"."PRODKEY")
+          - columnReference:
+              columnCounter: 16d3e38f-ada1-4847-a79c-25ae9ffe0f6e
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: DECIMAL(15,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_RANK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 03f5c161-5656-4326-a67b-d37c8c4855f2
+                    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+                transform: "RANK() OVER (PARTITION BY  DS_ZONE.ZONE_GEOGRAPHY, \"VW_TLOG_ZONE\".\"PRODKEY\" ORDER BY SUM(\"VW_TLOG_ZONE\".\"SALES_INC_VAT\") DESC) "
+          - columnReference:
+              columnCounter: bc670ff3-286d-4d3f-8ff7-603e661a7dc5
+              stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df
+            dataType: DECIMAL(12,4)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: STORE_WGT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 03f5c161-5656-4326-a67b-d37c8c4855f2
+                    stepCounter: 8ea642ef-4606-44d0-8121-571a15ba33fa
+                transform: |
+                  100 * CASE WHEN SUM(SUM("VW_TLOG_ZONE"."SALES_INC_VAT")) OVER (PARTITION BY DS_ZONE.ZONE_GEOGRAPHY, "VW_TLOG_ZONE"."PRODKEY")
+                   <= 0 THEN 0 ELSE SUM("VW_TLOG_ZONE"."SALES_INC_VAT") / SUM(SUM("VW_TLOG_ZONE"."SALES_INC_VAT")) OVER (PARTITION BY DS_ZONE.ZONE_GEOGRAPHY, "VW_TLOG_ZONE"."PRODKEY") END
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_STORE: 1b456835-de85-4056-954c-f4c0c2ae0251
+              DS_ZONE: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+              VW_TLOG_ZONE: 8ea642ef-4606-44d0-8121-571a15ba33fa
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_STORE
+              - locationName: DATASTORE
+                nodeName: DS_ZONE
+              - locationName: STAGE
+                nodeName: VW_TLOG_ZONE
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'VW_TLOG_ZONE') }} "VW_TLOG_ZONE"
+                JOIN {{ ref('DATASTORE','DS_ZONE') }} "DS_ZONE"
+                ON "VW_TLOG_ZONE"."ZONE_CODE" = "DS_ZONE"."ZONE_CODE"
+                JOIN {{ ref('DATASTORE', 'DS_STORE') }} "DS_STORE"
+                ON "VW_TLOG_ZONE"."STORE_CODE" = DS_STORE."STORE_CODE"
+                WHERE "VW_TLOG_ZONE"."TRANSACTION_DATE" > CURRENT_DATE - 91
+                AND CURRENT_DATE BETWEEN NVL(DS_STORE."OPEN_DATE", '1900-01-01') AND NVL("DS_STORE"."CLOSE_DATE", '2999-12-31')
+                GROUP BY 1, 2, 3, 4, 5
+                HAVING SUM("VW_TLOG_ZONE"."SALES_INC_VAT") > 100
+            name: STG_STORE_WGT
+            noLinkRefs: []
+      name: STG_STORE_WGT
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: 6c152345-7089-4a3e-a1fb-f86646dfb4df

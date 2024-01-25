@@ -1,0 +1,218 @@
+steps:
+  VW_FCT_BRAND_VIEW_DAY-11a376f1-ac42-4de6-ac9d-dad4150ddc2f:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 839af7ea-2dd6-49d3-b4fd-dff2425c7b95
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: SCRAPE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2e10c027-7e69-4815-ac4b-ec86a0c90b31
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: ""
+          - columnReference:
+              columnCounter: 7cd32a18-08ea-4eb6-83d9-0ed5edfca464
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 686f9fec-4f01-4fb6-8a38-4b0a303eefd1
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: ""
+          - columnReference:
+              columnCounter: 4af068c8-cf2a-4001-a1ec-3312ac9836ce
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 98df4979-c79a-476f-9c03-b4032e12a734
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: ""
+          - columnReference:
+              columnCounter: debeefc4-00c7-44e0-9c35-9587ffa7cda8
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: VARCHAR(64)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9ba2a46d-dcd9-49db-a3fc-a05b67758c30
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: MAX("DIM_EVENTS"."EVENT_TYPE")
+          - columnReference:
+              columnCounter: d3f212f8-2851-4f21-a382-47a53321fd31
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: VARCHAR(64)
+            description: ""
+            name: WAS_NOW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3ee756fb-9d24-450a-907d-46f8954fd2e3
+                    stepCounter: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+                transform: MAX("DIM_EVENTS"."WAS_NOW")
+          - columnReference:
+              columnCounter: 054f220b-c5dc-491b-a0ba-acb2dc74d9d6
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a3e1d590-c100-43a1-a769-b0015c4b6be1
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: MAX("FCT_BRAND_VIEW"."PRICE")
+          - columnReference:
+              columnCounter: 9fac7969-76f7-49ec-9500-9f15507fa4e8
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: CPI
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a3e1d590-c100-43a1-a769-b0015c4b6be1
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: |-
+                  CASE WHEN NVL(MIN("FCT_BRAND_VIEW"."COMPETITOR_PRICE"), 0) = 0 THEN 100 
+                  ELSE 
+                    TO_NUMBER((MAX("FCT_BRAND_VIEW"."PRICE") / MIN("FCT_BRAND_VIEW"."COMPETITOR_PRICE")) * 100) 
+                  END
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 838f1408-0f64-4c7c-94f2-40c4c2d7d2f3
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            config: {}
+            dataType: CHAR(1)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: CURRY_CHEAPEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: CASE WHEN MIN("FCT_BRAND_VIEW"."COMPETITOR_PRICE") < MAX("FCT_BRAND_VIEW"."PRICE") THEN 'N' ELSE 'Y' END
+            systemColumnType: None
+            transform: ""
+          - columnReference:
+              columnCounter: 5467a071-5472-422a-8c35-6029f0311d5c
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPETITOR_MIN_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c02fd85d-2713-4719-8259-b9221f638b39
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: "MIN(\"FCT_BRAND_VIEW\".\"COMPETITOR_PRICE\") "
+          - columnReference:
+              columnCounter: 68674217-71ac-47ca-9fe8-84559c23b303
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: NUMBER(12,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPETITOR_MAX_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c02fd85d-2713-4719-8259-b9221f638b39
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: "MAX(\"FCT_BRAND_VIEW\".\"COMPETITOR_PRICE\") "
+          - columnReference:
+              columnCounter: 5494030e-ad94-4652-98d9-4380f8409b84
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPETITOR_SUMMARY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c02fd85d-2713-4719-8259-b9221f638b39
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: LISTAGG("FCT_BRAND_VIEW"."COMPETITOR_NAME"||' ('||TO_CHAR("FCT_BRAND_VIEW"."COMPETITOR_PRICE")||')',', ') WITHIN GROUP (ORDER BY "FCT_BRAND_VIEW"."COMPETITOR_PRICE")
+          - columnReference:
+              columnCounter: 9a0be42f-0972-4ffc-a6d5-bf6b84e18395
+              stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: COMPETITORS_CHEAPER
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c02fd85d-2713-4719-8259-b9221f638b39
+                    stepCounter: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+                transform: LISTAGG(CASE WHEN "FCT_BRAND_VIEW"."CURRY_CHEAPEST" = 'N' THEN "FCT_BRAND_VIEW"."COMPETITOR_NAME" END,', ') WITHIN GROUP (ORDER BY "FCT_BRAND_VIEW"."COMPETITOR_PRICE")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_EVENTS: dcecf750-3ca1-418e-a5b6-dca1e383dd74
+              FCT_BRAND_VIEW: f5d78cde-c680-4fd5-a97a-eeda91c22b94
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS
+              - locationName: DATA
+                nodeName: FCT_BRAND_VIEW
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATA', 'FCT_BRAND_VIEW') }} "FCT_BRAND_VIEW"
+                INNER JOIN {{ ref('DATA', 'DIM_EVENTS') }} "DIM_EVENTS"
+                ON "FCT_BRAND_VIEW"."DIM_EVENTS_KEY" = "DIM_EVENTS"."DIM_EVENTS_KEY"
+
+                AND "FCT_BRAND_VIEW".SCRAPE_DATE > (SELECT NVL(MAX("SCRAPE_DATE"),'2000-01-01') FROM {{ ref_no_link('DATA','FCT_BRAND_VIEW_DAY')}})
+
+                GROUP BY 1, 2, 3
+            name: VW_FCT_BRAND_VIEW_DAY
+            noLinkRefs:
+              - locationName: DATA
+                nodeName: FCT_BRAND_VIEW_DAY
+      name: VW_FCT_BRAND_VIEW_DAY
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 11a376f1-ac42-4de6-ac9d-dad4150ddc2f

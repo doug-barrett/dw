@@ -1,0 +1,181 @@
+steps:
+  VW_FORECAST_FNR-1ae3f85f-b5f4-4f23-8946-d183a770fc56:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 0af8f72e-3dfb-4209-97d6-10343b0b5ab4
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: NUMBER(38,0)
+            description: ""
+            name: DIM_FORECAST_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 16138559-f8b9-4ec1-8635-0abda5510b99
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 57784d90-e857-490c-98de-a88e18da793e
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ca927950-93e1-4380-bf2e-73a19e7fc964
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: |
+                  MAX("VW_PROMO_PLAN_DETAILS"."ZONE_GEOGRAPHY")
+          - columnReference:
+              columnCounter: a974a9ba-bfc7-43b6-a48c-2ca37cdc4766
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: CHAR(6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3b2b9017-836e-4745-ae00-306f1fcaec66
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: |
+                  MAX("VW_PROMO_PLAN_DETAILS"."PRODKEY")
+          - columnReference:
+              columnCounter: 25bfc74e-86cc-4e32-94ea-dc2419120fae
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: VARCHAR(64)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ff7f04fd-8e4b-4861-8599-4b3aec9d5eef
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: |
+                  MAX("VW_PROMO_PLAN_DETAILS"."EVENT_TYPE")
+          - columnReference:
+              columnCounter: a54bc3ab-ec14-401c-a5a1-6bdb3ddc7fdf
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: DATE
+            description: ""
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9f4ba85d-56c7-47c3-aa97-c377c9517d59
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: |
+                  MAX("VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE")
+          - columnReference:
+              columnCounter: d57a69a5-d676-413c-a848-4dbfb519639f
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9e92b749-ddb9-4282-8b2c-d9b9215d7e89
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: |
+                  MAX("VW_PROMO_PLAN_DETAILS"."END_DATE")
+          - columnReference:
+              columnCounter: 4fb4d501-9d29-422b-a38b-34007511d709
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MIN_FNR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 173bb98e-e1e3-446a-852d-81ad98272b20
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: MIN("VW_FNR_FORECAST_REGION"."FNR_DATE")
+          - columnReference:
+              columnCounter: 5ccadd9f-9410-48a3-bf09-e473222024a4
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MAX_FNR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 173bb98e-e1e3-446a-852d-81ad98272b20
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: MAX("VW_FNR_FORECAST_REGION"."FNR_DATE")
+          - columnReference:
+              columnCounter: ebac0672-c2a1-47d9-a788-5edc427b6956
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_UNITS_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cfea18f4-cab7-456b-8a8f-89857ecc6401
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: SUM("VW_FNR_FORECAST_REGION"."FNR_FORECAST_UNITS_LATEST")
+          - columnReference:
+              columnCounter: 75d402e7-c8a8-4e5a-90cb-860c1e94a892
+              stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_APPROVED_UNITS_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: eae2ebe5-d490-4d5a-b298-d64272382e39
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: SUM("VW_FNR_FORECAST_REGION"."FNR_FORECAST_APPROVED_UNITS_LATEST")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_FNR_FORECAST_REGION: 9cb72214-39cf-4655-8645-509916ca40bd
+              VW_PROMO_PLAN_DETAILS: f1b73f83-0018-4028-a745-69af2a60739a
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_FNR_FORECAST_REGION
+              - locationName: STAGE
+                nodeName: VW_PROMO_PLAN_DETAILS
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'VW_FNR_FORECAST_REGION') }} "VW_FNR_FORECAST_REGION"
+                JOIN {{ ref('STAGE', 'VW_PROMO_PLAN_DETAILS') }} "VW_PROMO_PLAN_DETAILS"
+                ON "VW_FNR_FORECAST_REGION"."ZONE_GEOGRAPHY" = "VW_PROMO_PLAN_DETAILS"."ZONE_GEOGRAPHY"
+                AND "VW_FNR_FORECAST_REGION"."PRODKEY" = "VW_PROMO_PLAN_DETAILS"."PRODKEY"
+                AND "VW_FNR_FORECAST_REGION"."FNR_DATE" BETWEEN "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE" AND "VW_PROMO_PLAN_DETAILS"."END_DATE"
+                GROUP BY "VW_PROMO_PLAN_DETAILS"."DIM_FORECAST_KEY"
+            name: VW_FORECAST_FNR
+            noLinkRefs: []
+      name: VW_FORECAST_FNR
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 1ae3f85f-b5f4-4f23-8946-d183a770fc56

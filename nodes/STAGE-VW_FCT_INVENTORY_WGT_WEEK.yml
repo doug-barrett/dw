@@ -1,0 +1,113 @@
+steps:
+  VW_FCT_INVENTORY_WGT_WEEK-4f505ba0-d730-4e1c-b850-828de8102b08:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 8505b335-8e87-4aff-98ec-560b8bf3ab63
+              stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            dataType: VARCHAR(10)
+            description: ""
+            name: FINANCIAL_YYWW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 01fb2238-8dfe-4fee-9c2d-3135d47bbf5c
+                    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+                transform: ""
+          - columnReference:
+              columnCounter: 213ff0ec-e73f-4c60-b3e9-b7885d18c8ab
+              stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e9f6300a-49b3-4920-9532-37a5f58f5f2a
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: ""
+          - columnReference:
+              columnCounter: efd0af03-8501-4ebc-bbb1-512d6626dc06
+              stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            dataType: VARCHAR(64)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 06f52e52-6edb-43b5-90b7-3e514c70da51
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: ""
+          - columnReference:
+              columnCounter: 2955deab-9220-47e9-8674-a6c8d66df39a
+              stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            dataType: NUMBER(13,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MIN_INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7ced0417-28a7-47f2-8b1c-9c99fa4143f1
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: MIN("DS_INVENTORY_WGT"."INVENTORY")
+          - columnReference:
+              columnCounter: 231362f3-f6c1-46e3-ab53-4ee85abf91e3
+              stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            dataType: DECIMAL(12,6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INVENTORY_WGT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8cfed4b8-ef79-45f9-a40b-a7ad4d526263
+                    stepCounter: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+                transform: AVG("DS_INVENTORY_WGT"."INVENTORY_WGT")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_INVENTORY_WGT: 6214df34-3cd9-45e2-9ade-14ee5bb1f3d5
+              VW_DATE_FIN_WEEK: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_INVENTORY_WGT
+              - locationName: STAGE
+                nodeName: VW_DATE_FIN_WEEK
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATASTORE', 'DS_INVENTORY_WGT') }} "DS_INVENTORY_WGT"
+                JOIN {{ ref('STAGE', 'VW_DATE_FIN_WEEK') }} "VW_DATE_FIN_WEEK"
+                ON "DS_INVENTORY_WGT"."TRANSACTION_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                WHERE "VW_DATE_FIN_WEEK"."FINANCIAL_YYWW" >= (SELECT NVL(MAX("FINANCIAL_YYWW"), '00/00-00') FROM {{ ref_no_link('DATA', 'FCT_INVENTORY_WGT_WEEK')}})
+                GROUP BY 1, 2, 3
+            name: VW_FCT_INVENTORY_WGT_WEEK
+            noLinkRefs:
+              - locationName: DATA
+                nodeName: FCT_INVENTORY_WGT_WEEK
+      name: VW_FCT_INVENTORY_WGT_WEEK
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08

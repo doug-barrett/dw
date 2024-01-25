@@ -1,0 +1,133 @@
+steps:
+  VW_SALES_MA_HOL_PROFILE_WEEK-cac9db7e-bb46-440d-a27f-a64f98436fcd:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: cf32a908-e2d9-4a58-9c63-9eb7a7ad94c1
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7d9e7961-1546-4061-adde-ed363d968bf2
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: ""
+          - columnReference:
+              columnCounter: 2559155a-371b-42f7-81b7-15396c8d1208
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LEVEL3_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d6aed5f7-9a09-44b2-9a2e-fc35394fa5f2
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: ""
+          - columnReference:
+              columnCounter: e6e9c5c6-6234-4288-ad46-c647eb60ec34
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: VARCHAR(64)
+            description: ""
+            name: HOLIDAY_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6c4b21fa-c7f3-4889-a561-fb890497f51e
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: ""
+          - columnReference:
+              columnCounter: 3617d23e-e8aa-4b6a-a332-021d7a12d97c
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: NUMBER
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: HOLIDAY_WEEK_RELATIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5aa08c27-efec-4f5f-adbf-34450d2cd575
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: ""
+          - columnReference:
+              columnCounter: 06f65b20-1ad9-404b-8fbb-2ef2773a67df
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_SALES_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 1e095a46-dd13-4a0e-9afc-79c0e7511a92
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: SUM("VW_SALES_PROD_HOL_PROFILE_WEEK"."UNITS_SALES_WEEK")
+          - columnReference:
+              columnCounter: 23f36b98-8e33-4abb-80fa-70dfd7eb5a1e
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: NUMBER(16,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_SALES_TOTAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a60418dd-0369-451f-a8dd-c6cce8055b41
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: SUM("VW_SALES_PROD_HOL_PROFILE_WEEK"."UNITS_SALES_TOTAL")
+          - columnReference:
+              columnCounter: ba06363d-54fe-4522-b111-291c35964428
+              stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_SALES_WEEK_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e89a7497-2dca-4acb-b3fb-ce448e92a2da
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: 100 * DIV0(SUM("VW_SALES_PROD_HOL_PROFILE_WEEK"."UNITS_SALES_WEEK"),SUM("VW_SALES_PROD_HOL_PROFILE_WEEK"."UNITS_SALES_TOTAL"))
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_SALES_PROD_HOL_PROFILE_WEEK: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_SALES_PROD_HOL_PROFILE_WEEK
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'VW_SALES_PROD_HOL_PROFILE_WEEK') }} "VW_SALES_PROD_HOL_PROFILE_WEEK"
+                GROUP BY 1, 2, 3, 4
+            name: VW_SALES_MA_HOL_PROFILE_WEEK
+            noLinkRefs: []
+      name: VW_SALES_MA_HOL_PROFILE_WEEK
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: cac9db7e-bb46-440d-a27f-a64f98436fcd

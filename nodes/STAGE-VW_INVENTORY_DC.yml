@@ -1,0 +1,146 @@
+steps:
+  VW_INVENTORY_DC-c02462d8-5dde-4487-904e-fe7f163c7ad8:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        selectDistinct: false
+        testsEnabled: true
+      database: ""
+      dependencies: []
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        columns:
+          - columnReference:
+              columnCounter: eb45f471-59e6-429c-9930-1a7306e38fc5
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bcc39867-91fa-4c55-a8aa-68037cfef00d
+                    stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+                transform: ""
+          - columnReference:
+              columnCounter: c8b84f45-0ab0-4a71-b207-246b085051e5
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: This is the product key
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 08d7b62b-33e8-4f0f-991c-735e76fab57c
+                    stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+                transform: ""
+          - columnReference:
+              columnCounter: bb193e55-01b8-422c-98ba-3f59ec8a6586
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: TINYINT
+            defaultValue: ""
+            description: ""
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7bb5fa25-edd8-4889-befb-df368513b518
+                    stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+                transform: ""
+          - columnReference:
+              columnCounter: 811d8dee-1b8f-455e-82a0-15d020331256
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            name: ZONE_DELIVERY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6861a1eb-d15e-45f5-b391-d7a40b25a08a
+                    stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+                transform: ""
+          - columnReference:
+              columnCounter: ac09af91-ed4c-4ca7-8c7d-15299ab4eeaa
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: DATE
+            description: ""
+            name: UPDATED_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8efdec7a-6a0d-4416-820e-a44789bf33d8
+                    stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+                transform: ""
+          - columnReference:
+              columnCounter: e7e0b62f-f141-4ed1-b09f-32d8897ddd60
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            name: STORE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6861a1eb-d15e-45f5-b391-d7a40b25a08a
+                    stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+                transform: ""
+          - columnReference:
+              columnCounter: 1cd2b9c3-586b-4334-83a6-11cebdf1ab1b
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: NUMBER(13,2)
+            defaultValue: ""
+            description: ""
+            name: INVENTORY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e327dff9-14bb-41e1-a207-669076229ef8
+                    stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+                transform: NVL(FCT_INVENTORY_DC.INVENTORY, 0) / COUNT(DISTINCT DIM_ZONE.ZONE_GEOGRAPHY) OVER (PARTITION BY "FCT_INVENTORY_DC"."PRODKEY")
+          - columnReference:
+              columnCounter: 4abc44e0-5260-42d1-b1e2-c38b93ffa544
+              stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8
+            dataType: INTEGER
+            defaultValue: ""
+            description: ""
+            name: INVENTORY_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e327dff9-14bb-41e1-a207-669076229ef8
+                    stepCounter: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+                transform: CASE WHEN FCT_INVENTORY_DC.INVENTORY > 0 THEN 1 ELSE 0 END
+        sourceMapping:
+          - aliases:
+              DIM_ZONE: 60485eef-5f0f-4e58-88de-e60de6bdd818
+              FCT_INVENTORY_DC: 41708d9c-50ea-4410-bb0f-d4febd4c39b7
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_ZONE
+              - locationName: DATA
+                nodeName: FCT_INVENTORY_DC
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATA','FCT_INVENTORY_DC') }} FCT_INVENTORY_DC 
+                CROSS JOIN {{ ref('DATA','DIM_ZONE') }} DIM_ZONE
+                WHERE TRIM(UPPER(DIM_ZONE.ZONE_DELIVERY)) <> 'STORES' 
+                AND "DIM_ZONE"."ZONE_GEOGRAPHY" <> 'UNKNOWN'
+                AND "FCT_INVENTORY_DC"."UPDATED_DATE" > CURRENT_DATE - 180
+            name: VW_INVENTORY_DC
+            noLinkRefs: []
+      name: VW_INVENTORY_DC
+      overrideSQL: false
+      sqlType: "16"
+      type: sql
+    stepCounter: c02462d8-5dde-4487-904e-fe7f163c7ad8

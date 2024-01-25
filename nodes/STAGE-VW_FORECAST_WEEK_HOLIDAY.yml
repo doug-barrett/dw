@@ -1,0 +1,399 @@
+steps:
+  VW_FORECAST_WEEK_HOLIDAY-bb41df5d-3891-4cec-8244-9152cad3ce9f:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: b8fd1920-b152-44a8-b679-3251d48cb4da
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(16777216)
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ca927950-93e1-4380-bf2e-73a19e7fc964
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 03eca066-281e-4b50-be8a-d3e9b53c4dd0
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(6)
+            description: ""
+            name: PRODKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3b2b9017-836e-4745-ae00-306f1fcaec66
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 1c068736-7bfc-41ef-b2a4-4de31210158a
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(50)
+            description: ""
+            name: LEVEL1_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 48a82910-6386-46e0-b072-3c89965cb3c1
+                    stepCounter: 99510b9e-1d3e-4709-93b8-2042202093b0
+                transform: ""
+          - columnReference:
+              columnCounter: d081b94d-9396-4407-9e20-27bdf9242f1d
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(50)
+            description: ""
+            name: LEVEL2_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 850983c0-90a9-4640-84e8-e8ae587b9e5a
+                    stepCounter: 99510b9e-1d3e-4709-93b8-2042202093b0
+                transform: ""
+          - columnReference:
+              columnCounter: fd67d912-0a2a-4f60-a5cd-b240e1bcb5bc
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(50)
+            description: ""
+            name: LEVEL3_DESC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 76b80dd0-990c-439c-9b2a-f320fd772670
+                    stepCounter: 99510b9e-1d3e-4709-93b8-2042202093b0
+                transform: ""
+          - columnReference:
+              columnCounter: 30f810ea-4cd9-400a-bc1b-1b3b8982ff89
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_FORECAST_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 16138559-f8b9-4ec1-8635-0abda5510b99
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 65081990-d3ae-43ee-8d3d-bd9cf01f03c1
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(10)
+            description: ""
+            name: FINANCIAL_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e887d4bb-0af2-43e9-aa0d-88a956916bf4
+                    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+                transform: ""
+          - columnReference:
+              columnCounter: 610123f6-240b-4afe-a33e-0da9d5027f1e
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(38,0)
+            description: ""
+            name: FINANCIAL_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 38305394-9863-4863-800a-78ef9a1fba5f
+                    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+                transform: ""
+          - columnReference:
+              columnCounter: 0b552562-eeae-469b-9e6e-be1c852193ff
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(10)
+            description: ""
+            name: FINANCIAL_YYWW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 01fb2238-8dfe-4fee-9c2d-3135d47bbf5c
+                    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+                transform: ""
+          - columnReference:
+              columnCounter: 45fd4877-ebe8-4613-9e9d-9a4fb80fa195
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER
+            description: ""
+            name: DAYS_IN_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 01fb2238-8dfe-4fee-9c2d-3135d47bbf5c
+                    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+                transform: |-
+                  CASE WHEN "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                        AND "VW_PROMO_PLAN_DETAILS"."END_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                        AND "VW_PROMO_PLAN_DETAILS"."DURATION" < 7
+                      THEN "VW_PROMO_PLAN_DETAILS"."DURATION"
+                      WHEN "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                        AND "VW_PROMO_PLAN_DETAILS"."END_DATE" > "VW_DATE_FIN_WEEK"."MAX_DATE"
+                      THEN DATEDIFF(DAY, "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE", "VW_DATE_FIN_WEEK"."MAX_DATE")
+                      WHEN "VW_PROMO_PLAN_DETAILS"."END_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                        AND "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE" < "VW_DATE_FIN_WEEK"."MIN_DATE"
+                      THEN DATEDIFF(DAY, "VW_DATE_FIN_WEEK".MIN_DATE, "VW_PROMO_PLAN_DETAILS"."END_DATE")
+                      ELSE 7
+                  END
+          - columnReference:
+              columnCounter: 5ac54d09-4762-4f0f-b087-cb6c1595b34f
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(5,3)
+            description: ""
+            name: WEEK_RATIO
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 01fb2238-8dfe-4fee-9c2d-3135d47bbf5c
+                    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+                transform: DAYS_IN_WEEK / "VW_PROMO_PLAN_DETAILS"."DURATION"
+          - columnReference:
+              columnCounter: 40ff9a6d-7b66-44e1-8cf9-345ffc2d4965
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(16777216)
+            description: ""
+            name: APPROVAL_STATUS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ddf0fb12-5be8-4e24-a87f-3c874606db92
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 76594e15-9291-41f5-84ee-e36468886bc0
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(16777216)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ff7f04fd-8e4b-4861-8599-4b3aec9d5eef
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 429e9f24-2bd7-48c9-b60d-ba448bc436d8
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: DATE
+            description: ""
+            name: EFFECTIVE_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9f4ba85d-56c7-47c3-aa97-c377c9517d59
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 80594289-30e4-4a4b-ae3e-9dffda3fe7c8
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9e92b749-ddb9-4282-8b2c-d9b9215d7e89
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 6f8be80e-8b71-4efc-8db4-75a672c0aaf0
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(38,0)
+            description: ""
+            name: DURATION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fd2304ee-9c34-4242-8047-9ac7e37a75d4
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: ""
+          - columnReference:
+              columnCounter: 38a8f656-2e82-47ba-87a7-ae020d6edab7
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(9,2)
+            description: ""
+            name: WEEK_PROFILE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e89a7497-2dca-4acb-b3fb-ce448e92a2da
+                    stepCounter: 39a4cb47-b48d-448b-9847-6d2fbeb149d3
+                transform: "\"VW_SALES_MA_HOL_PROFILE_WEEK\".\"UNITS_SALES_WEEK_PERCENT\" /100"
+          - columnReference:
+              columnCounter: 21799dc9-a6ed-43d6-a4bd-b98eb9f96e5c
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: BASE_UNITS_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."BASE_UNITS_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 373c5655-4456-489c-8734-9c0fbe3388e8
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: UNITS_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."UNITS_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: eaba7f50-b16e-478f-b395-f9ac0393b942
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: UPLIFT_UNITS_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."UPLIFT_UNITS_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 39791de8-4f6e-4db5-8b04-1e1d3589a0f5
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: VARCHAR(1)
+            description: ""
+            name: OPTIMIZED_VOLUME_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0756df8e-cdd7-4d48-aab8-faf5ef04d160
+                    stepCounter: f1b73f83-0018-4028-a745-69af2a60739a
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."OPTIMIZED_VOLUME_FLAG" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: c9d92b7b-50d5-4908-b68b-a2e2317e6619
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: OPTIMIZED_UNITS_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."OPTIMIZED_UNITS_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: d39d2e00-31a4-4484-832e-5c3dc55a6b34
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: BASE_SALES_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."BASE_UNITS_PER_DAY" * "VW_PROMO_PLAN_DETAILS"."WAS_PRICE" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 7fcd4ba1-c3ab-4d14-8f42-8685c61e5ecc
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: SALES_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."SALES_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 480e0cee-00c7-4ea6-9b9a-b1331a806839
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: UPLIFT_SALES_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."UPLIFT_SALES_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 3d642d62-1485-4068-b632-3190f2953aa5
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: BASE_MARGIN_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."BASE_MARGIN_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 97847ac5-cc30-4064-939e-cf434aff8336
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: MARGIN_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."MARGIN_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+          - columnReference:
+              columnCounter: 72282d4a-5eaa-4d9f-a063-5604ca8af83e
+              stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f
+            dataType: NUMBER(12,2)
+            description: ""
+            name: UPLIFT_MARGIN_PER_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: |
+                  "VW_PROMO_PLAN_DETAILS"."UPLIFT_MARGIN_PER_DAY" * WEEK_PROFILE * WEEK_RATIO
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_DATE: 2d9f453e-f432-4a19-a605-81709e23d574
+              DIM_PRODUCT: 99510b9e-1d3e-4709-93b8-2042202093b0
+              VW_DATE_FIN_WEEK: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+              VW_PROMO_PLAN_DETAILS: f1b73f83-0018-4028-a745-69af2a60739a
+              VW_SALES_MA_HOL_PROFILE_WEEK: cac9db7e-bb46-440d-a27f-a64f98436fcd
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_DATE
+              - locationName: DATA
+                nodeName: DIM_PRODUCT
+              - locationName: STAGE
+                nodeName: VW_DATE_FIN_WEEK
+              - locationName: STAGE
+                nodeName: VW_PROMO_PLAN_DETAILS
+              - locationName: STAGE
+                nodeName: VW_SALES_MA_HOL_PROFILE_WEEK
+            join:
+              joinCondition: |
+                FROM {{ ref('STAGE', 'VW_PROMO_PLAN_DETAILS')}} "VW_PROMO_PLAN_DETAILS"
+                JOIN {{ ref('DATA', 'DIM_DATE') }} "DIM_DATE"
+                ON "DIM_DATE"."HOLIDAY_DATE" BETWEEN "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE" AND "VW_PROMO_PLAN_DETAILS"."END_DATE"
+                JOIN {{ ref('STAGE', 'VW_DATE_FIN_WEEK') }} "VW_DATE_FIN_WEEK"
+                ON "VW_PROMO_PLAN_DETAILS"."EFFECTIVE_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                OR "VW_PROMO_PLAN_DETAILS"."END_DATE" BETWEEN "VW_DATE_FIN_WEEK"."MIN_DATE" AND "VW_DATE_FIN_WEEK"."MAX_DATE"
+                JOIN {{ ref('DATA', 'DIM_PRODUCT') }} "DIM_PRODUCT"
+                ON "VW_PROMO_PLAN_DETAILS"."PRODKEY" = "DIM_PRODUCT"."PRODKEY"
+                LEFT JOIN {{ ref('STAGE', 'VW_SALES_MA_HOL_PROFILE_WEEK') }} "VW_SALES_MA_HOL_PROFILE_WEEK"
+                ON "DIM_PRODUCT"."LEVEL3_DESC" = "VW_SALES_MA_HOL_PROFILE_WEEK"."LEVEL3_DESC"
+                AND DATEDIFF(WEEK, "VW_DATE_FIN_WEEK"."MIN_DATE", "DIM_DATE"."HOLIDAY_DATE") = "VW_SALES_MA_HOL_PROFILE_WEEK".HOLIDAY_WEEK_RELATIVE
+            name: VW_FORECAST_WEEK_HOLIDAY
+            noLinkRefs: []
+      name: VW_FORECAST_WEEK_HOLIDAY
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: bb41df5d-3891-4cec-8244-9152cad3ce9f

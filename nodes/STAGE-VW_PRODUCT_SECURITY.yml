@@ -1,0 +1,70 @@
+steps:
+  VW_PRODUCT_SECURITY-9aa63d83-0291-4ab3-8f12-03918a991bbf:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: true
+      database: ""
+      deployEnabled: true
+      description: Type 1 Product Dimension - no surrogate key required
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: d72a0810-826b-4eaa-a0f1-7834adf3af9c
+              stepCounter: 9aa63d83-0291-4ab3-8f12-03918a991bbf
+            dataType: VARCHAR(16777216)
+            description: ""
+            name: LOGIN_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 739ffea7-d204-400d-90c2-f7b584e2829b
+                    stepCounter: a3d87eb5-609c-46ce-b06a-bfdb77d28943
+                transform: ""
+          - columnReference:
+              columnCounter: 20403902-1c5a-4772-b5a1-b6dc42591d2b
+              stepCounter: 9aa63d83-0291-4ab3-8f12-03918a991bbf
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9921cb06-6ba1-403b-b62c-b07f610c59c2
+                    stepCounter: 99510b9e-1d3e-4709-93b8-2042202093b0
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_PRODUCT: 99510b9e-1d3e-4709-93b8-2042202093b0
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_PRODUCT
+              - locationName: INPUT
+                nodeName: USER_SECURITY
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATA', 'DIM_PRODUCT') }} "DIM_PRODUCT"
+                JOIN (SELECT * FROM {{ ref('INPUT', 'USER_SECURITY') }} WHERE "LOGIN_NAME" = CURRENT_USER()) USER_SECURITY
+                  ON ("DIM_PRODUCT"."LEVEL1_DESC" = "USER_SECURITY"."LEVEL1_DESC" OR "USER_SECURITY"."LEVEL1_DESC" = '<ALL>')
+                 AND ("DIM_PRODUCT"."LEVEL2_DESC" = "USER_SECURITY"."LEVEL2_DESC" OR "USER_SECURITY"."LEVEL2_DESC" = '<ALL>')
+                 AND ("DIM_PRODUCT"."LEVEL3_DESC" = "USER_SECURITY"."LEVEL3_DESC" OR "USER_SECURITY"."LEVEL3_DESC" = '<ALL>')
+                 AND ("DIM_PRODUCT"."LEVEL4_DESC" = "USER_SECURITY"."LEVEL4_DESC" OR "USER_SECURITY"."LEVEL4_DESC" = '<ALL>')     
+                 AND ("DIM_PRODUCT"."BRAND" = "USER_SECURITY"."BRAND" OR "USER_SECURITY"."BRAND" = '<ALL>')
+            name: VW_PRODUCT_SECURITY
+            noLinkRefs: []
+      name: VW_PRODUCT_SECURITY
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 9aa63d83-0291-4ab3-8f12-03918a991bbf

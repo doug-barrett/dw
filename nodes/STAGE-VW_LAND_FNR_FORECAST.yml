@@ -1,0 +1,149 @@
+steps:
+  VW_LAND_FNR_FORECAST-2120e6ad-2e15-4d33-9887-72062d4f69b1:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: c3fe37a2-f3df-4c05-be56-342e343621f7
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: LOAD_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 74246438-18ad-4c2d-ac40-08dc33dd9e65
+                    stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+                transform: CURRENT_DATE
+          - columnReference:
+              columnCounter: 3778a1fa-c708-4a3b-9428-7e911e7444e0
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 74246438-18ad-4c2d-ac40-08dc33dd9e65
+                    stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+                transform: ""
+          - columnReference:
+              columnCounter: 3dcc562c-9fd5-4a39-96b2-133efe519b6a
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: CHAR(6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d96a2e2c-728f-4a88-a2f5-c7b28ca2f067
+                    stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+                transform: RIGHT('000000'||TRIM("LAND_FNR_FCST"."PROD_CD"),6)
+          - columnReference:
+              columnCounter: bf9e98b4-46d5-49f6-bb1f-11a767e366ae
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: VARCHAR(50)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3cfc3a58-b0e4-404f-954e-768779646fc2
+                    stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+                transform: ""
+          - columnReference:
+              columnCounter: d662fac2-0492-46c4-8bfa-377c6cdfd680
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: INT
+            description: ""
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e83b5457-5e1f-454f-b032-abc16c0135cc
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+          - columnReference:
+              columnCounter: 4422d2b8-18b1-4d37-bcb8-8dd4f578e888
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: VARCHAR(64)
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+          - columnReference:
+              columnCounter: a2dda462-8505-460a-b68b-405e03b4505e
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: b025dde0-74cd-4053-9450-c3593df75b32
+                    stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+                transform: ""
+          - columnReference:
+              columnCounter: 8c0ae2d3-30e3-447b-b77f-b5df51589aa2
+              stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_APPROVED_UNITS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 85c1ba3a-ce02-4f68-99e7-d3360236ae39
+                    stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_ZONE: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+              LAND_FNR_FCST: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_ZONE
+              - locationName: LAND
+                nodeName: LAND_FNR_FCST
+            join:
+              joinCondition: |-
+                FROM {{ ref('LAND', 'LAND_FNR_FCST') }} "LAND_FNR_FCST"
+                INNER JOIN {{ ref('DATASTORE', 'DS_ZONE') }} "DS_ZONE"
+                ON UPPER(TRIM("LAND_FNR_FCST". "ZONENAME")) = UPPER(TRIM("DS_ZONE"."ZONE_NAME"))
+            name: VW_LAND_FNR_FORECAST
+            noLinkRefs: []
+      name: VW_LAND_FNR_FORECAST
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1

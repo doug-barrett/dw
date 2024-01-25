@@ -1,0 +1,142 @@
+steps:
+  STG_DATE_HOLIDAY-d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: true
+            columnReference:
+              columnCounter: e8cce039-b059-4be0-a2fe-f87e84bf3728
+              stepCounter: d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: CALENDAR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2b799363-762c-47e4-a411-da1d7fb0b10b
+                    stepCounter: 9da0baad-a0fb-4bd9-bce8-2e2c3268ae2b
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: a40134c1-8d5e-4ee6-8530-e88ec5506899
+              stepCounter: d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1
+            dataType: VARCHAR(64)
+            description: ""
+            name: HOLIDAY_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 03969a22-10f4-44e1-8325-0ec040e7f0ef
+                    stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: e01eb01d-0b9a-44d8-a17e-90ce6ce5f6a0
+              stepCounter: d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1
+            dataType: NUMBER(38,0)
+            description: ""
+            name: HOLIDAY_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cd9e586d-7f41-4553-9f14-d26aed38a0f6
+                    stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 1f91d5cb-be0e-4890-a62c-3105a6c65cc5
+              stepCounter: d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1
+            dataType: DATE
+            description: ""
+            name: HOLIDAY_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e7a79db6-ba71-4654-8df0-80dfa1bccf44
+                    stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: d3e4ae8a-9595-4f03-8046-2453f2a849dd
+              stepCounter: d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1
+            dataType: NUMBER(38,0)
+            description: ""
+            name: DAYS_FROM_HOLIDAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a3ad8a76-8fe2-4d5e-9727-f0f22764eb38
+                    stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+                transform: DATEDIFF(DAY, "REF_DATE_HOLIDAY"."HOLIDAY_DATE", "STAGE_DATE"."CALENDAR_DATE")
+        cteString: ""
+        enabledColumnTestIDs:
+          - isDistinct
+          - hasNull
+        sourceMapping:
+          - aliases:
+              REF_DATE_HOLIDAY: c13d0009-e85a-4a02-b34e-131bb850e537
+              STAGE_DATE: 9da0baad-a0fb-4bd9-bce8-2e2c3268ae2b
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: REFERENCE
+                nodeName: REF_DATE_HOLIDAY
+              - locationName: STAGE
+                nodeName: STAGE_DATE
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'STAGE_DATE') }} "STAGE_DATE"
+                JOIN {{ ref('REFERENCE', 'REF_DATE_HOLIDAY') }}
+                 ON "STAGE_DATE"."CALENDAR_DATE" BETWEEN DATEADD(
+                    DAY,
+                    -1 * "REF_DATE_HOLIDAY"."NUMBER_DAYS_BEFORE",
+                    "REF_DATE_HOLIDAY"."HOLIDAY_DATE"
+                  ) AND DATEADD(
+                    DAY,
+                    "REF_DATE_HOLIDAY"."NUMBER_DAYS_AFTER",
+                    "REF_DATE_HOLIDAY"."HOLIDAY_DATE"
+                  )  QUALIFY 1 = ROW_NUMBER() OVER (
+                    PARTITION BY
+                      "STAGE_DATE"."CALENDAR_DATE"
+                    ORDER BY
+                      ABS(
+                        DATEDIFF(
+                          DAY,
+                          "REF_DATE_HOLIDAY"."HOLIDAY_DATE",
+                          "STAGE_DATE"."CALENDAR_DATE"
+                        )
+                      )
+                  )
+            name: STG_DATE_HOLIDAY
+            noLinkRefs: []
+      name: STG_DATE_HOLIDAY
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: d231b8e6-8277-40ba-ba43-8b3ebe9d4ce1

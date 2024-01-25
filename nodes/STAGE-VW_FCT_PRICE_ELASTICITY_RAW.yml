@@ -1,0 +1,296 @@
+steps:
+  VW_FCT_PRICE_ELASTICITY_RAW-204f1020-172f-495b-9e03-4d9d3d7de634:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 4c62a619-f0b9-44e5-830a-bd273dba233e
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: f2d390c2-7ffb-4071-9356-a9ec6ba99e5f
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: fc4163fe-e4ff-4ba2-a587-dafdcb8c46b4
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5858d7a8-78e2-486c-bc95-8f19ec5f3986
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: 46e316f1-827d-4dad-9cf1-38f9217c9364
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: VARCHAR(64)
+            description: ""
+            name: HOLIDAY_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c38214d1-3821-4d11-9628-2c1a8bb16854
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: 38e192ae-aa82-4d80-a7c3-ec1f55fc3113
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0d5964dc-812e-4e57-874d-ed64cfa02121
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: bc92f370-bf3b-4944-9957-0b08aa7b7c2c
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2f763882-296c-4e0d-8c46-b6d5aa08681d
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: aada8d09-877d-4d5e-94eb-4aaed562d521
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4b6e0db1-f44a-4ac6-9e62-f74e2d080265
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: 4345c73e-7436-4608-82ac-ccc05a3d7d0d
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRIOR_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 05b62997-8b94-4515-8e2a-22beaa5f0f11
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: LAG(UNITS_PER_DAY, 1) OVER (PARTITION BY ZONE_GEOGRAPHY, PRODKEY ORDER BY START_DATE)
+          - columnReference:
+              columnCounter: d49c1d6d-ecc9-4270-b794-0ad7cd868e3d
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_DISCOUNT_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 69f37fa1-2efb-49d4-a34f-f564a3920fdf
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: 6386cbd8-c7b2-4055-a66d-2510f08bd444
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE_DISCOUNT_BUCKET
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 69f37fa1-2efb-49d4-a34f-f564a3920fdf
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: |-
+                  CASE WHEN "VW_PRICE_ELASTICITY_SUM"."DISCOUNT_PERCENT" > 0 
+                        AND "VW_PRICE_ELASTICITY_SUM"."DISCOUNT_PERCENT" < 5 THEN 5
+                  ELSE TO_NUMBER(TO_NUMBER("VW_PRICE_ELASTICITY_SUM"."DISCOUNT_PERCENT" / 10) * 10 )
+                  END
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: cebe879c-b68f-4ecc-8f57-aff7971598ba
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            config: {}
+            dataType: CHAR(1)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: PRICE_DROP_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6c7955be-1aac-4139-996b-b67603a20f50
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+            systemColumnType: None
+            transform: ""
+          - columnReference:
+              columnCounter: 97fa0120-e7c4-4c84-8d19-43e39eda833e
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: UNITS_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6bfb5e1d-3ee3-4eeb-94fb-5fec7fa7d5a1
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: ""
+          - columnReference:
+              columnCounter: f58e8609-1ac5-441f-9478-f8410d57ad0f
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRIOR_UNITS_PER_DAY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6bfb5e1d-3ee3-4eeb-94fb-5fec7fa7d5a1
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: LAG(UNITS_PER_DAY, 1) OVER (PARTITION BY ZONE_GEOGRAPHY, PRODKEY ORDER BY START_DATE)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 02ffcc05-0b6e-408b-9698-292632a535b2
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            config: {}
+            dataType: NUMBER(6,4)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: PRICE_ELASTICITY_CALC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: |-
+                  CASE 
+                    WHEN (UNITS_PER_DAY + PRIOR_UNITS_PER_DAY) = 0 THEN 0
+                    WHEN (PRICE + PRIOR_PRICE) = 0 THEN 0
+                    WHEN (PRICE - PRIOR_PRICE) = 0 THEN 0 
+                  ELSE
+                    (((UNITS_PER_DAY - PRIOR_UNITS_PER_DAY) / (UNITS_PER_DAY + PRIOR_UNITS_PER_DAY) / 2)
+                    /
+                    ((PRICE - PRIOR_PRICE) / (PRICE + PRIOR_PRICE) / 2 ))
+                    * -1
+                  END
+            systemColumnType: None
+            transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 91f49daf-8b27-4987-828c-3a9767fa45b2
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            config: {}
+            dataType: NUMBER(6,4)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: PRICE_ELASTICITY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: |-
+                  CASE WHEN PRICE_ELASTICITY_CALC BETWEEN 1 AND 5 THEN PRICE_ELASTICITY_CALC
+                      WHEN PRICE_ELASTICITY_CALC < 0 THEN 5
+                      ELSE 1.5
+                  END
+            systemColumnType: None
+            transform: ""
+          - columnReference:
+              columnCounter: 386608a7-cf43-4c67-b86a-ef1d9c84758e
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRIOR_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0d5964dc-812e-4e57-874d-ed64cfa02121
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: LAG(START_DATE, 1) OVER (PARTITION BY ZONE_GEOGRAPHY, PRODKEY ORDER BY START_DATE)
+          - columnReference:
+              columnCounter: 870916e0-4245-4601-8622-985397b7b1c8
+              stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRIOR_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0d5964dc-812e-4e57-874d-ed64cfa02121
+                    stepCounter: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+                transform: LAG(END_DATE, 1) OVER (PARTITION BY ZONE_GEOGRAPHY, PRODKEY ORDER BY START_DATE)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              VW_PRICE_ELASTICITY_SUM: b4a089c6-21d4-4db4-94fa-17b5021c0b89
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: VW_PRICE_ELASTICITY_SUM
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'VW_PRICE_ELASTICITY_SUM') }} "VW_PRICE_ELASTICITY_SUM"
+            name: VW_FCT_PRICE_ELASTICITY_RAW
+            noLinkRefs: []
+      name: VW_FCT_PRICE_ELASTICITY_RAW
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 204f1020-172f-495b-9e03-4d9d3d7de634

@@ -1,0 +1,173 @@
+steps:
+  VW_DATE_FIN_WEEK-732ca70b-49a5-4fd4-bff5-a4f8b0b0866e:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Type 1 Date Dimension - no surrogate key required
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: e887d4bb-0af2-43e9-aa0d-88a956916bf4
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FINANCIAL_YEAR
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4002d1c2-ff8a-4b5f-927c-1f5be4257a85
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: ""
+          - columnReference:
+              columnCounter: 38305394-9863-4863-800a-78ef9a1fba5f
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FINANCIAL_WEEK
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2246e010-ea5d-4b5b-975a-a51a8a65b11c
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: ""
+          - columnReference:
+              columnCounter: 01fb2238-8dfe-4fee-9c2d-3135d47bbf5c
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: VARCHAR(10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FINANCIAL_YYWW
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4b60f7cc-94bc-46df-b522-0d7d00038d9b
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: ""
+          - columnReference:
+              columnCounter: db72e010-577c-444a-b789-b62e26652922
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MIN_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: MIN(CALENDAR_DATE)
+          - columnReference:
+              columnCounter: f28f9236-24e7-45bc-974b-c4482e700648
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MAX_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: MAX(CALENDAR_DATE)
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: d054492d-3d3e-4305-a77a-67346c7cad24
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            config: {}
+            dataType: NUMBER
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: WEEK_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: DATEDIFF(WEEK, '2020-01-01', MIN_DATE)
+            systemColumnType: None
+            transform: ""
+          - columnReference:
+              columnCounter: 0baaea5d-da84-45ee-9f57-c7baf2e547f9
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: DATE
+            description: ""
+            name: HOLIDAY_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e352c8f9-a2d0-454f-9ccd-bc99876ed0fe
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: MAX(HOLIDAY_DATE)
+          - columnReference:
+              columnCounter: 9f493084-a806-46ea-a120-a4cad2741e62
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            dataType: VARCHAR(64)
+            description: ""
+            name: HOLIDAY_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 6e887d56-d37d-4e5f-a594-6a55cc229433
+                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+                transform: MAX("DIM_DATE"."HOLIDAY_NAME")
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 1a3851eb-4518-44a9-8eed-b0e75607a175
+              stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e
+            config: {}
+            dataType: NUMBER
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: HOLIDAY_WEEK_RELATIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: DATEDIFF(WEEK, MAX(HOLIDAY_DATE), MIN(CALENDAR_DATE) ) + 1
+            systemColumnType: None
+            transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_DATE: 2d9f453e-f432-4a19-a605-81709e23d574
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_DATE
+            join:
+              joinCondition: |-
+                FROM {{ ref('DATA', 'DIM_DATE') }} "DIM_DATE"
+                GROUP BY 1, 2, 3
+            name: VW_DATE_FIN_WEEK
+            noLinkRefs: []
+      name: VW_DATE_FIN_WEEK
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 732ca70b-49a5-4fd4-bff5-a4f8b0b0866e

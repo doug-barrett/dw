@@ -1,0 +1,196 @@
+steps:
+  VW_PRICE_PERIOD-10b31833-9604-4ed2-be4d-e5f9e8aafc8a:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Change
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 87a3fb91-8354-483c-b4e4-dd7bcd0cda7f
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ab24f5cd-4934-4316-88d9-833a838a73e5
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 52054b61-ebbc-4b20-b212-80fd4ddd2e12
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 7c9f7041-8ce7-4649-819f-e55a18e36b8e
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 5fa81d86-3cf6-446c-9903-b7a108536d3e
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PC_DT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ad454901-83a3-46f9-8e18-c781187bee43
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 40e024e7-93a4-4da0-a058-3d42efe498aa
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PC_DT_END
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ad454901-83a3-46f9-8e18-c781187bee43
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - columnReference:
+              columnCounter: 4beb4cde-5153-499a-9c55-7b8e80a2d4f5
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: caf80271-9275-4e9a-a52c-733a20787f47
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: bafadfdf-a069-491d-be6f-e3049108f31a
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            config: {}
+            dataType: NUMBER(9,2)
+            defaultValue: ""
+            description: ""
+            name: PRIOR_PRICE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: caf80271-9275-4e9a-a52c-733a20787f47
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+            transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 4af5203c-fa58-4e29-a35e-7a7680a25985
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            config: {}
+            dataType: NUMBER(9,2)
+            defaultValue: ""
+            description: ""
+            name: DISCOUNT_PERCENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: caf80271-9275-4e9a-a52c-733a20787f47
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+            transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: f580f568-4c03-49ca-92fd-de6441e35b05
+              stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a
+            config: {}
+            dataType: VARCHAR(1)
+            defaultValue: ""
+            description: ""
+            name: PRICE_DROP_FLAG
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: caf80271-9275-4e9a-a52c-733a20787f47
+                    stepCounter: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+                transform: ""
+            transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_PRICE_COST: 7d8b84ba-e9c2-45ce-955a-3f51df08c001
+            customSQL:
+              customSQL: |-
+                {{ stage('Override Create SQL') }}
+                	CREATE OR REPLACE VIEW {{ this }} AS (
+                  SELECT 	
+                      ZONE_GEOGRAPHY
+                    , PRODKEY
+                    , PC_DT	
+                    , LEAD(PC_DT_END, 1,TO_DATE('2100-01-01')) OVER (PARTITION BY ZONE_GEOGRAPHY, PRODKEY ORDER BY PC_DT) -1 PC_DT_END
+                    , PRICE
+                    , PRIOR_PRICE
+                    , CASE WHEN PRIOR_PRICE > 0 THEN 100 * (1 - (DIV0(PRICE, PRIOR_PRICE))) ELSE 0 END DISCOUNT_PERCENT 
+                    , CASE WHEN PRICE < PRIOR_PRICE THEN 'Y' ELSE 'N' END PRICE_DROP_FLAG
+                  FROM (	
+                      SELECT 
+                          DIM_ZONE.ZONE_GEOGRAPHY
+                        , DS_PRICE_COST.prodkey	
+                        , CASE WHEN DS_PRICE_COST.pc_dt = MIN(DS_PRICE_COST.pc_dt) OVER (PARTITION BY DIM_ZONE.ZONE_GEOGRAPHY, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) 
+                              THEN TO_DATE('2000-01-01') 
+                          ELSE DS_PRICE_COST.PC_DT 
+                          END pc_dt	
+                        , DS_PRICE_COST.pc_dt pc_dt_end	
+                        , NVL(DS_PRICE_COST.price, 0) price	
+                        , LAG(NVL(DS_PRICE_COST.price, 0), 1, 0) OVER (PARTITION BY DIM_ZONE.ZONE_GEOGRAPHY, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) prior_price
+                      FROM {{ref('DATASTORE','DS_PRICE_COST')}} DS_PRICE_COST
+                      JOIN (SELECT ZONE_GEOGRAPHY, MIN(ZONE_CODE) ZONE_CODE FROM {{ref('DATA','DIM_ZONE')}} GROUP BY ZONE_GEOGRAPHY) DIM_ZONE ON DS_PRICE_COST.ZONE_CODE = DIM_ZONE.ZONE_CODE
+                      QUALIFY 	
+                          LAG(NVL(DS_PRICE_COST.price, 0), 1, 0) OVER (PARTITION BY DIM_ZONE.ZONE_GEOGRAPHY, DS_PRICE_COST.prodkey ORDER BY DS_PRICE_COST.pc_dt) <> NVL(DS_PRICE_COST.price,0)	
+                  ) PC
+                )
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_ZONE
+              - locationName: DATASTORE
+                nodeName: DS_PRICE_COST
+            join:
+              joinCondition: |-
+                FROM {{ref('DATASTORE','DS_PRICE_COST')}} DS_PRICE_COST
+                JOIN (SELECT ZONE_GEOGRAPHY, MIN(ZONE_CODE) ZONE_CODE 
+                      FROM {{ref('DATA','DIM_ZONE')}} 
+                      GROUP BY ZONE_GEOGRAPHY) DIM_ZONE ON DS_PRICE_COST.ZONE_CODE = DIM_ZONE.ZONE_CODE
+            name: VW_PRICE_PERIOD
+            noLinkRefs: []
+      name: VW_PRICE_PERIOD
+      overrideSQL: true
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 10b31833-9604-4ed2-be4d-e5f9e8aafc8a

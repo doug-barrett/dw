@@ -1,0 +1,200 @@
+steps:
+  VW_EVENT_REGION_FNR-02ffa81e-c756-4f39-818d-9452b3b78273:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 6d9ee5a6-4ec0-4d44-87a9-6dd80e00bd18
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: INTEGER
+            description: Generated artificial key
+            name: DIM_EVENTS_REGION_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 546e14b9-c682-44e1-aca5-293a5b15141b
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: ""
+          - columnReference:
+              columnCounter: 4044a3bc-18c7-49ac-811d-84fe1c5a3e03
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a9163f5d-17c9-4a2c-a3d1-7107ef1070ab
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: MAX("DIM_EVENTS_REGION"."ZONE_GEOGRAPHY")
+          - columnReference:
+              columnCounter: 2e485603-a9c5-4158-a5b4-5c0b371a10f2
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: CHAR(6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 04051e5b-ddee-400e-860e-eb5525c2652f
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: MAX("DIM_EVENTS_REGION"."PRODKEY")
+          - columnReference:
+              columnCounter: 9b73bbca-1b7f-4cbd-9ce6-65b15d262c91
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: VARCHAR(64)
+            description: ""
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4eac2c7b-8ee9-4320-bd25-1fdd243b7ff1
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: MAX("DIM_EVENTS_REGION"."EVENT_TYPE")
+          - columnReference:
+              columnCounter: 66930378-8304-41a8-b536-d11ce185e3a2
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: DATE
+            description: ""
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d7c8dcd9-76f9-4ce1-bf33-52f2c1966033
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: MAX("DIM_EVENTS_REGION"."EFFECTIVE_DATE")
+          - columnReference:
+              columnCounter: ba5c9815-2c5e-4e89-9882-62a250e6314e
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: DATE
+            description: ""
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 54ae9040-6db3-45be-914c-cf07ada4ed2c
+                    stepCounter: b4585615-226c-470e-8e85-be95816a6df2
+                transform: MAX("DIM_EVENTS_REGION"."END_DATE")
+          - columnReference:
+              columnCounter: d2732b9e-6263-45e3-8899-9cc1062243c5
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MIN_FNR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 173bb98e-e1e3-446a-852d-81ad98272b20
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: MIN("VW_FNR_FORECAST_REGION"."FNR_DATE")
+          - columnReference:
+              columnCounter: 0fc55a40-1296-4b78-8b06-c6c1122e66be
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: MAX_FNR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 173bb98e-e1e3-446a-852d-81ad98272b20
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: MAX("VW_FNR_FORECAST_REGION"."FNR_DATE")
+          - columnReference:
+              columnCounter: a740b722-7ff0-4dbd-839f-ceac923e2a85
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_UNITS_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: cfea18f4-cab7-456b-8a8f-89857ecc6401
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: SUM("VW_FNR_FORECAST_REGION"."FNR_FORECAST_UNITS_LATEST")
+          - columnReference:
+              columnCounter: 9aca61d4-cfb3-4ec2-80f5-466887f05d06
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: NUMBER(20,10)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: FNR_FORECAST_APPROVED_UNITS_LATEST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: eae2ebe5-d490-4d5a-b298-d64272382e39
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: SUM("VW_FNR_FORECAST_REGION"."FNR_FORECAST_APPROVED_UNITS_LATEST")
+          - columnReference:
+              columnCounter: 5bf2d76a-c9d9-426c-9c6e-9733eb4c7d51
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: NUMBER(20,10)
+            description: ""
+            name: FNR_FORECAST_UNITS_FIRST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 04cdef4a-f4d7-4ede-86a0-0054a6974dd9
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: SUM("VW_FNR_FORECAST_REGION"."FNR_FORECAST_UNITS_FIRST")
+          - columnReference:
+              columnCounter: 1890ac19-a9b8-409c-9ed9-853f4fd8dbe8
+              stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273
+            dataType: NUMBER(20,10)
+            description: ""
+            name: FNR_FORECAST_APPROVED_UNITS_FIRST
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 78c192b7-91b5-4174-9000-53bcf6017d15
+                    stepCounter: 9cb72214-39cf-4655-8645-509916ca40bd
+                transform: SUM("VW_FNR_FORECAST_REGION"."FNR_FORECAST_APPROVED_UNITS_FIRST")
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DIM_EVENTS_REGION: b4585615-226c-470e-8e85-be95816a6df2
+              VW_FNR_FORECAST_REGION: 9cb72214-39cf-4655-8645-509916ca40bd
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATA
+                nodeName: DIM_EVENTS_REGION
+              - locationName: STAGE
+                nodeName: VW_FNR_FORECAST_REGION
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'VW_FNR_FORECAST_REGION') }} "VW_FNR_FORECAST_REGION"
+                JOIN {{ ref('DATA', 'DIM_EVENTS_REGION') }} "DIM_EVENTS_REGION"
+                ON "VW_FNR_FORECAST_REGION"."ZONE_GEOGRAPHY" = "DIM_EVENTS_REGION"."ZONE_GEOGRAPHY"
+                AND "VW_FNR_FORECAST_REGION"."PRODKEY" = "DIM_EVENTS_REGION"."PRODKEY"
+                AND "VW_FNR_FORECAST_REGION"."FNR_DATE" BETWEEN "DIM_EVENTS_REGION"."EFFECTIVE_DATE" AND "DIM_EVENTS_REGION"."END_DATE"
+                GROUP BY "DIM_EVENTS_REGION"."DIM_EVENTS_REGION_KEY"
+            name: VW_EVENT_REGION_FNR
+            noLinkRefs: []
+      name: VW_EVENT_REGION_FNR
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 02ffa81e-c756-4f39-818d-9452b3b78273

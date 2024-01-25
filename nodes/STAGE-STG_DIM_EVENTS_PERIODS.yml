@@ -1,0 +1,391 @@
+steps:
+  STG_DIM_EVENTS_PERIODS-613:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        selectDistinct: false
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      dependencies: []
+      description: ""
+      isDataVault: false
+      isMultisource: true
+      locationID: ""
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests:
+          - continueOnFailure: false
+            description: ""
+            name: Test for duplicates
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}}
+              GROUP BY ZONE_CODE, PRODKEY, EFFECTIVE_DATE
+              HAVING COUNT(1) > 1
+          - continueOnFailure: false
+            description: ""
+            name: Test for Base All and Event
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}} E
+              JOIN {{this}} B 
+              ON E.PRODKEY = B.PRODKEY 
+              AND E.ZONE_CODE = B.ZONE_CODE
+              AND E.EVENT_TYPE = 'EVENT'
+              AND B.EVENT_TYPE = 'BASE ALL'
+        columns:
+          - appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8095"
+              stepCounter: "613"
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: abef3656-4f58-4dfb-b83b-30070e03cc8a
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: ""
+              - columnReferences:
+                  - columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+          - appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8096"
+              stepCounter: "613"
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 7ec39941-b336-4b02-be57-67ad75faac38
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: ""
+              - columnReferences:
+                  - columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+          - columnReference:
+              columnCounter: e2d17dda-eabd-44ab-88c4-607609cacd28
+              stepCounter: "613"
+            dataType: VARCHAR(64)
+            description: ""
+            name: ZONE_GEOGRAPHY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 2d44b097-fbf6-4bdd-9ced-3b74ed519237
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: MIN("DS_TLOG_DAY"."ZONE_GEOGRAPHY")
+              - columnReferences:
+                  - columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+              - columnReferences:
+                  - columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+              - columnReferences:
+                  - columnCounter: e3fb0347-aff6-4729-9246-30e9ed42e9a8
+                    stepCounter: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+                transform: ""
+          - appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8097"
+              stepCounter: "613"
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ce327776-4787-4338-8cd2-c8108cfec3a3
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 6df6d2be-699d-4a6b-bc12-25aa39f89296
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: MIN("DS_TLOG_DAY"."TRANSACTION_DATE")
+              - columnReferences:
+                  - columnCounter: 6df6d2be-699d-4a6b-bc12-25aa39f89296
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: ""
+              - columnReferences:
+                  - columnCounter: ce327776-4787-4338-8cd2-c8108cfec3a3
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: DATEADD(D, 1, "DS_EVENTS"."END_DATE")
+          - appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8098"
+              stepCounter: "613"
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 6df6d2be-699d-4a6b-bc12-25aa39f89296
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: MAX("DS_TLOG_DAY"."TRANSACTION_DATE")
+              - columnReferences:
+                  - columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: DATEADD(D, -1, "DS_EVENTS"."EFFECTIVE_DATE")
+              - columnReferences:
+                  - columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences:
+                  - columnCounter: 6df6d2be-699d-4a6b-bc12-25aa39f89296
+                    stepCounter: 1f420ab5-fb58-4bac-9a31-506876349c9c
+                transform: ""
+          - appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8099"
+              stepCounter: "613"
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: WAS_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d5fafd1d-56cf-4d0e-b2ac-b1e3e5a3ca8a
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences: []
+                transform: ""
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+              - columnReferences: []
+                transform: ""
+              - columnReferences: []
+                transform: ""
+          - appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8100"
+              stepCounter: "613"
+            dataType: NUMBER(9,2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: NOW_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 37fff66c-e886-4695-aa56-385c7aad1f87
+                    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+                transform: ""
+              - columnReferences: []
+                transform: ""
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: ""
+              - columnReferences: []
+                transform: ""
+              - columnReferences: []
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: "8121"
+              stepCounter: "613"
+            config: {}
+            dataType: VARCHAR(64)
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: EVENT_TYPE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: "'EVENT'"
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'BASE ALL'"
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'BASE START'"
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'BASE FILL'"
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: "'BASE END'"
+            systemColumnType: None
+            transform: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              DS_EVENTS: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+              DS_ZONE: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_EVENTS
+              - locationName: DATASTORE
+                nodeName: DS_ZONE
+            join:
+              joinCondition: |
+                FROM {{ ref('DATASTORE', 'DS_EVENTS') }} "DS_EVENTS"
+                LEFT JOIN {{ref('DATASTORE', 'DS_ZONE') }} "DS_ZONE"
+                ON "DS_EVENTS"."ZONE_CODE" = "DS_ZONE"."ZONE_CODE"
+            name: DS_EVENTS
+            noLinkRefs: []
+          - aliases:
+              DS_TLOG_DAY: 1f420ab5-fb58-4bac-9a31-506876349c9c
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_EVENTS
+              - locationName: DATASTORE
+                nodeName: DS_TLOG_DAY
+            join:
+              joinCondition: |
+                FROM  {{ ref('DATASTORE', 'DS_TLOG_DAY') }} "DS_TLOG_DAY"
+                LEFT JOIN (SELECT DISTINCT "ZONE_CODE", PRODKEY FROM {{ ref('DATASTORE', 'DS_EVENTS') }}) "DS_EVENTS"
+                ON "DS_TLOG_DAY"."ZONE_CODE" = "DS_EVENTS"."ZONE_CODE"
+                AND "DS_TLOG_DAY"."PRODKEY" = "DS_EVENTS"."PRODKEY"
+                WHERE "DS_EVENTS"."PRODKEY" IS NULL
+                AND "DS_TLOG_DAY"."PRODKEY" IS NOT NULL
+                GROUP BY "DS_TLOG_DAY"."ZONE_CODE", "DS_TLOG_DAY"."PRODKEY"
+            name: BASE_ALL
+            noLinkRefs: []
+          - aliases:
+              DS_ZONE: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_EVENTS
+              - locationName: DATASTORE
+                nodeName: DS_TLOG_DAY
+              - locationName: DATASTORE
+                nodeName: DS_ZONE
+            join:
+              joinCondition: |
+                FROM (SELECT "PRODKEY", "ZONE_CODE", MIN("EFFECTIVE_DATE") AS EFFECTIVE_DATE FROM {{ ref('DATASTORE', 'DS_EVENTS') }} GROUP BY 1, 2) DS_EVENTS
+                JOIN (SELECT "PRODKEY", "ZONE_CODE", MIN("TRANSACTION_DATE") AS TRANSACTION_DATE FROM {{ ref('DATASTORE', 'DS_TLOG_DAY') }} GROUP BY 1, 2) DS_TLOG_DAY
+                  ON DS_EVENTS.PRODKEY = DS_TLOG_DAY.PRODKEY
+                 AND DS_EVENTS.ZONE_CODE = DS_TLOG_DAY.ZONE_CODE
+                JOIN {{ref('DATASTORE', 'DS_ZONE')}} "DS_ZONE"
+                  ON "DS_EVENTS"."ZONE_CODE" = "DS_ZONE"."ZONE_CODE"
+                WHERE DS_TLOG_DAY.TRANSACTION_DATE < DS_EVENTS.EFFECTIVE_DATE 
+            name: BASE_START
+            noLinkRefs: []
+          - aliases:
+              DS_ZONE: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_EVENTS
+              - locationName: DATASTORE
+                nodeName: DS_ZONE
+            join:
+              joinCondition: |
+                FROM (
+                   SELECT ZONE_CODE, PRODKEY,
+                       DATEADD(DAY, 1, END_DATE) EFFECTIVE_DATE,
+                       DATEADD(DAY,-1, LEAD(EFFECTIVE_DATE,1) OVER (PARTITION BY ZONE_CODE, PRODKEY ORDER BY EFFECTIVE_DATE)) END_DATE
+                    FROM {{ ref('DATASTORE', 'DS_EVENTS') }} ) "DS_EVENTS"
+                JOIN {{ref('DATASTORE', 'DS_ZONE')}} "DS_ZONE"
+                  ON "DS_EVENTS"."ZONE_CODE" = "DS_ZONE"."ZONE_CODE"
+                WHERE  "DS_EVENTS"."ZONE_CODE" IS NOT NULL
+                AND DATEDIFF(DAY, "DS_EVENTS"."EFFECTIVE_DATE", "DS_EVENTS"."END_DATE") >= 0 
+                AND "DS_EVENTS"."END_DATE" IS NOT NULL
+            name: BASE_FILL
+            noLinkRefs: []
+          - aliases:
+              DS_ZONE: dad91b29-a0e5-495a-b169-a3a7f78e66e2
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DATASTORE
+                nodeName: DS_EVENTS
+              - locationName: DATASTORE
+                nodeName: DS_TLOG_DAY
+              - locationName: DATASTORE
+                nodeName: DS_ZONE
+            join:
+              joinCondition: |-
+                FROM (SELECT "PRODKEY", "ZONE_CODE", MAX("END_DATE") AS END_DATE FROM {{ ref('DATASTORE', 'DS_EVENTS') }} GROUP BY 1, 2) DS_EVENTS
+                JOIN (SELECT "PRODKEY", "ZONE_CODE", MAX("TRANSACTION_DATE") AS TRANSACTION_DATE FROM {{ ref('DATASTORE', 'DS_TLOG_DAY') }} GROUP BY 1, 2) DS_TLOG_DAY
+                  ON DS_EVENTS.PRODKEY = DS_TLOG_DAY.PRODKEY
+                 AND DS_EVENTS.ZONE_CODE = DS_TLOG_DAY.ZONE_CODE
+                JOIN  {{ref('DATASTORE', 'DS_ZONE') }} "DS_ZONE"
+                ON "DS_EVENTS"."ZONE_CODE" = "DS_ZONE"."ZONE_CODE"
+                WHERE DS_TLOG_DAY.TRANSACTION_DATE > DS_EVENTS.END_DATE 
+            name: BASE_END
+            noLinkRefs: []
+      name: STG_DIM_EVENTS_PERIODS
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: "613"

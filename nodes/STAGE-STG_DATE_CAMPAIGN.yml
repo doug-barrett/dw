@@ -1,0 +1,140 @@
+steps:
+  STG_DATE_CAMPAIGN-3e75e110-81b7-4de7-8fc1-d9eb3c7062bb:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: adf1aedd-1e2b-4715-ab42-0fd73dd6431b
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: DATE
+            description: ""
+            name: CALENDAR_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2b799363-762c-47e4-a411-da1d7fb0b10b
+                    stepCounter: 9da0baad-a0fb-4bd9-bce8-2e2c3268ae2b
+                transform: ""
+          - columnReference:
+              columnCounter: ba51c138-9be9-4d1b-928a-f4a3b0314d78
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEAL_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 364dedf2-658f-4c35-a935-1e8ea4f62664
+                    stepCounter: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+                transform: ""
+          - columnReference:
+              columnCounter: d8a64f4e-3b3f-461e-bc0c-2eecc09a1570
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: INT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEAL_SEQ
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 364dedf2-658f-4c35-a935-1e8ea4f62664
+                    stepCounter: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+                transform: ROW_NUMBER() OVER (PARTITION BY "STAGE_DATE"."CALENDAR_DATE" ORDER BY "REF_CAMPAIGN"."DEAL_KEY")
+          - columnReference:
+              columnCounter: 01f25f24-8695-4a6c-a76e-d2af2cff101a
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: VARCHAR(64)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEAL
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 87b8f852-5442-44db-a8d2-c2d3511df782
+                    stepCounter: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+                transform: ""
+          - columnReference:
+              columnCounter: 4466169a-7420-453b-bc0c-db69ccd9f8a9
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: VARCHAR(255)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEAL_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 4f50f18f-aa87-47f2-bd04-923a08c2f296
+                    stepCounter: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+                transform: ""
+          - columnReference:
+              columnCounter: 3ccbf399-4983-40a1-9e51-baa58dc787cf
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEAL_START_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 18aba6ba-c968-4775-a786-98862fa0bd81
+                    stepCounter: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+                transform: ""
+          - columnReference:
+              columnCounter: 23fe2e8c-6586-4d5d-b387-c79b32742aba
+              stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DEAL_END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 24dc7686-3d0f-46bb-a46f-655dbba5fb08
+                    stepCounter: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              REF_CAMPAIGN: 9646524a-d0f5-41b7-8d52-4665dbb3c853
+              STAGE_DATE: 9da0baad-a0fb-4bd9-bce8-2e2c3268ae2b
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: REFERENCE
+                nodeName: REF_CAMPAIGN
+              - locationName: STAGE
+                nodeName: STAGE_DATE
+            join:
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'STAGE_DATE') }} "STAGE_DATE"
+                INNER JOIN {{ ref('REFERENCE', 'REF_CAMPAIGN') }} "REF_CAMPAIGN"
+                ON "STAGE_DATE"."CALENDAR_DATE" BETWEEN "REF_CAMPAIGN"."DEAL_START_DATE" AND "REF_CAMPAIGN"."DEAL_END_DATE"
+            name: STG_DATE_CAMPAIGN
+            noLinkRefs: []
+      name: STG_DATE_CAMPAIGN
+      overrideSQL: false
+      schema: ""
+      sqlType: Stage
+      type: sql
+    stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb

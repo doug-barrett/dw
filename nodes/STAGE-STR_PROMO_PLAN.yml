@@ -1,0 +1,144 @@
+steps:
+  STR_PROMO_PLAN-a7d9813b-0c0c-44d8-a9b9-fe0bd9391337:
+    operation:
+      config:
+        appendOnly: false
+        initialRows: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 3c61b24d-7e61-4033-a08e-196b786b7e9e
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: DIM_FORECAST_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 31d76e7d-bf56-46bb-b0be-2b6864299451
+                    stepCounter: 069788a4-dc62-406e-839f-961e1e66904e
+                transform: ""
+          - columnReference:
+              columnCounter: a877ec48-f67d-47bc-b554-95740e9fc853
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            dataType: VARCHAR(16777216)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ZONE_GEOGRAPHY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 49fa4aa2-0fd7-41d8-acce-b7761001db7f
+                    stepCounter: 069788a4-dc62-406e-839f-961e1e66904e
+                transform: ""
+          - columnReference:
+              columnCounter: 976eaa4b-c4d5-4f4c-87c6-61a283e7deb9
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            dataType: VARCHAR(6)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: PRODKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e6f8b289-0941-479b-a4a0-5edf304bce26
+                    stepCounter: 069788a4-dc62-406e-839f-961e1e66904e
+                transform: ""
+          - columnReference:
+              columnCounter: 6d07ade2-b0fa-481e-a880-edea942e27b0
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            dataType: DATE
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: EFFECTIVE_DATE
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c6eb68e6-a502-44da-84d5-5d6ca04fc1e8
+                    stepCounter: 069788a4-dc62-406e-839f-961e1e66904e
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: e13e40c3-8e0b-42b5-b050-1b3e19752513
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: Indicates the DML operation (INSERT, DELETE) recorded.
+            hashColumns: []
+            isStreamMetadataAction: true
+            name: METADATA$ACTION
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: METADATA$ACTION
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 7f769cd6-4972-43c2-98c8-f6cdc704dc93
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: Indicates whether the operation was part of an UPDATE statement.
+            hashColumns: []
+            isStreamMetadataIsUpdate: true
+            name: METADATA$ISUPDATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: METADATA$ISUPDATE
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: e58b5532-affb-4440-bcf9-0ffd14060822
+              stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
+            hashColumns: []
+            isStreamMetadataRowId: true
+            name: METADATA$ROW_ID
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences: []
+                transform: METADATA$ROW_ID
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: INPUT
+                nodeName: PROMO_PLAN
+            join:
+              joinCondition: FROM {{ ref('INPUT', 'PROMO_PLAN') }} "PROMO_PLAN"
+            name: STR_PROMO_PLAN
+            noLinkRefs: []
+      name: STR_PROMO_PLAN
+      overrideSQL: false
+      schema: ""
+      sqlType: "24"
+      type: sql
+    stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
