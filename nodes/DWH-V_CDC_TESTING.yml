@@ -1,5 +1,5 @@
 steps:
-  V_CDC_TESTING-fac96318-87b6-4aca-9220-7233a8479476:
+  V_CDC_TESTING-38003896-2d65-4e15-bda4-38e5ddddd579:
     operation:
       config:
         insertStrategy: UNION
@@ -14,8 +14,22 @@ steps:
         appliedNodeTests: []
         columns:
           - columnReference:
-              columnCounter: ddf562b9-b97e-4d77-b023-3461659d7920
-              stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+              columnCounter: 4e92c6fc-50f9-4dbc-a13e-0c9466cd6d10
+              stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
+            dataType: VARCHAR(2)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: ISO3166_1
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d1a219f0-3a17-4132-8e39-a0b96cfc97ac
+                    stepCounter: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
+                transform: ""
+          - columnReference:
+              columnCounter: 164f7e81-526c-4ff8-ac5c-61c6af12aab6
+              stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
             dataType: VARCHAR(2)
             description: ""
             hashColumns: []
@@ -24,12 +38,12 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 93ee2074-83cc-4c19-a8a1-d89f36ce93a8
-                    stepCounter: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+                  - columnCounter: b2ea0a4a-3ec2-4158-8d39-143f019ff511
+                    stepCounter: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
                 transform: ""
           - columnReference:
-              columnCounter: 11236eca-479a-4de2-8bf8-5ad72189c172
-              stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+              columnCounter: 31d4b2a1-ad7d-4170-b2f2-b64890ef2043
+              stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
             dataType: TIMESTAMP_NTZ(9)
             description: ""
             hashColumns: []
@@ -38,12 +52,12 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 86b73ce0-21ab-4bc4-b99c-83e75a044d7c
-                    stepCounter: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+                  - columnCounter: f15d9956-9a18-428a-956b-2d2ad467b60d
+                    stepCounter: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
                 transform: ""
           - columnReference:
-              columnCounter: fe544174-4f8d-47e6-a7cf-a95600f9ef29
-              stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+              columnCounter: 6e12b628-e73f-4e40-9ce3-dade833091db
+              stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
             dataType: NUMBER(38,0)
             description: ""
             hashColumns: []
@@ -52,14 +66,42 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 4b940e91-b7f8-40dd-bba9-31ea7312e5e2
-                    stepCounter: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+                  - columnCounter: 3655fb75-d0b9-45b9-9925-5ea74ff0a321
+                    stepCounter: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
+                transform: NVL("CDC_TESTING"."POSITIVE",0)
+          - columnReference:
+              columnCounter: 1ccea057-7d36-4aef-ad84-e2538906d537
+              stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: NEGATIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0ba78e95-6994-4859-ba27-f66e6bb55ae5
+                    stepCounter: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
+                transform: ""
+          - columnReference:
+              columnCounter: 226d1d40-35cd-440e-a281-ab6c8c0f4041
+              stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: INCONCLUSIVE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 54fe2b1e-7d0f-4a07-82d4-26b28dcf63f8
+                    stepCounter: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
                 transform: ""
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              CDC_TESTING: 33387714-48dd-49c5-a6c9-2f7f9e53ebd8
+              CDC_TESTING: 8284fa9f-29b5-4e69-acbc-4a42b85e332d
             customSQL:
               customSQL: ""
             dependencies:
@@ -68,7 +110,8 @@ steps:
             join:
               joinCondition: |-
                 FROM {{ ref('COVID', 'CDC_TESTING') }} "CDC_TESTING"
-                WHERE "ISO3166_1" = 'US' AND "ISO3166_2" = 'OR'
+                WHERE "ISO3166_1" = 'US'
+                AND "ISO3166_2" = 'OR'
             name: V_CDC_TESTING
             noLinkRefs: []
       name: V_CDC_TESTING
@@ -76,4 +119,4 @@ steps:
       schema: ""
       sqlType: View
       type: sql
-    stepCounter: fac96318-87b6-4aca-9220-7233a8479476
+    stepCounter: 38003896-2d65-4e15-bda4-38e5ddddd579
