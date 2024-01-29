@@ -12,7 +12,7 @@ steps:
       deployEnabled: true
       description: ""
       isMultisource: false
-      locationName: WORK
+      locationName: STAGE
       materializationType: table
       metadata:
         appliedNodeTests: []
@@ -30,8 +30,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 46e04a88-3404-4836-abfd-57c59fec405c
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                  - columnCounter: c9378ce5-79f2-4e34-a1c9-72e24208832e
+                    stepCounter: 6a56ab9e-8568-4581-8d13-989c65ed5ff2
                 transform: ""
           - acceptedValues:
               strictMatch: true
@@ -46,9 +46,7 @@ steps:
             name: PARAM_KEY
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 9aec3cbe-b796-4073-acf9-16139f60b9b7
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: "\"EVENT_PARAMS\".value:\"key\"::STRING"
           - acceptedValues:
               strictMatch: true
@@ -63,22 +61,21 @@ steps:
             name: PARAM_VALUE
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 9aec3cbe-b796-4073-acf9-16139f60b9b7
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: COALESCE("EVENT_PARAMS".value:"value"."string_value"::STRING, "EVENT_PARAMS".value:"value"."int_value"::STRING, 'EMPTY')
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              STG_COALESCE_GA4_EVENT_ALL: b8934aa1-ac9b-4d18-a51a-51f33d00162f
             customSQL:
               customSQL: ""
             dependencies:
-              - locationName: WORK
+              - locationName: STAGE
                 nodeName: STG_COALESCE_GA4_EVENT_ALL
             join:
               joinCondition: |-
-                FROM {{ ref('WORK', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
+                FROM {{ ref('STAGE', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
                 lateral flatten(input => "EVENT_PARAMS", OUTER => TRUE) "EVENT_PARAMS"
             name: STG_COALESCE_GA4_EVENT_PARAMS
             noLinkRefs: []

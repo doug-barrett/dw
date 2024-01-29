@@ -12,7 +12,7 @@ steps:
       deployEnabled: true
       description: ""
       isMultisource: false
-      locationName: WORK
+      locationName: STAGE
       materializationType: table
       metadata:
         appliedNodeTests: []
@@ -45,26 +45,40 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 35d53924-3424-4e2f-9bad-924dc8753f55
-                    stepCounter: c9028be7-e10e-44a9-be92-25ecad13e661
+                  - columnCounter: a43a7979-ccb5-4d74-bcb6-e0ec9d8ff61d
+                    stepCounter: 653891f5-f121-4794-9a79-7bc62b3659d7
+                transform: ""
+          - columnReference:
+              columnCounter: 2452ee7d-654d-4f26-81ab-51bb7e6b155f
+              stepCounter: 08109ac4-cb76-498e-805b-c1ffd4d96e32
+            dataType: STRING
+            description: ""
+            name: METADATA$FILENAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: dda74d26-441c-4c8f-9491-098a50b422e7
+                    stepCounter: 653891f5-f121-4794-9a79-7bc62b3659d7
                 transform: ""
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH: c9028be7-e10e-44a9-be92-25ecad13e661
+              EXT_GA4: 653891f5-f121-4794-9a79-7bc62b3659d7
             customSQL:
               customSQL: ""
             dependencies:
-              - locationName: WORK
-                nodeName: COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH
+              - locationName: STAGE
+                nodeName: EXT_GA4
             join:
-              joinCondition: FROM {{ ref('WORK', 'COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH') }} "COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH"
+              joinCondition: |-
+                FROM {{ ref('STAGE', 'EXT_GA4') }} "EXT_GA4"
+                WHERE "METADATA$FILENAME" not LIKE '%GA4_EVENT.json'
             name: STG_COALESCE_GA4_EVENT_SNAPSHOT
             noLinkRefs: []
       name: STG_COALESCE_GA4_EVENT_SNAPSHOT
       overrideSQL: false
       schema: ""
-      sqlType: View
+      sqlType: Stage
       type: sql
     stepCounter: 08109ac4-cb76-498e-805b-c1ffd4d96e32

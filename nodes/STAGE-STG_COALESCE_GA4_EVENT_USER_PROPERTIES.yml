@@ -12,7 +12,7 @@ steps:
       deployEnabled: true
       description: ""
       isMultisource: false
-      locationName: WORK
+      locationName: STAGE
       materializationType: table
       metadata:
         appliedNodeTests: []
@@ -30,8 +30,8 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 46e04a88-3404-4836-abfd-57c59fec405c
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                  - columnCounter: c9378ce5-79f2-4e34-a1c9-72e24208832e
+                    stepCounter: 6a56ab9e-8568-4581-8d13-989c65ed5ff2
                 transform: ""
           - acceptedValues:
               strictMatch: true
@@ -46,9 +46,7 @@ steps:
             name: USER_PROP_KEY
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: "\"USER_PROPERTIES\".value:\"key\"::STRING"
           - acceptedValues:
               strictMatch: true
@@ -63,9 +61,7 @@ steps:
             name: USER_PROP_DOUBLE_VALUE
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: |2
                    "USER_PROPERTIES".value:"value"."double_value"::DOUBLE
           - acceptedValues:
@@ -81,9 +77,7 @@ steps:
             name: USER_PROP_INT_VALUE
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: "\"USER_PROPERTIES\".value:\"value\".\"int_value\"::STRING"
           - acceptedValues:
               strictMatch: true
@@ -98,9 +92,7 @@ steps:
             name: USER_PROP_TIMESTAMP_MICROS
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: "\"USER_PROPERTIES\".value:\"value\".\"set_timestamp_micros\"::STRING"
           - acceptedValues:
               strictMatch: true
@@ -115,9 +107,7 @@ steps:
             name: USER_PROP_STRING_VALUE
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: "\"USER_PROPERTIES\".value:\"value\".\"string_value\"::STRING"
           - acceptedValues:
               strictMatch: true
@@ -132,9 +122,7 @@ steps:
             name: USER_PROP_VALUE
             nullable: true
             sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
-                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              - columnReferences: []
                 transform: |-
                   COALESCE( "USER_PROPERTIES".value:"value"."string_value"::STRING,
                    "USER_PROPERTIES".value:"value"."double_value"::STRING,
@@ -143,15 +131,16 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              STG_COALESCE_GA4_EVENT_ALL: b8934aa1-ac9b-4d18-a51a-51f33d00162f
             customSQL:
               customSQL: ""
             dependencies:
-              - locationName: WORK
+              - locationName: STAGE
                 nodeName: STG_COALESCE_GA4_EVENT_ALL
             join:
               joinCondition: |-
-                FROM {{ ref('WORK', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
+                FROM {{ ref('STAGE', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
                 lateral flatten(input => "USER_PROPERTIES", OUTER => TRUE) "USER_PROPERTIES"
             name: STG_COALESCE_GA4_EVENT_USER_PROPERTIES
             noLinkRefs: []
