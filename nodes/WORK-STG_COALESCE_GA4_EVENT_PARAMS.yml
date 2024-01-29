@@ -1,0 +1,90 @@
+steps:
+  STG_COALESCE_GA4_EVENT_PARAMS-6af384a8-8187-49db-9113-5ba85477b8b5:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        selectDistinct: false
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: WORK
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: false
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 1e340b84-77c5-4034-a998-b2038160eb0e
+              stepCounter: 6af384a8-8187-49db-9113-5ba85477b8b5
+            dataType: STRING
+            description: ""
+            name: EVENT_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 46e04a88-3404-4836-abfd-57c59fec405c
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: aea1eb4b-5939-4dd1-8e02-f6bc37d26dcf
+              stepCounter: 6af384a8-8187-49db-9113-5ba85477b8b5
+            config: {}
+            dataType: STRING
+            description: ""
+            name: PARAM_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9aec3cbe-b796-4073-acf9-16139f60b9b7
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: "\"EVENT_PARAMS\".value:\"key\"::STRING"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 89100018-49c6-46e6-8079-d8bdd28a40d6
+              stepCounter: 6af384a8-8187-49db-9113-5ba85477b8b5
+            config: {}
+            dataType: STRING
+            description: ""
+            name: PARAM_VALUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 9aec3cbe-b796-4073-acf9-16139f60b9b7
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: COALESCE("EVENT_PARAMS".value:"value"."string_value"::STRING, "EVENT_PARAMS".value:"value"."int_value"::STRING, 'EMPTY')
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: WORK
+                nodeName: STG_COALESCE_GA4_EVENT_ALL
+            join:
+              joinCondition: |-
+                FROM {{ ref('WORK', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
+                lateral flatten(input => "EVENT_PARAMS", OUTER => TRUE) "EVENT_PARAMS"
+            name: STG_COALESCE_GA4_EVENT_PARAMS
+            noLinkRefs: []
+      name: STG_COALESCE_GA4_EVENT_PARAMS
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 6af384a8-8187-49db-9113-5ba85477b8b5

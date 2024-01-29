@@ -1,0 +1,163 @@
+steps:
+  STG_COALESCE_GA4_EVENT_USER_PROPERTIES-a4080f6f-1372-464b-a42b-29eea277eeb0:
+    operation:
+      config:
+        insertStrategy: INSERT
+        postSQL: ""
+        preSQL: ""
+        selectDistinct: false
+        testsEnabled: true
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: WORK
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: false
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 79785e91-2d9a-402e-89ed-4c284399b794
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            dataType: STRING
+            description: ""
+            name: EVENT_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 46e04a88-3404-4836-abfd-57c59fec405c
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 712dacd8-c84d-4fcc-973f-cc037d831faa
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            config: {}
+            dataType: STRING
+            description: ""
+            name: USER_PROP_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: "\"USER_PROPERTIES\".value:\"key\"::STRING"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 80c90c16-71f4-4993-a9ac-34efcfd58485
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            config: {}
+            dataType: DOUBLE
+            description: ""
+            name: USER_PROP_DOUBLE_VALUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: |2
+                   "USER_PROPERTIES".value:"value"."double_value"::DOUBLE
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: bcad036c-d73a-421d-ab86-51e9c893c1cc
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            config: {}
+            dataType: STRING
+            description: ""
+            name: USER_PROP_INT_VALUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: "\"USER_PROPERTIES\".value:\"value\".\"int_value\"::STRING"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 266dc518-8a86-49c7-b33d-01b9836ded19
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            config: {}
+            dataType: STRING
+            description: ""
+            name: USER_PROP_TIMESTAMP_MICROS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: "\"USER_PROPERTIES\".value:\"value\".\"set_timestamp_micros\"::STRING"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: 6c2902a0-8cf4-42e9-b45a-25c226e1d033
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            config: {}
+            dataType: STRING
+            description: ""
+            name: USER_PROP_STRING_VALUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: "\"USER_PROPERTIES\".value:\"value\".\"string_value\"::STRING"
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: dceede6c-c245-4bbb-831b-2f2e3e1e9167
+              stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0
+            config: {}
+            dataType: STRING
+            description: ""
+            name: USER_PROP_VALUE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 8d980d94-c3e7-4c7c-ae66-33b302c680cf
+                    stepCounter: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+                transform: |-
+                  COALESCE( "USER_PROPERTIES".value:"value"."string_value"::STRING,
+                   "USER_PROPERTIES".value:"value"."double_value"::STRING,
+                   "USER_PROPERTIES".value:"value"."int_value"::STRING,
+                  '')
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: WORK
+                nodeName: STG_COALESCE_GA4_EVENT_ALL
+            join:
+              joinCondition: |-
+                FROM {{ ref('WORK', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
+                lateral flatten(input => "USER_PROPERTIES", OUTER => TRUE) "USER_PROPERTIES"
+            name: STG_COALESCE_GA4_EVENT_USER_PROPERTIES
+            noLinkRefs: []
+      name: STG_COALESCE_GA4_EVENT_USER_PROPERTIES
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: a4080f6f-1372-464b-a42b-29eea277eeb0

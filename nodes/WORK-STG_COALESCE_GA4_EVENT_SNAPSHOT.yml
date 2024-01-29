@@ -1,0 +1,70 @@
+steps:
+  STG_COALESCE_GA4_EVENT_SNAPSHOT-08109ac4-cb76-498e-805b-c1ffd4d96e32:
+    operation:
+      config:
+        insertStrategy: UNION
+        postSQL: null
+        preSQL: null
+        selectDistinct: false
+        testsEnabled: false
+        truncateBefore: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: WORK
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests: {}
+            columnReference:
+              columnCounter: d72247a8-efff-4f0b-90fa-c78e95052686
+              stepCounter: 08109ac4-cb76-498e-805b-c1ffd4d96e32
+            config: {}
+            dataType: STRING
+            defaultValue: ""
+            description: ""
+            hashDetails:
+              hashAlgorithm: SHA1
+            hashedColumns:
+              - columnCounter: 0181877b-af81-42e3-ba05-4dfab324f592
+                stepCounter: 08109ac4-cb76-498e-805b-c1ffd4d96e32
+            name: EVENT_KEY
+            nullable: true
+            sourceColumnReferences: []
+          - columnReference:
+              columnCounter: 0181877b-af81-42e3-ba05-4dfab324f592
+              stepCounter: 08109ac4-cb76-498e-805b-c1ffd4d96e32
+            dataType: VARIANT
+            description: ""
+            name: EVENT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 35d53924-3424-4e2f-9bad-924dc8753f55
+                    stepCounter: c9028be7-e10e-44a9-be92-25ecad13e661
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH: c9028be7-e10e-44a9-be92-25ecad13e661
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: WORK
+                nodeName: COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH
+            join:
+              joinCondition: FROM {{ ref('WORK', 'COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH') }} "COALESCE_GA4_EVENT_SNAPSHOT_ONE_MONTH"
+            name: STG_COALESCE_GA4_EVENT_SNAPSHOT
+            noLinkRefs: []
+      name: STG_COALESCE_GA4_EVENT_SNAPSHOT
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 08109ac4-cb76-498e-805b-c1ffd4d96e32
