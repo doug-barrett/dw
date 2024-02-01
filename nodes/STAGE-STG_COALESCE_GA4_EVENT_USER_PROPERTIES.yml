@@ -13,7 +13,7 @@ steps:
       description: ""
       isMultisource: false
       locationName: STAGE
-      materializationType: table
+      materializationType: view
       metadata:
         appliedNodeTests: []
         columns:
@@ -30,7 +30,7 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: c9378ce5-79f2-4e34-a1c9-72e24208832e
+                  - columnCounter: c98dbe5c-42d4-4d31-9b2f-4b29b8707b20
                     stepCounter: 6a56ab9e-8568-4581-8d13-989c65ed5ff2
                 transform: ""
           - acceptedValues:
@@ -132,7 +132,7 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
-              STG_COALESCE_GA4_EVENT_ALL: b8934aa1-ac9b-4d18-a51a-51f33d00162f
+              STG_COALESCE_GA4_EVENT_ALL: 6a56ab9e-8568-4581-8d13-989c65ed5ff2
             customSQL:
               customSQL: ""
             dependencies:
@@ -142,6 +142,7 @@ steps:
               joinCondition: |-
                 FROM {{ ref('STAGE', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
                 lateral flatten(input => "USER_PROPERTIES", OUTER => TRUE) "USER_PROPERTIES"
+                WHERE ARRAY_SIZE("USER_PROPERTIES") > 0
             name: STG_COALESCE_GA4_EVENT_USER_PROPERTIES
             noLinkRefs: []
       name: STG_COALESCE_GA4_EVENT_USER_PROPERTIES

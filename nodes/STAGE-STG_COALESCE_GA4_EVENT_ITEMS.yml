@@ -265,28 +265,13 @@ steps:
               columnCounter: 07870727-186a-4a2b-81ec-8256ef6f6d02
               stepCounter: 31e1e6eb-07fe-41b5-bba1-0e9ac2ad502f
             config: {}
-            dataType: STRING
+            dataType: VARIANT
             description: ""
-            name: ITEM_PARAMS_KEY
+            name: ITEM_PARAMS
             nullable: true
             sourceColumnReferences:
               - columnReferences: []
-                transform: "\"ITEMS_item_params\".value:\"key\"::STRING"
-          - acceptedValues:
-              strictMatch: true
-              values: []
-            appliedColumnTests: {}
-            columnReference:
-              columnCounter: 48b416ff-6795-472b-afd6-a749b4f5c131
-              stepCounter: 31e1e6eb-07fe-41b5-bba1-0e9ac2ad502f
-            config: {}
-            dataType: STRING
-            description: ""
-            name: ITEM_PARAMS_VALUE_STRING_VALUE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences: []
-                transform: "\"ITEMS_item_params\".value:\"value\".\"string_value\"::STRING"
+                transform: "\"ITEMS\".value:\"item_params\"::VARIANT"
           - acceptedValues:
               strictMatch: true
               values: []
@@ -433,10 +418,10 @@ steps:
               - locationName: STAGE
                 nodeName: STG_COALESCE_GA4_EVENT_ALL
             join:
-              joinCondition: |-
+              joinCondition: |
                 FROM {{ ref('STAGE', 'STG_COALESCE_GA4_EVENT_ALL') }} "STG_COALESCE_GA4_EVENT_ALL", 
-                lateral flatten(input => "ITEMS", OUTER => TRUE) "ITEMS", 
-                lateral flatten(input => "ITEMS".value:"item_params", OUTER => TRUE) "ITEMS_item_params"
+                lateral flatten(input => "ITEMS", OUTER => TRUE) "ITEMS"
+                WHERE ARRAY_SIZE("ITEMS") > 0
             name: STG_COALESCE_GA4_EVENT_ITEMS
             noLinkRefs: []
       name: STG_COALESCE_GA4_EVENT_ITEMS
