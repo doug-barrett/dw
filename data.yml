@@ -1039,9 +1039,10 @@ stepTypes:
           - displayName: Stage
             attributeName: fileLocation
             type: dropdownSelector
-            default: "DOUGS32"
+            default: "DOUGS3/salesforce"
             options:
-            - "DOUGS32"
+            - "DOUGS3"
+            - "DOUGS3/salesforce"
             - "Create external stages on Snowflake"
             - "Place them in the same storage location"
             - "List the storage locations in this dropdown"
@@ -1181,7 +1182,7 @@ stepTypes:
                 {% endfor %}
               {% endif %}
               
-              with location = @{{desiredState.parameters.stage_location}}.{{desiredState.config.fileLocation | upper}}
+              with location = @{{desiredState.parameters.stage_location}}.{{desiredState.config.fileLocation}}
               pattern='{{ desiredState.config.filePattern }}'
               file_format = (type = {{ desiredState.config.fileType }}
               {% if desiredState.config.fileType == "CSV" %}
