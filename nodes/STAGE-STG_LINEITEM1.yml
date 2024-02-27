@@ -409,6 +409,9 @@ steps:
 
                 LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
                 ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
+
+
+                WHERE STG_LINEITEM.O_ORDERDATE = '{{parameters.refresh_date}}'
             name: STG_LINEITEM1
             noLinkRefs: []
       name: STG_LINEITEM1

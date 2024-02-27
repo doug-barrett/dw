@@ -17,20 +17,6 @@ jobs:
     name: Process Dimensions
     steps: []
     subgraphs: []
-  Job-77:
-    excludeSelector: ""
-    id: 77
-    includeSelector: "{ subgraph: \"Customer\" }"
-    name: Process Subgraph Customers
-    steps: []
-    subgraphs: []
-  Job-84:
-    excludeSelector: ""
-    id: 84
-    includeSelector: "+{ location: STAGE name: STG_SUPPLIER1 }"
-    name: Customer Job
-    steps: []
-    subgraphs: []
 locations:
   DWH:
     mappingDefinitions:
@@ -38,14 +24,20 @@ locations:
         database: DOUG_DB
         schema: PROD_DWH
   SRC_FIVETRAN_RETAIL:
-    mappingDefinitions: {}
+    mappingDefinitions:
+      "121":
+        database: FIVETRAN_DATABASE
+        schema: RETAIL_DATA
   SRC_SAMPLE:
     mappingDefinitions:
       "121":
         database: SNOWFLAKE_SAMPLE_DATA
         schema: TPCH_SF1
   SRC_WEATHER:
-    mappingDefinitions: {}
+    mappingDefinitions:
+      "121":
+        database: COALESCE_SAMPLE_DATABASE
+        schema: WEATHER
   STAGE:
     mappingDefinitions:
       "121":

@@ -182,14 +182,16 @@ steps:
           - hasNull
           - isDistinct
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              SUPPLIER: 684da7a3-247f-4745-9a69-3d41f9923169
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: SUPPLIER
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+              joinCondition: |
+                FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
             name: STG_SUPPLIER
             noLinkRefs: []
       name: STG_SUPPLIER
