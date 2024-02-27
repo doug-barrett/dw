@@ -20,29 +20,29 @@ jobs:
 locations:
   DWH:
     mappingDefinitions:
-      "3":
+      "121":
         database: DOUG_DB
         schema: PROD_DWH
   SRC_FIVETRAN_RETAIL:
     mappingDefinitions:
-      "3":
+      "121":
         database: FIVETRAN_DATABASE
         schema: RETAIL_DATA
   SRC_SAMPLE:
     mappingDefinitions:
-      "3":
+      "121":
         database: SNOWFLAKE_SAMPLE_DATA
         schema: TPCH_SF1
   SRC_WEATHER:
     mappingDefinitions:
-      "3":
+      "121":
         database: COALESCE_SAMPLE_DATABASE
         schema: WEATHER
   STAGE:
     mappingDefinitions:
-      "3":
+      "121":
         database: DOUG_DB
-        schema: PROD_STG
+        schema: PROD_DWH
 macros:
   Macro-1:
     id: "1"
@@ -1195,7 +1195,7 @@ stepTypes:
     version: 1
   StepType-166:
     id: "166"
-    isDisabled: true
+    isDisabled: false
     metadata:
       defaultStorageLocation: DWH
       error: null
@@ -1233,10 +1233,12 @@ stepTypes:
             attributeName: insertZeroKey
             displayName: Insert Zero Key Record
             default: true
+
           - type: toggleButton
-            attributeName: insertZeroKey2
-            displayName: Insert Zero Key Record22
+            attributeName: addConstraints
+            displayName: Add PK Constraint
             default: true
+
           - type: overrideSQLToggle
             enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
 
@@ -1320,6 +1322,19 @@ stepTypes:
             		{% endfor %}
             	)
             	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+            	{% if config.addConstraints %}
+
+            		{{ stage('Add PK constraint') }}
+
+            		ALTER TABLE {{this}} ADD CONSTRAINT PK_{{node.name}} PRIMARY KEY ( 
+            			{% for col in columns if col.isSurrogateKey %}
+            				"{{ col.name }}"
+            				{%- if not loop.last -%}, {% endif %}
+            			{% endfor %}
+            		) RELY
+
+            	{% endif %}
 
             	{% if config.insertZeroKey %}
 
@@ -2826,6 +2841,249 @@ stepTypes:
         run:
           templateString: ""
     name: PII View
+    version: 1
+  StepType-204:
+    id: "204"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: DWH
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Fact V2
+        plural: Facts
+        short: FCT
+        tagColor: '#D9A438'
+
+        config:
+        - groupName: Options
+          items:
+          - type: materializationSelector
+            isRequired: true
+            options:
+            - table
+            - view
+          
+          - type: businessKeyColumns
+            isRequired: false
+
+          - displayName: Enable Tests
+            attributeName: testsEnabled
+            type: toggleButton
+            default: true
+
+          - type: toggleButton
+            attributeName: addConstraints
+            displayName: Add Star Constraints
+            default: true
+
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            syntax: sql
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            syntax: sql
+            isRequired: false
+
+        systemColumns:
+        - displayName: SYSTEM_CREATE_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemCreateDate
+
+        - displayName: SYSTEM_UPDATE_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemUpdateDate
+      templates:
+        create:
+          templateString: |-
+            {% if node.materializationType == 'table' %}
+                    {{ stage('Create Fact Table') }}
+                
+                    CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+                    (
+                        {% for col in columns %}
+                            "{{ col.name }}" {{ col.dataType }}
+                            {%- if not col.nullable %} NOT NULL
+                                {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                            {% endif %}
+                            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                            {%- if not loop.last -%}, {% endif %}
+                        {% endfor %}
+                    )
+                    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+                
+                	{% if config.addConstraints %}
+
+                        {{ stage('Add PK constraint') }}
+
+                        ALTER TABLE {{this}} ADD CONSTRAINT PK_{{node.name}} PRIMARY KEY ( 
+                            {% for col in columns if col.isBusinessKey %}
+                                "{{ col.name }}"
+                                {%- if not loop.last -%}, {% endif %}
+                            {% endfor %}
+                        ) RELY
+
+                        {% for col in columns  %}
+                            {% if col.name.startswith("DIM_") %}
+                                {{ stage('Add FK constraint') }}
+
+                                ALTER TABLE {{this}} ADD CONSTRAINT FK_{{col.name}} FOREIGN KEY ( {{col.name}} ) 
+                                REFERENCES {{ ref_no_link(node.location.name, col.name | replace("_KEY", ""))}} ( {{col.name }} ) RELY
+                            {% endif %}
+                        {% endfor %}
+            	    {% endif %}
+
+                {% elif node.materializationType == 'view' %}
+                    {{ stage('Create Fact View') }}
+                
+                    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+                    (
+                        {% for col in columns %}
+                            "{{ col.name }}"
+                            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                            {%- if not loop.last -%},{% endif %}
+                        {% endfor %}
+                    )
+                    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+                    AS
+                    {% for source in sources %}
+                
+                        {% if loop.first %}SELECT {% endif %}
+                
+                        {% for col in source.columns %}
+                            {{ get_source_transform(col) }} AS "{{ col.name }}"
+                            {%- if not loop.last -%}, {% endif %}
+                        {% endfor %}
+                        {{ source.join }}
+                
+                        {% if not loop.last %} UNION ALL {% endif %}
+                    {% endfor %}
+                
+                {% endif %}
+                
+        run:
+          templateString: |2-
+
+                {% for test in node.tests if config.testsEnabled %}
+                    {% if test.runOrder == 'Before' %}
+                        {{ test_stage(test.name, test.continueOnFailure) }}
+                        {{ test.templateString }}
+                    {% endif %}
+                {% endfor %}
+
+                {% if node.materializationType == 'table' %}
+                    {% if config.preSQL %}
+                        {{ stage('Pre-SQL') }}
+                        {{ config.preSQL }}
+                    {% endif %}
+                    
+                    {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+                    
+                    {% for source in sources %}
+                    
+                        {% if has_business_key %}
+                    
+                            {{ stage('MERGE ' + source.name | string ) }}
+                            MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+                            USING (
+                                SELECT
+                                {% for col in source.columns %}
+                                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                                    {%- if not loop.last %}, {% endif %}
+                                {% endfor %}
+                                {{ source.join }})
+                                AS "SRC"
+                            ON
+                            {% for col in source.columns if col.isBusinessKey -%}
+                                {% if not loop.first %}
+                                    AND
+                                {% endif %}
+                                "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
+                            {% endfor %}
+                            WHEN MATCHED
+                            {% for col in source.columns if not (   col.isBusinessKey or
+                                                                    col.isSystemUpdateDate or
+                                                                    col.isSystemCreateDate) %}
+                                {% if loop.first %}
+                                    AND (
+                                {% else %}
+                                    OR
+                                {% endif %}
+                                NVL( CAST("SRC"."{{ col.name }}" as STRING), '**NULL**') <> NVL( CAST("TGT"."{{ col.name }}" as STRING), '**NULL**')
+                                {% if loop.last %}
+                                    )
+                                {% endif %}
+                            {% endfor %}
+                            THEN UPDATE SET
+                            {%- for col in source.columns if not (col.isBusinessKey or col.isSystemCreateDate) %}
+                                    "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                            WHEN NOT MATCHED THEN
+                            INSERT (
+                            {%- for col in source.columns if not col.isSurrogateKey %}
+                                "{{ col.name }}"
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor -%}
+                            )
+                            VALUES (
+                            {%- for col in source.columns if not col.isSurrogateKey %}
+                                "SRC"."{{ col.name }}"
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor -%}
+                            )
+                    
+                        {% else %}
+                    
+                            {{ stage('Insert ' + source.name | string ) }}
+                    
+                                INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+                                (
+                                    {% for col in source.columns %}
+                                        "{{ col.name }}"
+                                        {%- if not loop.last -%},{% endif %}
+                                    {% endfor %}
+                                )
+                    
+                                SELECT
+                                {% for col in source.columns %}
+                                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                                    {%- if not loop.last -%}, {% endif %}
+                                {% endfor %}
+                                {{ source.join }}
+                        {% endif %}
+                    {% endfor %}
+                    {% if config.postSQL %}
+                        {{ stage('Post-SQL') }}
+                        {{ config.postSQL }}
+                    {% endif %}
+                {% endif %}
+
+                {% if config.testsEnabled %}
+                    {% for test in node.tests %}
+                        {% if test.runOrder == 'After' %}
+                            {{ test_stage(test.name, test.continueOnFailure) }}
+                            {{ test.templateString }}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for column in columns %}
+                        {% for test in column.tests %}
+                            {{ test_stage(column.name + ": " + test.name) }}
+                            {{ test.templateString }}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                
+                
+    name: Fact V2
     version: 1
   StepType-4:
     id: "4"
