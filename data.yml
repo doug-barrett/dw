@@ -1951,7 +1951,7 @@ stepTypes:
     version: 1
   StepType-187:
     id: "187"
-    isDisabled: false
+    isDisabled: true
     metadata:
       defaultStorageLocation: STAGE
       error: null
@@ -2522,6 +2522,273 @@ stepTypes:
         run:
           templateString: ""
     name: PII View
+    version: 1
+  StepType-207:
+    id: "207"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: STAGE
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Copy of Snowpipe
+        short: 'LOAD'
+        tagColor: '#C39BD3'
+        isDisabled: false
+        plural: Snowpipe
+
+        config:
+        - groupName: File Location
+          items: 
+
+          - displayName: Stage
+            attributeName: fileLocation
+            type: dropdownSelector
+            default: "DOUGS3/csv"
+            options:
+            - "DOUGS3/csv"
+            - "Create external stages on Snowflake"
+            - "Place them in the same storage location"
+            - "List the storage locations in this dropdown"
+            isRequired: true
+
+          - displayName: File Pattern
+            attributeName: filePattern
+            type: textBox
+            default: ".*[.]csv"
+            isRequired: false
+
+          - displayName: File Format
+            attributeName: fileFormat
+            type: dropdownSelector
+            default: my_csv_format
+            options:
+            - my_csv_format
+            isRequired: true
+
+          - displayName: Auto Ingest
+            attributeName: autoIngest
+            type: toggleButton
+            default: true
+            isRequired: false
+
+          - displayName: Integration
+            attributeName: inteGration
+            type: dropdownSelector
+            default: None
+            options:
+            - None
+            - INTEGRATION
+            isRequired: false
+
+        - groupName: Hidden config
+          enableIf: "false"
+          items:
+          - displayName: Type
+            type: materializationSelector
+            default: table
+            options:
+            - table
+            isRequired: true
+
+        systemColumns:
+          
+        - displayName: COL1
+          attributeName: col1
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL2
+          attributeName: col2
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL3
+          attributeName: col3
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL4
+          attributeName: col4
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL5
+          attributeName: col5
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL6
+          attributeName: col6
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL7
+          attributeName: col7
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL8
+          attributeName: col8
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL9
+          attributeName: col9
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL10
+          attributeName: col10
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL11
+          attributeName: col11
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL12
+          attributeName: col12
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL13
+          attributeName: col13
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL14
+          attributeName: col14
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL15
+          attributeName: col15
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL16
+          attributeName: col16
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL17
+          attributeName: col17
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL18
+          attributeName: col18
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL19
+          attributeName: col19
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: COL20
+          attributeName: col20
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: 'FILE_NAME'
+          attributeName: fileName
+          transform: ''
+          dataType: STRING
+          placement: beginning
+
+        - displayName: 'FILE_ROW_NUMBER'
+          attributeName: fileRN
+          transform: ''
+          dataType: STRING
+          placement: beginning
+      templates:
+        create:
+          templateString: |+
+            {% set source = sources[0] %}
+
+            {{ stage('Create Landing table')}}
+            CREATE OR REPLACE TABLE {{this}} 
+            (
+                {% for col in source.columns  %}
+                  "{{ col.name }}" {{ col.dataType }} 
+                  {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+            )
+
+            {{ stage('Create Snowpipe') }}
+            CREATE OR REPLACE PIPE  {{ this | replace (node.name, "PIPE_"+node.name) }}
+              auto_ingest = true
+              {% if config.inteGration != 'None'%}INTEGRATION = '{{config.inteGration}}'{% endif %}
+            AS
+              COPY INTO {{ this }} (
+                {%- for col in columns  %}
+                    "{{ col.name }}" 
+                  {%- if not loop.last -%},{% endif %}
+                {%- endfor %}
+              )
+              FROM ( 
+                SELECT 
+                {%- for col in source.columns  %}
+                  {%- if col.fileName %} METADATA$FILENAME 
+                  {%- elif col.fileRN %} METADATA$FILE_ROW_NUMBER
+                  {%- else %}
+                    t.${{loop.index}}::{{ col.dataType }}
+                  {%- endif %}
+                  {%- if not loop.last -%}, {% endif %}
+                {%- endfor %}
+                FROM  @{{parameters.stage_location}}.{{ config.fileLocation }}
+                (FILE_FORMAT => '{{parameters.stage_location}}.{{ config.fileFormat }}') t 
+              )
+              {% if config.filePattern | length > 0 %}PATTERN = '{{ config.filePattern}}' {% endif %}
+
+        run:
+          templateString: |-
+            {% set source = sources[0] %}
+            {{ stage('Run Copy') }}
+
+            COPY INTO {{ this }} (
+                {%- for col in columns  %}
+                    "{{ col.name }}" 
+                  {%- if not loop.last -%},{% endif %}
+                {%- endfor %}
+              )
+              FROM ( 
+                  SELECT 
+                  {%- for col in source.columns  %}
+                    {%- if col.fileName %} METADATA$FILENAME 
+                    {%- elif col.fileRN %} METADATA$FILE_ROW_NUMBER
+                    {%- else %}
+                      t.${{loop.index}}::{{ col.dataType }}
+                    {%- endif %}
+                    {%- if not loop.last -%}, {% endif %}
+                  {%- endfor %}
+                  FROM  @{{parameters.stage_location}}.{{ config.fileLocation }}
+                  (FILE_FORMAT => '{{parameters.stage_location}}.{{ config.fileFormat }}') t 
+                )
+              PATTERN = '{{ config.filePattern}}'
+    name: Snowpipe V2
     version: 1
   StepType-4:
     id: "4"
@@ -3359,7 +3626,7 @@ stepTypes:
     version: 1
   StepType-81:
     id: "81"
-    isDisabled: false
+    isDisabled: true
     metadata:
       defaultStorageLocation: DWH
       error: null
@@ -3457,7 +3724,7 @@ stepTypes:
     version: 1
   StepType-85:
     id: "85"
-    isDisabled: false
+    isDisabled: true
     metadata:
       defaultStorageLocation: STAGE
       error: null
@@ -3475,9 +3742,9 @@ stepTypes:
           - displayName: Stage
             attributeName: fileLocation
             type: dropdownSelector
-            default: "DOUGS32"
+            default: "DOUGS3"
             options:
-            - "DOUGS32"
+            - "DOUGS3"
             - "Create external stages on Snowflake"
             - "Place them in the same storage location"
             - "List the storage locations in this dropdown"
@@ -3584,7 +3851,6 @@ stepTypes:
             isRequired: true
 
         systemColumns:
-
         - displayName: 'VALUE'
           attributeName: 'VALUE'
           transform: ''
