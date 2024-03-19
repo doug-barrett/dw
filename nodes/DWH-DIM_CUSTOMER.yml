@@ -64,6 +64,18 @@ steps:
                     stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
                 transform: ""
           - columnReference:
+              columnCounter: ed3ad576-1a3f-48e7-85c2-ac7d99199c39
+              stepCounter: e3b3d7db-4b65-4a8d-b392-ff29a1fc4b33
+            dataType: VARCHAR(25)
+            description: ""
+            name: N_NAME
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 0aecb403-0d0d-4d5b-a889-ae37722bd5a8
+                    stepCounter: a4b44182-13e6-4a68-9f53-915743d48af4
+                transform: ""
+          - columnReference:
               columnCounter: 5422ffe5-408f-4f29-9620-ad3ab94e88e6
               stepCounter: e3b3d7db-4b65-4a8d-b392-ff29a1fc4b33
             dataType: VARCHAR(40)
@@ -259,14 +271,21 @@ steps:
         enabledColumnTestIDs: []
         sourceMapping:
           - aliases:
+              NATION: a4b44182-13e6-4a68-9f53-915743d48af4
               PY_CUSTOMER: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             customSQL:
               customSQL: ""
             dependencies:
+              - locationName: SRC_SAMPLE
+                nodeName: NATION
               - locationName: STAGE
                 nodeName: PY_CUSTOMER
             join:
-              joinCondition: FROM {{ ref('STAGE', 'PY_CUSTOMER') }} "PY_CUSTOMER"
+              joinCondition: |-
+
+                FROM {{ ref('STAGE', 'PY_CUSTOMER') }} "PY_CUSTOMER"
+                INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
+                ON "PY_CUSTOMER"."C_NATIONKEY" = "NATION"."N_NATIONKEY"
             name: DIM_CUSTOMER
             noLinkRefs: []
       name: DIM_CUSTOMER
