@@ -1,65 +1,24 @@
 defaultStorageMapping: DWH
 installedPackages: {}
-jobs: {}
+jobs:
+  Job-87:
+    excludeSelector: ""
+    id: 87
+    includeSelector: ""
+    name: New Job
+    steps: []
+    subgraphs: []
 locations:
   DWH:
-    mappingDefinitions:
-      "10":
-        database: DOUG_DB
-        schema: QA_DWH
-      "12":
-        database: DOUG_DB
-        schema: QA_DWH
-      "14":
-        database: DOUG_DB
-        schema: QA_EDW
-      "3":
-        database: DOUG_DB
-        schema: PROD_EDW
-      "7":
-        database: DOUG_DB
-        schema: PROD_EDW
+    mappingDefinitions: {}
   SRC_FIVETRAN_RETAIL:
-    mappingDefinitions:
-      "14":
-        database: FIVETRAN_DATABASE
-        schema: RETAIL_DATA
-      "3":
-        database: FIVETRAN_DATABASE
-        schema: RETAIL_DATA
+    mappingDefinitions: {}
   SRC_SAMPLE:
-    mappingDefinitions:
-      "14":
-        database: SNOWFLAKE_SAMPLE_DATA
-        schema: TPCH_SF1
-      "3":
-        database: SNOWFLAKE_SAMPLE_DATA
-        schema: TPCH_SF1
+    mappingDefinitions: {}
   SRC_WEATHER:
-    mappingDefinitions:
-      "14":
-        database: COALESCE_SAMPLE_DATABASE
-        schema: WEATHER
-      "3":
-        database: COALESCE_SAMPLE_DATABASE
-        schema: WEATHER
+    mappingDefinitions: {}
   STAGE:
-    mappingDefinitions:
-      "10":
-        database: DOUG_DB
-        schema: QA_STG
-      "12":
-        database: DOUG_DB
-        schema: QA_STG
-      "14":
-        database: DOUG_DB
-        schema: QA_STG
-      "3":
-        database: DOUG_DB
-        schema: PROD_STG
-      "7":
-        database: DOUG_DB
-        schema: PROD_STG
+    mappingDefinitions: {}
 macros:
   Macro-1:
     id: "1"
@@ -609,9 +568,7 @@ macros:
            {{- result|join(delimiter) -}}
       {%- endmacro -%}
 packages: {}
-projects:
-   "1":
-     name: SCALEFREE-DATAVAULT4COALESCE
+projects: {}
 stepTypes:
   StepType-12:
     id: "12"
@@ -1454,6 +1411,1645 @@ stepTypes:
           templateString: ""
     name: "Datavault by Scalefree: Snapshot v1"
     version: 1
+  StepType-144:
+    id: "144"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: STAGE
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Stream
+        short: STR
+        tagColor: "yellow"
+        plural: Streams
+
+        deployStrategy: advanced
+
+        config:
+
+        - groupName: Stream
+          items:
+
+          - displayName: Initial Rows
+            attributeName: initialRows
+            type: toggleButton
+            default: true
+            isRequired: false
+
+          - displayName: Append Only
+            attributeName: appendOnly
+            type: toggleButton
+            default: false
+            isRequired: false
+
+        - groupName: Hidden config
+          enableIf: "false"
+          items:
+          - displayName: Type
+            type: materializationSelector
+            default: view
+            options:
+            - view
+            isRequired: true
+
+        systemColumns:
+        - displayName: "METADATA$ACTION"
+          transform: "METADATA$ACTION"
+          dataType: STRING
+          placement: end
+          attributeName: isStreamMetadataAction
+          description: Indicates the DML operation (INSERT, DELETE) recorded.
+        - displayName: "METADATA$ISUPDATE"
+          transform: "METADATA$ISUPDATE"
+          dataType: STRING
+          placement: end
+          attributeName: isStreamMetadataIsUpdate
+          description: Indicates whether the operation was part of an UPDATE statement.
+        - displayName: "METADATA$ROW_ID"
+          transform: "METADATA$ROW_ID"
+          dataType: STRING
+          placement: end
+          attributeName: isStreamMetadataRowId
+          description: Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
+      templates:
+        create:
+          templateString: |-
+            {% if desiredState == undefined %}
+
+              {{ stage('Drop Stream') }}
+              DROP STREAM IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+            {% elif currentState == undefined %}
+
+              {{ stage('Create Stream') }}
+              CREATE STREAM IF NOT EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name )  }}
+              ON TABLE {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
+              APPEND_ONLY = {% if desiredState.config.appendOnly is true %} TRUE {%- else -%} FALSE {% endif %} 
+              SHOW_INITIAL_ROWS = {% if desiredState.config.initialRows is true %} TRUE {%- else -%} FALSE {% endif %} 
+              COMMENT = 'CDC Stream on {{ this }}'
+
+            {% endif %}
+        run:
+          templateString: ""
+    name: Stream
+    version: 1
+  StepType-163:
+    id: "163"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |
+        capitalized: Bridge
+        plural: Bridge
+        short: BR
+        tagColor: '#D9A438'
+
+        config:
+        - groupName: Options
+          items:
+          - type: materializationSelector
+            isRequired: true
+            options:
+            - table
+          
+          - type: businessKeyColumns
+            isRequired: false
+
+          - displayName: Enable Tests
+            attributeName: testsEnabled
+            type: toggleButton
+            default: true
+            
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            syntax: sql
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            syntax: sql
+            isRequired: false
+
+        systemColumns:
+        - displayName: SYSTEM_CREATE_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemCreateDate
+
+        - displayName: SYSTEM_UPDATE_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemUpdateDate
+      templates:
+        create:
+          templateString: |2-
+
+                {% if node.materializationType == 'table' %}
+                    {{ stage('Create Fact Table') }}
+                
+                    CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+                    (
+                        {% for col in columns %}
+                            "{{ col.name }}" {{ col.dataType }}
+                            {%- if not col.nullable %} NOT NULL
+                                {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                            {% endif %}
+                            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                            {%- if not loop.last -%}, {% endif %}
+                        {% endfor %}
+                    )
+                    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+                
+                
+                {% elif node.materializationType == 'view' %}
+                    {{ stage('Create Fact View') }}
+                
+                    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+                    (
+                        {% for col in columns %}
+                            "{{ col.name }}"
+                            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+                            {%- if not loop.last -%},{% endif %}
+                        {% endfor %}
+                    )
+                    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+                    AS
+                    {% for source in sources %}
+                
+                        {% if loop.first %}SELECT {% endif %}
+                
+                        {% for col in source.columns %}
+                            {{ get_source_transform(col) }} AS "{{ col.name }}"
+                            {%- if not loop.last -%}, {% endif %}
+                        {% endfor %}
+                        {{ source.join }}
+                
+                        {% if not loop.last %} UNION ALL {% endif %}
+                    {% endfor %}
+                
+                {% endif %}
+                
+        run:
+          templateString: |2-
+
+                {% for test in node.tests if config.testsEnabled %}
+                    {% if test.runOrder == 'Before' %}
+                        {{ test_stage(test.name, test.continueOnFailure) }}
+                        {{ test.templateString }}
+                    {% endif %}
+                {% endfor %}
+
+                {% if node.materializationType == 'table' %}
+                    {% if config.preSQL %}
+                        {{ stage('Pre-SQL') }}
+                        {{ config.preSQL }}
+                    {% endif %}
+                    
+                    {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+                    
+                    {% for source in sources %}
+                    
+                        {% if has_business_key %}
+                    
+                            {{ stage('MERGE ' + source.name | string ) }}
+                            MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+                            USING (
+                                SELECT
+                                {% for col in source.columns %}
+                                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                                    {%- if not loop.last %}, {% endif %}
+                                {% endfor %}
+                                {{ source.join }})
+                                AS "SRC"
+                            ON
+                            {% for col in source.columns if col.isBusinessKey -%}
+                                {% if not loop.first %}
+                                    AND
+                                {% endif %}
+                                "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
+                            {% endfor %}
+                            WHEN MATCHED
+                            {% for col in source.columns if not (   col.isBusinessKey or
+                                                                    col.isSystemUpdateDate or
+                                                                    col.isSystemCreateDate) %}
+                                {% if loop.first %}
+                                    AND (
+                                {% else %}
+                                    OR
+                                {% endif %}
+                                NVL( CAST("SRC"."{{ col.name }}" as STRING), '**NULL**') <> NVL( CAST("TGT"."{{ col.name }}" as STRING), '**NULL**')
+                                {% if loop.last %}
+                                    )
+                                {% endif %}
+                            {% endfor %}
+                            THEN UPDATE SET
+                            {%- for col in source.columns if not (col.isBusinessKey or col.isSystemCreateDate) %}
+                                    "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                            WHEN NOT MATCHED THEN
+                            INSERT (
+                            {%- for col in source.columns if not col.isSurrogateKey %}
+                                "{{ col.name }}"
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor -%}
+                            )
+                            VALUES (
+                            {%- for col in source.columns if not col.isSurrogateKey %}
+                                "SRC"."{{ col.name }}"
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor -%}
+                            )
+                    
+                        {% else %}
+                    
+                            {{ stage('Insert ' + source.name | string ) }}
+                    
+                                INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+                                (
+                                    {% for col in source.columns %}
+                                        "{{ col.name }}"
+                                        {%- if not loop.last -%},{% endif %}
+                                    {% endfor %}
+                                )
+                    
+                                SELECT
+                                {% for col in source.columns %}
+                                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                                    {%- if not loop.last -%}, {% endif %}
+                                {% endfor %}
+                                {{ source.join }}
+                        {% endif %}
+                    {% endfor %}
+                    {% if config.postSQL %}
+                        {{ stage('Post-SQL') }}
+                        {{ config.postSQL }}
+                    {% endif %}
+                {% endif %}
+
+                {% if config.testsEnabled %}
+                    {% for test in node.tests %}
+                        {% if test.runOrder == 'After' %}
+                            {{ test_stage(test.name, test.continueOnFailure) }}
+                            {{ test.templateString }}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for column in columns %}
+                        {% for test in column.tests %}
+                            {{ test_stage(column.name + ": " + test.name) }}
+                            {{ test.templateString }}
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                
+                
+    name: Bridge
+    version: 1
+  StepType-171:
+    id: "171"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: 'DATAVAULT BY SCALEFREE: SATELLITE V1'
+        short: 'SATV1'
+        plural: 'DATAVAULT BY SCALEFREE: SATELLITES V1'
+        tagColor: '#FFAC1C'
+
+        config:
+        - groupName: Options
+          items:
+          - type: materializationSelector
+            isRequired: true
+            enableIf: 'true'
+            default: table
+            options:
+            - view
+            - table
+
+        - groupName: Pre/Post SQL
+          items:
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            isRequired: false
+
+        - groupName: Data Vault
+          items:
+          - displayName: Hashkey Column
+            type: columnSelector
+            attributeName: is_hk
+            isRequired: true    
+
+        systemColumns:
+        - displayName: "LEDTS"
+          transform: |-
+            COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+            OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+            ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: is_system_ledts
+        - displayName: "IS_CURRENT"
+          transform: |-
+            CASE 
+              WHEN 
+                LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+                OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+                ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") IS NULL 
+              THEN TRUE 
+              ELSE FALSE 
+            END
+          dataType: BOOLEAN
+          placement: end
+          attributeName: is_system_current_col
+      templates:
+        create:
+          templateString: |-
+            {% if node.materializationType == 'table' %}
+
+            {{ stage('Drop Satellite View') }}
+
+            DROP VIEW IF EXISTS {{this}}
+
+            {{ stage('Create Satellite Table') }}
+
+            CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            (
+                {% for col in columns %}
+                   "{{ col.name }}" {{col.dataType}}
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+            )
+              {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+
+            {% else %}
+
+            {{ stage('Drop Satellite Table') }}
+
+            DROP TABLE IF EXISTS {{this}}
+
+            {{ stage('Create Satellite View') }}
+
+            CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+            (
+                {% for col in columns %}
+                   "{{ col.name }}"
+                {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+            )
+              {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+
+            AS
+            {% for source in sources %}
+                SELECT
+                {% for col in source.columns %}
+                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+                {{ source.join }}
+            {% endfor %}
+
+            {% endif %}
+        run:
+          templateString: |-
+            {% if node.materializationType == 'table' %}
+
+            {{ stage('Insert into Satellite Table') }}
+
+            INSERT INTO {{this}}
+            {% for source in sources %}
+                SELECT
+                {% for col in source.columns %}
+                    {{ get_source_transform(col) }} AS "{{ col.name }}"
+                    {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+                {{ source.join }}
+            {% endfor %}
+
+            {% endif %}
+    name: "Datavault by Scalefree: Satellite v1 Physical"
+    version: 1
+  StepType-173:
+    id: "173"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: STAGE
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: 'DATAVAULT BY SCALEFREE: STAGE'
+        short: DVSTG
+        plural: 'DATAVAULT BY SCALEFREE: STAGES'
+        tagColor: '#AED6F1'
+
+        config:
+        - groupName: Data Vault
+          items:
+          - type: materializationSelector
+            default: table
+            options:
+            - table
+            - view
+            isRequired: true
+            enableIf: "true"
+
+          - displayName: Generate Ghost Records
+            attributeName: generate_ghost_records
+            type: toggleButton
+            default: true
+
+          - displayName: Contains Multi-active Data
+            attributeName: contains_multiactive_data
+            type: toggleButton
+            isRequired: false
+
+          - displayName: Hash Key Columns
+            type: columnSelector
+            enableIf: "{{ config.contains_multiactive_data }}"
+            attributeName: is_hk
+            isRequired: false
+
+          - displayName: Hash Difference Columns
+            type: columnSelector
+            enableIf: "{{ config.contains_multiactive_data }}"
+            attributeName: is_hd
+            isRequired: false
+
+        - groupName: Multi-Activity Config
+          enableIf: "{{ config.contains_multiactive_data }}"
+          items:
+          - displayName: Multi-active Key column
+            attributeName: multi_active_key
+            type: columnSelector
+            enableIf: "{{ config.contains_multiactive_data }}"
+            isRequired: false
+          - displayName: Main Hash Key column
+            attributeName: main_hk_col
+            type: columnDropdownSelector
+            enableIf: "{{ config.contains_multiactive_data }}"
+            isRequired: false
+
+        systemColumns:
+        - displayName: "LDTS"
+          transform: SYSDATE()
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: is_system_ldts    
+          description: "The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse."
+        - displayName: "RSRC"
+          transform: "{{record_source()}}"
+          dataType: STRING
+          placement: end
+          attributeName: is_system_rsrc    
+          description: "The Record Source (RSRC) describes the source of this data."  
+      templates:
+        create:
+          templateString: |-
+            {% if node.override.create.enabled %}
+              
+              {{ node.override.create.script }}
+
+            {% elif node.materializationType == 'table' %}
+                {{ stage('Create Stage Table') }}
+
+                CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+                (
+                    {% for col in columns %}
+                        {%- if col.is_rsrc_column -%}
+                            "{{datavault4coalesce.config.rsrc_alias}}" STRING
+                        {%- elif col.is_ldts_column -%}
+                            "{{datavault4coalesce.config.ldts_alias}}" TIMESTAMP
+                        {% else %}
+                            "{{ col.name }}" {{col.dataType}}
+                        {% endif %}
+                        {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+
+                )
+                {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+                
+            {% elif node.materializationType == 'view' %}
+                {{ stage('Create Stage View') }}
+
+                CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+                (
+                    {% for col in columns %}
+                        {%- if col.is_rsrc_column -%}
+                            "{{datavault4coalesce.config.rsrc_alias}}"
+                        {%- elif col.is_ldts_column -%}
+                            "{{datavault4coalesce.config.ldts_alias}}"
+                        {% else %}
+                            "{{ col.name }}"
+                        {% endif %}
+                        {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+
+                )
+                {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+                AS
+                {% for source in sources %}
+                    {#-------------------- Process multi-activity config --------------------#}
+                    {#----------------------- FIXME explain variables -----------------------#}
+                    {%- set multi_active_key = [] -%}
+                    {%- set main_hashkey_col = namespace(hk_col='') -%}
+                    {%- if config.contains_multiactive_data -%}
+                        {%- for col in source.columns -%}
+                            {%- if col.multi_active_key -%}{%- set multi_active_key = multi_active_key.append(col.name) -%}{%- endif %}
+                            {%- if col.id == config.main_hk_col.id -%}{%- set main_hashkey_col.hk_col = col.name -%}{%- endif -%}
+                        {%- endfor -%}
+                    {%- endif %}
+                    SELECT
+                    {% for col in source.columns %}
+                        {#- Print DV hash calculations -#}
+                        {% if col.hashDetails %}
+                            {{ datavault4coalesce__hash(columns=col.hashDetails.columns, is_hashdiff=col.is_hd,datatype=col.dataType, algo=col.hashDetails.algorithm, multi_active_key=multi_active_key, main_hashkey_col=main_hashkey_col.hk_col) }} AS "{{ col.name }}"
+                        {#- Print other table columns -#}
+                        {% else %}
+                            {{ get_source_transform(col) }} AS "{{ col.name }}"
+                        {% endif %}
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+
+                    {{ source.join }}
+
+                    {% if not loop.last %}
+                        {% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
+                            {{ config.insertStrategy }}
+                        {% else %}
+                            UNION
+                        {% endif %}
+                    {% endif %}
+
+                    {%- if config.generate_ghost_records -%}
+
+                        UNION ALL 
+
+                        SELECT
+
+                        {% for source in sources %}
+                            {% for col in source.columns %}
+                                {%- if "hashDetails" in col.keys() %}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'unknown', hash=true, hash_algo=col.hashDetails.algorithm) }}
+                                {%- else -%}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'unknown', hash=false) }}
+                                {%- endif -%}
+                            {% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        {% endfor %}
+
+                        UNION ALL 
+
+                        SELECT
+
+                        {% for source in sources %}
+                            {% for col in source.columns %}
+                                {%- if "hashDetails" in col.keys() %}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'error', hash=true, hash_algo=col.hashDetails.algorithm) }}
+                                {%- else -%}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'error', hash=false) }}
+                                {%- endif -%}
+                            {% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        {% endfor %}
+
+                    {%- endif -%}
+
+                {% endfor %}
+
+            {% endif %}
+        run:
+          templateString: |-
+            {% if node.materializationType == 'table' %}
+                {{ stage('Insert Stage Table') }}
+
+                INSERT INTO {{ this }}
+
+                {% for source in sources %}
+                    {#-------------------- Process multi-activity config --------------------#}
+                    {#----------------------- FIXME explain variables -----------------------#}
+                    {%- set multi_active_key = [] -%}
+                    {%- set main_hashkey_col = namespace(hk_col='') -%}
+                    {%- if config.contains_multiactive_data -%}
+                        {%- for col in source.columns -%}
+                            {%- if col.multi_active_key -%}{%- set multi_active_key = multi_active_key.append(col.name) -%}{%- endif %}
+                            {%- if col.id == config.main_hk_col.id -%}{%- set main_hashkey_col.hk_col = col.name -%}{%- endif -%}
+                        {%- endfor -%}
+                    {%- endif %}
+                    SELECT
+                    {% for col in source.columns %}
+                        {#- Print DV hash calculations -#}
+                        {% if col.hashDetails %}
+                            {{ datavault4coalesce__hash(columns=col.hashDetails.columns, is_hashdiff=col.is_hd,datatype=col.dataType, algo=col.hashDetails.algorithm, multi_active_key=multi_active_key, main_hashkey_col=main_hashkey_col.hk_col) }} AS "{{ col.name }}"
+                        {#- Print other table columns -#}
+                        {% else %}
+                            {{ get_source_transform(col) }} AS "{{ col.name }}"
+                        {% endif %}
+                        {%- if not loop.last -%}, {% endif %}
+                    {% endfor %}
+
+                    {{ source.join }}
+
+                    {% if not loop.last %}
+                        {% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
+                            {{ config.insertStrategy }}
+                        {% else %}
+                            UNION
+                        {% endif %}
+                    {% endif %}
+
+                    {%- if config.generate_ghost_records -%}
+
+                        UNION ALL 
+
+                        SELECT
+
+                        {% for source in sources %}
+                            {% for col in source.columns %}
+                                {%- if "hashDetails" in col.keys() %}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'unknown', hash=true, hash_algo=col.hashDetails.algorithm) }}
+                                {%- else -%}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'unknown', hash=false) }}
+                                {%- endif -%}
+                            {% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        {% endfor %}
+
+                        UNION ALL 
+
+                        SELECT
+
+                        {% for source in sources %}
+                            {% for col in source.columns %}
+                                {%- if "hashDetails" in col.keys() %}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'error', hash=true, hash_algo=col.hashDetails.algorithm) }}
+                                {%- else -%}
+                                    {{ datavault4coalesce__ghost_record_per_datatype(col.name, col.dataType, 'error', hash=false) }}
+                                {%- endif -%}
+                            {% if not loop.last %},{% endif %}
+                            {% endfor %}
+                        {% endfor %}
+
+                    {%- endif -%}
+
+                {% endfor %}
+
+            {% endif %}
+    name: "Datavault by Scalefree: Stage Physical"
+    version: 1
+  StepType-174:
+    id: "174"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: 'FDatavault by Scalefree: Hub - Modified'
+        short: 'HUB'
+        tagColor: blue
+        plural: 'Datavault by Scalefree: Hub - Modifieds'
+
+        config:
+        - groupName: Options
+          items:
+          - type: materializationSelector
+            isRequired: true
+            enableIf: 'false'
+            options: 
+            - table
+            default: table
+         
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            isRequired: false
+
+          - displayName: Enable Tests
+            attributeName: testsEnabled
+            type: toggleButton
+            default: true
+
+          - type: multisourceToggle
+
+        - groupName: Data Vault
+          items:
+
+          - displayName: Hub Hash Key column
+            type: columnSelector
+            attributeName: is_Hub_hk
+            isRequired: true
+            enableIf: 'true'
+            
+          - displayName: Hub LoadDateTimestamp Column
+            enableIf: 'false'
+            type: columnSelector
+            attributeName: is_Hub_ldts
+            isRequired: false
+
+          - displayName: Disable High-Water-Mark?
+            type: toggleButton
+            isRequired: false
+            enableIf: 'false'
+            attributeName: disable_hwm   
+            default: true
+            
+      templates:
+        create:
+          templateString: |
+            {{ stage('Create Hub Table') }}
+
+            CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            (
+              {% for col in columns %}
+                "{{ col.name }}" {{ col.dataType }}
+                {%- if not col.nullable %} NOT NULL
+                  {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                {% endif %}
+                {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                {%- if not loop.last -%}, {% endif %}
+              {% endfor %}
+            )
+            {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+        run:
+          templateString: |-
+            {% if config.preSQL %}
+              {{ stage('Pre-SQL') }}
+              {{ config.preSQL }}
+            {% endif %}
+
+            {% for test in node.tests if config.testsEnabled %}
+              {% if test.runOrder == 'Before' %}
+                {{ test_stage(test.name, test.continueOnFailure) }}
+                {{ test.templateString }}
+              {% endif %}
+            {% endfor %}
+
+            {% for source in sources %}
+              {{ stage('INSERT INTO Hub - ' ~ source.name) }}
+              
+              {%- set hashkey_column = get_value_by_column_attribute("is_Hub_hk") -%}
+              
+              {#-- enable when ColumnDropDownSelector is used again
+              {%- if 'is_Hub_hk' not in config.keys() -%}
+
+              {%- else -%}
+                
+                {%- set hashkey_column = config.is_Hub_hk.name -%}
+              
+              {%- endif -%}
+              #}
+
+              INSERT INTO {{ this }} 
+              SELECT
+              {% for col in source.columns %}
+                SRC."{{ col.name }}"
+                {%- if not loop.last -%}, {% endif %}
+              {% endfor %}
+              FROM {{ref(source.dependencies[0].node.location.name, source.dependencies[0].node.name)}} SRC
+              LEFT JOIN {{this}} TGT
+              ON {% for col in source.columns if col.name != hashkey_column 
+                                             and col.name != datavault4coalesce.config.ldts_alias 
+                                             and col.name != datavault4coalesce.config.rsrc_alias %}
+                      {%- if not loop.first -%} AND {% endif %}
+                        SRC."{{ col.name }}" = TGT."{{ col.name }}"  
+                  {% endfor %}
+              WHERE TGT."{{ hashkey_column }}" IS NULL
+              QUALIFY ROW_NUMBER() OVER (PARTITION BY 
+                  {% for col in source.columns if col.name != hashkey_column 
+                                             and col.name != datavault4coalesce.config.ldts_alias 
+                                             and col.name != datavault4coalesce.config.rsrc_alias %}
+                      {%- if not loop.first -%} , {% endif %}
+                        SRC."{{ col.name }}"  
+                  {% endfor %} ORDER BY SRC."{{ datavault4coalesce.config.ldts_alias }}" ) = 1
+            {% endfor %}
+
+            {% if config.postSQL %}
+              {{ stage('Post-SQL') }}
+              {{ config.postSQL }}
+            {% endif %}
+
+            {% if config.testsEnabled %}
+              {% for test in node.tests %}
+                {% if test.runOrder == 'After' %}
+                  {{ test_stage(test.name, test.continueOnFailure) }}
+                  {{ test.templateString }}
+                    {% endif %}
+              {% endfor %}
+
+              {% for column in columns %}
+                {% for test in column.tests %}
+                  {{ test_stage(column.name + ": " + test.name) }}
+                  {{ test.templateString }}
+                {% endfor %}
+              {% endfor %}
+            {% endif %}
+    name: "Datavault by Scalefree: Hub - Modified"
+    version: 1
+  StepType-175:
+    id: "175"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: Copy of Dimension
+        short: DIM
+        tagColor: '#1E339A'
+        plural: Dimensions
+
+        config:
+        - groupName: Options
+          items:
+          - type: materializationSelector
+            isRequired: true
+            default: table
+            options:
+            - table
+            - view
+
+          - type: multisourceToggle
+            enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
+
+          - type: businessKeyColumns
+            isRequired: true
+
+          - type: changeTrackingColumns
+            isRequired: false
+
+          - type: overrideSQLToggle
+            enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
+
+          - displayName: Enable Tests
+            attributeName: testsEnabled
+            type: toggleButton
+            default: true
+            
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            syntax: sql
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            syntax: sql
+            isRequired: false
+
+        systemColumns:
+        - displayName: '{{NODE_NAME}}_KEY'
+          transform: ''
+          dataType: NUMBER
+          placement: beginning
+          attributeName: isSurrogateKey
+
+        - displayName: SYSTEM_VERSION
+          transform: ''
+          dataType: NUMBER
+          placement: end
+          attributeName: isSystemVersion
+
+        - displayName: SYSTEM_CURRENT_FLAG
+          transform: ''
+          dataType: VARCHAR
+          placement: end
+          attributeName: isSystemCurrentFlag
+
+        - displayName: SYSTEM_START_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemStartDate
+
+        - displayName: SYSTEM_END_DATE
+          transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemEndDate
+
+        - displayName: SYSTEM_CREATE_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemCreateDate
+
+        - displayName: SYSTEM_UPDATE_DATE
+          transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          dataType: TIMESTAMP
+          placement: end
+          attributeName: isSystemUpdateDate
+      templates:
+        create:
+          templateString: |
+            {% if node.materializationType == 'table' %}
+            	{{ stage('Create Dimension Table') }}
+
+            	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            	(
+            		{% for col in columns %}
+            			"{{ col.name }}" {{ col.dataType }}
+            			{% if col.isSurrogateKey %}
+            		        identity
+            			{% endif %}
+            			{%- if not col.nullable %} NOT NULL
+            				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            			{% endif %}
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+            {% elif node.materializationType == 'view' %}
+            	{{ stage('Create Dimension View') }}
+
+            	CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+            	(
+            		{% for col in columns %}
+            			"{{ col.name }}"
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%},{% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+            	AS
+            	{% for source in sources %}
+
+            		{% if loop.first %}SELECT {% endif %}
+
+            		{% for col in source.columns %}
+            			{% if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
+                            NULL
+            			{% else %}
+                            {{ get_source_transform(col) }}
+            			{% endif %}
+            			AS "{{ col.name }}"
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            		{{ source.join }}
+
+            		{% if not loop.last %} UNION ALL {% endif %}
+            	{% endfor %}
+
+            {% endif %}
+        run:
+          templateString: |
+
+            {% set is_type_2 = columns | selectattr("isChangeTracking") | list | length > 0 %}
+
+                {% for test in node.tests if config.testsEnabled %}
+                    {% if test.runOrder == 'Before' %}
+                        {{ test_stage(test.name, test.continueOnFailure) }}
+                        {{ test.templateString }}
+                    {% endif %}
+                {% endfor %}
+
+            {% if node.materializationType == 'table' %}
+
+            	{% if config.preSQL %}			
+            		{{ stage('Pre-SQL') }}
+            		{{ config.preSQL }}
+            	{% endif %}
+            	
+                {% if is_type_2 %}
+
+                    {% for source in sources %}
+                        {{ stage('MERGE ' + source.name | string) }}
+                        MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+                        USING (
+                        /* New Rows That Don't Exist */
+                        SELECT
+                        {% for col in source.columns if not col.isSurrogateKey %}
+                            {% if col.isSystemVersion %}
+                                1
+                            {% elif col.isSystemCurrentFlag %}
+                                'Y'
+                            {% else %}
+                               {{ get_source_transform(col) }}
+                            {% endif %}
+                            AS "{{ col.name }}",
+                        {% endfor %}
+                            'INSERT_INITAL_VERSION_ROWS' AS "DML_OPERATION"
+                        {{ source.join }}
+                        LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                        {% for col in source.columns if col.isBusinessKey -%}
+                            {% if not loop.first %}
+                                AND
+                            {% endif %}
+                                {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                        {% endfor %}
+                        WHERE
+                        {% for col in source.columns if col.isBusinessKey -%}
+                            {% if not loop.first %}
+                                AND
+                            {% endif %}
+                            "DIM"."{{ col.name }}" IS NULL
+                        {% endfor %}
+                        UNION ALL
+                        /* New Row Needing To Be Inserted Due To Type-2 Column Changes */
+                        SELECT
+                        {% for col in source.columns if not col.isSurrogateKey %}
+                            {% if col.isSystemVersion %}
+                                "DIM"."{{ col.name }}" + 1
+                            {% elif col.isSystemCurrentFlag %}
+                                'Y'
+                            {% else %}
+                               {{ get_source_transform(col) }}
+                            {% endif %}
+                            AS "{{ col.name }}",
+                        {% endfor %}
+                            'INSERT_NEW_VERSION_ROWS' AS "DML_OPERATION"
+                        {{ source.join }}
+                        INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                        {% for col in source.columns if col.isBusinessKey -%}
+                            {% if not loop.first %}
+                                AND
+                            {% endif %}
+                            {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                        {% endfor %}
+                        WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
+                        {% for col in source.columns if (col.isChangeTracking == true) %}
+                            {% if loop.first %}
+                                AND (
+                            {% else %}
+                                OR
+                            {% endif %}
+                            ( NVL( CAST({{ get_source_transform(col) }} as STRING), '**NULL**') <> NVL( CAST("DIM"."{{ col.name }}" as STRING), '**NULL**') )
+                            {% if loop.last %}
+                                )
+                            {% endif %}
+                        {% endfor %}
+                        UNION ALL
+                        /* Rows Needing To Be Expired Due To Type-2 Column Changes
+                        In this case, only two columns are merged (version and end date) */
+                        SELECT
+                        {%- for col in source.columns if not col.isSurrogateKey %}
+                            {% if col.isSystemEndDate %}
+                                DATEADD(MILLISECONDS, -1, CAST(CURRENT_TIMESTAMP AS TIMESTAMP))
+                            {% elif col.isSystemCurrentFlag %}
+                                'N'
+                            {% else %}
+                                "DIM"."{{ col.name }}"
+                            {% endif %}
+                            AS "{{ col.name }}",
+                        {% endfor -%}
+                            'update_expired_version_rows' AS "DML_OPERATION"
+                        {{ source.join }}
+                        INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                        {% for col in source.columns if col.isBusinessKey -%}
+                            {% if not loop.first %}
+                                AND
+                            {% endif %}
+                            {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                        {% endfor %}
+                        WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
+                        {% for col in source.columns if (col.isChangeTracking == true) %}
+                            {% if loop.first %}
+                                AND (
+                            {% else %}
+                                OR
+                            {% endif %}
+                            ( NVL( CAST({{ get_source_transform(col) }} as STRING), '**NULL**') <> NVL( CAST("DIM"."{{ col.name }}" as STRING), '**NULL**') )
+                            {% if loop.last %}
+                                )
+                            {% endif %}
+                        {% endfor %}
+                        {# The if-block below avoids unnecessary updates when no type 2 column changes are present #}
+                        {% if source.columns 
+                            | rejectattr('isSurrogateKey')
+                            | rejectattr('isBusinessKey')
+                            | rejectattr('isChangeTracking')
+                            | rejectattr('isSystemVersion')
+                            | rejectattr('isSystemCurrentFlag')
+                            | rejectattr('isSystemStartDate')
+                            | rejectattr('isSystemEndDate')
+                            | rejectattr('isSystemCreateDate')
+                            | rejectattr('isSystemUpdateDate') 
+                            | list | length == 0 
+                        %}
+                            {# Skip Section #}
+                        {% else %}
+                          UNION ALL
+                          /* Rows Needing To Be Updated Due To Changes To Non-Type-2 columns
+                          This case merges only when there are changes in non-type-2 column updates, but no changes in type-2 columns*/
+                          SELECT
+                          {%- for col in source.columns if not col.isSurrogateKey %}
+                              {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
+                                  "DIM"."{{ col.name }}"
+                              {% elif col.isSystemCurrentFlag %}
+                                  'Y'
+                              {% else %}
+                                  {{ get_source_transform(col) }}
+                              {% endif %}
+                              AS "{{ col.name }}",
+                          {% endfor -%}
+                              'UPDATE_NON_TYPE2_ROWS' AS "DML_OPERATION"
+                          {{ source.join }}
+                          INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                          {% for col in source.columns if col.isBusinessKey -%}
+                              {% if not loop.first %}
+                                  AND
+                              {% endif %}
+                              {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                          {% endfor %}
+                          WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
+                          AND (
+                          {% for col in source.columns if (col.isChangeTracking) -%}
+                              {% if not loop.first %}
+                                  AND
+                              {% endif %}
+                              {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                          {% endfor %} )
+                          {% for col in source.columns if not (   col.isBusinessKey or
+                                                                  col.isChangeTracking or
+                                                                  col.isSurrogateKey or
+                                                                  col.isSystemVersion or
+                                                                  col.isSystemCurrentFlag or
+                                                                  col.isSystemStartDate or
+                                                                  col.isSystemEndDate or
+                                                                  col.isSystemUpdateDate or
+                                                                  col.isSystemCreateDate) -%}
+                              {% if loop.first %}
+                                  AND (
+                              {% endif %}
+                              {% if not loop.first %}
+                                  OR
+                              {% endif %}
+                              NVL( CAST({{ get_source_transform(col) }} as STRING), '**NULL**') <> NVL( CAST("DIM"."{{ col.name }}" as STRING), '**NULL**')
+                              {% if loop.last %}
+                                  )
+                              {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                    ) AS "SRC"
+                    ON
+                    {% for col in source.columns if col.isBusinessKey -%}
+                        {% if not loop.first %}
+                            AND
+                        {% endif %}
+                        "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+                    {% endfor %}
+                    AND "TGT"."{{ get_value_by_column_attribute("isSystemVersion") }}" = "SRC"."{{ get_value_by_column_attribute("isSystemVersion") }}"
+                    WHEN MATCHED THEN UPDATE SET
+                    {%- for col in source.columns if not (col.isBusinessKey or col.isSurrogateKey or col.isSystemCreateDate) %}
+                        "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor -%}
+                    WHEN NOT MATCHED THEN INSERT (
+                    {%- for col in source.columns if not col.isSurrogateKey %}
+                        "{{ col.name }}"
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor -%}
+                    )
+                    VALUES (
+                    {%- for col in source.columns if not col.isSurrogateKey %}
+                        "SRC"."{{ col.name }}"
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor -%}
+                    )
+
+                {% endfor %}
+
+
+
+                {% else %}
+                    {% for source in sources %}
+                        {{ stage('MERGE ' + source.name | string ) }}
+                        MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+                        USING (
+                            SELECT
+                            {% for col in source.columns if not col.isSurrogateKey %}
+                                {% if col.isSystemVersion %}
+                                	1
+                                {% elif col.isSystemCurrentFlag %}
+                                	'Y'
+                                {% else %}
+                                    {{ get_source_transform(col) }}
+                                {% endif %}
+                                AS "{{ col.name }}"
+                                {%- if not loop.last %}, {% endif %}
+                            {% endfor %}
+                            {{ source.join }})
+                            AS "SRC"
+                        ON
+                        {% for col in source.columns if col.isBusinessKey -%}
+                            {% if not loop.first %}
+                                AND
+                            {% endif %}
+                            "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
+                        {% endfor %}
+                        WHEN MATCHED
+                        {% for col in source.columns if not (   col.isBusinessKey or
+                                                                col.isSurrogateKey or
+                                                                col.isSystemVersion or
+                                                                col.isSystemCurrentFlag or
+                                                                col.isSystemStartDate or
+                                                                col.isSystemEndDate or
+                                                                col.isSystemUpdateDate or
+                                                                col.isSystemCreateDate) %}
+                            {% if loop.first %}
+                                AND (
+                            {% else %}
+                                OR
+                            {% endif %}
+                            NVL( CAST("SRC"."{{ col.name }}" as STRING), '**NULL**') <> NVL( CAST("TGT"."{{ col.name }}" as STRING), '**NULL**')
+                            {% if loop.last %}
+                                )
+                            {% endif %}
+                        {% endfor %}
+                        THEN UPDATE SET
+                        {%- for col in source.columns if not (  col.isBusinessKey or
+                                                                col.isSurrogateKey or
+                                                                col.isSystemVersion or
+                                                                col.isSystemCurrentFlag or
+                                                                col.isSystemStartDate or
+                                                                col.isSystemEndDate or
+                                                                col.isSystemCreateDate) %}
+                                "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        WHEN NOT MATCHED THEN
+                        INSERT (
+                        {%- for col in source.columns if not col.isSurrogateKey %}
+                            "{{ col.name }}"
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor -%}
+                        )
+                        VALUES (
+                        {%- for col in source.columns if not col.isSurrogateKey %}
+                            "SRC"."{{ col.name }}"
+                            {% if not loop.last %}, {% endif %}
+                        {% endfor -%}
+                        )
+                    {% endfor %}
+                {% endif %}
+            	
+            	{% if config.postSQL %}			
+            		{{ stage('Post-SQL') }}
+            		{{ config.postSQL }}
+            	{% endif %}
+            {% endif %}
+
+            {% if config.testsEnabled %}
+            	{% for test in node.tests %}
+            		{% if test.runOrder == 'After' %}
+            			{{ test_stage(test.name, test.continueOnFailure) }}
+            			{{ test.templateString }}
+                    {% endif %}
+            	{% endfor %}
+
+            	{% for column in columns %}
+            		{% for test in column.tests %}
+            			{{ test_stage(column.name + ": " + test.name) }}
+            			{{ test.templateString }}
+            		{% endfor %}
+            	{% endfor %}
+            {% endif %}
+    name: Copy of Dimension
+    version: 1
+  StepType-176:
+    id: "176"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: 'Fast MULTI-ACTIVE SATELLITE V0'
+        short: 'SATMV0'
+        plural: 'Fast MULTI-ACTIVE SATELLITES V0'
+        tagColor: '#dfdf1f'
+
+        config:
+        - groupName: Data Vault
+          items:
+          - displayName: Hashkey Column
+            type: columnSelector
+            attributeName: is_hk
+            isRequired: true
+          
+          - displayName: Multi-Active Key Column
+            type: columnSelector
+            attributeName: is_ma_key
+            isRequired: true
+
+          - displayName: Hashdiff Column
+            type: columnSelector
+            attributeName: is_hd
+            isRequired: true
+
+        - groupName: Pre/Post SQL
+          items:
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            isRequired: false
+      templates:
+        create:
+          templateString: |
+            {{ stage('Create Satellite Table') }}
+
+            CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            (
+              {% for col in columns %}
+                "{{ col.name }}" {{ col.dataType }}
+                {%- if not col.nullable %} NOT NULL
+                  {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                {% endif %}
+                {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                {%- if not loop.last -%}, {% endif %}
+              {% endfor %}
+            )
+            {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+        run:
+          templateString: |-
+            {% if config.preSQL %}
+              {{ stage('Pre-SQL') }}
+              {{ config.preSQL }}
+            {% endif %}
+
+            {{ stage('Insert New Rows') }}
+
+            INSERT INTO {{ this }}
+
+            WITH latest_entries_in_sat AS (
+              /* get current rows from satellite */
+
+              {# /* USE THIS again when ColumnDropdownSelector is used
+              {%- set hashkey_column = config.is_hk.name -%}
+              {%- set hashdiff_column = config.is_hd.name -%} */ #}
+              
+              {%- set hashkey_column = get_value_by_column_attribute("is_hk") -%}
+              {%- set hashdiff_column = get_value_by_column_attribute("is_hd") -%}
+
+              SELECT 
+                "{{ hashkey_column }}",
+                "{{ hashdiff_column }}"
+
+              FROM {{ ref_no_link(node.location.name, node.name) }} 
+
+              QUALIFY ROW_NUMBER() OVER (PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}" DESC) = 1
+
+            ),
+
+            deduplicated_numbered_source AS (
+                
+                {% for source in sources %}
+
+                    SELECT
+                {% for col in source.columns %}
+                  {{ get_source_transform(col) }} AS {{ col.name }},
+                {% endfor %}
+                    ROW_NUMBER() OVER(PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") as rn
+                    
+                    {{ source.join }}
+
+                {% if not config.disable_hwm -%}
+                WHERE "{{ datavault4coalesce.config.ldts_alias }}" > (
+                  SELECT 
+                    COALESCE(MAX("{{ datavault4coalesce.config.ldts_alias }}"),  {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.beginning_of_all_times) }})
+                  FROM {{ ref_no_link(node.location.name, node.name) }}
+                  WHERE "{{ datavault4coalesce.config.ldts_alias }}" != {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }}
+                  )
+                  OR "{{ hashkey_column }}" = {{ datavault4coalesce__unknown_key() }}
+                  OR "{{ hashkey_column }}" = {{ datavault4coalesce__error_key() }}
+                {% endif %}  
+                    QUALIFY
+                    CASE
+                        WHEN "{{ hashdiff_column }}" = LAG("{{ hashdiff_column }}") OVER(PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}" ) THEN FALSE
+                        ELSE TRUE
+                    END
+
+                {% endfor %}
+
+            )
+
+              {% for source in sources %}
+                SELECT DISTINCT
+                {% for col in source.columns %}
+                  {{ col.name }}
+                  {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+
+                FROM deduplicated_numbered_source
+                LEFT JOIN latest_entries_in_sat
+                ON 
+                  deduplicated_numbered_source.{{ hashdiff_column }} = latest_entries_in_sat."{{ hashdiff_column }}"
+                AND deduplicated_numbered_source.{{ hashkey_column }} = latest_entries_in_sat."{{ hashkey_column }}"
+                AND deduplicated_numbered_source.rn = 1
+                WHERE latest_entries_in_sat."{{ hashkey_column }}" IS NULL
+              )
+
+              {% endfor %}
+
+            {% if config.postSQL %}
+              {{ stage('Post-SQL') }}
+              {{ config.postSQL }}
+            {% endif %}
+    name: "Fast: Multi-active Satellite V0"
+    version: 1
+  StepType-177:
+    id: "177"
+    isDisabled: false
+    metadata:
+      defaultStorageLocation: null
+      error: null
+      nodeMetadataSpec: |-
+        capitalized: 'DATAVAULT BY SCALEFREE: SATELLITE V0 Modified'
+        short: 'SATV0'
+        plural: 'DATAVAULT BY SCALEFREE: SATELLITE V0s Modified'
+        tagColor: 'Yellow'
+
+
+        config:
+        - groupName: Data Vault
+          items:
+          - displayName: Hashkey Column
+            type: columnSelector
+            attributeName: is_hk
+            isRequired: true
+
+          - displayName: Hashdiff Column
+            type: columnSelector
+            attributeName: is_hd
+            isRequired: true
+
+          - displayName: Disable High-Water-Mark?
+            type: toggleButton
+            isRequired: true
+            attributeName: disable_hwm   
+            default: false    
+
+          - displayName: Enable Tests
+            attributeName: testsEnabled
+            type: toggleButton
+            default: true
+
+        - groupName: Pre/Post SQL
+          items:
+          - displayName: Pre-SQL
+            attributeName: preSQL
+            type: textBox
+            isRequired: false
+
+          - displayName: Post-SQL
+            attributeName: postSQL
+            type: textBox
+            isRequired: false
+      templates:
+        create:
+          templateString: |
+            {{ stage('Create Satellite Table') }}
+
+            CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            (
+              {% for col in columns %}
+                "{{ col.name }}" {{ col.dataType }}
+                {%- if not col.nullable %} NOT NULL
+                  {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+                {% endif %}
+                {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+                {%- if not loop.last -%}, {% endif %}
+              {% endfor %}
+            )
+            {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+        run:
+          templateString: |+
+            {% if config.preSQL %}
+              {{ stage('Pre-SQL') }}
+              {{ config.preSQL }}
+            {% endif %}
+
+            {% for test in node.tests if config.testsEnabled %}
+              {% if test.runOrder == 'Before' %}
+                {{ test_stage(test.name, test.continueOnFailure) }}
+                {{ test.templateString }}
+              {% endif %}
+            {% endfor %}
+
+            {{ stage('Insert New Rows') }}
+            INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+
+            WITH latest_entries_in_sat AS (
+
+              {#/* USE THIS again when ColumnDropdownSelector is used!
+              {%- set hashkey_column = config.is_hk.name -%}
+              {%- set hashdiff_column = config.is_hd.name -%}
+              */#}
+
+              {%- set hashkey_column = get_value_by_column_attribute("is_hk") -%}
+              {%- set hashdiff_column = get_value_by_column_attribute("is_hd") -%}
+
+              /* get current rows from satellite */
+              SELECT 
+                "{{ hashkey_column }}",
+                "{{ hashdiff_column }}"
+              FROM {{ ref_no_link(node.location.name, node.name) }} 
+              QUALIFY ROW_NUMBER() OVER (PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}" DESC) = 1
+
+
+            ),
+
+            deduplicated_numbered_source AS (
+                
+                {% for source in sources %}
+
+                    SELECT
+                {% for col in source.columns %}
+                  {{ get_source_transform(col) }} AS {{ col.name }},
+                {% endfor %}
+
+                    ROW_NUMBER() OVER(PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") as rn
+
+                    
+                    {{ source.join }}
+
+
+                {% if not config.disable_hwm -%}
+                WHERE "{{ datavault4coalesce.config.ldts_alias }}" > (
+                  SELECT 
+                    COALESCE(MAX("{{ datavault4coalesce.config.ldts_alias }}"),  {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.beginning_of_all_times) }})
+                  FROM {{ ref_no_link(node.location.name, node.name) }}
+                  WHERE "{{ datavault4coalesce.config.ldts_alias }}" != {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }}
+                  )
+                {%- endif %}  
+
+                    QUALIFY
+                    CASE
+                        WHEN "{{ hashdiff_column }}" = LAG("{{ hashdiff_column }}") OVER(PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}" ) THEN FALSE
+                        ELSE TRUE
+                    END
+
+                {% endfor %}
+
+            )
+
+              {% for source in sources %}
+                SELECT DISTINCT
+                {% for col in source.columns %}
+                  deduplicated_numbered_source.{{ col.name }}
+                  {%- if not loop.last -%}, {% endif %}
+                {% endfor %}
+
+                FROM deduplicated_numbered_source
+                LEFT JOIN latest_entries_in_sat
+                ON 
+                  deduplicated_numbered_source."{{ hashdiff_column }}" = latest_entries_in_sat."{{ hashdiff_column }}"
+                AND deduplicated_numbered_source."{{ hashkey_column }}" = latest_entries_in_sat."{{ hashkey_column }}"
+
+                    AND deduplicated_numbered_source.rn = 1
+                WHERE latest_entries_in_sat."{{ hashdiff_column }}" IS NULL
+              
+
+              {% endfor %}
+
+            {% if config.postSQL %}
+              {{ stage('Post-SQL') }}
+              {{ config.postSQL }}
+            {% endif %}
+
+            {% if config.testsEnabled %}
+              {% for test in node.tests %}
+                {% if test.runOrder == 'After' %}
+                  {{ test_stage(test.name, test.continueOnFailure) }}
+                  {{ test.templateString }}
+                    {% endif %}
+              {% endfor %}
+
+              {% for column in columns %}
+                {% for test in column.tests %}
+                  {{ test_stage(column.name + ": " + test.name) }}
+                  {{ test.templateString }}
+                {% endfor %}
+              {% endfor %}
+            {% endif %}
+
+    name: "Datavault by Scalefree: Satellite v0 - Modified"
+    version: 1
   StepType-18:
     id: "18"
     isDisabled: false
@@ -2076,7 +3672,7 @@ stepTypes:
     id: "4"
     isDisabled: false
     metadata:
-      defaultStorageLocation: null
+      defaultStorageLocation: STAGE
       error: null
       nodeMetadataSpec: |-
         capitalized: 'DATAVAULT BY SCALEFREE: STAGE'
@@ -2940,55 +4536,55 @@ stepTypes:
         create:
           templateString: |
             {% if node.materializationType == 'table' %}
-              {{ stage('Create Dimension Table') }}
+            	{{ stage('Create Dimension Table') }}
 
-              CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
-              (
-                {% for col in columns %}
-                  "{{ col.name }}" {{ col.dataType }}
-                  {% if col.isSurrogateKey %}
-                        identity
-                  {% endif %}
-                  {%- if not col.nullable %} NOT NULL
-                    {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                  {% endif %}
-                  {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                  {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
-              )
-              {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+            	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            	(
+            		{% for col in columns %}
+            			"{{ col.name }}" {{ col.dataType }}
+            			{% if col.isSurrogateKey %}
+            		        identity
+            			{% endif %}
+            			{%- if not col.nullable %} NOT NULL
+            				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            			{% endif %}
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
 
 
             {% elif node.materializationType == 'view' %}
-              {{ stage('Create Dimension View') }}
+            	{{ stage('Create Dimension View') }}
 
-              CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
-              (
-                {% for col in columns %}
-                  "{{ col.name }}"
-                  {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                  {%- if not loop.last -%},{% endif %}
-                {% endfor %}
-              )
-              {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
-              AS
-              {% for source in sources %}
+            	CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+            	(
+            		{% for col in columns %}
+            			"{{ col.name }}"
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%},{% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+            	AS
+            	{% for source in sources %}
 
-                {% if loop.first %}SELECT {% endif %}
+            		{% if loop.first %}SELECT {% endif %}
 
-                {% for col in source.columns %}
-                  {% if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
+            		{% for col in source.columns %}
+            			{% if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
                             NULL
-                  {% else %}
+            			{% else %}
                             {{ get_source_transform(col) }}
-                  {% endif %}
-                  AS "{{ col.name }}"
-                  {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
-                {{ source.join }}
+            			{% endif %}
+            			AS "{{ col.name }}"
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            		{{ source.join }}
 
-                {% if not loop.last %} UNION ALL {% endif %}
-              {% endfor %}
+            		{% if not loop.last %} UNION ALL {% endif %}
+            	{% endfor %}
 
             {% endif %}
         run:
@@ -3005,11 +4601,11 @@ stepTypes:
 
             {% if node.materializationType == 'table' %}
 
-              {% if config.preSQL %}      
-                {{ stage('Pre-SQL') }}
-                {{ config.preSQL }}
-              {% endif %}
-              
+            	{% if config.preSQL %}			
+            		{{ stage('Pre-SQL') }}
+            		{{ config.preSQL }}
+            	{% endif %}
+            	
                 {% if is_type_2 %}
 
                     {% for source in sources %}
@@ -3113,57 +4709,73 @@ stepTypes:
                                 )
                             {% endif %}
                         {% endfor %}
-                        UNION ALL
-                        /* Rows Needing To Be Updated Due To Changes To Non-Type-2 source.columns
-                        This case merges only when there are changes in non-type-2 column updates, but no changes in type-2 columns*/
-                        SELECT
-                        {%- for col in source.columns if not col.isSurrogateKey %}
-                            {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
-                                "DIM"."{{ col.name }}"
-                            {% elif col.isSystemCurrentFlag %}
-                                'Y'
-                            {% else %}
-                                {{ get_source_transform(col) }}
-                            {% endif %}
-                            AS "{{ col.name }}",
-                        {% endfor -%}
-                            'UPDATE_NON_TYPE2_ROWS' AS "DML_OPERATION"
-                        {{ source.join }}
-                        INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
-                        {% for col in source.columns if col.isBusinessKey -%}
-                            {% if not loop.first %}
-                                AND
-                            {% endif %}
-                            {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                        {% endfor %}
-                        WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
-                        AND (
-                        {% for col in source.columns if (col.isChangeTracking) -%}
-                            {% if not loop.first %}
-                                AND
-                            {% endif %}
-                            {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
-                        {% endfor %} )
-                        {% for col in source.columns if not (   col.isBusinessKey or
-                                                                col.isChangeTracking or
-                                                                col.isSurrogateKey or
-                                                                col.isSystemVersion or
-                                                                col.isSystemCurrentFlag or
-                                                                col.isSystemStartDate or
-                                                                col.isSystemEndDate or
-                                                                col.isSystemUpdateDate or
-                                                                col.isSystemCreateDate) -%}
-                            {% if loop.first %}
-                                AND (
-                            {% endif %}
-                            {% if not loop.first %}
-                                OR
-                            {% endif %}
-                            NVL( CAST({{ get_source_transform(col) }} as STRING), '**NULL**') <> NVL( CAST("DIM"."{{ col.name }}" as STRING), '**NULL**')
-                            {% if loop.last %}
-                                )
-                            {% endif %}
-                        {% endfor %}
+                        {# The if-block below avoids unnecessary updates when no type 2 column changes are present #}
+                        {% if source.columns 
+                            | rejectattr('isSurrogateKey')
+                            | rejectattr('isBusinessKey')
+                            | rejectattr('isChangeTracking')
+                            | rejectattr('isSystemVersion')
+                            | rejectattr('isSystemCurrentFlag')
+                            | rejectattr('isSystemStartDate')
+                            | rejectattr('isSystemEndDate')
+                            | rejectattr('isSystemCreateDate')
+                            | rejectattr('isSystemUpdateDate') 
+                            | list | length == 0 
+                        %}
+                            {# Skip Section #}
+                        {% else %}
+                          UNION ALL
+                          /* Rows Needing To Be Updated Due To Changes To Non-Type-2 columns
+                          This case merges only when there are changes in non-type-2 column updates, but no changes in type-2 columns*/
+                          SELECT
+                          {%- for col in source.columns if not col.isSurrogateKey %}
+                              {% if col.isSystemVersion or col.isSystemCreateDate or col.isSystemStartDate or col.isSystemEndDate %}
+                                  "DIM"."{{ col.name }}"
+                              {% elif col.isSystemCurrentFlag %}
+                                  'Y'
+                              {% else %}
+                                  {{ get_source_transform(col) }}
+                              {% endif %}
+                              AS "{{ col.name }}",
+                          {% endfor -%}
+                              'UPDATE_NON_TYPE2_ROWS' AS "DML_OPERATION"
+                          {{ source.join }}
+                          INNER JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+                          {% for col in source.columns if col.isBusinessKey -%}
+                              {% if not loop.first %}
+                                  AND
+                              {% endif %}
+                              {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                          {% endfor %}
+                          WHERE "DIM"."{{ get_value_by_column_attribute("isSystemCurrentFlag") }}" = 'Y'
+                          AND (
+                          {% for col in source.columns if (col.isChangeTracking) -%}
+                              {% if not loop.first %}
+                                  AND
+                              {% endif %}
+                              {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+                          {% endfor %} )
+                          {% for col in source.columns if not (   col.isBusinessKey or
+                                                                  col.isChangeTracking or
+                                                                  col.isSurrogateKey or
+                                                                  col.isSystemVersion or
+                                                                  col.isSystemCurrentFlag or
+                                                                  col.isSystemStartDate or
+                                                                  col.isSystemEndDate or
+                                                                  col.isSystemUpdateDate or
+                                                                  col.isSystemCreateDate) -%}
+                              {% if loop.first %}
+                                  AND (
+                              {% endif %}
+                              {% if not loop.first %}
+                                  OR
+                              {% endif %}
+                              NVL( CAST({{ get_source_transform(col) }} as STRING), '**NULL**') <> NVL( CAST("DIM"."{{ col.name }}" as STRING), '**NULL**')
+                              {% if loop.last %}
+                                  )
+                              {% endif %}
+                          {% endfor %}
+                        {% endif %}
                     ) AS "SRC"
                     ON
                     {% for col in source.columns if col.isBusinessKey -%}
@@ -3203,9 +4815,9 @@ stepTypes:
                             SELECT
                             {% for col in source.columns if not col.isSurrogateKey %}
                                 {% if col.isSystemVersion %}
-                                  1
+                                	1
                                 {% elif col.isSystemCurrentFlag %}
-                                  'Y'
+                                	'Y'
                                 {% else %}
                                     {{ get_source_transform(col) }}
                                 {% endif %}
@@ -3266,27 +4878,27 @@ stepTypes:
                         )
                     {% endfor %}
                 {% endif %}
-              
-              {% if config.postSQL %}      
-                {{ stage('Post-SQL') }}
-                {{ config.postSQL }}
-              {% endif %}
+            	
+            	{% if config.postSQL %}			
+            		{{ stage('Post-SQL') }}
+            		{{ config.postSQL }}
+            	{% endif %}
             {% endif %}
 
             {% if config.testsEnabled %}
-              {% for test in node.tests %}
-                {% if test.runOrder == 'After' %}
-                  {{ test_stage(test.name, test.continueOnFailure) }}
-                  {{ test.templateString }}
+            	{% for test in node.tests %}
+            		{% if test.runOrder == 'After' %}
+            			{{ test_stage(test.name, test.continueOnFailure) }}
+            			{{ test.templateString }}
                     {% endif %}
-              {% endfor %}
+            	{% endfor %}
 
-              {% for column in columns %}
-                {% for test in column.tests %}
-                  {{ test_stage(column.name + ": " + test.name) }}
-                  {{ test.templateString }}
-                {% endfor %}
-              {% endfor %}
+            	{% for column in columns %}
+            		{% for test in column.tests %}
+            			{{ test_stage(column.name + ": " + test.name) }}
+            			{{ test.templateString }}
+            		{% endfor %}
+            	{% endfor %}
             {% endif %}
     name: Dimension
     version: 1
@@ -4031,7 +5643,7 @@ stepTypes:
     id: Stage
     isDisabled: false
     metadata:
-      defaultStorageLocation: null
+      defaultStorageLocation: STAGE
       error: null
       nodeMetadataSpec: |
         capitalized: Stage
@@ -4091,24 +5703,24 @@ stepTypes:
         create:
           templateString: |
             {% if node.override.create.enabled %}
-              
-              {{ node.override.create.script }}
+            	
+            	{{ node.override.create.script }}
 
             {% elif node.materializationType == 'table' %}
-              {{ stage('Create Stage Table') }}
+            	{{ stage('Create Stage Table') }}
 
-              CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
-              (
-                {% for col in columns %}
-                  "{{ col.name }}" {{ col.dataType }}
-                  {%- if not col.nullable %} NOT NULL
-                    {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
-                  {% endif %}
-                  {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
-                  {%- if not loop.last -%}, {% endif %}
-                {% endfor %}
-              )
-              {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+            	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+            	(
+            		{% for col in columns %}
+            			"{{ col.name }}" {{ col.dataType }}
+            			{%- if not col.nullable %} NOT NULL
+            				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            			{% endif %}
+            			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            			{%- if not loop.last -%}, {% endif %}
+            		{% endfor %}
+            	)
+            	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
 
 
             {% elif node.materializationType == 'view' %}
@@ -4154,81 +5766,81 @@ stepTypes:
                 {% endfor %}
 
             {% if node.materializationType == 'table' %}
-              {% if config.preSQL %}
-                {{ stage('Pre-SQL') }}
-                {{ config.preSQL }}
-              {% endif %}
-              
-              
-              
-                {% if config.truncateBefore %}
-              
-                  {{ stage('Truncate Stage Table') }}
-                  TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
-              
-                {% endif %}
-              
-              
-                {% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
-                  {{ stage( config.insertStrategy + ' Sources' | string ) }}
-                  INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
-                    (
-                      {% for col in columns %}
-                        "{{ col.name }}"
-                        {%- if not loop.last -%},{% endif %}
-                      {% endfor %}
-                    )
-                {% endif %}
-              
-              
-                {% for source in sources %}
-              
-                  {% if config.insertStrategy == 'INSERT' %}
-                    {{ stage('Insert ' + source.name | string ) }}
-              
-                    INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
-                    (
-                      {% for col in source.columns %}
-                        "{{ col.name }}"
-                        {%- if not loop.last -%},{% endif %}
-                      {% endfor %}
-                    )
-                  {% endif %}
-              
-                  SELECT
-                  {% for col in source.columns %}
+            	{% if config.preSQL %}
+            		{{ stage('Pre-SQL') }}
+            		{{ config.preSQL }}
+            	{% endif %}
+            	
+            	
+            	
+            		{% if config.truncateBefore %}
+            	
+            			{{ stage('Truncate Stage Table') }}
+            			TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+            	
+            		{% endif %}
+            	
+            	
+            		{% if config.insertStrategy in ['UNION', 'UNION ALL'] %}
+            			{{ stage( config.insertStrategy + ' Sources' | string ) }}
+            			INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+            				(
+            					{% for col in columns %}
+            						"{{ col.name }}"
+            						{%- if not loop.last -%},{% endif %}
+            					{% endfor %}
+            				)
+            		{% endif %}
+            	
+            	
+            		{% for source in sources %}
+            	
+            			{% if config.insertStrategy == 'INSERT' %}
+            				{{ stage('Insert ' + source.name | string ) }}
+            	
+            				INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+            				(
+            					{% for col in source.columns %}
+            						"{{ col.name }}"
+            						{%- if not loop.last -%},{% endif %}
+            					{% endfor %}
+            				)
+            			{% endif %}
+            	
+            			SELECT
+            			{% for col in source.columns %}
                             {{ get_source_transform(col) }} AS "{{ col.name }}"
-                    {%- if not loop.last -%}, {% endif %}
-                  {% endfor %}
-              
-                  {{ source.join }}
-              
-                  {% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
-                    {{config.insertStrategy}}
-                  {% endif %}
-              
-                {% endfor %}
-              
-              {% if config.postSQL %}
-                {{ stage('Post-SQL') }}
-                {{ config.postSQL }}
-              {% endif %}
+            				{%- if not loop.last -%}, {% endif %}
+            			{% endfor %}
+            	
+            			{{ source.join }}
+            	
+            			{% if config.insertStrategy in ['UNION', 'UNION ALL'] and not loop.last %}
+            				{{config.insertStrategy}}
+            			{% endif %}
+            	
+            		{% endfor %}
+            	
+            	{% if config.postSQL %}
+            		{{ stage('Post-SQL') }}
+            		{{ config.postSQL }}
+            	{% endif %}
             {% endif %}
 
             {% if config.testsEnabled %}
-              {% for test in node.tests %}
-                {% if test.runOrder == 'After' %}
-                  {{ test_stage(test.name, test.continueOnFailure) }}
-                  {{ test.templateString }}
+            	{% for test in node.tests %}
+            		{% if test.runOrder == 'After' %}
+            			{{ test_stage(test.name, test.continueOnFailure) }}
+            			{{ test.templateString }}
                     {% endif %}
-              {% endfor %}
+            	{% endfor %}
 
-              {% for column in columns %}
-                {% for test in column.tests %}
-                  {{ test_stage(column.name + ": " + test.name) }}
-                  {{ test.templateString }}
-                {% endfor %}
-              {% endfor %}
+            	{% for column in columns %}
+            		{% for test in column.tests %}
+            			{{ test_stage(column.name + ": " + test.name) }}
+            			{{ test.templateString }}
+            		{% endfor %}
+            	{% endfor %}
             {% endif %}
     name: Stage
     version: 1
@@ -4414,7 +6026,7 @@ stepTypes:
                     {% for col in columns %}
                         "{{ col.name }}" {{ col.dataType }}
                         {% if col.isSurrogateKey %}
-                        identity
+            		        identity
                         {% endif %}
                         {%- if not col.nullable %} NOT NULL
                             {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
@@ -4441,8 +6053,8 @@ stepTypes:
                 AS
                 {% for source in sources %}
 
-                {% if not loop.last %} UNION ALL {% endif %}
-              {% endfor %}
+            		{% if not loop.last %} UNION ALL {% endif %}
+            	{% endfor %}
 
                     {% for col in source.columns %}
                         {% if col.isSurrogateKey or col.isSystemUpdateDate or col.isSystemCreateDate %}
@@ -4470,11 +6082,11 @@ stepTypes:
                 {% endfor %}
 
             {% if node.materializationType == 'table' %}
-              {% if config.preSQL %}
-                {{ stage('Pre-SQL') }}
-                {{ config.preSQL }}
-              {% endif %}
-              
+            	{% if config.preSQL %}
+            		{{ stage('Pre-SQL') }}
+            		{{ config.preSQL }}
+            	{% endif %}
+            	
                 {% if has_business_key and is_type_2 %}
 
                     {% for source in sources %}
@@ -4666,9 +6278,9 @@ stepTypes:
                             SELECT
                             {% for col in source.columns if not col.isSurrogateKey %}
                                 {% if col.isSystemVersion %}
-                                  1
+                                	1
                                 {% elif col.isSystemCurrentFlag %}
-                                  'Y'
+                                	'Y'
                                 {% else %}
                                     {{ get_source_transform(col) }}
                                 {% endif %}
@@ -4756,28 +6368,28 @@ stepTypes:
                         {{ source.join }}
                     {% endfor %}            
                 {% endif %}
-              
-              {% if config.postSQL %}
-                {{ stage('Post-SQL') }}
-                {{ config.postSQL }}
-              {% endif %}
-              
+            	
+            	{% if config.postSQL %}
+            		{{ stage('Post-SQL') }}
+            		{{ config.postSQL }}
+            	{% endif %}
+            	
             {% endif %}
 
             {% if config.testsEnabled %}
-              {% for test in node.tests %}
-                {% if test.runOrder == 'After' %}
-                  {{ test_stage(test.name, test.continueOnFailure) }}
-                  {{ test.templateString }}
+            	{% for test in node.tests %}
+            		{% if test.runOrder == 'After' %}
+            			{{ test_stage(test.name, test.continueOnFailure) }}
+            			{{ test.templateString }}
                     {% endif %}
-              {% endfor %}
+            	{% endfor %}
 
-              {% for column in columns %}
-                {% for test in column.tests %}
-                  {{ test_stage(column.name + ": " + test.name) }}
-                  {{ test.templateString }}
-                {% endfor %}
-              {% endfor %}
+            	{% for column in columns %}
+            		{% for test in column.tests %}
+            			{{ test_stage(column.name + ": " + test.name) }}
+            			{{ test.templateString }}
+            		{% endfor %}
+            	{% endfor %}
             {% endif %}
     name: Persistent Stage
     version: 1
@@ -4814,4 +6426,5 @@ subgraphs:
       - "7889"
       - "7892"
       - "7893"
+      - 54afca8a-2b05-4924-b4a0-93c4884f8b04
 version: 2

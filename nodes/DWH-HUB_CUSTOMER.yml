@@ -4,11 +4,12 @@ steps:
       config:
         postSQL: ""
         preSQL: ""
+        testsEnabled: false
       database: ""
       deployEnabled: true
       description: Customer data as defined by TPC-H
       isDataVault: false
-      isMultisource: false
+      isMultisource: true
       locationName: DWH
       materializationType: table
       metadata:
@@ -30,6 +31,10 @@ steps:
                   - columnCounter: 4e4fae30-5521-46c8-90c7-cc15f1ebaed6
                     stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
                 transform: ""
+              - columnReferences:
+                  - columnCounter: f4077ab0-ed5f-40ae-95a6-1731aa4bd707
+                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                transform: ""
           - columnReference:
               columnCounter: 82f36fd8-1c37-454c-9d87-e8a64b86b743
               stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
@@ -43,6 +48,10 @@ steps:
               - columnReferences:
                   - columnCounter: f82226f3-cf92-4091-95ae-f470d2be0eca
                     stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+                transform: ""
+              - columnReferences:
+                  - columnCounter: fa22b5c1-f16a-4a2a-8a98-86fc60b1bab8
+                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
                 transform: ""
           - columnReference:
               columnCounter: ec43265d-0ad7-41c2-ae60-9e1ca3cdaf74
@@ -58,6 +67,10 @@ steps:
                   - columnCounter: 7312d6a3-7c9c-4ee3-99cd-93b61233b9b5
                     stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
                 transform: ""
+              - columnReferences:
+                  - columnCounter: 8455caf0-4760-403b-ade4-28b9f6b717af
+                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                transform: ""
           - columnReference:
               columnCounter: 0369cb10-0014-4c56-b98a-a6a0838e50b9
               stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
@@ -72,7 +85,10 @@ steps:
                   - columnCounter: 3eed9b39-1588-4a51-a1fb-7f560ac416f4
                     stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
                 transform: ""
-        cteString: ""
+              - columnReferences:
+                  - columnCounter: 475a9dda-f4cb-4b23-9017-2ce3ea5846d7
+                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                transform: ""
         enabledColumnTestIDs: []
         sourceMapping:
           - customSQL:
@@ -82,7 +98,18 @@ steps:
                 nodeName: DVSTG_CUSTOMER
             join:
               joinCondition: FROM {{ ref('DWH', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
-            name: HUB_CUSTOMER
+            name: customers
+            noLinkRefs: []
+          - aliases:
+              DVSTG_ORDERS: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: DVSTG_ORDERS
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'DVSTG_ORDERS') }} "DVSTG_ORDERS"
+            name: orders
             noLinkRefs: []
       name: HUB_CUSTOMER
       overrideSQL: false
