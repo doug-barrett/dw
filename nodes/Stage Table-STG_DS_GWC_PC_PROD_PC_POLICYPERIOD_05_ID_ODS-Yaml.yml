@@ -1,0 +1,199 @@
+steps:
+  STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_05_ID_ODS-6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b: 
+    operation: 
+      config: 
+        insertStrategy: Insert 
+        postSQL: "" 
+        preSQL: "" 
+        testsEnabled: "" 
+        truncateBefore: true 
+      database: SOURCE_DB 
+      deployEnabled: "" 
+      description: "" 
+      isDataVault: "" 
+      isMultisource: False 
+      locationName: STAGE 
+      materializationType: Table 
+      metadata: 
+        appliedNodeTests: [] 
+        columns: 
+          - columnReference: 
+              columnCounter: e9c9-b9fa-bbe5-ca0b-84b0-e653-17a9-6fe9 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: timestamp_ltz 
+            description: "" 
+            name: REFRESH_SRC_CAPTURE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  (SELECT REFRESH_HVRCAPTSTAMP FROM STAGE.STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_05_ID_ODS_RFRSH_TSMP) 
+          - columnReference: 
+              columnCounter: 094a-85e7-3a62-f0ba-f02e-bf85-4a0a-663e 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: varchar(15) 
+            description: "" 
+            name: BATCH_NUMBER 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 094a-85e7-3a62-f0ba-f02e-bf85-4a0a-663e 
+                    stepCounter: 11d4-906e-bcd1-68c6-1b16-e228-b8d1-41ed 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 8632-b446-3aaa-5d2f-2772-8801-9885-5e3c 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: timestamp_ltz 
+            description: "" 
+            name: HVRCAPTSTAMP 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 8632-b446-3aaa-5d2f-2772-8801-9885-5e3c 
+                    stepCounter: 11d4-906e-bcd1-68c6-1b16-e228-b8d1-41ed 
+                transform: "" 
+          - columnReference: 
+              columnCounter: b718-adec-73e0-4ce3-ec72-0dd1-1a06-a308 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: number(38) 
+            description: "" 
+            name: ID 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: b718-adec-73e0-4ce3-ec72-0dd1-1a06-a308 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 4f4f-7255-96a7-a814-a705-3a23-ae0f-9d5e 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: char(1) 
+            description: "" 
+            name: HVR_REFRESH_FLAG 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 4f4f-7255-96a7-a814-a705-3a23-ae0f-9d5e 
+                    stepCounter: bcf5-a8b0-fd32-534b-0339-a2fe-e0b2-0fc9 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 56bb-fdc8-1fa1-ed63-06a7-b850-a75a-08e6 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: TIMESTAMP 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_CREATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 6780-05e7-fb24-9cf5-41cd-d309-566a-5711 
+              stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b 
+            config: {} 
+            dataType: TIMESTAMP 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_UPDATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+        cteString: "" 
+        enabledColumnTestIDs: [] 
+        sourceMapping: 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: ODS 
+                nodeName: ODS_CTRL_HVRCAPTSTAMP 
+            join: 
+              joinCondition: |-
+                FROM {{ ref_no_link('ODS','ODS_GWC_PC_PROD_PC_POLICYPERIOD') }} ODS_GWC_PC_PROD_PC_POLICYPERIOD
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRCAPTSTAMP') }} ODS_CTRL_HVRCAPTSTAMP
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.HVRCAPTUREKEY = ODS_CTRL_HVRCAPTSTAMP.HVRCAPTUREKEY
+                
+                AND ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME < ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRREFRESH_HISTORY') }} ODS_CTRL_HVRREFRESH_HISTORY
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSS_RECORD_SOURCE = ODS_CTRL_HVRREFRESH_HISTORY.HVR_RECORD_SOURCE
+                
+                AND ODS_CTRL_HVRREFRESH_HISTORY.CURRENT_FLAG = 'Y'
+                
+                AND ODS_CTRL_HVRREFRESH_HISTORY.HVR_REFRESH_FLAG = 'Y'
+                WHERE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE IN (0,1,2)
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_05_ID_ODS 
+            noLinkRefs: [] 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: ODS 
+                nodeName: ODS_GWC_PC_PROD_PC_POLICYPERIOD 
+            join: 
+              joinCondition: |-
+                FROM {{ ref_no_link('ODS','ODS_GWC_PC_PROD_PC_POLICYPERIOD') }} ODS_GWC_PC_PROD_PC_POLICYPERIOD
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRCAPTSTAMP') }} ODS_CTRL_HVRCAPTSTAMP
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.HVRCAPTUREKEY = ODS_CTRL_HVRCAPTSTAMP.HVRCAPTUREKEY
+                
+                AND ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME < ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRREFRESH_HISTORY') }} ODS_CTRL_HVRREFRESH_HISTORY
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSS_RECORD_SOURCE = ODS_CTRL_HVRREFRESH_HISTORY.HVR_RECORD_SOURCE
+                
+                AND ODS_CTRL_HVRREFRESH_HISTORY.CURRENT_FLAG = 'Y'
+                
+                AND ODS_CTRL_HVRREFRESH_HISTORY.HVR_REFRESH_FLAG = 'Y'
+                WHERE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE IN (0,1,2)
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_05_ID_ODS 
+            noLinkRefs: [] 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: ODS 
+                nodeName: ODS_CTRL_HVRREFRESH_HISTORY 
+            join: 
+              joinCondition: |-
+                FROM {{ ref_no_link('ODS','ODS_GWC_PC_PROD_PC_POLICYPERIOD') }} ODS_GWC_PC_PROD_PC_POLICYPERIOD
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRCAPTSTAMP') }} ODS_CTRL_HVRCAPTSTAMP
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.HVRCAPTUREKEY = ODS_CTRL_HVRCAPTSTAMP.HVRCAPTUREKEY
+                
+                AND ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME < ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRREFRESH_HISTORY') }} ODS_CTRL_HVRREFRESH_HISTORY
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSS_RECORD_SOURCE = ODS_CTRL_HVRREFRESH_HISTORY.HVR_RECORD_SOURCE
+                
+                AND ODS_CTRL_HVRREFRESH_HISTORY.CURRENT_FLAG = 'Y'
+                
+                AND ODS_CTRL_HVRREFRESH_HISTORY.HVR_REFRESH_FLAG = 'Y'
+                WHERE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE IN (0,1,2)
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_05_ID_ODS 
+            noLinkRefs: [] 
+      name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_05_ID_ODS 
+      overrideSQL: "" 
+      schema: "" 
+      sqlType: "55" 
+      type: sql 
+    stepCounter: 6999-54b9-d647-880e-e0c3-ec5d-bd79-1b8b

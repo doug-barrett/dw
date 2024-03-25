@@ -1,0 +1,138 @@
+steps:
+  STG_ODS_CTRL_HVRCAPTSTAMP_05_PC_PROD-5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9: 
+    operation: 
+      config: 
+        insertStrategy: Insert 
+        postSQL: "" 
+        preSQL: "" 
+        testsEnabled: "" 
+        truncateBefore: true 
+      database: SOURCE_DB 
+      deployEnabled: "" 
+      description: "" 
+      isDataVault: "" 
+      isMultisource: False 
+      locationName: STAGE 
+      materializationType: Table 
+      metadata: 
+        appliedNodeTests: [] 
+        columns: 
+          - columnReference: 
+              columnCounter: 6046-5029-462a-7606-5b75-0806-3577-faff 
+              stepCounter: 5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9 
+            config: {} 
+            dataType: timestamp_ltz 
+            description: "" 
+            name: HVRCAPTSTAMP_PREVIOUS 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  CASE WHEN ODS_CTRL_HVRCAPTSTAMP.CYCLE_SUCCESS_FLAG = 'N' THEN ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP_PREVIOUS
+                  ELSE NVL(ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP , '1900-01-01')
+                  END 
+          - columnReference: 
+              columnCounter: 8632-b446-3aaa-5d2f-2772-8801-9885-5e3c 
+              stepCounter: 5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9 
+            config: {} 
+            dataType: timestamp_ltz 
+            description: "" 
+            name: HVRCAPTSTAMP 
+            nullable: False 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  CASE
+                  WHEN ODS_CTRL_HVRCAPTSTAMP.CYCLE_SUCCESS_FLAG = 'N' THEN ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP
+                  WHEN ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP IS NULL THEN CURRENT_DATE
+                  WHEN DATE_TRUNC(DAY, ODS_CTRL_HVRCAPTSTAMP.HVRCAPTSTAMP) < CURRENT_DATE THEN DATEADD(DAY, 1, DATE_TRUNC(DAY, ODS_CTRL_H
+                  VRCAPTSTAMP.HVRCAPTSTAMP))
+                  ELSE DATEADD(MINUTE, -ABS($HVR_CTRL_LAG_MINUTES) , DATE_TRUNC(HOUR, CURRENT_TIMESTAMP))
+                  END 
+          - columnReference: 
+              columnCounter: 8983-ad76-4609-83e0-d3f9-de17-6215-d68e 
+              stepCounter: 5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9 
+            config: {} 
+            dataType: varchar(10) 
+            description: "" 
+            name: CYCLE_SUCCESS_FLAG 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: NVL(ODS_CTRL_HVRCAPTSTAMP.CYCLE_SUCCESS_FLAG , 'Y') 
+          - columnReference: 
+              columnCounter: de64-fbb8-54d5-e829-f389-0f0c-3008-51cf 
+              stepCounter: 5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9 
+            config: {} 
+            dataType: varchar(50) 
+            description: "" 
+            name: HVRCAPTUREKEY 
+            nullable: False 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: 'PC_PROD' 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 6780-05e7-fb24-9cf5-41cd-d309-566a-5711 
+              stepCounter: 5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9 
+            config: {} 
+            dataType: timestamp 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_UPDATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+        cteString: "" 
+        enabledColumnTestIDs: [] 
+        sourceMapping: 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: ODS 
+                nodeName: ODS_CTRL_HVRCAPTSTAMP 
+            join: 
+              joinCondition: |-
+                FROM {{ ref('DATASTORE','V_TALLY') }} V_TALLY
+                LEFT JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRCAPTSTAMP') }} ODS_CTRL_HVRCAPTSTAMP
+                ON ODS_CTRL_HVRCAPTSTAMP.HVRCAPTUREKEY = 'PC_PROD'
+                WHERE V_TALLY.TALLY_CTR = 1
+ 
+            name: STG_ODS_CTRL_HVRCAPTSTAMP_05_PC_PROD 
+            noLinkRefs: [] 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: DATASTORE 
+                nodeName: V_TALLY 
+            join: 
+              joinCondition: |-
+                FROM {{ ref('DATASTORE','V_TALLY') }} V_TALLY
+                LEFT JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRCAPTSTAMP') }} ODS_CTRL_HVRCAPTSTAMP
+                ON ODS_CTRL_HVRCAPTSTAMP.HVRCAPTUREKEY = 'PC_PROD'
+                WHERE V_TALLY.TALLY_CTR = 1
+ 
+            name: STG_ODS_CTRL_HVRCAPTSTAMP_05_PC_PROD 
+            noLinkRefs: [] 
+      name: STG_ODS_CTRL_HVRCAPTSTAMP_05_PC_PROD 
+      overrideSQL: "" 
+      schema: "" 
+      sqlType: Stage 
+      type: sql 
+    stepCounter: 5a0c-a1ba-5176-d893-90f4-88ba-3699-41b9

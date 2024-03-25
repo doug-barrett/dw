@@ -1,0 +1,131 @@
+steps:
+  STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE-0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36: 
+    operation: 
+      config: 
+        insertStrategy: Insert 
+        postSQL: "" 
+        preSQL: "" 
+        testsEnabled: "" 
+        truncateBefore: true 
+      database: SOURCE_DB 
+      deployEnabled: "" 
+      description: "" 
+      isDataVault: "" 
+      isMultisource: False 
+      locationName: STAGE 
+      materializationType: Table 
+      metadata: 
+        appliedNodeTests: [] 
+        columns: 
+          - columnReference: 
+              columnCounter: e9c9-b9fa-bbe5-ca0b-84b0-e653-17a9-6fe9 
+              stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+            config: {} 
+            dataType: timestamp_ltz 
+            description: "" 
+            name: REFRESH_SRC_CAPTURE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: MAX(STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M.REFRESH_SRC_CAPTURE_TIME) 
+          - columnReference: 
+              columnCounter: 094a-85e7-3a62-f0ba-f02e-bf85-4a0a-663e 
+              stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+            config: {} 
+            dataType: varchar(15) 
+            description: "" 
+            name: BATCH_NUMBER 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 094a-85e7-3a62-f0ba-f02e-bf85-4a0a-663e 
+                    stepCounter: 5eca-8e74-9c94-ed56-6060-dfd6-1f11-0ada 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 7767-62bc-2a10-7dfe-3f1e-da73-a3b8-efd6 
+              stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+            config: {} 
+            dataType: timestamp_ltz 
+            description: "" 
+            name: CUTOFF_HVRCAPTSTAMP 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 7767-62bc-2a10-7dfe-3f1e-da73-a3b8-efd6 
+                    stepCounter: 5eca-8e74-9c94-ed56-6060-dfd6-1f11-0ada 
+                transform: "" 
+          - columnReference: 
+              columnCounter: b718-adec-73e0-4ce3-ec72-0dd1-1a06-a308 
+              stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+            config: {} 
+            dataType: number(38) 
+            description: "" 
+            name: ID 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: b718-adec-73e0-4ce3-ec72-0dd1-1a06-a308 
+                    stepCounter: 5eca-8e74-9c94-ed56-6060-dfd6-1f11-0ada 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 56bb-fdc8-1fa1-ed63-06a7-b850-a75a-08e6 
+              stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+            config: {} 
+            dataType: TIMESTAMP 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_CREATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 6780-05e7-fb24-9cf5-41cd-d309-566a-5711 
+              stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+            config: {} 
+            dataType: TIMESTAMP 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_UPDATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+        cteString: "" 
+        enabledColumnTestIDs: [] 
+        sourceMapping: 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: STAGE 
+                nodeName: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M 
+            join: 
+              joinCondition: |-
+                FROM {{ ref('STAGE','STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M') }} STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M  GROUP BY STG_
+                DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M.ID
+                ,STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M.BATCH_NUMBER
+                ,STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_10_M.CUTOFF_HVRCAPTSTAMP
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE 
+            noLinkRefs: [] 
+      name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE 
+      overrideSQL: "" 
+      schema: "" 
+      sqlType: Stage 
+      type: sql 
+    stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36

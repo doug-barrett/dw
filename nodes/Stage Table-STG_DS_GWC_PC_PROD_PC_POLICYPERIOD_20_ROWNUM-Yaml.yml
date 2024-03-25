@@ -1,0 +1,469 @@
+steps:
+  STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_20_ROWNUM-3d47-a93b-cdff-3567-ecf7-7436-83c3-2412: 
+    operation: 
+      config: 
+        insertStrategy: Insert 
+        postSQL: "" 
+        preSQL: "" 
+        testsEnabled: "" 
+        truncateBefore: true 
+      database: SOURCE_DB 
+      deployEnabled: "" 
+      description: "" 
+      isDataVault: "" 
+      isMultisource: False 
+      locationName: STAGE 
+      materializationType: Table 
+      metadata: 
+        appliedNodeTests: [] 
+        columns: 
+          - columnReference: 
+              columnCounter: 4b80-eebc-ae99-7d42-eacd-884f-8206-bfa6 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: char(1) 
+            description: "" 
+            name: DELETE_FLAG 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  CASE WHEN ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE = 0 THEN 'Y'
+                  WHEN ODS_GWC_PC_PROD_PC_POLICYPERIOD.HVR_REFRESH_SEQNO <> ODS_CTRL_HVRREFRESH_HISTORY.HVR_REFRESH_SEQNO_HIST
+                  THEN 'Y'
+                  ELSE 'N'
+                  END 
+          - columnReference: 
+              columnCounter: b74d-e634-3f92-18cd-f820-1cc9-d8e4-7442 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: integer 
+            description: "" 
+            name: ROW_NUM 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  ROW_NUMBER() OVER(
+                  PARTITION BY
+                  ODS_GWC_PC_PROD_PC_POLICYPERIOD.ID
+                  ORDER BY
+                  ODS_GWC_PC_PROD_PC_POLICYPERIOD.HVR_REFRESH_SEQNO DESC,
+                  ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_INTEGRATION_SEQ DESC
+                  ) 
+          - columnReference: 
+              columnCounter: f028-e314-3d27-a0da-3eca-d0ab-38fc-295d 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: timestamp 
+            description: "" 
+            name: DSPHR_SRC_CAPTURE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  CASE WHEN ODS_GWC_PC_PROD_PC_POLICYPERIOD.HVR_REFRESH_SEQNO <> ODS_CTRL_HVRREFRESH_HISTORY.HVR_REFRESH_SEQNO_HIST
+                  THEN STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.REFRESH_SRC_CAPTURE_TIME
+                  ELSE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME
+                  END 
+          - columnReference: 
+              columnCounter: 4132-7267-a29d-1a79-a778-ce28-157b-7ea9 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar(15) 
+            description: "" 
+            name: DS_BATCH_NUMBER 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 094a-85e7-3a62-f0ba-f02e-bf85-4a0a-663e 
+                    stepCounter: 0fbd-eceb-68c2-6d1d-16a0-a2c5-ce65-1b36 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 495c-4fa0-9cc0-6be8-f177-640a-6a93-c6d4 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: variant 
+            description: "" 
+            name: DSPHR_PAYLOAD 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 495c-4fa0-9cc0-6be8-f177-640a-6a93-c6d4 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 281e-5e27-21a3-7462-6191-a21d-112e-9cb3 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: variant 
+            description: "" 
+            name: DSPHR_SRC_KEY 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 281e-5e27-21a3-7462-6191-a21d-112e-9cb3 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: b718-adec-73e0-4ce3-ec72-0dd1-1a06-a308 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: number(38) 
+            description: "" 
+            name: ID 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: b718-adec-73e0-4ce3-ec72-0dd1-1a06-a308 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: b78c-ed8e-416a-8f33-1363-69e3-86fd-7388 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar(15) 
+            description: "" 
+            name: ODS_BATCH_NUMBER 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 094a-85e7-3a62-f0ba-f02e-bf85-4a0a-663e 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: ca56-1927-3f15-0b21-b099-400b-8ff0-934f 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar 
+            description: "" 
+            name: DSPHR_INTEGRATION_SEQ 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: ca56-1927-3f15-0b21-b099-400b-8ff0-934f 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: cdaf-b1f2-1ef0-13a8-2f34-7994-3182-a308 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: variant 
+            description: "" 
+            name: DSPHR_GWC_PAYLOAD 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: cdaf-b1f2-1ef0-13a8-2f34-7994-3182-a308 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: d29b-4d8d-d986-cfb6-ca19-54e5-4fd4-93a8 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar 
+            description: "" 
+            name: DSPHR_SRC_OBJECT_SEQ_NUM 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: d29b-4d8d-d986-cfb6-ca19-54e5-4fd4-93a8 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: db1b-2a03-4289-0b31-fc4f-14a0-34a8-e463 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar 
+            description: "" 
+            name: DSPHR_EVENT_ID 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: db1b-2a03-4289-0b31-fc4f-14a0-34a8-e463 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: de64-fbb8-54d5-e829-f389-0f0c-3008-51cf 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar(50) 
+            description: "" 
+            name: HVRCAPTUREKEY 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: de64-fbb8-54d5-e829-f389-0f0c-3008-51cf 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 4d53-6d92-552b-7403-eb3b-154b-8572-65f3 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar 
+            description: "" 
+            name: DSPHR_PAYLOAD_TYPE 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 4d53-6d92-552b-7403-eb3b-154b-8572-65f3 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 5182-66ba-a7af-fa53-09d1-6b4b-4958-bc53 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: timestamp 
+            description: "" 
+            name: DSPHR_RAW_LOAD_DATETIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 5182-66ba-a7af-fa53-09d1-6b4b-4958-bc53 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 55aa-e0c1-241c-74dc-22bc-73f9-d9ba-d056 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: number 
+            description: "" 
+            name: HVR_REFRESH_SEQNO 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 55aa-e0c1-241c-74dc-22bc-73f9-d9ba-d056 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 813d-e781-2f82-ab87-2ac0-885d-d3b9-aac0 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: number(2) 
+            description: "" 
+            name: DSPHR_OPERATION_CODE 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 813d-e781-2f82-ab87-2ac0-885d-d3b9-aac0 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: 864d-b73b-5d66-0e88-7634-d048-cff9-b76c 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar(256) 
+            description: "" 
+            name: DSS_RECORD_SOURCE 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: 864d-b73b-5d66-0e88-7634-d048-cff9-b76c 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: a1f7-1688-48ca-af0b-8563-386e-21ca-f905 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: variant 
+            description: "" 
+            name: DSPHR_METADATA 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: a1f7-1688-48ca-af0b-8563-386e-21ca-f905 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: a517-c34a-4fe6-0acd-2b80-a697-12e4-e3c7 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: varchar 
+            description: "" 
+            name: DSPHR_TRANSACTION_SEQ 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: a517-c34a-4fe6-0acd-2b80-a697-12e4-e3c7 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: a77c-8794-9cb9-a16b-5d09-c45f-cef5-f781 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: timestamp 
+            description: "" 
+            name: DSPHR_SRC_CAPTURE_TIME_UTC 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: a77c-8794-9cb9-a16b-5d09-c45f-cef5-f781 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: f204-67cf-0a61-0aa0-8c9a-5dba-3600-945c 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: variant 
+            description: "" 
+            name: DSPHR_SRC_OBJECT_NAME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: f204-67cf-0a61-0aa0-8c9a-5dba-3600-945c 
+                    stepCounter: 9be5-d64e-05a8-e749-d988-6ad7-545f-cc07 
+                transform: "" 
+          - columnReference: 
+              columnCounter: abbd-410c-c1e7-fecd-93b5-cc42-2677-4919 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: number 
+            description: "" 
+            name: CUR_REFRESH_SEQNO 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: f332-ce1f-d6fe-78be-2e6d-e074-9e2a-c256 
+                    stepCounter: bcf5-a8b0-fd32-534b-0339-a2fe-e0b2-0fc9 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 56bb-fdc8-1fa1-ed63-06a7-b850-a75a-08e6 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: TIMESTAMP 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_CREATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: 6780-05e7-fb24-9cf5-41cd-d309-566a-5711 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: TIMESTAMP 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_UPDATE_TIME 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+          - acceptedValues: 
+              strictMatch: True 
+              values: [] 
+            appliedColumnTests: {} 
+            columnReference: 
+              columnCounter: e2e5-dd61-3c54-accb-65e1-798e-d5ce-d4bd 
+              stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412 
+            config: {} 
+            dataType: timestamp 
+            defaultValue: "" 
+            description: "" 
+            hashedColumns: [] 
+            isSystemCreateDate: "" 
+            name: DSS_LOAD_DATE 
+            nullable: True 
+            sourceColumnReferences: 
+              - columnReferences: [] 
+                transform: "" 
+        cteString: "" 
+        enabledColumnTestIDs: [] 
+        sourceMapping: 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: STAGE 
+                nodeName: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE 
+            join: 
+              joinCondition: |-
+                FROM {{ ref('STAGE','ODS_GWC_PC_PROD_PC_POLICYPERIOD') }} ODS_GWC_PC_PROD_PC_POLICYPERIOD
+                JOIN {{ ref('STAGE','STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE') }} STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.ID
+                = STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.ID
+                
+                AND ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME < STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.CUTOFF_HVRCAPT
+                STAMP
+                JOIN {{ ref('STAGE','ODS_CTRL_HVRREFRESH_HISTORY') }} ODS_CTRL_HVRREFRESH_HISTORY
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSS_RECORD_SOURCE = ODS_CTRL_HVRREFRESH_HISTORY.HVR_RECORD_SOURCE
+                
+                AND STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.CUTOFF_HVRCAPTSTAMP BETWEEN ODS_CTRL_HVRREFRESH_HISTORY.FROM_DATE
+                AND ODS_CTRL_HVRREFRESH_HISTORY.THRU_DATE
+                WHERE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE IN (0,1,2)
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_20_ROWNUM 
+            noLinkRefs: [] 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: ODS 
+                nodeName: ODS_GWC_PC_PROD_PC_POLICYPERIOD 
+            join: 
+              joinCondition: |-
+                FROM {{ ref_no_link('ODS','ODS_GWC_PC_PROD_PC_POLICYPERIOD') }} ODS_GWC_PC_PROD_PC_POLICYPERIOD
+                JOIN {{ ref('STAGE','STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE') }} STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.ID
+                = STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.ID
+                
+                AND ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME < STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.CUTOFF_HVRCAPT
+                STAMP
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRREFRESH_HISTORY') }} ODS_CTRL_HVRREFRESH_HISTORY
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSS_RECORD_SOURCE = ODS_CTRL_HVRREFRESH_HISTORY.HVR_RECORD_SOURCE
+                
+                AND STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.CUTOFF_HVRCAPTSTAMP BETWEEN ODS_CTRL_HVRREFRESH_HISTORY.FROM_DATE
+                AND ODS_CTRL_HVRREFRESH_HISTORY.THRU_DATE
+                WHERE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE IN (0,1,2)
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_20_ROWNUM 
+            noLinkRefs: [] 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: ODS 
+                nodeName: ODS_CTRL_HVRREFRESH_HISTORY 
+            join: 
+              joinCondition: |-
+                FROM {{ ref_no_link('ODS','ODS_GWC_PC_PROD_PC_POLICYPERIOD') }} ODS_GWC_PC_PROD_PC_POLICYPERIOD
+                JOIN {{ ref('STAGE','STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE') }} STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.ID
+                = STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.ID
+                
+                AND ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_SRC_CAPTURE_TIME < STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.CUTOFF_HVRCAPT
+                STAMP
+                JOIN {{ ref_no_link('ODS','ODS_CTRL_HVRREFRESH_HISTORY') }} ODS_CTRL_HVRREFRESH_HISTORY
+                ON ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSS_RECORD_SOURCE = ODS_CTRL_HVRREFRESH_HISTORY.HVR_RECORD_SOURCE
+                
+                AND STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_15_UNIQUE.CUTOFF_HVRCAPTSTAMP BETWEEN ODS_CTRL_HVRREFRESH_HISTORY.FROM_DATE
+                AND ODS_CTRL_HVRREFRESH_HISTORY.THRU_DATE
+                WHERE ODS_GWC_PC_PROD_PC_POLICYPERIOD.DSPHR_OPERATION_CODE IN (0,1,2)
+ 
+            name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_20_ROWNUM 
+            noLinkRefs: [] 
+      name: STG_DS_GWC_PC_PROD_PC_POLICYPERIOD_20_ROWNUM 
+      overrideSQL: "" 
+      schema: "" 
+      sqlType: Stage 
+      type: sql 
+    stepCounter: 3d47-a93b-cdff-3567-ecf7-7436-83c3-2412

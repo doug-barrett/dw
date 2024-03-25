@@ -1,0 +1,82 @@
+steps:
+  V_TALLY-2351-3dd4-07b5-8c77-7902-b092-7a03-380d: 
+    operation: 
+      config: 
+        insertStrategy: NA 
+        postSQL: "" 
+        preSQL: "" 
+        testsEnabled: "" 
+        truncateBefore: "" 
+      database: SOURCE_DB 
+      deployEnabled: "" 
+      description: "" 
+      isDataVault: "" 
+      isMultisource: False 
+      locationName: DATASTORE 
+      materializationType: View 
+      metadata: 
+        appliedNodeTests: [] 
+        columns: 
+          - columnReference: 
+              columnCounter: dbbc-bee6-7f40-131c-9c96-be40-b07f-ad07 
+              stepCounter: 2351-3dd4-07b5-8c77-7902-b092-7a03-380d 
+            config: {} 
+            dataType: number 
+            description: "" 
+            name: TALLY_CTR 
+            nullable: False 
+            sourceColumnReferences: 
+              - columnReferences: 
+                  - columnCounter: "0" 
+                    stepCounter: "0" 
+                transform: |-
+                  ROW_NUMBER() OVER(
+                  ORDER BY
+                  D1.digit, D2.digit, D3.digit, D4.digit, D5.digit
+                  ) 
+        cteString: "" 
+        enabledColumnTestIDs: [] 
+        sourceMapping: 
+          - aliases: "" 
+            customSQL: 
+              customSQL: "" 
+            dependencies: 
+              - locationName: DATASTORE 
+                nodeName: V_TALLY 
+            join: 
+              joinCondition: |-
+                FROM
+                ( SELECT '1' as digit UNION SELECT '2' UNION SELECT '3'
+                UNION SELECT '4' UNION SELECT '5' UNION SELECT '6'
+                UNION SELECT '7' UNION SELECT '8' UNION SELECT '9'
+                UNION SELECT '0') d1
+                CROSS JOIN
+                ( SELECT '1' as digit UNION SELECT '2' UNION SELECT '3'
+                UNION SELECT '4' UNION SELECT '5' UNION SELECT '6'
+                UNION SELECT '7' UNION SELECT '8' UNION SELECT '9'
+                UNION SELECT '0') d2
+                CROSS JOIN
+                ( SELECT '1' as digit UNION SELECT '2' UNION SELECT '3'
+                UNION SELECT '4' UNION SELECT '5' UNION SELECT '6'
+                UNION SELECT '7' UNION SELECT '8' UNION SELECT '9'
+                UNION SELECT '0') d3
+                CROSS JOIN
+                ( SELECT '1' as digit UNION SELECT '2' UNION SELECT '3'
+                UNION SELECT '4' UNION SELECT '5' UNION SELECT '6'
+                UNION SELECT '7' UNION SELECT '8' UNION SELECT '9'
+                UNION SELECT '0') d4
+                CROSS JOIN
+                ( SELECT '1' as digit UNION SELECT '2' UNION SELECT '3'
+                UNION SELECT '4' UNION SELECT '5' UNION SELECT '6'
+                UNION SELECT '7' UNION SELECT '8' UNION SELECT '9'
+                UNION SELECT '0') d5
+
+ 
+            name: V_TALLY 
+            noLinkRefs: [] 
+      name: V_TALLY 
+      overrideSQL: "" 
+      schema: "" 
+      sqlType: Source 
+      type: sourceInput 
+    stepCounter: 2351-3dd4-07b5-8c77-7902-b092-7a03-380d
