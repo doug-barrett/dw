@@ -1,0 +1,58 @@
+steps:
+  EXPORT_CUSTOMER2-2933aa1d-5ccb-4aa7-a5b0-d54d4057c83e:
+    operation:
+      config:
+        compression: ""
+        fieldDelim: ","
+        fieldEnclosed: \042
+        fileLocation: DOUGS3/export
+        fileType: JSON
+        overwrite: true
+        recDelim: |+
+
+        singleFile: true
+        skipBlankLines: true
+        skipHeader: "1"
+        trimSpace: true
+      database: ""
+      deployEnabled: true
+      description: Customer data as defined by TPC-H
+      isMultisource: false
+      locationName: STAGE
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 4ef18805-390f-4116-9ce4-e9794043c85f
+              stepCounter: 2933aa1d-5ccb-4aa7-a5b0-d54d4057c83e
+            dataType: VARIANT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: C_CUSTKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d07fb028-258d-4a83-a6f3-d3faed23079f
+                    stepCounter: 2984a8f8-d51b-4fd7-a9f6-e4453128ceef
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: DWH
+                nodeName: V_CUSTOMER2
+            join:
+              joinCondition: FROM {{ ref('DWH', 'V_CUSTOMER2') }} "V_CUSTOMER2"
+            name: EXPORT_CUSTOMER2
+            noLinkRefs: []
+      name: EXPORT_CUSTOMER2
+      overrideSQL: false
+      schema: ""
+      sqlType: "17"
+      type: sql
+    stepCounter: 2933aa1d-5ccb-4aa7-a5b0-d54d4057c83e

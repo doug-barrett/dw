@@ -1,0 +1,51 @@
+steps:
+  V_CUSTOMER2-2984a8f8-d51b-4fd7-a9f6-e4453128ceef:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: Customer data as defined by TPC-H
+      isMultisource: false
+      locationName: DWH
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: d07fb028-258d-4a83-a6f3-d3faed23079f
+              stepCounter: 2984a8f8-d51b-4fd7-a9f6-e4453128ceef
+            dataType: VARIANT
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: C_CUSTKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d8990d80-d4c0-46e7-b93f-9220e0069c7e
+                    stepCounter: fa428020-340a-4384-ac69-2f0c267774eb
+                transform: OBJECT_CONSTRUCT(*)
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases:
+              CUSTOMER: fa428020-340a-4384-ac69-2f0c267774eb
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: SRC_SAMPLE
+                nodeName: CUSTOMER
+            join:
+              joinCondition: |-
+                FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+                WHERE "C_CUSTKEY" BETWEEN 100 AND 200
+            name: V_CUSTOMER2
+            noLinkRefs: []
+      name: V_CUSTOMER2
+      overrideSQL: false
+      schema: ""
+      sqlType: View
+      type: sql
+    stepCounter: 2984a8f8-d51b-4fd7-a9f6-e4453128ceef

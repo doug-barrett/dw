@@ -968,27 +968,38 @@ stepTypes:
         - groupName: Stream
           items:
 
+          - displayName: Source type
+            attributeName: srcType
+            type: dropdownSelector
+            default: "TABLE"
+            options:
+            - "TABLE"
+            - "VIEW"
+            - "EXTERNAL TABLE"
+            - "STAGE"
+            isRequired: true
+
           - displayName: Initial Rows
             attributeName: initialRows
             type: toggleButton
             default: true
             isRequired: false
+            enableIf: "{{ config.srcType == 'TABLE' or config.srcType == 'VIEW' }}"
 
           - displayName: Append Only
             attributeName: appendOnly
             type: toggleButton
             default: false
             isRequired: false
+            enableIf: "{{ config.srcType == 'TABLE' or config.srcType == 'VIEW' }}"
 
-        - groupName: Hidden config
-          enableIf: "false"
-          items:
           - displayName: Type
             type: materializationSelector
             default: view
             options:
             - view
             isRequired: true
+            enableIf: "false"
 
         systemColumns:
         - displayName: "METADATA$ACTION"
@@ -1021,9 +1032,14 @@ stepTypes:
 
               {{ stage('Create Stream') }}
               CREATE OR REPLACE STREAM  {{ ref_no_link(desiredState.node.location.name, desiredState.node.name )  }}
-              ON TABLE {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
+              ON {{desiredState.config.srcType}} {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
+              {% if desiredState.config.srcType == 'TABLE' or desiredState.config.srcType == 'VIEW' %}
               APPEND_ONLY = {% if desiredState.config.appendOnly is true %} TRUE {%- else -%} FALSE {% endif %} 
               SHOW_INITIAL_ROWS = {% if desiredState.config.initialRows is true %} TRUE {%- else -%} FALSE {% endif %} 
+              {% elif desiredState.config.srcType == 'EXTERNAL TABLE' %}
+              INSERT_ONLY = TRUE
+              {% endif %}
+
               COMMENT = 'CDC Stream on {{ this }}'
 
             {% endif %}
@@ -1057,6 +1073,7 @@ stepTypes:
             options:
             - "DOUGS3"
             - "DOUGS3/salesforce"
+            - "DOUGS3/json"
             - "Create external stages on Snowflake"
             - "Place them in the same storage location"
             - "List the storage locations in this dropdown"
@@ -1749,7 +1766,7 @@ stepTypes:
     version: 1
   StepType-17:
     id: "17"
-    isDisabled: true
+    isDisabled: false
     metadata:
       defaultStorageLocation: STAGE
       error: null
@@ -1767,9 +1784,9 @@ stepTypes:
           - displayName: Stage
             attributeName: fileLocation
             type: dropdownSelector
-            default: "DOUG_DB.PUBLIC.DOUGS3"
+            default: "DOUGS3/export"
             options:
-            - "DOUG_DB.PUBLIC.DOUGS3"
+            - "DOUGS3/export"
             - "Name of Snowflake STAGE"
             - "Add STAGE to Template"
             isRequired: true
@@ -1875,7 +1892,7 @@ stepTypes:
             {% for source in sources %}
                 {% for dep in source.dependencies if dep.node %}
                     {{ stage('Unloading ' + dep.node.name | string ) }}
-                    COPY INTO @{{ ref_no_link(node.location.name, config.fileLocation) | trim | upper ~ "/" ~ node.name }}{% if config.singleFile %}.{{ config.fileType | lower }}{% endif %}
+                    COPY INTO @{{parameters.stage_location}}.{{config.fileLocation }}/{{node.name }}{% if config.singleFile %}.{{ config.fileType | lower }}{% endif %}
                     FROM {{ ref_no_link(dep.node.location.name, dep.node.name) | upper }}
                     overwrite = {{ config.overwrite }}
                     single = {{ config.singleFile }}
@@ -1891,6 +1908,11 @@ stepTypes:
                     )
                 {% endfor %}
             {% endfor %}
+
+            {{ stage('Completed') }}
+            CREATE OR REPLACE VIEW {{this}}
+            AS
+            SELECT 1 Finished
     name: Unload
     version: 1
   StepType-180:
