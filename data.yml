@@ -61,7 +61,7 @@ locations:
 macros:
   Macro-1:
     id: "1"
-    macroString: |-
+    macroString: |+
       {%- macro row_number(order_by, partition_by=[], order='') -%}
           ROW_NUMBER() OVER (
               {%- for p_col in partition_by %}
@@ -106,6 +106,8 @@ macros:
           {% endfor %}
           {{ ns.col }}
       {%- endmacro %}
+
+
 packages: {}
 projects: {}
 stepTypes:
@@ -709,27 +711,38 @@ stepTypes:
         - groupName: Stream
           items:
 
+          - displayName: Source type
+            attributeName: srcType
+            type: dropdownSelector
+            default: "TABLE"
+            options:
+            - "TABLE"
+            - "VIEW"
+            - "EXTERNAL TABLE"
+            - "STAGE"
+            isRequired: true
+
           - displayName: Initial Rows
             attributeName: initialRows
             type: toggleButton
             default: true
             isRequired: false
+            enableIf: "{{ config.srcType == 'TABLE' or config.srcType == 'VIEW' }}"
 
           - displayName: Append Only
             attributeName: appendOnly
             type: toggleButton
             default: false
             isRequired: false
+            enableIf: "{{ config.srcType == 'TABLE' or config.srcType == 'VIEW' }}"
 
-        - groupName: Hidden config
-          enableIf: "false"
-          items:
           - displayName: Type
             type: materializationSelector
             default: view
             options:
             - view
             isRequired: true
+            enableIf: "false"
 
         systemColumns:
         - displayName: "METADATA$ACTION"
@@ -761,10 +774,15 @@ stepTypes:
             {% elif currentState == undefined %}
 
               {{ stage('Create Stream') }}
-              CREATE STREAM IF NOT EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name )  }}
-              ON TABLE {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
+              CREATE OR REPLACE STREAM  {{ ref_no_link(desiredState.node.location.name, desiredState.node.name )  }}
+              ON {{desiredState.config.srcType}} {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
+              {% if desiredState.config.srcType == 'TABLE' or desiredState.config.srcType == 'VIEW' %}
               APPEND_ONLY = {% if desiredState.config.appendOnly is true %} TRUE {%- else -%} FALSE {% endif %} 
               SHOW_INITIAL_ROWS = {% if desiredState.config.initialRows is true %} TRUE {%- else -%} FALSE {% endif %} 
+              {% elif desiredState.config.srcType == 'EXTERNAL TABLE' %}
+              INSERT_ONLY = TRUE
+              {% endif %}
+
               COMMENT = 'CDC Stream on {{ this }}'
 
             {% endif %}
@@ -1477,9 +1495,9 @@ stepTypes:
           - displayName: Stage
             attributeName: fileLocation
             type: dropdownSelector
-            default: "DOUGS32"
+            default: "DOUGS3/export"
             options:
-            - "DOUGS32"
+            - "DOUGS3/export"
             - "Name of Snowflake STAGE"
             - "Add STAGE to Template"
             isRequired: true
@@ -1577,35 +1595,35 @@ stepTypes:
             isRequired: false
       templates:
         create:
-          templateString: |
-            {{ stage('Create View of Stage') }}
-            {% set source = sources[0] %}
-
-            CREATE OR REPLACE VIEW {{this}}
-            AS 
-            {% for dep in source.dependencies if dep.node %}
-                SELECT 'EXPORTED {{ ref_no_link(dep.node.location.name, dep.node.name) | upper }}' RESULT {% if not loop.last %} UNION ALL {% endif %}
-            {% endfor %}
+          templateString: |-
+            {{ stage('Nothing to create') }}
+            SELECT 1
         run:
-          templateString: |
-            {% set source = sources[0] %}
-            {% for dep in source.dependencies if dep.node %}
-                {{ stage('Unloading ' + dep.node.name | string ) }}
-                COPY INTO @{{parameters.stage_location}}.{{config.fileLocation | trim | upper ~ "/" ~ node.name }}{% if config.singleFile %}.{{ config.fileType | lower }}{% endif %}
-                FROM {{ ref_no_link(dep.node.location.name, dep.node.name) | upper }}
-                overwrite = {{ config.overwrite }}
-                single = {{ config.singleFile }}
-                file_format = (type = {{ config.fileType }}
-                {% if config.fileType == "CSV" %}
-                    {% if config.recDelim != null %}record_delimiter = '{{ config.recDelim }}'{% endif %}
-                    {% if config.fieldDelim != null %}field_delimiter = '{{ config.fieldDelim }}'{% endif %}
-                    {% if config.fieldEnclosed != null %}field_optionally_enclosed_by = '{{ config.fieldEnclosed }}'{% endif %}
-                    {% if config.skipHeader != null %}skip_header = {{ config.skipHeader }}{% endif %}
-                    {% if config.skipBlankLines %}skip_blank_lines = {{ config.skipBlankLines }}{% endif %}
-                    {% if config.trimSpace %}trim_space = {{ config.trimSpace }}{% endif %}
-                {% endif %}
-                )
+          templateString: |-
+            {% for source in sources %}
+                {% for dep in source.dependencies if dep.node %}
+                    {{ stage('Unloading ' + dep.node.name | string ) }}
+                    COPY INTO @{{parameters.stage_location}}.{{config.fileLocation }}/{{node.name }}{% if config.singleFile %}.{{ config.fileType | lower }}{% endif %}
+                    FROM {{ ref_no_link(dep.node.location.name, dep.node.name) | upper }}
+                    overwrite = {{ config.overwrite }}
+                    single = {{ config.singleFile }}
+                    file_format = (type = {{ config.fileType }}
+                    {% if config.fileType == "CSV" %}
+                        {% if config.recDelim != null %}record_delimiter = '{{ config.recDelim }}'{% endif %}
+                        {% if config.fieldDelim != null %}field_delimiter = '{{ config.fieldDelim }}'{% endif %}
+                        {% if config.fieldEnclosed != null %}field_optionally_enclosed_by = '{{ config.fieldEnclosed }}'{% endif %}
+                        {% if config.skipHeader != null %}skip_header = {{ config.skipHeader }}{% endif %}
+                        {% if config.skipBlankLines %}skip_blank_lines = {{ config.skipBlankLines }}{% endif %}
+                        {% if config.trimSpace %}trim_space = {{ config.trimSpace }}{% endif %}
+                    {% endif %}
+                    )
+                {% endfor %}
             {% endfor %}
+
+            {{ stage('Completed') }}
+            CREATE OR REPLACE VIEW {{this}}
+            AS
+            SELECT 1 Finished
     name: Unload
     version: 1
   StepType-180:
