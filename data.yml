@@ -108,7 +108,7 @@ macros:
       {%- endmacro %}
 
       {%- macro replacer(column) -%}
-          {% set ns = namespace(col=column) %}
+          {% set ns = namespace(col=column.name) %}
           {% for p in parameters.replace %}
               {% set ns.col = ns.col | replace(p.long,  p.short) %}
           {% endfor %}
