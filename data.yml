@@ -17,6 +17,13 @@ jobs:
     name: Process Dimensions
     steps: []
     subgraphs: []
+  Job-93:
+    excludeSelector: "+{ location: DWH name: DIM_SUPPLIER }"
+    id: 93
+    includeSelector: "+{ location: DWH name: FCT_LINEITEM1 }"
+    name: New Job
+    steps: []
+    subgraphs: []
 locations:
   DWH:
     mappingDefinitions:
@@ -934,7 +941,7 @@ stepTypes:
           templateString: |-
             {% if desiredState is undefined %}
               {{ stage('Drop External Table') }}
-              DROP EXTERNAL TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+              DROP EXTERNAL TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 
             {% else %}
 
