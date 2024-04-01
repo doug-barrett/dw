@@ -1,5 +1,5 @@
 steps:
-  HUB_ORDERS-d1f9e0c5-5590-49df-8a1f-e45c93ec16dd:
+  HUB_ORDERS-44990601-657e-43ab-bb66-35bd194096a6:
     operation:
       config:
         disable_hwm: true
@@ -13,11 +13,22 @@ steps:
       locationName: DWH
       materializationType: table
       metadata:
-        appliedNodeTests: []
+        appliedNodeTests:
+          - continueOnFailure: true
+            description: ""
+            name: Test
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}}
+              WHERE O_ORDERKEY < 0 
         columns:
-          - columnReference:
-              columnCounter: eb1b52aa-e677-4433-8874-261bdf0077b0
-              stepCounter: d1f9e0c5-5590-49df-8a1f-e45c93ec16dd
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: true
+            columnReference:
+              columnCounter: 4edf3f7b-17a4-4c12-99b5-e518a2d2f00b
+              stepCounter: 44990601-657e-43ab-bb66-35bd194096a6
             config:
               is_Hub_hk: true
             dataType: STRING
@@ -28,12 +39,15 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: c86fc99a-5509-4716-9952-a4cab55f84b1
-                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                  - columnCounter: d5588db1-6a4e-4fe7-a2de-76816e578f1a
+                    stepCounter: 6e98e1c4-8b01-4841-9718-c96cba1f4dfa
                 transform: ""
-          - columnReference:
-              columnCounter: e0d89a5a-3ff4-4d15-b20b-e5f202f77374
-              stepCounter: d1f9e0c5-5590-49df-8a1f-e45c93ec16dd
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: true
+            columnReference:
+              columnCounter: fe7fb0d0-de2e-4d1c-a2f0-3f0a5c268aef
+              stepCounter: 44990601-657e-43ab-bb66-35bd194096a6
             dataType: NUMBER(38,0)
             description: ""
             hashColumns: []
@@ -42,12 +56,15 @@ steps:
             nullable: false
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 73c27ffb-fc71-4a36-af39-534e2ba1b19c
-                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                  - columnCounter: d42283f7-7ffc-444f-939e-8c94534ef887
+                    stepCounter: 6e98e1c4-8b01-4841-9718-c96cba1f4dfa
                 transform: ""
-          - columnReference:
-              columnCounter: df44e371-7437-4f47-ba2e-7f823c0bbfdf
-              stepCounter: d1f9e0c5-5590-49df-8a1f-e45c93ec16dd
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 4ca354b1-5eef-4c8c-8bcd-5bc75a3b93c6
+              stepCounter: 44990601-657e-43ab-bb66-35bd194096a6
             dataType: TIMESTAMP
             description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
             hashColumns: []
@@ -56,12 +73,15 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 8455caf0-4760-403b-ade4-28b9f6b717af
-                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                  - columnCounter: 0ba7b14b-e7f8-41f9-9dc7-97e4da6d7a8e
+                    stepCounter: 6e98e1c4-8b01-4841-9718-c96cba1f4dfa
                 transform: ""
-          - columnReference:
-              columnCounter: 15072f87-0581-42c0-af17-b9caf2fc57d3
-              stepCounter: d1f9e0c5-5590-49df-8a1f-e45c93ec16dd
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 7e20998e-8158-45c4-a3d8-0b995c81379d
+              stepCounter: 44990601-657e-43ab-bb66-35bd194096a6
             dataType: STRING
             description: The Record Source (RSRC) describes the source of this data.
             hashColumns: []
@@ -70,11 +90,13 @@ steps:
             nullable: true
             sourceColumnReferences:
               - columnReferences:
-                  - columnCounter: 475a9dda-f4cb-4b23-9017-2ce3ea5846d7
-                    stepCounter: 743f6b4c-0ed5-476d-bf42-3d13ed41d0aa
+                  - columnCounter: 5e3554a7-3d2f-4ad0-a88c-bdcf9665f9d1
+                    stepCounter: 6e98e1c4-8b01-4841-9718-c96cba1f4dfa
                 transform: ""
         cteString: ""
-        enabledColumnTestIDs: []
+        enabledColumnTestIDs:
+          - hasNull
+          - isDistinct
         sourceMapping:
           - aliases: {}
             customSQL:
@@ -91,4 +113,4 @@ steps:
       schema: ""
       sqlType: "6"
       type: sql
-    stepCounter: d1f9e0c5-5590-49df-8a1f-e45c93ec16dd
+    stepCounter: 44990601-657e-43ab-bb66-35bd194096a6
