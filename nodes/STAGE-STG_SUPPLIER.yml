@@ -147,36 +147,19 @@ steps:
               hasNull: false
               isDistinct: false
             columnReference:
-              columnCounter: 81c84e8b-c72a-4c76-bd55-3cd728efd6f1
-              stepCounter: 3f858dce-c55d-44d0-a5cf-1d3eec09840a
-            dataType: VARCHAR(101)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: S_COMMENT1
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 909916a7-cdd5-45aa-a795-0e34664e1c77
-                    stepCounter: 684da7a3-247f-4745-9a69-3d41f9923169
-                transform: ""
-          - appliedColumnTests:
-              hasNull: false
-              isDistinct: false
-            columnReference:
               columnCounter: d75ccf32-680c-41b1-9cd9-fb89b927088f
               stepCounter: 3f858dce-c55d-44d0-a5cf-1d3eec09840a
-            dataType: VARCHAR(101)
+            dataType: NUMBER(6,4)
             description: ""
             hashColumns: []
             hashDetails: null
-            name: S_COMMENT11
+            name: SENTIMENT
             nullable: true
             sourceColumnReferences:
               - columnReferences:
                   - columnCounter: 909916a7-cdd5-45aa-a795-0e34664e1c77
                     stepCounter: 684da7a3-247f-4745-9a69-3d41f9923169
-                transform: ""
+                transform: SNOWFLAKE.CORTEX.SENTIMENT("SUPPLIER"."S_COMMENT")
         cteString: ""
         enabledColumnTestIDs:
           - hasNull
@@ -190,8 +173,11 @@ steps:
               - locationName: SRC_SAMPLE
                 nodeName: SUPPLIER
             join:
-              joinCondition: |
+              joinCondition: |+
                 FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+
+                QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY "S_SUPPKEY" ORDER BY "S_ACCTBAL" DESC)
+
             name: STG_SUPPLIER
             noLinkRefs: []
       name: STG_SUPPLIER
