@@ -1,0 +1,94 @@
+steps:
+  HUB_ORDERS-0e391c6d-6937-4a63-878e-a6203e502858:
+    operation:
+      config:
+        disable_hwm: true
+        postSQL: ""
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: Orders data as defined by TPC-H
+      isMultisource: false
+      locationName: DWH
+      materializationType: table
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 3f00c6c3-0bd5-4463-a8e2-08658dbd2d01
+              stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+            config:
+              is_Hub_hk: true
+            dataType: STRING
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: H_ORDER_KEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: e3591f3d-fbf2-48e9-98b8-6a0118f40d11
+                    stepCounter: 8308b3d2-c83c-4958-9ee3-43b0e0fc0c0b
+                transform: ""
+          - columnReference:
+              columnCounter: 28d3566c-c394-4247-9856-c11e0dad31dc
+              stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+            dataType: NUMBER(38,0)
+            description: ""
+            hashColumns: []
+            hashDetails: null
+            name: O_ORDERKEY
+            nullable: false
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5e490762-9df4-42a1-8633-f7c7ddcbdc2f
+                    stepCounter: 8308b3d2-c83c-4958-9ee3-43b0e0fc0c0b
+                transform: ""
+          - columnReference:
+              columnCounter: 9fbf279d-3ccb-45be-bf3e-090ef60ac163
+              stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+            dataType: TIMESTAMP
+            description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+            hashColumns: []
+            hashDetails: null
+            name: LDTS
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5120787a-4714-415f-9c3d-ce87e173861b
+                    stepCounter: 8308b3d2-c83c-4958-9ee3-43b0e0fc0c0b
+                transform: ""
+          - columnReference:
+              columnCounter: 6d2ed53f-e4fe-4a0f-a057-59d3fc79fc18
+              stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+            dataType: STRING
+            description: The Record Source (RSRC) describes the source of this data.
+            hashColumns: []
+            hashDetails: null
+            name: RSRC
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: eefd35c6-7d5a-48b1-8eaa-2fc8f8e2b230
+                    stepCounter: 8308b3d2-c83c-4958-9ee3-43b0e0fc0c0b
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: DVSTG_ORDERS
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'DVSTG_ORDERS') }} "DVSTG_ORDERS"
+            name: HUB_ORDERS
+            noLinkRefs: []
+      name: HUB_ORDERS
+      overrideSQL: false
+      schema: ""
+      sqlType: "6"
+      type: sql
+    stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858

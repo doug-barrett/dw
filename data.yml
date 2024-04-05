@@ -14,20 +14,25 @@ locations:
       "121":
         database: DOUG_DB
         schema: PROD_DWH
-  SRC_FIVETRAN_RETAIL:
-    mappingDefinitions: {}
+      "125":
+        database: DOUG_DB
+        schema: QA_DWH
   SRC_SAMPLE:
     mappingDefinitions:
       "121":
         database: SNOWFLAKE_SAMPLE_DATA
         schema: TPCH_SF1
-  SRC_WEATHER:
-    mappingDefinitions: {}
+      "125":
+        database: SNOWFLAKE_SAMPLE_DATA
+        schema: TPCH_SF1
   STAGE:
     mappingDefinitions:
       "121":
         database: DOUG_DB
         schema: PROD_STG
+      "125":
+        database: DOUG_DB
+        schema: QA_STG
 macros:
   Macro-1:
     id: "1"
@@ -1519,8 +1524,10 @@ stepTypes:
           items:
           - type: materializationSelector
             isRequired: true
+            default: view
             options:
             - table
+            - view
           
           - type: businessKeyColumns
             isRequired: false
