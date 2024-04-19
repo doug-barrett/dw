@@ -26,40 +26,19 @@ jobs:
       - 41
 locations:
   DATA:
-    mappingDefinitions:
-      "8":
-        database: CURRYS
-        schema: DATA
+    mappingDefinitions: {}
   DATASTORE:
-    mappingDefinitions:
-      "8":
-        database: CURRYS
-        schema: DS
+    mappingDefinitions: {}
   INPUT:
-    mappingDefinitions:
-      "8":
-        database: CURRYS
-        schema: INPUT
+    mappingDefinitions: {}
   LAND:
-    mappingDefinitions:
-      "8":
-        database: WIIBIT
-        schema: LAND
+    mappingDefinitions: {}
   REFERENCE:
-    mappingDefinitions:
-      "8":
-        database: CURRYS
-        schema: REFERENCE
+    mappingDefinitions: {}
   STAGE:
-    mappingDefinitions:
-      "8":
-        database: CURRYS
-        schema: STAGE
+    mappingDefinitions: {}
   VIEWS:
-    mappingDefinitions:
-      "8":
-        database: CURRYS
-        schema: VIEWS
+    mappingDefinitions: {}
 macros:
   Macro-1:
     id: "1"
@@ -1790,20 +1769,20 @@ stepTypes:
         create:
           templateString: |-
             {% if desiredState == undefined %}
-            
+
                 {{ stage('Drop Stream') }}
                 DROP STREAM IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name + "_STR")  }}
-            
+
             {% else %}
-            
+
                 {{ stage('Create Stream') }}
                 CREATE STREAM IF NOT EXISTS {{ ref_no_link(desiredState.node.location.name, desiredState.node.name + "_STR")  }}
                 ON TABLE {{ ref(desiredState.sources[0].dependencies[0].node.location.name, desiredState.sources[0].dependencies[0].node.name) }}
                 APPEND_ONLY = {% if desiredState.config.appendOnly is true %} TRUE {%- else -%} FALSE {% endif %} 
                 SHOW_INITIAL_ROWS = {% if desiredState.config.initialRows is true %} TRUE {%- else -%} FALSE {% endif %} 
                 COMMENT = 'CDC Stream on {{ this }}'
-            
-            
+
+
             {% endif %}
         run:
           templateString: ""
