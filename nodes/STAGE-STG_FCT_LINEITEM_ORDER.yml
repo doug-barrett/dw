@@ -1,5 +1,5 @@
 steps:
-  STG_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION-f1d37a51-281d-4ca8-a6ef-2bebbbbef2ce:
+  STG_FCT_LINEITEM_ORDER-f1d37a51-281d-4ca8-a6ef-2bebbbbef2ce:
     operation:
       config:
         insertStrategy: INSERT
@@ -328,7 +328,6 @@ steps:
           - aliases:
               BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION: 6790a0e1-9547-4203-92fe-475f46368f74
               DIM_CUSTOMER: 7d782678-d530-4293-84ca-2d5c2cb5d35d
-              DIM_SUPPLIER: 4030d71c-41fd-4ce2-b983-3ff8a18ffcdf
               SATV0_LINEITEM: 0379c375-e8f3-4bb2-955b-b1ea9afa7e51
             customSQL:
               customSQL: ""
@@ -338,21 +337,18 @@ steps:
               - locationName: DWH
                 nodeName: DIM_CUSTOMER
               - locationName: DWH
-                nodeName: DIM_SUPPLIER
-              - locationName: DWH
                 nodeName: SATV0_LINEITEM
             join:
-              joinCondition: |-
+              joinCondition: |+
                 FROM {{ ref('DWH', 'BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION') }} "BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION"
-                LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-                ON "BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION"."C_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
-                LEFT JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
-                ON "BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION"."L_SUPPKEY" = "DIM_SUPPLIER"."S_SUPPKEY"
                 INNER JOIN {{ ref('DWH', 'SATV0_LINEITEM') }} "SATV0_LINEITEM"
                 ON "BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION"."H_LINEITEM_KEY" = "SATV0_LINEITEM"."H_LINEITEM_KEY"
-            name: STG_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+                LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
+                ON "BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION"."C_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
+
+            name: STG_FCT_LINEITEM_ORDER
             noLinkRefs: []
-      name: STG_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+      name: STG_FCT_LINEITEM_ORDER
       overrideSQL: false
       schema: ""
       sqlType: Stage

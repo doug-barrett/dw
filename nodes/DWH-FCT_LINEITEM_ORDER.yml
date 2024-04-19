@@ -1,5 +1,5 @@
 steps:
-  FCT_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION-5fd801d6-08cf-4614-b486-897092d0b3bd:
+  FCT_LINEITEM_ORDER-5fd801d6-08cf-4614-b486-897092d0b3bd:
     operation:
       config:
         postSQL: ""
@@ -391,17 +391,18 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              STG_FCT_LINEITEM_ORDER: f1d37a51-281d-4ca8-a6ef-2bebbbbef2ce
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: STAGE
-                nodeName: STG_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+                nodeName: STG_FCT_LINEITEM_ORDER
             join:
-              joinCondition: FROM {{ ref('STAGE', 'STG_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION') }} "STG_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION"
-            name: FCT_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+              joinCondition: FROM {{ ref('STAGE', 'STG_FCT_LINEITEM_ORDER') }} "STG_FCT_LINEITEM_ORDER"
+            name: FCT_LINEITEM_ORDER
             noLinkRefs: []
-      name: FCT_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+      name: FCT_LINEITEM_ORDER
       overrideSQL: false
       schema: ""
       sqlType: Fact
