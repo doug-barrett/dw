@@ -1,5 +1,5 @@
 steps:
-  BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION-6790a0e1-9547-4203-92fe-475f46368f74:
+  BR_LINEITEM_ORDER_CUSTOMER_NATION-6790a0e1-9547-4203-92fe-475f46368f74:
     operation:
       config:
         postSQL: ""
@@ -269,15 +269,16 @@ steps:
               - locationName: DWH
                 nodeName: LINK_ORDER_CUSTOMER
             join:
-              joinCondition: |
+              joinCondition: |+
                 FROM {{ ref('DWH', 'LINK_LINEITEM') }} "LINK_LINEITEM"
                 INNER JOIN {{ ref('DWH', 'LINK_ORDER_CUSTOMER') }} "LINK_ORDER_CUSTOMER"
                 ON "LINK_LINEITEM"."H_ORDER_KEY" = "LINK_ORDER_CUSTOMER"."H_ORDER_KEY"
                 INNER JOIN {{ ref('DWH', 'LINK_CUSTOMER_NATION') }} "LINK_CUSTOMER_NATION"
                 ON "LINK_ORDER_CUSTOMER"."H_CUSTOMER_KEY" = "LINK_CUSTOMER_NATION"."H_CUSTOMER_KEY"
-            name: BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+
+            name: BR_LINEITEM_ORDER_CUSTOMER_NATION
             noLinkRefs: []
-      name: BR_LINEITEM_ORDER_CUSTOMER_CUSTOMER_NATION
+      name: BR_LINEITEM_ORDER_CUSTOMER_NATION
       overrideSQL: false
       schema: ""
       sqlType: "163"

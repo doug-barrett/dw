@@ -1,6 +1,13 @@
 defaultStorageMapping: DWH
 installedPackages: {}
-jobs: {}
+jobs:
+  Job-96:
+    excludeSelector: ""
+    id: 96
+    includeSelector: "+{ location: DWH name: FCT_LINEITEM_ORDER }"
+    name: New Job
+    steps: []
+    subgraphs: []
 locations:
   DWH:
     mappingDefinitions:
@@ -2294,6 +2301,7 @@ stepTypes:
             options:
             - table
             - view
+            - transient
 
           - type: multisourceToggle
             enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
@@ -2375,7 +2383,7 @@ stepTypes:
             	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
             	(
             		{% for col in columns %}
-            			"{{ col.name }}" {{ col.dataType }}
+            			"{{ col.name }}" {{ col.dataType }} xxxxxx
             			{% if col.isSurrogateKey %}
             		        identity
             			{% endif %}
@@ -5855,7 +5863,7 @@ stepTypes:
     version: 1
   StepType-View:
     id: View
-    isDisabled: true
+    isDisabled: false
     metadata:
       defaultStorageLocation: null
       error: null
