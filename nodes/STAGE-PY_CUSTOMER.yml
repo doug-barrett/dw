@@ -24,7 +24,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: NUMBER(38,0)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_CUSTKEY
             nullable: true
@@ -38,7 +37,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: VARCHAR(25)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: CUSTOMER_NAME
             nullable: true
@@ -52,7 +50,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: VARCHAR(40)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_ADDRESS
             nullable: true
@@ -66,7 +63,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: NUMBER(38,0)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_NATIONKEY
             nullable: true
@@ -80,7 +76,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: VARCHAR(15)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_PHONE
             nullable: true
@@ -94,7 +89,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: NUMBER(12,2)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_ACCTBAL
             nullable: true
@@ -108,7 +102,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: VARCHAR(10)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_MKTSEGMENT
             nullable: true
@@ -122,7 +115,6 @@ steps:
               stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
             dataType: VARCHAR(117)
             description: ""
-            hashColumns: []
             hashDetails: null
             name: C_COMMENT
             nullable: true
@@ -134,14 +126,16 @@ steps:
         cteString: ""
         enabledColumnTestIDs: []
         sourceMapping:
-          - aliases: {}
+          - aliases:
+              CUSTOMER: 3347eb7e-b521-4684-a291-fd780b3cdef4
             customSQL:
               customSQL: ""
             dependencies:
               - locationName: SRC_SAMPLE
                 nodeName: CUSTOMER
             join:
-              joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+              joinCondition: |
+                FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
             name: PY_CUSTOMER
             noLinkRefs: []
       name: PY_CUSTOMER
