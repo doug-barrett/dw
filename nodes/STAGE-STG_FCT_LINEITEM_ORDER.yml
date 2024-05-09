@@ -26,6 +26,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: L_ORDERKEY
         nullable: false
@@ -43,6 +44,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: L_LINENUMBER
         nullable: false
@@ -90,6 +92,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
+        hashColumns: []
         hashDetails: null
         name: L_LINEITEM_KEY
         nullable: true
@@ -107,6 +110,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: L_PARTKEY
         nullable: false
@@ -124,6 +128,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: L_SUPPKEY
         nullable: false
@@ -141,6 +146,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: O_ORDERKEY
         nullable: false
@@ -158,6 +164,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: O_CUSTKEY
         nullable: false
@@ -175,6 +182,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: C_CUSTKEY
         nullable: false
@@ -192,6 +200,7 @@ operation:
         config: {}
         dataType: NUMBER(38,0)
         description: ""
+        hashColumns: []
         hashDetails: null
         name: C_NATIONKEY
         nullable: false
@@ -432,7 +441,7 @@ operation:
       - aliases:
           BR_LINEITEM_ORDER_CUSTOMER_NATION: 6790a0e1-9547-4203-92fe-475f46368f74
           DIM_CUSTOMER: 7d782678-d530-4293-84ca-2d5c2cb5d35d
-          DIM_ORDERS: 0408ab86-4333-4a94-93d7-f9bf9b3446c1
+          DIM_ORDERS: 96950e17-c55c-4721-9742-47a102b9eda2
           SATV0_LINEITEM: 0379c375-e8f3-4bb2-955b-b1ea9afa7e51
         customSQL:
           customSQL: ""
@@ -446,7 +455,7 @@ operation:
           - locationName: DWH
             nodeName: SATV0_LINEITEM
         join:
-          joinCondition: |+
+          joinCondition: |-
             FROM {{ ref('DWH', 'BR_LINEITEM_ORDER_CUSTOMER_NATION') }} "BR_LINEITEM_ORDER_CUSTOMER_NATION"
             INNER JOIN {{ ref('DWH', 'SATV0_LINEITEM') }} "SATV0_LINEITEM"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."H_LINEITEM_KEY" = "SATV0_LINEITEM"."H_LINEITEM_KEY"
@@ -454,7 +463,6 @@ operation:
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."C_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
             LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."O_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
-
         name: STG_FCT_LINEITEM_ORDER
         noLinkRefs: []
   name: STG_FCT_LINEITEM_ORDER
