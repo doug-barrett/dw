@@ -1,0 +1,19 @@
+{% for source in sources %}
+    {% for dep in source.dependencies if dep.node %}
+        {{ stage('Unloading ' + dep.node.name | string ) }}
+        COPY INTO @{{ ref_no_link(node.location.name, config.fileLocation) | trim | upper ~ "/" ~ node.name }}{% if config.singleFile %}.{{ config.fileType | lower }}{% endif %}
+        FROM {{ ref_no_link(dep.node.location.name, dep.node.name) | upper }}
+        overwrite = {{ config.overwrite }}
+        single = {{ config.singleFile }}
+        file_format = (type = {{ config.fileType }}
+        {% if config.fileType == "CSV" %}
+            {% if config.recDelim != null %}record_delimiter = '{{ config.recDelim }}'{% endif %}
+            {% if config.fieldDelim != null %}field_delimiter = '{{ config.fieldDelim }}'{% endif %}
+            {% if config.fieldEnclosed != null %}field_optionally_enclosed_by = '{{ config.fieldEnclosed }}'{% endif %}
+            {% if config.skipHeader != null %}skip_header = {{ config.skipHeader }}{% endif %}
+            {% if config.skipBlankLines %}skip_blank_lines = {{ config.skipBlankLines }}{% endif %}
+            {% if config.trimSpace %}trim_space = {{ config.trimSpace }}{% endif %}
+        {% endif %}
+        )
+    {% endfor %}
+{% endfor %}

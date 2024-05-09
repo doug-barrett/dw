@@ -1,0 +1,58 @@
+fileVersion: 1
+id: "81"
+isDisabled: true
+metadata:
+  defaultStorageLocation: DWH
+  error: null
+  nodeMetadataSpec: |+
+    capitalized: Aggregate View
+    short: VAGG
+    tagColor: '#C4C4C4'
+    isDisabled: true
+    plural: Views
+
+    config:
+      - groupName: Options
+        items: 
+
+        - displayName: COUNT DISTINCT
+          type: columnSelector
+          attributeName: isCountDistinct
+          isRequired: false
+
+        - displayName: SUM
+          type: columnSelector
+          attributeName: isSum
+          isRequired: false
+        
+        - displayName: MIN
+          type: columnSelector
+          attributeName: isMin
+          isRequired: false
+
+        - displayName: MAX
+          type: columnSelector
+          attributeName: isMax
+          isRequired: false
+
+        - displayName: AVG
+          type: columnSelector
+          attributeName: isAvg
+          isRequired: false
+
+        - type: materializationSelector
+          options:
+            - view
+          default: view
+          isRequired: true
+          enableIf: "false"
+
+    systemColumns: 
+    - displayName: RECORD_COUNT 
+      transform: COUNT(*)
+      dataType: INTEGER
+      placement: end 
+      attributeName: isCount
+
+name: Aggregate View
+type: NodeType
