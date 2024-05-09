@@ -1,0 +1,60 @@
+fileVersion: 1
+id: "102"
+isDisabled: false
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: INCREMENTAL
+    short: INC
+    plural: Incremental
+    tagColor: green
+
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        default: view
+        options:
+        - view
+        isRequired: true
+        enableIf: "false"
+
+      - displayName: Filter data based on Persistent Table
+        attributeName: refTable
+        type: toggleButton
+        default: false
+        isRequired: false
+
+      - displayName: Persistent Table based on prefix
+        attributeName: persistTable
+        type: dropdownSelector
+        default: ""
+        options:
+        - ""
+        - "DS"
+        - "DIM"
+        - "FCT"
+        - "SAT"
+        - "PSTG"
+        isRequired: false
+        enableIf: "{{config.refTable}}"
+
+      - displayName: Persistent Table location
+        attributeName: persistTableLocation
+        type: dropdownSelector
+        default: "DWH"
+        options:
+        - "DWH"
+        - "STAGE"
+        isRequired: false
+        enableIf: "{{config.refTable}}"
+
+      - displayName: Persistent Table name if not selected above
+        attributeName: persistTableName
+        type: textBox
+        default: ""
+        isRequired: false
+        enableIf: "{{config.refTable}}"
+name: Fivetran Incremental
+type: NodeType

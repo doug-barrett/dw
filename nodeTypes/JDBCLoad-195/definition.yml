@@ -1,0 +1,56 @@
+fileVersion: 1
+id: "195"
+isDisabled: true
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: JDBC Load
+    short: JDBC
+    plural: JDBC Loads
+    tagColor: 'orange'
+    config:
+
+    - groupName: Options
+      items:
+      - displayName: JDBC Driver
+        attributeName: jdbc_driver
+        type: dropdownSelector
+        default: "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        options:
+        - "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+        - "oracle.jdbc.driver.OracleDriver"
+        - "com.mysql.jdbc.Driver"
+        isRequired: true
+
+      - displayName: JDBC URL
+        attributeName: jdbc_url
+        type: textBox
+        default: "jdbc:sqlserver://coalesce-source.database.windows.net:1433;database=coalesce_source"
+        isRequired: true
+
+      - displayName: SQL
+        attributeName: sql
+        type: textBox
+        default: "SELECT * FROM saleslt.customer"
+        isRequired: true
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: true
+        
+    systemColumns:
+    - displayName: 'DATA'
+      attributeName: data
+      transform: ''
+      dataType: VARIANT
+      placement: beginning
+
+    - displayName: SYSTEM_LOAD_TIMESTAMP
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+name: JDBC Load
+type: NodeType

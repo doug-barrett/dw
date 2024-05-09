@@ -1,0 +1,37 @@
+{% set source = sources[0] %}
+
+{{ stage('Create Landing table')}}
+CREATE OR REPLACE TABLE {{this}} 
+(
+    {% for col in source.columns  %}
+      "{{ col.name }}" {{ col.dataType }} 
+      {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+
+{{ stage('Create Snowpipe') }}
+CREATE OR REPLACE PIPE  {{ this | replace (node.name, "PIPE_"+node.name) }}
+  auto_ingest = true
+  {% if config.inteGration != 'None'%}INTEGRATION = '{{config.inteGration}}'{% endif %}
+AS
+  COPY INTO {{ this }} (
+    {%- for col in columns  %}
+        "{{ col.name }}" 
+      {%- if not loop.last -%},{% endif %}
+    {%- endfor %}
+  )
+  FROM ( 
+    SELECT 
+    {%- for col in source.columns  %}
+      {%- if col.fileName %} METADATA$FILENAME 
+      {%- elif col.fileRN %} METADATA$FILE_ROW_NUMBER
+      {%- else %}
+        t.${{loop.index}}::{{ col.dataType }}
+      {%- endif %}
+      {%- if not loop.last -%}, {% endif %}
+    {%- endfor %}
+    FROM  @{{parameters.stage_location}}.{{ config.fileLocation }}
+    (FILE_FORMAT => '{{parameters.stage_location}}.{{ config.fileFormat }}') t 
+  )
+  {% if config.filePattern | length > 0 %}PATTERN = '{{ config.filePattern}}' {% endif %}
+

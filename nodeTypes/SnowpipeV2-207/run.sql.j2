@@ -1,0 +1,23 @@
+{% set source = sources[0] %}
+{{ stage('Run Copy') }}
+
+COPY INTO {{ this }} (
+    {%- for col in columns  %}
+        "{{ col.name }}" 
+      {%- if not loop.last -%},{% endif %}
+    {%- endfor %}
+  )
+  FROM ( 
+      SELECT 
+      {%- for col in source.columns  %}
+        {%- if col.fileName %} METADATA$FILENAME 
+        {%- elif col.fileRN %} METADATA$FILE_ROW_NUMBER
+        {%- else %}
+          t.${{loop.index}}::{{ col.dataType }}
+        {%- endif %}
+        {%- if not loop.last -%}, {% endif %}
+      {%- endfor %}
+      FROM  @{{parameters.stage_location}}.{{ config.fileLocation }}
+      (FILE_FORMAT => '{{parameters.stage_location}}.{{ config.fileFormat }}') t 
+    )
+  PATTERN = '{{ config.filePattern}}'

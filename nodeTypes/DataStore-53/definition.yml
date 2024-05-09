@@ -1,0 +1,103 @@
+fileVersion: 1
+id: "53"
+isDisabled: false
+metadata:
+  defaultStorageLocation: DWH
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Data Store
+    short: DS
+    plural: Data Stores
+    tagColor: '#29B2DB'
+
+    config:
+    - groupName: Documentation
+      items:
+      - displayName: Description
+        attributename: description
+        type: textBox
+        isRequired: false
+        default: "Data Store Node\n\n
+          This is a persistent table that requires a business key or natural key\n
+          in order to process create and process.  Changing attributes can optionally be \n
+          selected to track changes with a new system_start_time.\n\n
+          Note: Failing to select a business will cause an error on Create or Run\n
+          "
+    - groupName: Options
+      items:
+      
+      - type: businessKeyColumns
+        isRequired: false
+
+      - type: changeTrackingColumns
+        isRequired: false
+
+      - type: multisourceToggle
+        enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
+
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: true
+        
+      - displayName: Pre-SQL
+        attributeName: preSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+      - displayName: Post-SQL
+        attributeName: postSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+    - groupName: Hidden config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: table
+        options:
+        - table
+        isRequired: false
+
+    systemColumns:
+
+    - displayName: SYSTEM_VERSION
+      transform: ''
+      dataType: NUMBER
+      placement: end
+      attributeName: isSystemVersion
+
+    - displayName: SYSTEM_CURRENT_FLAG
+      transform: ''
+      dataType: VARCHAR
+      placement: end
+      attributeName: isSystemCurrentFlag
+
+    - displayName: SYSTEM_START_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemStartDate
+
+    - displayName: SYSTEM_END_DATE
+      transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemEndDate
+
+    - displayName: SYSTEM_CREATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+
+    - displayName: SYSTEM_UPDATE_DATE
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemUpdateDate
+name: Data Store
+type: NodeType

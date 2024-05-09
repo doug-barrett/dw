@@ -1,0 +1,23 @@
+{% if desiredState == undefined %}
+
+  {{ stage('Drop Dynamic Table') }}
+  DROP DYNAMIC TABLE IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+{% else %}
+
+  {% if currentState != desiredState %}
+
+  {{ stage('(Re)Create Dynamic Table') }}
+
+    CREATE OR REPLACE DYNAMIC TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+      LAG = '{{ desiredState.config.lagSchedule }}'
+      WAREHOUSE = {{ desiredState.config.Warehouse }}
+    AS
+      SELECT
+        {% for col in desiredState.sources[0].columns %}
+            {{ get_source_transform(col) }} AS "{{ col.name }}"
+          {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+      {{ desiredState.sources[0].join }}
+  {% endif %}
+{% endif %}

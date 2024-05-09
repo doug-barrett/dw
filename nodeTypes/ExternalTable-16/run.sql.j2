@@ -1,0 +1,4 @@
+{% if config.autoRefresh is false %}
+{{ stage('Refresh External Table') }}
+ALTER EXTERNAL TABLE {{ ref_no_link(node.location.name, node.name) }} REFRESH
+{% endif %}

@@ -1,0 +1,48 @@
+{% if node.materializationType == 'table' %}
+	{% if config.preSQL %}
+		{{ stage('Pre-SQL') }}
+		{{ config.preSQL }}
+	{% endif %}
+
+	{{ stage('Insert New Rows') }}
+	INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+	WITH "SAT_CURR_ROWS" AS (
+		/* get current rows from satellite */
+		{% for col in columns if col.isHubHash or col.isChangeHash %}
+			{%- if loop.first -%}SELECT {% endif %} 
+			{{col.name}}
+			{%- if not loop.last -%}, {% endif %}
+			{%- if loop.last %} 
+				FROM {{ ref_no_link(node.location.name, node.name) }} 
+				QUALIFY ROW_NUMBER() OVER (PARTITION BY "{{ get_value_by_column_attribute("isHubHash") }}" ORDER BY "{{ get_value_by_column_attribute("isSystemCreateDate") }}" DESC) = 1
+			{% endif %}
+		{% endfor %}
+	)
+
+		{% for source in sources %}
+			SELECT DISTINCT
+			{% for col in source.columns %}
+				{{ get_source_transform(col) }} AS "{{ col.name }}"
+				{%- if not loop.last -%}, {% endif %}
+			{% endfor %}
+
+			{{ source.join }}
+		WHERE NOT EXISTS(
+			SELECT 1 FROM "SAT_CURR_ROWS"
+			WHERE 
+			{% for col in source.columns if col.isHubHash or col.isChangeHash %}
+				{% if not loop.first %}
+					AND
+				{% endif %}
+				{{ get_source_transform(col) }} = "SAT_CURR_ROWS"."{{ col.name }}"
+			{% endfor %}
+		)
+
+		{% endfor %}
+
+	{% if config.postSQL %}
+		{{ stage('Post-SQL') }}
+		{{ config.postSQL }}
+	{% endif %}
+
+{% endif %}

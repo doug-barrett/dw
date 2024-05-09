@@ -1,0 +1,141 @@
+fileVersion: 1
+id: "85"
+isDisabled: true
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Snowpipe
+    short: 'LOAD'
+    tagColor: '#C39BD3'
+    isDisabled: false
+    plural: Snowpipe
+
+    config:
+    - groupName: File Location
+      items: 
+
+      - displayName: Stage
+        attributeName: fileLocation
+        type: dropdownSelector
+        default: "DOUGS3"
+        options:
+        - "DOUGS3"
+        - "Create external stages on Snowflake"
+        - "Place them in the same storage location"
+        - "List the storage locations in this dropdown"
+        isRequired: true
+
+      - displayName: File Pattern
+        attributeName: filePattern
+        type: textBox
+        default: ".*[.]json"
+        isRequired: true
+
+    - groupName: File Format 
+      items:
+      - displayName: File Type
+        attributeName: fileType
+        type: dropdownSelector
+        default: JSON
+        options:
+        - "CSV"
+        - "JSON"
+        - "Parquet"
+        isRequired: true
+
+      - displayName: Compression
+        attributeName: compression
+        enableIf: "{{ config.fileType in ['CSV','JSON'] }}" 
+        type: dropdownSelector
+        options:
+        - "AUTO"
+        - "GZIP"
+        - "BZ2"
+        - "BROTLI"
+        - "ZSTD"
+        - "DEFLATE"
+        - "RAW_DEFLATE"
+        - "NONE"
+        isRequired: false
+
+      - displayName: Record delimiter
+        attributeName: recDelim
+        type: textBox
+        enableIf: "{{ config.fileType == 'CSV'}}" 
+        default: "\n"
+        isRequired: false
+
+      - displayName: Field delimiter
+        attributeName: fieldDelim
+        type: textBox
+        enableIf: "{{ config.fileType == 'CSV'}}" 
+        default: ","
+        isRequired: false
+
+      - displayName: Field optionally enclosed by
+        attributeName: fieldEnclosed
+        type: textBox
+        enableIf: "{{ config.fileType == 'CSV'}}" 
+        default: "\\042"
+        isRequired: false
+
+      - displayName: Number of header lines to skip
+        attributeName: skipHeader
+        type: textBox
+        enableIf: "{{ config.fileType == 'CSV'}}" 
+        default: "1"
+        isRequired: false
+
+      - displayName: Skip blank lines
+        attributeName: skipBlankLines
+        enableIf: "{{ config.fileType == 'CSV'}}" 
+        type: toggleButton
+        default: true
+        isRequired: false
+
+      - displayName: Trim space
+        attributeName: trimSpace
+        enableIf: "{{ config.fileType == 'CSV'}}" 
+        type: toggleButton
+        default: true
+        isRequired: false
+
+    - groupName: Additional Options
+      items:
+      - displayName: Auto Ingest
+        attributeName: autoIngest
+        type: toggleButton
+        default: true
+        isRequired: false
+
+      - displayName: AWS SNS Topic
+        attributeName: snsTopic
+        type: textBox
+        enableIf: "{{ config.autoIngest }}"
+        default: "arn:aws:sns:us-east-1:121674918127:prod-emea-s3-notification"
+        isRequired: false
+
+    - groupName: Hidden config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: table
+        options:
+        - table
+        isRequired: true
+
+    systemColumns:
+    - displayName: 'VALUE'
+      attributeName: 'VALUE'
+      transform: ''
+      dataType: VARIANT
+      placement: beginning
+    - displayName: 'METADATA$FILENAME'
+      attributeName: 'METADATA$FILENAME'
+      transform: ''
+      dataType: STRING
+      placement: end
+name: Snowpipe
+type: NodeType
