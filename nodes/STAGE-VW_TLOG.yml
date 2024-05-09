@@ -1,235 +1,251 @@
-steps:
-  VW_TLOG-40946110-8612-4578-98c1-7f839666893a:
-    operation:
-      config:
-        insertStrategy: UNION
-        selectDistinct: false
-      database: ""
-      deployEnabled: true
-      description: |-
-        Clean up TLOG - summarize by transaction, date and product
+fileVersion: 1
+id: 40946110-8612-4578-98c1-7f839666893a
+name: VW_TLOG
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: |-
+    Clean up TLOG - summarize by transaction, date and product
 
-        Remove any simple exchanges - ie net zero transaction for a product
-      isMultisource: false
-      locationName: STAGE
-      materializationType: view
-      metadata:
-        appliedNodeTests: []
-        columns:
-          - columnReference:
-              columnCounter: b12fd06a-a9ea-462e-8f8f-daf95036dc92
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(50)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: TRANSACTION_ID
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 3c667637-48c8-4b3b-bc9b-ba6ac2898395
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: ""
-          - columnReference:
-              columnCounter: 29182d7a-9622-400e-b9be-a4a69bc48b83
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DATE
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: TRANSACTION_DATE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: d99a13e3-5caf-4eac-80b2-5fb50ae5bfd3
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: ""
-          - columnReference:
-              columnCounter: 4c07fa78-69b0-4bba-9595-dd24ab11aa2e
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(50)
-            description: This is the product key
-            hashColumns: []
-            hashDetails: null
-            name: PRODKEY
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 940ba740-aea8-4abe-b339-ab9c11fcc411
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: "\"DS_TLOG\".\"PRODKEY\""
-          - columnReference:
-              columnCounter: d87ac593-72e7-4ba0-acb1-b75df113690a
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(50)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: STORE_CODE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: f14ebf90-7f77-47dd-9cf5-75724d9af461
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: MAX("DS_TLOG"."STORE_CODE")
-          - columnReference:
-              columnCounter: ebc2b6e5-a30a-4b59-b0f7-1fd846202eec
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(4)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: SALES_TYPE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 4e94e3bc-86d9-4ba6-9e92-8397aeaee4d8
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: MAX("DS_TLOG"."SALES_TYPE")
-          - columnReference:
-              columnCounter: fc121b94-25d7-4e70-8bf8-f973dd531023
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(1)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: PROMO_FLAG
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 392ef107-024a-40c4-ab6d-38d30fe0a73c
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: MAX("DS_TLOG"."PROMO_FLAG")
-          - columnReference:
-              columnCounter: 874996ee-f33b-4277-9a54-209b7b93c3a9
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(3)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: CURRENCY_CODE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 8d544fe0-0a22-4ccf-9f9c-b6eb4a630468
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: MAX("DS_TLOG"."CURRENCY_CODE")
-          - columnReference:
-              columnCounter: 93cbd2ca-3e05-4608-8a55-02c67e683716
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DECIMAL(15,6)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: UNITS
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: c37a8d42-9ab8-45fe-a52c-112477718376
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: SUM("DS_TLOG"."QUANTITY")
-          - columnReference:
-              columnCounter: c3a6edac-86a2-41e5-bbaa-e369e5b32ffb
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DECIMAL(15,2)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: COST
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: cbf6d8c5-7a22-4b60-97eb-42c93e17c8ba
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: SUM("DS_TLOG"."COST")
-          - columnReference:
-              columnCounter: dd0f416f-ea8d-435e-9406-8825e14100f8
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DECIMAL(15,2)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: REGULAR_REVENUE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 57b52845-2cad-4293-8260-729660a01f27
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: SUM("DS_TLOG"."REGULAR_REVENUE")
-          - columnReference:
-              columnCounter: 2b4ce51a-069c-4c04-a644-a2afcac93e06
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DECIMAL(15,2)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: SALES_INC_VAT
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: bcc77079-6db1-4bec-8c79-38fa83dd3f77
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: SUM("DS_TLOG"."SALES_REVENUE")
-          - columnReference:
-              columnCounter: ae1bef50-93e3-48a6-a6f5-f9463b952096
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DECIMAL(15,2)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: VAT_REVENUE_AMOUNT
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: eb95c0e8-19d0-4acd-9112-1195a5b55d05
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: SUM("DS_TLOG"."VAT_REVENUE_AMOUNT")
-          - columnReference:
-              columnCounter: 85c4cbac-75c8-4d65-a8a7-bbe6fc7d6d82
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: DECIMAL(15,2)
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: VAT_TOTAL_COST_AMOUNT
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 05932fb8-3a4a-47c0-881e-99b721a6499f
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: SUM("DS_TLOG"."VAT_TOTAL_COST_AMOUNT")
-          - columnReference:
-              columnCounter: 23f2ba4a-4814-43bc-9282-3d9d583ac178
-              stepCounter: 40946110-8612-4578-98c1-7f839666893a
-            dataType: VARCHAR(2)
-            description: PAYMENT_METHOD_CODE
-            name: PAYMENT_METHOD_CODE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 5adc89db-bc3e-4e9c-9b9a-2fc2f81f5632
-                    stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-                transform: ""
-        cteString: ""
-        enabledColumnTestIDs: []
-        sourceMapping:
-          - aliases:
-              DS_TLOG: 94c85ee9-190b-467a-9ef9-19358b1dd22c
-            customSQL:
-              customSQL: ""
-            dependencies:
-              - locationName: DATASTORE
-                nodeName: DS_TLOG
-            join:
-              joinCondition: |
-                FROM {{ ref('DATASTORE', 'DS_TLOG') }} "DS_TLOG"
-                GROUP BY "DS_TLOG"."TRANSACTION_ID", "DS_TLOG"."TRANSACTION_DATE", "DS_TLOG"."PRODKEY", "DS_TLOG"."PAYMENT_METHOD_CODE"
-                
-            name: VW_TLOG
-            noLinkRefs: []
-      name: VW_TLOG
-      overrideSQL: false
-      schema: ""
-      sqlType: "16"
-      type: sql
-    stepCounter: 40946110-8612-4578-98c1-7f839666893a
+    Remove any simple exchanges - ie net zero transaction for a product
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b12fd06a-a9ea-462e-8f8f-daf95036dc92
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        hashDetails: null
+        name: TRANSACTION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3c667637-48c8-4b3b-bc9b-ba6ac2898395
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 29182d7a-9622-400e-b9be-a4a69bc48b83
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DATE
+        description: ""
+        hashDetails: null
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d99a13e3-5caf-4eac-80b2-5fb50ae5bfd3
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4c07fa78-69b0-4bba-9595-dd24ab11aa2e
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        hashDetails: null
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 940ba740-aea8-4abe-b339-ab9c11fcc411
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: "\"DS_TLOG\".\"PRODKEY\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d87ac593-72e7-4ba0-acb1-b75df113690a
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        hashDetails: null
+        name: STORE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f14ebf90-7f77-47dd-9cf5-75724d9af461
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: MAX("DS_TLOG"."STORE_CODE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ebc2b6e5-a30a-4b59-b0f7-1fd846202eec
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(4)
+        description: ""
+        hashDetails: null
+        name: SALES_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4e94e3bc-86d9-4ba6-9e92-8397aeaee4d8
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: MAX("DS_TLOG"."SALES_TYPE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fc121b94-25d7-4e70-8bf8-f973dd531023
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(1)
+        description: ""
+        hashDetails: null
+        name: PROMO_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 392ef107-024a-40c4-ab6d-38d30fe0a73c
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: MAX("DS_TLOG"."PROMO_FLAG")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 874996ee-f33b-4277-9a54-209b7b93c3a9
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(3)
+        description: ""
+        hashDetails: null
+        name: CURRENCY_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8d544fe0-0a22-4ccf-9f9c-b6eb4a630468
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: MAX("DS_TLOG"."CURRENCY_CODE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93cbd2ca-3e05-4608-8a55-02c67e683716
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DECIMAL(15,6)
+        description: ""
+        hashDetails: null
+        name: UNITS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c37a8d42-9ab8-45fe-a52c-112477718376
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: SUM("DS_TLOG"."QUANTITY")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3a6edac-86a2-41e5-bbaa-e369e5b32ffb
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DECIMAL(15,2)
+        description: ""
+        hashDetails: null
+        name: COST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbf6d8c5-7a22-4b60-97eb-42c93e17c8ba
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: SUM("DS_TLOG"."COST")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dd0f416f-ea8d-435e-9406-8825e14100f8
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DECIMAL(15,2)
+        description: ""
+        hashDetails: null
+        name: REGULAR_REVENUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 57b52845-2cad-4293-8260-729660a01f27
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: SUM("DS_TLOG"."REGULAR_REVENUE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2b4ce51a-069c-4c04-a644-a2afcac93e06
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DECIMAL(15,2)
+        description: ""
+        hashDetails: null
+        name: SALES_INC_VAT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bcc77079-6db1-4bec-8c79-38fa83dd3f77
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: SUM("DS_TLOG"."SALES_REVENUE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae1bef50-93e3-48a6-a6f5-f9463b952096
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DECIMAL(15,2)
+        description: ""
+        hashDetails: null
+        name: VAT_REVENUE_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eb95c0e8-19d0-4acd-9112-1195a5b55d05
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: SUM("DS_TLOG"."VAT_REVENUE_AMOUNT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85c4cbac-75c8-4d65-a8a7-bbe6fc7d6d82
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: DECIMAL(15,2)
+        description: ""
+        hashDetails: null
+        name: VAT_TOTAL_COST_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 05932fb8-3a4a-47c0-881e-99b721a6499f
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: SUM("DS_TLOG"."VAT_TOTAL_COST_AMOUNT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 23f2ba4a-4814-43bc-9282-3d9d583ac178
+          stepCounter: 40946110-8612-4578-98c1-7f839666893a
+        config: {}
+        dataType: VARCHAR(2)
+        description: PAYMENT_METHOD_CODE
+        name: PAYMENT_METHOD_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5adc89db-bc3e-4e9c-9b9a-2fc2f81f5632
+                stepCounter: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DS_TLOG: 94c85ee9-190b-467a-9ef9-19358b1dd22c
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATASTORE
+            nodeName: DS_TLOG
+        join:
+          joinCondition: |
+            FROM {{ ref('DATASTORE', 'DS_TLOG') }} "DS_TLOG"
+            GROUP BY "DS_TLOG"."TRANSACTION_ID", "DS_TLOG"."TRANSACTION_DATE", "DS_TLOG"."PRODKEY", "DS_TLOG"."PAYMENT_METHOD_CODE"
+        name: VW_TLOG
+        noLinkRefs: []
+  name: VW_TLOG
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

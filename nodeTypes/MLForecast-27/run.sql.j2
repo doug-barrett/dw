@@ -1,0 +1,65 @@
+{% set source = sources[0] %}
+{% set src_node = source.dependencies[0].node %}
+{% set forecast_name = 'FORECAST_' ~ src_node.name %}
+
+{{ stage('Create Forecast Model Instance') }}
+CREATE OR REPLACE SNOWFLAKE.ML.FORECAST
+ {{ ref_no_link(node.location.name, forecast_name) }}(
+    INPUT_DATA => SYSTEM$QUERY_REFERENCE('
+        SELECT
+        {% for col in source.columns if not col.forecast and not col.lower_bound and not col.upper_bound %}
+            {{ get_source_transform(col) }} AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+        {{ source.join }}
+    '),
+    TIMESTAMP_COLNAME => '{{ config.tscol.name }}',
+    TARGET_COLNAME => '{{ config.tgtcol.name }}'
+)
+	
+{% if config.truncateBefore %}
+	{{ stage('Truncate Stage Table') }}
+	TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+{% endif %}
+
+	
+{{ stage('Insert ' + source.name | string ) }}
+
+BEGIN
+	CALL {{ ref_no_link(node.location.name, forecast_name) }}!FORECAST({{ config.fcdays }});
+
+	INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+	(
+		{% for col in source.columns %}
+			"{{ col.name }}"
+			{%- if not loop.last -%},{% endif %}
+		{% endfor %}
+	)
+	{% if config.addsourcedata %}
+	SELECT
+	{% for col in source.columns %}
+		{{ get_source_transform(col) }} AS "{{ col.name }}"
+		{%- if not loop.last -%}, {% endif %}
+	{% endfor %}
+
+	{{ source.join }}
+
+	UNION ALL
+	{% endif %}
+
+	SELECT
+	{% for col in source.columns %}
+		{% if col.id == config.tscol.id %}
+			"TS"
+		{% elif col.id == config.tgtcol.id %}
+			NULL
+		{% elif col.forecast or col.lower_bound or col.upper_bound %}
+			"{{ col.name }}"
+		{% else %}
+			{{ get_source_transform(col) }} AS "{{ col.name }}"
+		{% endif %}
+		{%- if not loop.last -%}, {% endif %}
+	{% endfor %}
+	FROM TABLE(RESULT_SCAN(-1));
+END
+

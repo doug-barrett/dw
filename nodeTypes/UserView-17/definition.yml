@@ -1,0 +1,41 @@
+fileVersion: 1
+id: "17"
+isDisabled: false
+metadata:
+  defaultStorageLocation: VIEWS
+  error: null
+  nodeMetadataSpec: |
+    capitalized: View
+    short: VWA
+    tagColor: 'red'
+    isDisabled: true
+    plural: Views
+
+    config:
+      - groupName: Options
+        items: 
+        - type: materializationSelector
+          options:
+            - view
+          default: view
+          isRequired: true
+
+        - type: toggleButton
+          attributeName: selectDistinct
+          displayName: Distinct
+
+        - type: multisourceToggle
+
+        - type: overrideSQLToggle
+
+        - displayName: Multi Source Strategy
+          attributeName: insertStrategy
+          type: dropdownSelector
+          default: UNION
+          options:
+          - "UNION"
+          - "UNION ALL" 
+          isRequired: true
+          enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+name: User View
+type: NodeType

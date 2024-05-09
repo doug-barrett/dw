@@ -1,0 +1,27 @@
+{% if node.override.create.enabled %}
+    
+    {{ node.override.create.script }}
+
+{% else %}
+    {{ stage('Create Materialized View') }}
+    {% set source = sources[0] %}
+
+    CREATE OR REPLACE MATERIALIZED VIEW {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in columns %}
+            "{{ col.name }}"
+            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+    )
+    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+    AS
+        SELECT {% if config.selectDistinct %} DISTINCT {% endif %}
+        {% for col in source.columns %}
+            {{ get_source_transform(col) }} AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+        {{ source.join }}
+
+{% endif %}

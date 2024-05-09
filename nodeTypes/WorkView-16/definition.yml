@@ -1,0 +1,41 @@
+fileVersion: 1
+id: "16"
+isDisabled: false
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Work View
+    short: VW
+    tagColor: 'green'
+    isDisabled: true
+    plural: Views
+
+    config:
+      - groupName: Options
+        items: 
+        - type: materializationSelector
+          options:
+            - view
+          default: view
+          isRequired: true
+
+        - type: toggleButton
+          attributeName: selectDistinct
+          displayName: Distinct
+
+        - type: multisourceToggle
+
+        - type: overrideSQLToggle
+
+        - displayName: Multi Source Strategy
+          attributeName: insertStrategy
+          type: dropdownSelector
+          default: UNION
+          options:
+          - "UNION"
+          - "UNION ALL" 
+          isRequired: true
+          enableIf: "{% if node.isMultisource %} true {% else %} false {% endif %}"
+name: Work View
+type: NodeType

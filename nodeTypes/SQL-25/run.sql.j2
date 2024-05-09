@@ -1,0 +1,9 @@
+{% set sql = config.SQLstmt %}
+{% set sql_fix = sql | replace("'", "qq") %}
+
+{{ stage('Insert SQL') }} 
+INSERT INTO {{ this }} (SYSTEM_START_DATE, SQL_STMT) 
+SELECT CURRENT_TIMESTAMP, '{{ sql_fix }}'; 
+
+{{ stage('Run SQL') }}
+{{ sql }}

@@ -1,111 +1,121 @@
-steps:
-  STG_ML_DATE_PROD_SALES-dbd950cf-ea16-48ba-bc70-ca15b18e82e6:
-    operation:
-      config:
-        insertStrategy: INSERT
-        postSQL: ""
-        preSQL: ""
-        testsEnabled: true
-        truncateBefore: true
-      database: ""
-      deployEnabled: true
-      description: ""
-      isMultisource: false
-      locationName: STAGE
-      materializationType: table
-      metadata:
-        appliedNodeTests: []
-        columns:
-          - columnReference:
-              columnCounter: 3fb726f8-f72c-4c72-ae5a-9272b663cb62
-              stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
-            dataType: DATE
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: TRANSACTION_DATE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 4188407a-ee36-4406-925e-987c7ea54b90
-                    stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-                transform: ""
-          - columnReference:
-              columnCounter: 087e75fc-cf69-4c64-9c9d-20f88a7b6a9f
-              stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
-            dataType: VARCHAR(50)
-            description: This is the product key
-            hashColumns: []
-            hashDetails: null
-            name: PRODKEY
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: acd71823-9e6e-414c-892e-6c5d7ad9c139
-                    stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-                transform: ""
-          - columnReference:
-              columnCounter: 69eaf70b-22da-4e59-a556-5db32e22a95c
-              stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
-            dataType: VARCHAR(64)
-            description: ""
-            name: HOLIDAY_NAME
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: ae1fb15b-ac59-48bf-869f-203805b7a8a0
-                    stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-                transform: ""
-          - columnReference:
-              columnCounter: ae8d57f8-5c3a-489a-900a-9b30eecf23fd
-              stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
-            dataType: DECIMAL(9,2)
-            description: ""
-            name: PRICE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: c58883f5-110c-4bf8-8f85-10956f18195c
-                    stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-                transform: ""
-          - columnReference:
-              columnCounter: d18db567-6243-4b05-83ff-af86c559f651
-              stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
-            dataType: NUMBER(9,2)
-            description: ""
-            name: UNITS_SALES
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 1820fabd-6601-408b-87cf-7222cfc72522
-                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
-                transform: NVL("FCT_SALES_DAY"."UNITS_SALES", 0)
-        cteString: ""
-        enabledColumnTestIDs: []
-        sourceMapping:
-          - aliases:
-              FCT_SALES_DAY: 91c3542a-c2f9-472c-8706-d613acb63e06
-              STG_ML_DATE_PROD: 36edc320-8f30-419b-895a-4c73757b9b46
-            customSQL:
-              customSQL: ""
-            dependencies:
-              - locationName: DATA
-                nodeName: FCT_SALES_DAY
-              - locationName: STAGE
-                nodeName: STG_ML_DATE_PROD
-            join:
-              joinCondition: |-
-                FROM {{ ref('STAGE', 'STG_ML_DATE_PROD') }} "STG_ML_DATE_PROD"
-                LEFT JOIN {{ ref('DATA', 'FCT_SALES_DAY') }} "FCT_SALES_DAY"
-                ON "STG_ML_DATE_PROD"."TRANSACTION_DATE" = "FCT_SALES_DAY"."TRANSACTION_DATE"
-                AND "STG_ML_DATE_PROD"."PRODKEY" = "FCT_SALES_DAY"."PRODKEY"
-                AND "FCT_SALES_DAY"."ZONE_GEOGRAPHY" = 'UK'
-                WHERE "STG_ML_DATE_PROD"."TRANSACTION_DATE" >= DATEADD(MONTH, -6, CURRENT_DATE)
-            name: STG_ML_DATE_PROD_SALES
-            noLinkRefs: []
-      name: STG_ML_DATE_PROD_SALES
-      overrideSQL: false
-      schema: ""
-      sqlType: Stage
-      type: sql
-    stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+fileVersion: 1
+id: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+name: STG_ML_DATE_PROD_SALES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3fb726f8-f72c-4c72-ae5a-9272b663cb62
+          stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+        config: {}
+        dataType: DATE
+        description: ""
+        hashDetails: null
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4188407a-ee36-4406-925e-987c7ea54b90
+                stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 087e75fc-cf69-4c64-9c9d-20f88a7b6a9f
+          stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        hashDetails: null
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: acd71823-9e6e-414c-892e-6c5d7ad9c139
+                stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 69eaf70b-22da-4e59-a556-5db32e22a95c
+          stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: HOLIDAY_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ae1fb15b-ac59-48bf-869f-203805b7a8a0
+                stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae8d57f8-5c3a-489a-900a-9b30eecf23fd
+          stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c58883f5-110c-4bf8-8f85-10956f18195c
+                stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d18db567-6243-4b05-83ff-af86c559f651
+          stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+        config: {}
+        dataType: NUMBER(9,2)
+        description: ""
+        name: UNITS_SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1820fabd-6601-408b-87cf-7222cfc72522
+                stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+            transform: NVL("FCT_SALES_DAY"."UNITS_SALES", 0)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          FCT_SALES_DAY: 91c3542a-c2f9-472c-8706-d613acb63e06
+          STG_ML_DATE_PROD: 36edc320-8f30-419b-895a-4c73757b9b46
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATA
+            nodeName: FCT_SALES_DAY
+          - locationName: STAGE
+            nodeName: STG_ML_DATE_PROD
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'STG_ML_DATE_PROD') }} "STG_ML_DATE_PROD"
+            LEFT JOIN {{ ref('DATA', 'FCT_SALES_DAY') }} "FCT_SALES_DAY"
+            ON "STG_ML_DATE_PROD"."TRANSACTION_DATE" = "FCT_SALES_DAY"."TRANSACTION_DATE"
+            AND "STG_ML_DATE_PROD"."PRODKEY" = "FCT_SALES_DAY"."PRODKEY"
+            AND "FCT_SALES_DAY"."ZONE_GEOGRAPHY" = 'UK'
+            WHERE "STG_ML_DATE_PROD"."TRANSACTION_DATE" >= DATEADD(MONTH, -6, CURRENT_DATE)
+        name: STG_ML_DATE_PROD_SALES
+        noLinkRefs: []
+  name: STG_ML_DATE_PROD_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

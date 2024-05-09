@@ -1,0 +1,37 @@
+fileVersion: 1
+id: "1"
+macroString: |-
+  {%- macro row_number(order_by, partition_by=[], order='') -%}
+      ROW_NUMBER() OVER (
+          {%- for p_col in partition_by %}
+              {%- if loop.first %} PARTITION BY {% endif %}
+                  {{- p_col -}}
+              {%- if not loop.last %}, {% endif -%}
+          {%- endfor -%}
+
+          {%- for o_col in order_by -%}
+              {%- if loop.first %} ORDER BY {% endif -%}
+                  {{- o_col -}}
+              {%- if not loop.last %}, {% endif -%}
+          {%- endfor -%}
+
+          {% if order != '' %} {{order}}{%- endif %} )
+  {%- endmacro -%}
+
+
+
+  {%- macro hash(columns, algo='MD5', delimiter='||', length=32) -%}
+      {%  for column in columns %}
+          {%- if loop.first %}CAST( {{ algo }}({% endif -%}
+              NVL(CAST({{ column }} AS VARCHAR), 'null')
+          {%- if not loop.last %} || {% if delimiter != '' %} '{{ delimiter }}' || {% endif -%} {% endif -%}
+          {%- if loop.last %}) AS CHAR({{ length }}) ){% endif -%}
+      {%  endfor %}
+  {%- endmacro -%}
+
+
+  {%- macro even_odd(column) -%}
+      CASE WHEN MOD({{ column }}, 2) = 0 THEN 'EVEN' ELSE 'ODD' END
+  {%- endmacro %}
+name: macro
+type: Macro

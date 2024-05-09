@@ -1,0 +1,21 @@
+{% for test in node.tests if config.testsEnabled %}
+    {% if test.runOrder == 'Before' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
+
+
+{% for test in node.tests if config.testsEnabled %}
+    {% if test.runOrder == 'After' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
+
+{% for column in columns %}
+    {% for test in column.tests %}
+        {{ test_stage(column.name + ": " + test.name) }}
+        {{ test.templateString }}
+    {% endfor %}
+{% endfor %}

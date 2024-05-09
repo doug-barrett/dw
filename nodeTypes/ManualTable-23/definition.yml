@@ -1,0 +1,44 @@
+fileVersion: 1
+id: "23"
+isDisabled: false
+metadata:
+  defaultStorageLocation: DATA
+  error: null
+  nodeMetadataSpec: |+
+    capitalized: Copy of Persistent Stage
+    short: PSTG
+    plural: Persistent Stages
+    tagColor: '#29B2DB'
+        
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        isRequired: true
+        default: table
+        options:
+        - table
+        - view
+      
+      - type: businessKeyColumns
+        isRequired: false
+
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: true
+        
+      - displayName: Pre-SQL
+        attributeName: preSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+      - displayName: Post-SQL
+        attributeName: postSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+name: Manual Table
+type: NodeType

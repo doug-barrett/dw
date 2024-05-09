@@ -1,128 +1,139 @@
-steps:
-  STG_ML_DATE_PROD-36edc320-8f30-419b-895a-4c73757b9b46:
-    operation:
-      config:
-        insertStrategy: UNION
-        postSQL: null
-        preSQL: null
-        selectDistinct: false
-        testsEnabled: false
-        truncateBefore: false
-      database: ""
-      deployEnabled: true
-      description: Used to assemble data for Multi-series and Exogenous varible (price) Machine Learning data set - has future values in it
-      isMultisource: false
-      locationName: STAGE
-      materializationType: view
-      metadata:
-        appliedNodeTests: []
-        columns:
-          - columnReference:
-              columnCounter: 4188407a-ee36-4406-925e-987c7ea54b90
-              stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-            dataType: DATE
-            description: ""
-            hashColumns: []
-            hashDetails: null
-            name: TRANSACTION_DATE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
-                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
-                transform: ""
-          - columnReference:
-              columnCounter: acd71823-9e6e-414c-892e-6c5d7ad9c139
-              stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-            dataType: VARCHAR(50)
-            description: This is the product key
-            name: PRODKEY
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 67539d7f-ec1f-4f62-95c0-e1a6e99796f7
-                    stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
-                transform: ""
-          - columnReference:
-              columnCounter: 3a20089f-1e47-452e-9cad-1f3fa8cbfa38
-              stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-            dataType: VARCHAR(10)
-            description: ""
-            name: FINANCIAL_YYWW
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 4b60f7cc-94bc-46df-b522-0d7d00038d9b
-                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
-                transform: ""
-          - columnReference:
-              columnCounter: ae1fb15b-ac59-48bf-869f-203805b7a8a0
-              stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-            dataType: VARCHAR(64)
-            description: ""
-            name: HOLIDAY_NAME
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 6e887d56-d37d-4e5f-a594-6a55cc229433
-                    stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
-                transform: ""
-          - columnReference:
-              columnCounter: c58883f5-110c-4bf8-8f85-10956f18195c
-              stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
-            dataType: DECIMAL(9,2)
-            description: ""
-            name: PRICE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 20bc0d9e-176f-432f-bf0f-c4fc58a14ef0
-                    stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
-                transform: |-
-                  CASE WHEN TRANSACTION_DATE >= CURRENT_DATE THEN NVL(PROMO_PLAN.NOW_PRICE, "DIM_PRICE_COST_2".PRICE)
-                  ELSE "DIM_PRICE_COST_2".PRICE
-                  END
-        cteString: ""
-        enabledColumnTestIDs: []
-        sourceMapping:
-          - aliases:
-              DIM_DATE: 2d9f453e-f432-4a19-a605-81709e23d574
-              DIM_PRICE_COST_2: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
-              PROMO_PLAN: 069788a4-dc62-406e-839f-961e1e66904e
-            customSQL:
-              customSQL: ""
-            dependencies:
-              - locationName: DATA
-                nodeName: DIM_DATE
-              - locationName: DATA
-                nodeName: DIM_PRICE_COST_2
-              - locationName: DATA
-                nodeName: FCT_SALES_DAY
-              - locationName: INPUT
-                nodeName: PROMO_PLAN
-            join:
-              joinCondition: |-
-                FROM {{ ref('DATA','DIM_DATE')}} DIM_DATE
-                CROSS JOIN (SELECT DISTINCT PRODKEY FROM {{ref('DATA','FCT_SALES_DAY')}} WHERE "TRANSACTION_DATE" > DATEADD(MONTH, -6, CURRENT_DATE) ) FCT_SALES_DAY
+fileVersion: 1
+id: 36edc320-8f30-419b-895a-4c73757b9b46
+name: STG_ML_DATE_PROD
+operation:
+  config:
+    insertStrategy: UNION
+    postSQL: null
+    preSQL: null
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Used to assemble data for Multi-series and Exogenous varible (price) Machine Learning data set - has future values in it
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4188407a-ee36-4406-925e-987c7ea54b90
+          stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+        config: {}
+        dataType: DATE
+        description: ""
+        hashDetails: null
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 698bd8e1-66a3-4c00-b745-141f47201e74
+                stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: acd71823-9e6e-414c-892e-6c5d7ad9c139
+          stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 67539d7f-ec1f-4f62-95c0-e1a6e99796f7
+                stepCounter: 91c3542a-c2f9-472c-8706-d613acb63e06
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a20089f-1e47-452e-9cad-1f3fa8cbfa38
+          stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: FINANCIAL_YYWW
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b60f7cc-94bc-46df-b522-0d7d00038d9b
+                stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae1fb15b-ac59-48bf-869f-203805b7a8a0
+          stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: HOLIDAY_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6e887d56-d37d-4e5f-a594-6a55cc229433
+                stepCounter: 2d9f453e-f432-4a19-a605-81709e23d574
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c58883f5-110c-4bf8-8f85-10956f18195c
+          stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 20bc0d9e-176f-432f-bf0f-c4fc58a14ef0
+                stepCounter: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+            transform: |-
+              CASE WHEN TRANSACTION_DATE >= CURRENT_DATE THEN NVL(PROMO_PLAN.NOW_PRICE, "DIM_PRICE_COST_2".PRICE)
+              ELSE "DIM_PRICE_COST_2".PRICE
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_DATE: 2d9f453e-f432-4a19-a605-81709e23d574
+          DIM_PRICE_COST_2: 98a79ee0-39e1-4d29-9b40-12a08dc9fd23
+          PROMO_PLAN: 069788a4-dc62-406e-839f-961e1e66904e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATA
+            nodeName: DIM_DATE
+          - locationName: DATA
+            nodeName: DIM_PRICE_COST_2
+          - locationName: DATA
+            nodeName: FCT_SALES_DAY
+          - locationName: INPUT
+            nodeName: PROMO_PLAN
+        join:
+          joinCondition: |-
+            FROM {{ ref('DATA','DIM_DATE')}} DIM_DATE
+            CROSS JOIN (SELECT DISTINCT PRODKEY FROM {{ref('DATA','FCT_SALES_DAY')}} WHERE "TRANSACTION_DATE" > DATEADD(MONTH, -6, CURRENT_DATE) ) FCT_SALES_DAY
 
-                JOIN {{ ref('DATA', 'DIM_PRICE_COST_2') }} "DIM_PRICE_COST_2"
-                ON FCT_SALES_DAY.PRODKEY = "DIM_PRICE_COST_2"."PRODKEY"
-                AND "DIM_DATE"."CALENDAR_DATE" BETWEEN "DIM_PRICE_COST_2"."PC_DT" AND "DIM_PRICE_COST_2"."PC_DT_END"
-                AND "DIM_PRICE_COST_2"."ZONE_CODE" = 1
+            JOIN {{ ref('DATA', 'DIM_PRICE_COST_2') }} "DIM_PRICE_COST_2"
+            ON FCT_SALES_DAY.PRODKEY = "DIM_PRICE_COST_2"."PRODKEY"
+            AND "DIM_DATE"."CALENDAR_DATE" BETWEEN "DIM_PRICE_COST_2"."PC_DT" AND "DIM_PRICE_COST_2"."PC_DT_END"
+            AND "DIM_PRICE_COST_2"."ZONE_CODE" = 1
 
-                LEFT JOIN {{ ref('INPUT', 'PROMO_PLAN') }} "PROMO_PLAN"
-                ON "FCT_SALES_DAY"."PRODKEY" = "PROMO_PLAN"."PRODKEY"
-                AND "DIM_DATE"."CALENDAR_DATE" BETWEEN "PROMO_PLAN"."EFFECTIVE_DATE" AND "PROMO_PLAN"."END_DATE"
-                AND "PROMO_PLAN"."ZONE_GEOGRAPHY" = 'UK'
+            LEFT JOIN {{ ref('INPUT', 'PROMO_PLAN') }} "PROMO_PLAN"
+            ON "FCT_SALES_DAY"."PRODKEY" = "PROMO_PLAN"."PRODKEY"
+            AND "DIM_DATE"."CALENDAR_DATE" BETWEEN "PROMO_PLAN"."EFFECTIVE_DATE" AND "PROMO_PLAN"."END_DATE"
+            AND "PROMO_PLAN"."ZONE_GEOGRAPHY" = 'UK'
 
-                WHERE DIM_DATE."CALENDAR_DATE" BETWEEN DATEADD(MONTH, -30, CURRENT_DATE) AND DATEADD(DAY, 45, CURRENT_DATE) 
+            WHERE DIM_DATE."CALENDAR_DATE" BETWEEN DATEADD(MONTH, -30, CURRENT_DATE) AND DATEADD(DAY, 45, CURRENT_DATE) 
 
-                QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY DIM_DATE.CALENDAR_DATE, FCT_SALES_DAY.PRODKEY ORDER BY NVL(DIM_PRICE_COST_2.DIM_PRICE_COST_KEY, PROMO_PLAN.DIM_FORECAST_KEY) DESC)
-            name: STG_ML_DATE_PROD
-            noLinkRefs: []
-      name: STG_ML_DATE_PROD
-      overrideSQL: false
-      schema: ""
-      sqlType: Stage
-      type: sql
-    stepCounter: 36edc320-8f30-419b-895a-4c73757b9b46
+            QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY DIM_DATE.CALENDAR_DATE, FCT_SALES_DAY.PRODKEY ORDER BY NVL(DIM_PRICE_COST_2.DIM_PRICE_COST_KEY, PROMO_PLAN.DIM_FORECAST_KEY) DESC)
+        name: STG_ML_DATE_PROD
+        noLinkRefs: []
+  name: STG_ML_DATE_PROD
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
