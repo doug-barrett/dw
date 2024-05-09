@@ -1,0 +1,71 @@
+{% if config.preSQL %}
+  {{ stage('Pre-SQL') }}
+  {{ config.preSQL }}
+{% endif %}
+
+{% for test in node.tests if config.testsEnabled %}
+  {% if test.runOrder == 'Before' %}
+    {{ test_stage(test.name, test.continueOnFailure) }}
+    {{ test.templateString }}
+  {% endif %}
+{% endfor %}
+
+{% for source in sources %}
+  {{ stage('INSERT INTO Hub - ' ~ source.name) }}
+  
+  {%- set hashkey_column = get_value_by_column_attribute("is_Hub_hk") -%}
+  
+  {#-- enable when ColumnDropDownSelector is used again
+  {%- if 'is_Hub_hk' not in config.keys() -%}
+
+  {%- else -%}
+    
+    {%- set hashkey_column = config.is_Hub_hk.name -%}
+  
+  {%- endif -%}
+  #}
+
+  INSERT INTO {{ this }} 
+  SELECT
+  {% for col in source.columns %}
+    SRC."{{ col.name }}"
+    {%- if not loop.last -%}, {% endif %}
+  {% endfor %}
+  FROM {{ref(source.dependencies[0].node.location.name, source.dependencies[0].node.name)}} SRC
+  LEFT JOIN {{this}} TGT
+  ON {% for col in source.columns if col.name != hashkey_column 
+                                 and col.name != datavault4coalesce.config.ldts_alias 
+                                 and col.name != datavault4coalesce.config.rsrc_alias %}
+          {%- if not loop.first -%} AND {% endif %}
+            SRC."{{ col.name }}" = TGT."{{ col.name }}"  
+      {% endfor %}
+  WHERE TGT."{{ hashkey_column }}" IS NULL
+  QUALIFY ROW_NUMBER() OVER (PARTITION BY 
+      {% for col in source.columns if col.name != hashkey_column 
+                                 and col.name != datavault4coalesce.config.ldts_alias 
+                                 and col.name != datavault4coalesce.config.rsrc_alias %}
+          {%- if not loop.first -%} , {% endif %}
+            SRC."{{ col.name }}"  
+      {% endfor %} ORDER BY SRC."{{ datavault4coalesce.config.ldts_alias }}" ) = 1
+{% endfor %}
+
+{% if config.postSQL %}
+  {{ stage('Post-SQL') }}
+  {{ config.postSQL }}
+{% endif %}
+
+{% if config.testsEnabled %}
+  {% for test in node.tests %}
+    {% if test.runOrder == 'After' %}
+      {{ test_stage(test.name, test.continueOnFailure) }}
+      {{ test.templateString }}
+        {% endif %}
+  {% endfor %}
+
+  {% for column in columns %}
+    {% for test in column.tests %}
+      {{ test_stage(column.name + ": " + test.name) }}
+      {{ test.templateString }}
+    {% endfor %}
+  {% endfor %}
+{% endif %}

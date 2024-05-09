@@ -1,0 +1,46 @@
+{% if node.materializationType == 'table' %}
+
+{{ stage('Drop Satellite View') }}
+
+DROP VIEW IF EXISTS {{this}}
+
+{{ stage('Create Satellite Table') }}
+
+CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+(
+    {% for col in columns %}
+       "{{ col.name }}" {{col.dataType}}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+  {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+
+{% else %}
+
+{{ stage('Drop Satellite Table') }}
+
+DROP TABLE IF EXISTS {{this}}
+
+{{ stage('Create Satellite View') }}
+
+CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+(
+    {% for col in columns %}
+       "{{ col.name }}"
+    {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+  {%- if node.description | length > 0 %} COMMENT = '{{ node.description }}'{% endif %}
+
+AS
+{% for source in sources %}
+    SELECT
+    {% for col in source.columns %}
+        {{ get_source_transform(col) }} AS "{{ col.name }}"
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+    {{ source.join }}
+{% endfor %}
+
+{% endif %}
