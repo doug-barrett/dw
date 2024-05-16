@@ -1,16 +1,13 @@
 fileVersion: 1
-id: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
-name: PY_CUSTOMER
+id: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+name: STG_CUSTOMER
 operation:
   config:
-    dfcmd: |2-
-       
-       df_filtered = df_raw.filter("C_ACCTBAL > 5000")
-       df_distinct = df_filtered.distinct()
-       df_final = df_distinct.na.drop(subset="C_PHONE")
-       
-    pyLib: import snowflake.snowpark as snowpark
-    writeMode: overwrite
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: Customer data as defined by TPC-H
@@ -22,14 +19,13 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3f5237f1-7a96-4161-bf63-8a5b1734221a
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: 63c6b52f-cf4f-4cb1-bde4-19e9f438cc18
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
         name: C_CUSTKEY
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 199ffb2d-3237-43b8-a7f6-e1ca0d053205
@@ -37,14 +33,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c7f61e3d-bb0f-4fa3-9da8-d618a4a20023
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: f6567d7b-1d01-44b6-a650-cedb06f6da0e
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: VARCHAR(25)
+        dataType: STRING
         description: ""
-        hashDetails: null
         name: CUSTOMER_NAME
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 4d83ab7f-4cac-45f3-8615-30dd0bac79a7
@@ -52,14 +47,13 @@ operation:
             transform: UPPER("CUSTOMER"."C_NAME")
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4a9d4185-e53f-4823-bfdf-b1951cb2ac7f
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: 0faf3841-fe05-4238-93a0-1b25a64c9dbc
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: VARCHAR(40)
         description: ""
-        hashDetails: null
         name: C_ADDRESS
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: fcbca7f7-4164-4a10-a3e6-7c8582716026
@@ -67,14 +61,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c4aa4899-7919-425d-9cf5-26be108e0482
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: 3f8debba-e4aa-46be-918e-661857f435d1
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
         name: C_NATIONKEY
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: d72e4bd5-cb99-4857-b3af-d2a5c287fad3
@@ -82,14 +75,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c4581ab0-2cc4-4595-a555-d94bef1f86e2
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: e343aef2-1e4c-4c5b-a9ec-c4f46583ec14
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: VARCHAR(15)
         description: ""
-        hashDetails: null
         name: C_PHONE
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 3fa5b6ec-f4ff-49e2-b649-22e400fbf901
@@ -97,14 +89,13 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 057c4f9e-68ce-4ded-898a-d61864de5b07
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: d92bee15-ace1-4ffa-9e81-ab85a435070a
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: NUMBER(12,2)
         description: ""
-        hashDetails: null
         name: C_ACCTBAL
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: d4294861-a808-4fcb-9dcc-07e08e11aafd
@@ -112,12 +103,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e2ff5abb-6971-4790-a52c-1d6651efe720
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: d6a47e74-c7be-491c-a2ee-db96ef46fe23
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: VARCHAR(10)
         description: ""
-        hashDetails: null
         name: C_MKTSEGMENT
         nullable: true
         sourceColumnReferences:
@@ -127,12 +117,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: dbbb75f9-f289-44cf-8cfb-55f078700e49
-          stepCounter: fcf68b48-8c98-4d4b-839d-acd7cfd35abb
+          columnCounter: 6390dc5e-82e4-4d6f-9fb8-0aca6d915c23
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: VARCHAR(117)
         description: ""
-        hashDetails: null
         name: C_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -143,22 +132,20 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          CUSTOMER: 3347eb7e-b521-4684-a291-fd780b3cdef4
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SRC_SAMPLE
             nodeName: CUSTOMER
         join:
-          joinCondition: |
-            FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
-        name: PY_CUSTOMER
+          joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+        name: STG_CUSTOMER
         noLinkRefs: []
-  name: PY_CUSTOMER
+  name: STG_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: "180"
+  sqlType: Stage
   type: sql
   version: 1
 type: Node
