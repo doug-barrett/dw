@@ -285,12 +285,16 @@ operation:
           - locationName: SRC_SAMPLE
             nodeName: ORDERS
         join:
-          joinCondition: |
+          joinCondition: |-
             FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
             INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
             ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
+
+            WHERE "LINEITEM"."L_SHIPDATE" > (SELECT NVL(MAX("L_SHIPDATE"), '1900-01-01') FROM {{ ref_no_link('DWH', 'FCT_LINEITEM1')}})
         name: STG_LINEITEM
-        noLinkRefs: []
+        noLinkRefs:
+          - locationName: DWH
+            nodeName: FCT_LINEITEM1
   name: STG_LINEITEM
   overrideSQL: false
   schema: ""
