@@ -17,11 +17,11 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bf54b781-27b6-4138-9db5-b26568968d20
+          columnCounter: ae5cd5ad-878b-456e-9940-1cc44a9607bd
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: NUMBER
-        description: ""
+        description: DW Customer Surrogate key
         name: DIM_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
@@ -31,12 +31,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1e1e6ad9-317c-4d1e-8b4a-dcb9a0ef5133
+          columnCounter: 8cf83fa4-b447-4539-b3ef-46f0eadc4cdf
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
-        name: C_CUSTKEY
+        description: Source system identirier for Customer
+        name: CUSTOMER_ID
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -45,12 +45,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9127ff4b-dfa8-4215-9011-25088d23a514
+          columnCounter: 189834e3-b425-4d02-9591-904e731fa7b2
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: VARCHAR(25)
         description: Customers Name
-        name: CUSTOMER_NAME
+        name: NAME
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -59,12 +59,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: abb3dd2a-28b4-4060-a03a-28822aaeacad
+          columnCounter: 9b65db8c-c0cd-4041-aa6c-f4c8f51d3c19
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: VARCHAR(40)
         description: Customers Primary Address Line 1
-        name: C_ADDRESS
+        name: ADDRESS
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -73,26 +73,40 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c1d4380d-eeb5-450b-b0e6-527d0b2d3a85
+          columnCounter: 625de7e2-dd18-46dc-9b9f-3bf0fca30b0c
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
-        dataType: NUMBER(38,0)
-        description: ""
-        name: C_NATIONKEY
+        dataType: VARCHAR(25)
+        description: Nation customer is based
+        name: NATION
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: cd5337b1-3303-41cf-81d7-5346712261d2
+              - columnCounter: 6db43062-6b8c-4b66-8dc7-df03a6dad71b
                 stepCounter: aa2efdbf-ce1d-4402-8bc9-3803b899d836
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 968c13f1-2f05-49f1-8220-66d31fe1b879
+          columnCounter: edc84453-263b-46fc-a6ee-ced940906dfb
+          stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
+        config: {}
+        dataType: VARCHAR(25)
+        description: Geographic region customer is based
+        name: REGION
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8b4b0362-4511-4091-8748-0bfef4e8c773
+                stepCounter: aa2efdbf-ce1d-4402-8bc9-3803b899d836
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 89979cb9-37d9-4af6-8f0c-bb9dffee663f
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: VARCHAR(15)
         description: Customers Primary Phone
-        name: C_PHONE
+        name: PHONE
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -101,12 +115,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 78a02356-206d-4af8-a584-53060a906f29
+          columnCounter: 2e96f6f0-0aaa-4424-8f67-855dd597e920
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: NUMBER(12,2)
         description: Current customer balance from Finance
-        name: C_ACCTBAL
+        name: CURRENT_ACCOUNT_BALANCE
         nullable: false
         sourceColumnReferences:
           - columnReferences:
@@ -115,12 +129,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 975f2c94-d6cc-467b-b16b-a98fb45da37d
+          columnCounter: cd9f9650-2037-4d66-ac4d-c050404b156e
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: VARCHAR(10)
         description: "Current Marketing Segment "
-        name: C_MKTSEGMENT
+        name: MARKETING_SEGMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -129,12 +143,12 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 06cafe9b-c897-43c7-a73e-82dbdaeaaabc
+          columnCounter: 0618d13f-2485-44e9-b1fd-a07741fafe06
           stepCounter: a79280cc-e70e-446b-bb13-f519f563b3ae
         config: {}
         dataType: VARCHAR(117)
-        description: ""
-        name: C_COMMENT
+        description: Concatenation of Sales comments
+        name: COMMENTS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
