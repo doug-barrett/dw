@@ -1,0 +1,95 @@
+fileVersion: 1
+id: 0e1f658f-e908-4803-a59a-ee1ca627478f
+name: HUB_SUPPLIER
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Supplier data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b1e0d585-144a-425a-a7cc-54d548e14a5f
+          stepCounter: 0e1f658f-e908-4803-a59a-ee1ca627478f
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: ""
+        name: H_SUPPLIER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fbac9af3-f040-48ae-a05b-f4b998ae82ad
+                stepCounter: 1033e78b-70f1-41f6-871c-4de965d41174
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 73864808-a8fe-420c-bde4-c3b3c4bf485e
+          stepCounter: 0e1f658f-e908-4803-a59a-ee1ca627478f
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: S_SUPPKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f95d183a-8b98-43b5-9247-d176348b4e79
+                stepCounter: 1033e78b-70f1-41f6-871c-4de965d41174
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 630fc305-e323-4f52-94a2-60d205782641
+          stepCounter: 0e1f658f-e908-4803-a59a-ee1ca627478f
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a48ec7c5-fee6-45ba-9a81-177d0f20c902
+                stepCounter: 1033e78b-70f1-41f6-871c-4de965d41174
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 54b8d758-8033-4c88-b12a-221ceb99faf2
+          stepCounter: 0e1f658f-e908-4803-a59a-ee1ca627478f
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fe75db73-1cb5-4dc0-a839-86273a7952d5
+                stepCounter: 1033e78b-70f1-41f6-871c-4de965d41174
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: DVSTG_SUPPLIER
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_SUPPLIER') }} "DVSTG_SUPPLIER"
+        name: HUB_SUPPLIER
+        noLinkRefs: []
+  name: HUB_SUPPLIER
+  overrideSQL: false
+  schema: ""
+  sqlType: "6"
+  type: sql
+  version: 1
+type: Node
