@@ -1,0 +1,43 @@
+{% set base = node.name | replace("INC", "") %}
+{% if config.persistTableName | length > 0 %}
+    {% set persist = config.persistTableName %}
+{% else %}
+    {% set persist = config.persistTable + base %}
+{% endif %}
+{% set source = sources[0] %}
+{% set hwm_default = "1900-01-01" %}
+{% if config.hwmType == "NUMBER" %}
+    {% set hwm_default = "0" %}
+{% elif config.hwmType == "STRING" %}
+    {% set hwm_default = "" %}
+{% endif %}
+
+{{ stage('Create Stage View') }}
+/*{{ config }}*/
+CREATE OR REPLACE VIEW  {{ ref_no_link(node.location.name, node.name) }}
+(
+    {% for col in columns if col.name != "_SEQUENCE" %}
+        "{{ col.name }}"
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+        {% if not loop.last %}, {% endif %}
+    {% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+AS
+SELECT
+{% for col in source.columns  %}
+    {{ get_source_transform(col) }} AS  "{{ col.name }}" 
+    {%- if not loop.last -%}, {% endif %} 
+{% endfor %}
+
+{{ source.join }}
+
+{% if config.refTable and persist | length > 0  and config.hwm  %}
+    {% if "WHERE" in source.join | upper %}
+        AND
+    {% else %}
+        WHERE 
+    {% endif %}
+    {{ config.hwm.name }} > (SELECT NVL(MAX({{ config.hwm.name }}), '{{ hwm_default }}') 
+                        FROM {{ref(config.persistTableLocation, persist)}} )
+{% endif %}
