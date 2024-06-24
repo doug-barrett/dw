@@ -1,9 +1,12 @@
-{% set sql = config.SQLstmt %}
-{% set sql_fix = sql | replace("'", "''") %}
+{% if config.SQL_Run1 | length > 0 %}
 
-{{ stage('Insert SQL') }} 
-INSERT INTO {{ this }} (SYSTEM_START_DATE, SQL_STMT) 
-SELECT CURRENT_TIMESTAMP, '{{ sql_fix }}'; 
+    {{ stage('Insert SQL1') }} 
 
-{{ stage('Run SQL') }}
-{{ sql }}
+    INSERT INTO {{ this }} (SYSTEM_START_DATE, SQL_STMT) 
+    SELECT CURRENT_TIMESTAMP, '{{ config.SQL_Run1 | replace("'", '"') }}' 
+
+    {{ stage('Run SQL1') }}
+
+    {{ config.SQL_Run1 }}
+
+{% endif %}

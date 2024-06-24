@@ -1,0 +1,25 @@
+{% set source = sources[0] %}
+
+{{ stage('Create Landing table')}}
+CREATE OR REPLACE TABLE {{this}} 
+(
+    {% for col in source.columns  %}
+      "{{ col.name }}" {{ col.dataType }} 
+      {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+
+{% if config.createPipe %}
+
+  {{ stage('Create Snowpipe') }}
+  CREATE OR REPLACE PIPE  {{ this | replace (node.name, "PIPE_"+node.name) }}
+    auto_ingest = true
+    {% if config.inteGration != 'None'%}INTEGRATION = '{{config.inteGration}}'{% endif %}
+  AS
+    COPY INTO {{ this }} 
+    FROM  @{{parameters.stage_location}}.{{ config.fileLocation }}
+    FILE_FORMAT = (FORMAT_NAME = '{{parameters.stage_location}}.{{ config.fileFormat }}')
+    {% if config.filePattern != '' %}PATTERN = '{{ config.filePattern}}' {% endif %}
+    {% if config.mapCol %}MATCH_BY_COLUMN_NAME=CASE_INSENSITIVE {% endif %}
+
+{% endif %}

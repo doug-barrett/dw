@@ -1,4 +1,4 @@
-{{ stage('Create SQL Table') }}
+{{ stage('Create Audit Table') }}
 
 CREATE OR REPLACE TABLE {{ this }}
 (
@@ -7,3 +7,17 @@ CREATE OR REPLACE TABLE {{ this }}
         {%- if not loop.last -%}, {% endif %}
     {% endfor %}
 )
+
+
+{% if config.SQL_Deploy | length > 0 %}
+
+    {{ stage('Insert SQL') }} 
+
+    INSERT INTO {{ this }} (SYSTEM_START_DATE, SQL_STMT) 
+    SELECT CURRENT_TIMESTAMP, '{{ config.SQL_Deploy | replace("'", '"') }}'
+        
+    {{ stage('Run Deploy SQL') }}
+
+    {{ config.SQL_Deploy }}
+
+{% endif %}

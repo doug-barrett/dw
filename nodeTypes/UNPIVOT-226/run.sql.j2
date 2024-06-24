@@ -1,0 +1,68 @@
+{% for test in node.tests if config.testsEnabled %}
+    {% if test.runOrder == 'Before' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
+
+
+{% if config.preSQL %}
+    {{ stage('Pre-SQL') }}
+    {{ config.preSQL }}
+{% endif %}
+
+{% set source = sources[0] %}
+
+{% if config.truncateBefore %}
+
+    {{ stage('Truncate  Table') }}
+    TRUNCATE IF EXISTS {{ this }}
+
+{% endif %}
+
+
+{{ stage('Insert ' + source.name | string ) }}
+INSERT INTO {{ this }}
+(
+    {% for col in source.columns %}
+        "{{ col.name }}"
+        {%- if not loop.last -%},{% endif %}
+    {% endfor %}
+)
+SELECT
+{% for col in source.columns if col.name != 'KEY' and col.name !='VALUE' %}
+    FLN.{{ col.name }} ,  
+{% endfor %}
+    f.KEY, 
+    f.VALUE
+FROM 
+    (   SELECT 
+        {% for col in source.columns if col.name != 'KEY' and col.name !='VALUE' %}
+            {{ col.name }} ,  
+        {% endfor %}
+        OBJECT_CONSTRUCT_KEEP_NULL(*) AS json 
+        {{ source.join }}
+    ) AS FLN,
+TABLE(FLATTEN(input => FLN.json)) f
+WHERE f.KEY NOT IN (
+    {% for col in source.columns if col.name != 'KEY' and col.name !='VALUE' %}
+        '{{ col.name }}' {% if not loop.last %} , {% endif %} 
+    {% endfor %}
+)
+
+ 
+{% if config.testsEnabled %}
+	{% for test in node.tests %}
+		{% if test.runOrder == 'After' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+        {% endif %}
+	{% endfor %}
+
+	{% for column in columns %}
+		{% for test in column.tests %}
+			{{ test_stage(column.name + ": " + test.name) }}
+			{{ test.templateString }}
+		{% endfor %}
+	{% endfor %}
+{% endif %}

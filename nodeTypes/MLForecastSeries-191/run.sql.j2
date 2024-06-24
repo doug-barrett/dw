@@ -1,0 +1,89 @@
+{% set source = sources[0] %}
+{% set src_node = source.dependencies[0].node %}
+{% set forecast_name = 'FORECAST_' ~ src_node.name %}
+
+{% for test in node.tests if config.testsEnabled %}
+        {% if test.runOrder == 'Before' %}
+            {{ test_stage(test.name, test.continueOnFailure) }}
+            {{ test.templateString }}
+        {% endif %}
+    {% endfor %}
+
+{% if node.materializationType == 'table' %}
+    {% if config.preSQL %}
+        {{ stage('Pre-SQL') }}
+        {{ config.preSQL }}
+    {% endif %}
+    
+    
+    
+        {% if config.truncateBefore %}
+    
+            {{ stage('Truncate Stage Table') }}
+            TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+    
+        {% endif %}
+    
+    
+        {{ stage('Insert ' + source.name | string ) }}
+
+        BEGIN
+        CALL {{ ref_no_link(node.location.name, forecast_name) }}!FORECAST({{ config.fcdays }});
+
+        INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+        (
+            {% for col in source.columns %}
+                "{{ col.name }}"
+                {%- if not loop.last -%},{% endif %}
+            {% endfor %}
+        )
+        {% if config.addsourcedata %}
+        SELECT
+        {% for col in source.columns %}
+            {{ get_source_transform(col) }} AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+        {{ source.join }}
+
+        UNION ALL
+        {% endif %}
+
+        SELECT
+        {% for col in source.columns %}
+            {% if col.id == config.tscol.id %}
+                "TS"
+            {% elif col.id == config.tgtcol.id %}
+                NULL
+            {% elif col.forecast or col.lower_bound or col.upper_bound %}
+                "{{ col.name }}"
+            {% else %}
+                {{ get_source_transform(col) }} AS "{{ col.name }}"
+            {% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+        FROM TABLE(RESULT_SCAN(-1));
+        END
+
+    {% if config.postSQL %}
+        {{ stage('Post-SQL') }}
+        {{ config.postSQL }}
+    {% endif %}
+{% endif %}
+
+{% if config.testsEnabled %}
+    {% for test in node.tests %}
+        {% if test.runOrder == 'After' %}
+            {{ test_stage(test.name, test.continueOnFailure) }}
+            {{ test.templateString }}
+        {% endif %}
+    {% endfor %}
+
+    {% for column in columns %}
+        {% for test in column.tests %}
+            {{ test_stage(column.name + ": " + test.name) }}
+            {{ test.templateString }}
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+

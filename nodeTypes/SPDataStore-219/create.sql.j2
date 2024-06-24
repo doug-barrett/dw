@@ -1,0 +1,100 @@
+{{ stage('Create Data Store Table') }}
+
+    CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in columns %}
+            "{{ col.name }}" {{ col.dataType }}
+            {% if col.isSurrogateKey %}
+		        identity
+            {% endif %}
+            {%- if not col.nullable %} NOT NULL
+                {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+            {% endif %}
+            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+    )
+    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+{{ stage('Create Procedure')}}
+{% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+{% set is_type_2 = columns | selectattr("isChangeTracking") | list | length > 0 %}
+{% set source = sources[0] %}
+
+CREATE OR REPLACE PROCEDURE {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
+  returns string not null
+  language sql
+as
+$$
+    begin    
+        MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+        USING (
+            SELECT
+            {% for col in source.columns if not col.isSurrogateKey %}
+                {% if col.isSystemVersion %}
+                    1
+                {% elif col.isSystemCurrentFlag %}
+                    'Y'
+                {% else %}
+                    {{ get_source_transform(col) }}
+                {% endif %}
+                AS "{{ col.name }}"
+                {%- if not loop.last %}, {% endif %}
+            {% endfor %}
+            {{ source.join }})
+            AS "SRC"
+        ON
+        {% for col in source.columns if col.isBusinessKey -%}
+            {% if not loop.first %}
+                AND
+            {% endif %}
+            "SRC"."{{ col.name }}" = "TGT"."{{ col.name }}"
+        {% endfor %}
+        WHEN MATCHED
+        {% for col in source.columns if not (   col.isBusinessKey or
+                                                col.isSurrogateKey or
+                                                col.isSystemVersion or
+                                                col.isSystemCurrentFlag or
+                                                col.isSystemStartDate or
+                                                col.isSystemEndDate or
+                                                col.isSystemUpdateDate or
+                                                col.isSystemCreateDate) %}
+            {% if loop.first %}
+                AND (
+            {% else %}
+                OR
+            {% endif %}
+            NVL( CAST("SRC"."{{ col.name }}" as STRING), '**NULL**') <> NVL( CAST("TGT"."{{ col.name }}" as STRING), '**NULL**')
+            {% if loop.last %}
+                )
+            {% endif %}
+        {% endfor %}
+        THEN UPDATE SET
+        {%- for col in source.columns if not (  col.isBusinessKey or
+                                                col.isSurrogateKey or
+                                                col.isSystemVersion or
+                                                col.isSystemCurrentFlag or
+                                                col.isSystemStartDate or
+                                                col.isSystemEndDate or
+                                                col.isSystemCreateDate) %}
+                "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor %}
+        WHEN NOT MATCHED THEN
+        INSERT (
+        {%- for col in source.columns if not col.isSurrogateKey %}
+            "{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        )
+        VALUES (
+        {%- for col in source.columns if not col.isSurrogateKey %}
+            "SRC"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        );
+
+        RETURN 'Created procedure';
+	end;
+
+$$
