@@ -82,59 +82,59 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1fed583d-c927-490d-b500-da3bf25cea1d
+          columnCounter: 04abbb93-d358-4504-9074-5dac603483f2
           stepCounter: dae3525a-681d-4099-904a-7b8a0e813891
         config: {}
         dataType: STRING
         description: ""
-        name: H_CUSTOMER_KEY_CUSTOMER
+        name: SATV1_CUSTOMER_HROC_H_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 211ce28a-4f9c-425a-a365-cc646a1f8bde
-                stepCounter: a7d6ad1b-331a-4fa0-badc-7491ee7bfea8
+              - columnCounter: 59669c5a-75bd-4dc9-aef3-d9fda5f2304b
+                stepCounter: 2349b51a-4c60-4982-8cf0-e5735f269185
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 635b1d4d-f73c-4cf6-ab0b-3542c404028c
+          columnCounter: aff776f7-4e2a-4960-981e-4c65d5e41e05
+          stepCounter: dae3525a-681d-4099-904a-7b8a0e813891
+        config: {}
+        dataType: DATETIME
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: SATV1_CUSTOMER_HROC_LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d74396e-41f5-45ce-bf05-d1684ae11961
+                stepCounter: 2349b51a-4c60-4982-8cf0-e5735f269185
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b6039bb8-014b-4494-b14d-0d448bbec9e5
+          stepCounter: dae3525a-681d-4099-904a-7b8a0e813891
+        config: {}
+        dataType: STRING
+        description: ""
+        name: SATV1_CUSTOMER_LROC_H_CUSTOMER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c35b991c-1236-432f-93f8-854a7fc0f8b0
+                stepCounter: 890c2a00-66c7-4895-9a0d-b0d37818e0d0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6510de28-b339-4686-bd27-51b8a5d3414e
           stepCounter: dae3525a-681d-4099-904a-7b8a0e813891
         config: {}
         dataType: TIMESTAMP
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
-        name: LDTS_CUSTOMER
+        name: SATV1_CUSTOMER_LROC_LDTS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: dc47ee1f-7183-4d74-b788-675f4799dc1e
-                stepCounter: a7d6ad1b-331a-4fa0-badc-7491ee7bfea8
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 714068cb-5749-4f3a-99c2-484ae138ad21
-          stepCounter: dae3525a-681d-4099-904a-7b8a0e813891
-        config: {}
-        dataType: STRING
-        description: The Record Source (RSRC) describes the source of this data.
-        name: RSRC_CUSTOMER
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 842cd9cf-d8d3-45bd-b807-e2a22d14e64a
-                stepCounter: a7d6ad1b-331a-4fa0-badc-7491ee7bfea8
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 54ac936b-bb47-4a05-ba1b-4b3d2f2553b0
-          stepCounter: dae3525a-681d-4099-904a-7b8a0e813891
-        config: {}
-        dataType: TIMESTAMP
-        description: ""
-        name: LEDTS_CUSTOMER
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: db9113d9-7e8f-40ed-90b8-635fef9b6a56
-                stepCounter: a7d6ad1b-331a-4fa0-badc-7491ee7bfea8
+              - columnCounter: f8af07a2-7605-46ef-80ef-8de031c9ea2c
+                stepCounter: 890c2a00-66c7-4895-9a0d-b0d37818e0d0
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
@@ -146,7 +146,13 @@ operation:
           - locationName: DWH
             nodeName: HUB_CUSTOMER
           - locationName: DWH
-            nodeName: SATV1_CUSTOMER
+            nodeName: SATV0_CUSTOMER_HROC
+          - locationName: DWH
+            nodeName: SATV0_CUSTOMER_LROC
+          - locationName: DWH
+            nodeName: SATV1_CUSTOMER_HROC
+          - locationName: DWH
+            nodeName: SATV1_CUSTOMER_LROC
           - locationName: DWH
             nodeName: SNAPSHOTV1_NODE
         join:
@@ -154,8 +160,14 @@ operation:
             FROM {{ ref('DWH', 'HUB_CUSTOMER') }} "HUB_CUSTOMER"
             INNER JOIN {{ ref('DWH', 'SNAPSHOTV1_NODE') }} "SNAPSHOTV1_NODE"
             ON "HUB_CUSTOMER"./*COLUMN*/ = "SNAPSHOTV1_NODE"./*COLUMN*/
-            INNER JOIN {{ ref('DWH', 'SATV1_CUSTOMER') }} "SATV1_CUSTOMER"
-            ON "HUB_CUSTOMER"./*COLUMN*/ = "SATV1_CUSTOMER"./*COLUMN*/
+            INNER JOIN {{ ref('DWH', 'SATV0_CUSTOMER_HROC') }} "SATV0_CUSTOMER_HROC"
+            ON "HUB_CUSTOMER"./*COLUMN*/ = "SATV0_CUSTOMER_HROC"./*COLUMN*/
+            INNER JOIN {{ ref('DWH', 'SATV1_CUSTOMER_HROC') }} "SATV1_CUSTOMER_HROC"
+            ON "HUB_CUSTOMER"./*COLUMN*/ = "SATV1_CUSTOMER_HROC"./*COLUMN*/
+            INNER JOIN {{ ref('DWH', 'SATV0_CUSTOMER_LROC') }} "SATV0_CUSTOMER_LROC"
+            ON "HUB_CUSTOMER"./*COLUMN*/ = "SATV0_CUSTOMER_LROC"./*COLUMN*/
+            INNER JOIN {{ ref('DWH', 'SATV1_CUSTOMER_LROC') }} "SATV1_CUSTOMER_LROC"
+            ON "HUB_CUSTOMER"./*COLUMN*/ = "SATV1_CUSTOMER_LROC"./*COLUMN*/
         name: PIT_CUSTOMER
         noLinkRefs: []
   name: PIT_CUSTOMER
