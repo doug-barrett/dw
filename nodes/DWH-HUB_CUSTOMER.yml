@@ -94,15 +94,16 @@ operation:
             transform: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          DVSTG_CUSTOMER: 66d3852e-76f1-4208-9900-a9f9d3f34b49
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: DWH
+          - locationName: STAGE
             nodeName: DVSTG_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('DWH', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
-        name: HUB_CUSTOMER
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
+        name: CUSTOMERS
         noLinkRefs: []
       - aliases:
           DVSTG_ORDERS: 8308b3d2-c83c-4958-9ee3-43b0e0fc0c0b
