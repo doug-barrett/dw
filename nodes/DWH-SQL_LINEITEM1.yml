@@ -1,0 +1,75 @@
+fileVersion: 1
+id: c22b17f0-cf9a-4817-8c8d-0f1741b9220b
+name: SQL_LINEITEM1
+operation:
+  config:
+    SQL_Deploy: |-
+      CREATE OR REPLACE TABLE {{ ref_no_link('STAGE', 'STG_CUSTOMER2') }} 
+       AS SELECT * FROM {{ ref_no_link('STAGE', 'STG_CUSTOMER') }} 
+       
+    SQL_Run1: |-
+      UPDATE {{ ref_no_link('STAGE', 'STG_CUSTOMER') }} 
+       SET CUSTOMER_NAME = TRIM(CUSTOMER_NAME)
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a64fc5dc-9f27-4fe4-b3f0-96d2ca0e5088
+          stepCounter: c22b17f0-cf9a-4817-8c8d-0f1741b9220b
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSQL: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b2f44f7a-ac69-4a73-a2b8-b364b76b7ccd
+          stepCounter: c22b17f0-cf9a-4817-8c8d-0f1741b9220b
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SQL_STMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: FCT_LINEITEM1
+        join:
+          joinCondition: FROM {{ ref('DWH', 'FCT_LINEITEM1') }} "FCT_LINEITEM1"
+        name: SQL_LINEITEM1
+        noLinkRefs: []
+  name: SQL_LINEITEM1
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node
