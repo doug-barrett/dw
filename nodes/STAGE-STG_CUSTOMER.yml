@@ -131,6 +131,23 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 56a0ce33-115a-4ab1-a01a-1707225cee4e
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+        config: {}
+        dataType: STRING
+        description: ""
+        name: C_ACCTBAL_CAT
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d4294861-a808-4fcb-9dcc-07e08e11aafd
+                stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
+            transform: |-
+              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 1000 THEN 'HIGH'
+              ELSE 'LOW'
+              END
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: d6a47e74-c7be-491c-a2ee-db96ef46fe23
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
@@ -181,6 +198,8 @@ operation:
             ON "CUSTOMER"."C_NATIONKEY"= "NATION"."N_NATIONKEY"
             INNER JOIN {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
             ON NATION."N_REGIONKEY"= "REGION"."R_REGIONKEY"
+
+            WHERE "CUSTOMER"."C_NATIONKEY" = 1
         name: STG_CUSTOMER
         noLinkRefs: []
   name: STG_CUSTOMER
