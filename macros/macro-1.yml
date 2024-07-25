@@ -18,16 +18,6 @@ macroString: |+
 
 
 
-  {%- macro hash(columns, algo='MD5', delimiter='||', length=32) -%}
-      {%  for column in columns %}
-          {%- if loop.first %}CAST( {{ algo }}({% endif -%}
-              NVL(CAST({{ column }} AS VARCHAR), 'null')
-          {%- if not loop.last %} || {% if delimiter != '' %} '{{ delimiter }}' || {% endif -%} {% endif -%}
-          {%- if loop.last %}) AS CHAR({{ length }}) ){% endif -%}
-      {%  endfor %}
-  {%- endmacro -%}
-
-
   {%- macro even_odd(column) -%}
       CASE WHEN MOD({{ column }}, 2) = 0 THEN 'EVEN' ELSE 'ODD' END
   {%- endmacro %}
