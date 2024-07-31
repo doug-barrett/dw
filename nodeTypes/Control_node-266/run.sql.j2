@@ -1,0 +1,42 @@
+{% for test in node.tests if config.testsEnabled %}
+    {% if test.runOrder == 'Before' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
+
+{{ stage('Insert ' + source.name | string ) }}
+
+INSERT INTO {{ref(parameters.control_table_location,parameters.control_table)}}
+(
+    {% for col in source.columns %}
+        "{{ col.name }}"
+        {%- if not loop.last -%},{% endif %}
+    {% endfor %}
+)
+{% for col in source.columns %}
+SELECT
+    CURRENT_TIMESTAMP,
+    
+    {%- if not loop.last -%}, {% endif %}
+
+
+    {{ source.join }}
+
+{%- if not loop.last -%}UNION ALL {% endif %}
+
+{% if config.testsEnabled %}
+	{% for test in node.tests %}
+		{% if test.runOrder == 'After' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+        {% endif %}
+	{% endfor %}
+
+	{% for column in columns %}
+		{% for test in column.tests %}
+			{{ test_stage(column.name + ": " + test.name) }}
+			{{ test.templateString }}
+		{% endfor %}
+	{% endfor %}
+{% endif %}

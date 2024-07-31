@@ -1,10 +1,10 @@
 fileVersion: 1
-id: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+id: efe9c27f-3c2a-4610-afbe-be981468db00
 name: STG_SUPPLIER
 operation:
   config:
     insertStrategy: INSERT
-    postSQL: ""
+    postSQL: UPDATE {{this}} SET S_NAME = 'DOUG'
     preSQL: ""
     testsEnabled: true
     truncateBefore: true
@@ -15,12 +15,37 @@ operation:
   locationName: STAGE
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test for test
+        runOrder: After
+        templateString: |-
+          SELECT 1 
+          FROM {{this}}
+          WHERE S_NAME LIKE 'TEST%'
+      - continueOnFailure: true
+        description: ""
+        name: Test for Test 2
+        runOrder: After
+        templateString: "{{ test_contains(\"S_NAME\", \"TEST\") }}"
+      - continueOnFailure: true
+        description: ""
+        name: Test against Lineage
+        runOrder: After
+        templateString: "{{ test_rowcount(\"from {{ ref('SRC_SAMPLE', 'SUPPLIER')}}\")}}"
+      - continueOnFailure: true
+        description: ""
+        name: Test for RI
+        runOrder: After
+        templateString: "{{ test_ref_integrity(\"S_NATIONKEY\", \"{{ ref('SRC_SAMPLE', 'NATION')}}\", \"N_NATIONKEY\") }}"
     columns:
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: true
         columnReference:
-          columnCounter: ca0e38ae-7533-4ebb-9862-d21578a7f0aa
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: dabeb9df-3625-441f-878e-6dac2f91ee20
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -28,13 +53,15 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 6f0b1e00-2497-49e6-b49f-3737f6649831
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: 44ebf85d-64cc-4347-acfe-6617907f6795
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: false
         columnReference:
-          columnCounter: 71a2a4b2-36c4-4701-b9ea-3e4e95880307
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: 4565519f-d9e6-4814-9d3a-8ea571f5eb6b
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -42,13 +69,15 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 45b11111-86be-4ae1-9048-6294c3d315ef
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: dc7b728e-77da-45ed-8272-ce7abe2b0532
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: 2c9d5b23-d998-49e5-9562-8559d3d2932a
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: bdf9bcf4-9086-4ef3-a9ad-8d92969fcf20
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: VARCHAR(40)
         description: ""
@@ -56,13 +85,15 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b4bb49cc-cd17-4695-b886-b6d13b1b8c73
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: ae04844c-19c6-400a-bc33-c394245c45e7
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: 7e029fe1-22e9-48ab-bf81-bf13572bba72
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: 79a7b734-4ceb-4ac8-aeb7-d22c6a1a1219
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -70,13 +101,15 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: ead4a280-a1dc-475b-aefe-bfe24116a7c9
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: 380b5b6a-4275-427e-b0d6-3dc055f0b0a5
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: 644e4395-42fd-4178-b354-603d4499fe83
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: 0d377e5b-9608-4f1a-82be-d50dac80e43d
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -84,13 +117,15 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1e142449-1cea-46ad-a776-981e6544caf2
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: 2b56691e-f029-4da7-a5ae-32b0bbe344ed
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: 94941f27-2b0a-4373-b258-a8d4572217de
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: 0c6f67da-76b9-48bd-a365-4a35544a49d1
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -98,13 +133,15 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: df74d20e-91bf-48a9-95f1-abb562eaeebe
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: e48ac432-c3e9-41db-baa1-e01aee468c6d
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: c975bbad-18cf-4d06-ab36-335c8f2575b5
-          stepCounter: 15fe2c26-ebb7-426c-ac7b-fa0c28888eeb
+          columnCounter: 7edf6e16-2caf-4819-a8c0-84c15d715e49
+          stepCounter: efe9c27f-3c2a-4610-afbe-be981468db00
         config: {}
         dataType: VARCHAR(101)
         description: ""
@@ -112,20 +149,25 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4390bd8d-c957-4c2a-acc1-f765862bd0fe
-                stepCounter: 4acb3fd5-c841-43cd-9ab4-180064302150
+              - columnCounter: 65cd3425-58f8-4132-8196-4fd3070688da
+                stepCounter: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
             transform: ""
     cteString: ""
-    enabledColumnTestIDs: []
+    enabledColumnTestIDs:
+      - hasNull
+      - isDistinct
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          SUPPLIER: 0f5651e5-7a90-4e8e-8073-52f7c3d70cf9
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SRC_SAMPLE
             nodeName: SUPPLIER
         join:
-          joinCondition: FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+          joinCondition: |-
+            FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+            WHERE "SUPPLIER"."S_ACCTBAL" < 100
         name: STG_SUPPLIER
         noLinkRefs: []
   name: STG_SUPPLIER

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "1"
-macroString: |+
+macroString: |
   {%- macro row_number(order_by, partition_by=[], order='') -%}
       ROW_NUMBER() OVER (
           {%- for p_col in partition_by %}
@@ -32,6 +32,40 @@ macroString: |+
       {{ ns.col }}
   {%- endmacro %}
 
+  {#-- ************************************************************************************************* #}
+  {#-- Testing templates #}
+  {#-- ************************************************************************************************* #}
 
+  {#-- Contains #}
+
+  {%- macro test_contains(column, text) -%}
+      select 1 
+      from {{this}} 
+      where upper({{column}}) like '%' || '{{text}}' || '%'
+  {%- endmacro %}
+
+  {#-- Range #}
+
+  {%- macro test_range(column, lower, upper) -%}
+      select 1 
+      from {{this}} 
+      where not {{column}} between {{lower}} and {{upper}}
+  {%- endmacro %}
+
+  {#-- Rowcount #}
+
+  {%- macro test_rowcount(sql_from) -%}
+      select 1
+      from (select count(*) rc from {{this}} ) this
+      where rc <> (select nvl(count(*),0) {{sql_from}} )
+  {%- endmacro %}
+
+  {#-- Ref Integrity #}
+
+  {%- macro test_ref_integrity(column, ref_table, ref_table_col) -%}
+      select 1
+      from {{this}} 
+      where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}} )
+  {%- endmacro %}
 name: macro
 type: Macro

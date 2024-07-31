@@ -1,0 +1,12 @@
+{{ stage('Create Control table Table') }}
+
+	CREATE TABLE IF NOT EXISTS {{ref(parameters.control_table_location,parameters.control_table)}}
+	(
+		{% for col in columns %}
+			"{{ col.name }}" {{ col.dataType }}
+			{%- if not loop.last -%}, {% endif %}
+		{% endfor %}
+	)
+	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+

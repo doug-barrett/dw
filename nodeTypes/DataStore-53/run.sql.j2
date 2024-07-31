@@ -1,4 +1,3 @@
-
 {% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
 {% set is_type_2 = columns | selectattr("isChangeTracking") | list | length > 0 %}
 
@@ -309,6 +308,9 @@
 		{% if test.runOrder == 'After' %}
 			{{ test_stage(test.name, test.continueOnFailure) }}
 			{{ test.templateString }}
+
+            {{ test_stage("Macro Tests")}}
+            {{ run_test() }}
         {% endif %}
 	{% endfor %}
 
