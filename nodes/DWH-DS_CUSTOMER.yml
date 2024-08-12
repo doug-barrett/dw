@@ -1,0 +1,395 @@
+fileVersion: 1
+id: 2cd1df23-3629-4c67-b409-25699a4aac07
+name: DS_CUSTOMER
+operation:
+  config:
+    genProc: false
+    spRun: "CALL \"DOUG_DB\".\"DEV_DWH\".\"PROC_DS_CUSTOMER\" () "
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Customer data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e51d486e-cea6-4ed6-b0fd-f6cab23cd464
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_CUSTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 86a323a4-6be7-4aab-92e8-d1fa767e5217
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 05623c6a-62d2-475e-b450-f66ff086e502
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: STRING
+        description: ""
+        name: CUSTOMER_NM
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 68585d39-08d6-46c9-91a9-cb5af2ddff36
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3b074565-34d6-4115-9ef6-5d6ec027c90f
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: STRING
+        description: ""
+        name: CUSTOMER_ADDRESS
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9eddc04d-6380-4f04-93d4-1176f8230030
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b268650d-40d3-4bd3-974d-58a209d76dc4
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: CUSTOMER_NATIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eae18f56-d96a-4dd9-b6d0-77b7d273eb08
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1c6ef664-52f8-4116-852e-ea4418cc2aef
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: STRING
+        description: ""
+        name: CUSTOMER_PHONE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 53c75e6f-8b9a-42eb-b2c5-dc1b9290c991
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 02297ecd-9176-4ca6-abca-87e7d662eb94
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: CUSTOMER_ACCTBAL
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9c3353d5-2137-4911-ae21-e53032876d39
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab19eb37-0cb0-4ca2-95fb-b65c3e69a8b5
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: STRING
+        description: ""
+        name: CUSTOMER_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ab9580e1-8eba-4628-965c-adcc8a6898f1
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 365541ef-7129-4a5c-b45b-058cb5db2315
+          stepCounter: 2cd1df23-3629-4c67-b409-25699a4aac07
+        config: {}
+        dataType: STRING
+        description: ""
+        name: CUSTOMER_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9f61f482-8822-407f-afe9-f1c0a8466227
+                stepCounter: c21a6cec-a167-4a9b-a703-1e54392ce2c2
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: |-
+            CREATE
+            OR REPLACE PROCEDURE "DOUG_DB"."DEV_DWH"."PROC_DS_CUSTOMER" () returns string not null language sql as $$
+                begin    
+                    MERGE INTO "DOUG_DB"."DEV_DWH"."DS_CUSTOMER" "TGT"
+                    USING (
+                        SELECT
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_CUSTKEY"
+                            
+                            AS "CUSTOMER_CUSTKEY", 
+                        
+                            
+                                UPPER("STG_CUSTOMER"."CUSTOMER_NM")
+                            
+                            AS "CUSTOMER_NM", 
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_ADDRESS"
+                            
+                            AS "CUSTOMER_ADDRESS", 
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_NATIONKEY"
+                            
+                            AS "CUSTOMER_NATIONKEY", 
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_PHONE"
+                            
+                            AS "CUSTOMER_PHONE", 
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_ACCTBAL"
+                            
+                            AS "CUSTOMER_ACCTBAL", 
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_MKTSEGMENT"
+                            
+                            AS "CUSTOMER_MKTSEGMENT", 
+                        
+                            
+                                "STG_CUSTOMER"."CUSTOMER_COMMENT"
+                            
+                            AS "CUSTOMER_COMMENT", 
+                        
+                            
+                                1
+                            
+                            AS "SYSTEM_VERSION", 
+                        
+                            
+                                'Y'
+                            
+                            AS "SYSTEM_CURRENT_FLAG", 
+                        
+                            
+                                CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+                            
+                            AS "SYSTEM_START_DATE", 
+                        
+                            
+                                CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+                            
+                            AS "SYSTEM_END_DATE", 
+                        
+                            
+                                CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+                            
+                            AS "SYSTEM_CREATE_DATE", 
+                        
+                            
+                                CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+                            
+                            AS "SYSTEM_UPDATE_DATE"
+                        
+                        FROM "DOUG_DB"."DEV_STG"."STG_CUSTOMER" "STG_CUSTOMER")
+                        AS "SRC"
+                    ON
+                    
+                        "SRC"."CUSTOMER_CUSTKEY" = "TGT"."CUSTOMER_CUSTKEY"
+                    
+                    WHEN MATCHED
+                    
+                        
+                            AND (
+                        
+                        NVL( CAST("SRC"."CUSTOMER_NM" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_NM" as STRING), '**NULL**')
+                        
+                    
+                        
+                            OR
+                        
+                        NVL( CAST("SRC"."CUSTOMER_ADDRESS" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_ADDRESS" as STRING), '**NULL**')
+                        
+                    
+                        
+                            OR
+                        
+                        NVL( CAST("SRC"."CUSTOMER_NATIONKEY" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_NATIONKEY" as STRING), '**NULL**')
+                        
+                    
+                        
+                            OR
+                        
+                        NVL( CAST("SRC"."CUSTOMER_PHONE" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_PHONE" as STRING), '**NULL**')
+                        
+                    
+                        
+                            OR
+                        
+                        NVL( CAST("SRC"."CUSTOMER_ACCTBAL" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_ACCTBAL" as STRING), '**NULL**')
+                        
+                    
+                        
+                            OR
+                        
+                        NVL( CAST("SRC"."CUSTOMER_MKTSEGMENT" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_MKTSEGMENT" as STRING), '**NULL**')
+                        
+                    
+                        
+                            OR
+                        
+                        NVL( CAST("SRC"."CUSTOMER_COMMENT" as STRING), '**NULL**') <> NVL( CAST("TGT"."CUSTOMER_COMMENT" as STRING), '**NULL**')
+                        
+                            )
+                        
+                    
+                    THEN UPDATE SET
+                            "TGT"."CUSTOMER_NM" = "SRC"."CUSTOMER_NM"
+                        , 
+                    
+                            "TGT"."CUSTOMER_ADDRESS" = "SRC"."CUSTOMER_ADDRESS"
+                        , 
+                    
+                            "TGT"."CUSTOMER_NATIONKEY" = "SRC"."CUSTOMER_NATIONKEY"
+                        , 
+                    
+                            "TGT"."CUSTOMER_PHONE" = "SRC"."CUSTOMER_PHONE"
+                        , 
+                    
+                            "TGT"."CUSTOMER_ACCTBAL" = "SRC"."CUSTOMER_ACCTBAL"
+                        , 
+                    
+                            "TGT"."CUSTOMER_MKTSEGMENT" = "SRC"."CUSTOMER_MKTSEGMENT"
+                        , 
+                    
+                            "TGT"."CUSTOMER_COMMENT" = "SRC"."CUSTOMER_COMMENT"
+                        , 
+                    
+                            "TGT"."SYSTEM_UPDATE_DATE" = "SRC"."SYSTEM_UPDATE_DATE"
+                        
+                    
+                    WHEN NOT MATCHED THEN
+                    INSERT (
+                        "CUSTOMER_CUSTKEY"
+                        , 
+                    
+                        "CUSTOMER_NM"
+                        , 
+                    
+                        "CUSTOMER_ADDRESS"
+                        , 
+                    
+                        "CUSTOMER_NATIONKEY"
+                        , 
+                    
+                        "CUSTOMER_PHONE"
+                        , 
+                    
+                        "CUSTOMER_ACCTBAL"
+                        , 
+                    
+                        "CUSTOMER_MKTSEGMENT"
+                        , 
+                    
+                        "CUSTOMER_COMMENT"
+                        , 
+                    
+                        "SYSTEM_VERSION"
+                        , 
+                    
+                        "SYSTEM_CURRENT_FLAG"
+                        , 
+                    
+                        "SYSTEM_START_DATE"
+                        , 
+                    
+                        "SYSTEM_END_DATE"
+                        , 
+                    
+                        "SYSTEM_CREATE_DATE"
+                        , 
+                    
+                        "SYSTEM_UPDATE_DATE"
+                        
+                    )
+                    VALUES (
+                        "SRC"."CUSTOMER_CUSTKEY"
+                        , 
+                    
+                        "SRC"."CUSTOMER_NM"
+                        , 
+                    
+                        "SRC"."CUSTOMER_ADDRESS"
+                        , 
+                    
+                        "SRC"."CUSTOMER_NATIONKEY"
+                        , 
+                    
+                        "SRC"."CUSTOMER_PHONE"
+                        , 
+                    
+                        "SRC"."CUSTOMER_ACCTBAL"
+                        , 
+                    
+                        "SRC"."CUSTOMER_MKTSEGMENT"
+                        , 
+                    
+                        "SRC"."CUSTOMER_COMMENT"
+                        , 
+                    
+                        "SRC"."SYSTEM_VERSION"
+                        , 
+                    
+                        "SRC"."SYSTEM_CURRENT_FLAG"
+                        , 
+                    
+                        "SRC"."SYSTEM_START_DATE"
+                        , 
+                    
+                        "SRC"."SYSTEM_END_DATE"
+                        , 
+                    
+                        "SRC"."SYSTEM_CREATE_DATE"
+                        , 
+                    
+                        "SRC"."SYSTEM_UPDATE_DATE"
+                        
+                    );
+
+                    RETURN 'Created procedure';
+            	end;
+
+            $$
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_CUSTOMER') }} "STG_CUSTOMER"
+        name: DS_CUSTOMER
+        noLinkRefs: []
+  name: DS_CUSTOMER
+  overrideSQL: true
+  schema: ""
+  sqlType: "270"
+  type: sql
+  version: 1
+type: Node

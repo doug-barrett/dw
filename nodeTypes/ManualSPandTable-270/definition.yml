@@ -1,0 +1,55 @@
+fileVersion: 1
+id: "270"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |+
+    capitalized: Manual
+    short: 
+    plural: Manuals
+    tagColor: '#29B2DB'
+
+    config:
+
+
+
+    - groupName: Create Procedure
+      items: 
+      - type: overrideSQLToggle
+        default: true
+
+      - displayName: Generate Stored Procedure
+        attributeName: genProc
+        type: toggleButton
+        default: false
+
+
+    - groupName: Run Procedure
+      items:  
+      - displayName: Stored Procedure Call
+        attributeName: spRun
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+    - groupName: Options
+      items:
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: true
+
+    - groupName: Hidden config
+      enableIf: "false"
+      items:
+        
+      - displayName: Type
+        type: materializationSelector
+        default: table
+        options:
+        - table
+        isRequired: false
+
+name: Manual SP and Table
+type: NodeType
