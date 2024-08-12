@@ -1,0 +1,211 @@
+fileVersion: 1
+id: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+name: DS_CUSTOMER
+operation:
+  config:
+    spRun: "CALL \"DOUG_DB\".\"DEV_DWH\".\"PROC_DS_CUSTOMER\"() "
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Customer data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 44b62813-bc84-4a83-b646-32aadf0ca0e1
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_CUSTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 859662ce-3d75-4d20-ab10-cc83b60c9fd1
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dbf0575e-c5a5-40f5-b73d-608b726ed8d7
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: C_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 92c416fc-4579-4c22-8ab1-2356923a7032
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a9352260-7e33-41c9-8b39-570c43b6b697
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: C_ADDRESS
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d1f53253-bb07-437a-ab77-e3490a3bddf5
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: aaabd92d-2d80-4afc-b79c-f47213009287
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: C_NATIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fdba7573-159e-43bd-ad8f-737c8df7340d
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 932de8b6-e8f9-420e-8f0e-9a512fef2354
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: C_PHONE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: be38edfd-d9c8-4d1d-8622-a20e438fd891
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 557a5af9-73b3-4632-bf9a-ef34c91038c2
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: C_ACCTBAL
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 08b3abc6-67a7-454a-97f0-43122cd31c56
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 342d1dc9-1928-4367-a1f5-730ec4c0dad1
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd1fbe80-ad0d-4a61-a9aa-0a64d4578ac8
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3df8599-5955-4d84-bfa3-c8d1f44541e5
+          stepCounter: f67e19c9-4ba5-4c63-a6e3-a9e1006ddb89
+        config: {}
+        dataType: VARCHAR(117)
+        description: ""
+        name: C_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 173cd3e0-de75-491b-afac-b4929761d183
+                stepCounter: 5f70fadd-7213-4a24-a0bb-b6a82a760229
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: |-
+            CREATE OR REPLACE PROCEDURE "DOUG_DB"."DEV_DWH"."PROC_DS_CUSTOMER"() 
+            returns string not null 
+            language sql 
+            as $$
+                begin    
+                    MERGE INTO "DOUG_DB"."DEV_DWH"."DS_CUSTOMER" "TGT"
+                    USING (
+                        SELECT "CUSTOMER"."C_CUSTKEY" AS "C_CUSTKEY",
+                                UPPER("CUSTOMER"."C_NAME") AS "C_NAME", 
+                                "CUSTOMER"."C_ADDRESS" AS "C_ADDRESS", 
+                                "CUSTOMER"."C_NATIONKEY" AS "C_NATIONKEY", 
+                                "CUSTOMER"."C_PHONE" AS "C_PHONE", 
+                                "CUSTOMER"."C_ACCTBAL" AS "C_ACCTBAL", 
+                                "CUSTOMER"."C_MKTSEGMENT" AS "C_MKTSEGMENT", 
+                                "CUSTOMER"."C_COMMENT" AS "C_COMMENT"
+                        FROM "SNOWFLAKE_SAMPLE_DATA"."TPCH_SF1"."CUSTOMER")
+                        AS "SRC"
+                    ON "SRC"."C_CUSTKEY" = "TGT"."C_CUSTKEY"
+                    
+                    WHEN MATCHED AND (
+                        NVL( CAST("SRC"."C_NAME" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_NAME" as STRING), '**NULL**') OR
+                        NVL( CAST("SRC"."C_ADDRESS" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_ADDRESS" as STRING), '**NULL**') OR
+                        NVL( CAST("SRC"."C_NATIONKEY" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_NATIONKEY" as STRING), '**NULL**') OR
+                        NVL( CAST("SRC"."C_PHONE" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_PHONE" as STRING), '**NULL**') OR
+                        NVL( CAST("SRC"."C_ACCTBAL" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_ACCTBAL" as STRING), '**NULL**') OR
+                        NVL( CAST("SRC"."C_MKTSEGMENT" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_MKTSEGMENT" as STRING), '**NULL**') OR
+                        NVL( CAST("SRC"."C_COMMENT" as STRING), '**NULL**') <> NVL( CAST("TGT"."C_COMMENT" as STRING), '**NULL**'))
+                              
+                    THEN UPDATE SET
+                        "TGT"."C_NAME" = "SRC"."C_NAME", 
+                        "TGT"."C_ADDRESS" = "SRC"."C_ADDRESS", 
+                        "TGT"."C_NATIONKEY" = "SRC"."C_NATIONKEY", 
+                        "TGT"."C_PHONE" = "SRC"."C_PHONE", 
+                        "TGT"."C_ACCTBAL" = "SRC"."C_ACCTBAL", 
+                        "TGT"."C_MKTSEGMENT" = "SRC"."C_MKTSEGMENT", 
+                        "TGT"."C_COMMENT" = "SRC"."C_COMMENT"
+
+                    WHEN NOT MATCHED THEN
+                    INSERT (
+                        "C_CUSTKEY", 
+                        "C_NAME", 
+                        "C_ADDRESS", 
+                        "C_NATIONKEY", 
+                        "C_PHONE", 
+                        "C_ACCTBAL", 
+                        "C_MKTSEGMENT", 
+                        "C_COMMENT"
+                        )
+                    VALUES (
+                        "SRC"."C_CUSTKEY", 
+                        "SRC"."C_NAME", 
+                        "SRC"."C_ADDRESS", 
+                        "SRC"."C_NATIONKEY", 
+                        "SRC"."C_PHONE", 
+                        "SRC"."C_ACCTBAL", 
+                        "SRC"."C_MKTSEGMENT", 
+                        "SRC"."C_COMMENT"
+                        );
+
+                    RETURN 'Created procedure';
+            	end;
+
+            $$
+        dependencies:
+          - locationName: SRC_SAMPLE
+            nodeName: CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+        name: DS_CUSTOMER
+        noLinkRefs: []
+  name: DS_CUSTOMER
+  overrideSQL: true
+  schema: ""
+  sqlType: "270"
+  type: sql
+  version: 1
+type: Node
