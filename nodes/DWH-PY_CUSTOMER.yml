@@ -157,7 +157,7 @@ operation:
                 df_distinct = df_filtered.distinct()
                 df_final = df_distinct.na.drop(subset="C_PHONE")
                 
-                df_final.write.mode("overwrite").save_as_table('"DOUG_DB"."DEV_STG"."PY_CUSTOMER"')
+                df_final.write.mode("overwrite").save_as_table('"DOUG_DB"."DEV_DWH"."PY_CUSTOMER"')
                 return str(df_raw.count()) + " rows input - " +  str(df_final.count()) + " rows output"
             $$
         dependencies:
