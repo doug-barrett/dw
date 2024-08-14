@@ -23,7 +23,7 @@ operation:
         templateString: |-
           SELECT 1
           FROM {{this}}
-          WHERE S_NAME not LIKE 'TEST%'
+          WHERE S_NAME LIKE 'TEST%'
     columns:
       - appliedColumnTests:
           hasNull: true
@@ -183,8 +183,7 @@ operation:
       - hasNull
       - isDistinct
     sourceMapping:
-      - aliases:
-          SUPPLIER: 684da7a3-247f-4745-9a69-3d41f9923169
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
@@ -193,6 +192,8 @@ operation:
         join:
           joinCondition: |+
             FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+
+            WHERE {{parameters.ming_parameter}} = 1
 
             QUALIFY 1 = ROW_NUMBER() OVER (PARTITION BY "S_SUPPKEY" ORDER BY "S_ACCTBAL" DESC)
 
