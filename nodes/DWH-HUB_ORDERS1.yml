@@ -1,0 +1,128 @@
+fileVersion: 1
+id: 61570fb9-610b-45c7-b83b-f36d33dabef5
+name: HUB_ORDERS1
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Orders data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7be6dd97-5c53-455c-8e53-c41fda4da7f3
+          stepCounter: 61570fb9-610b-45c7-b83b-f36d33dabef5
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: ""
+        name: H_ORDER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 76824d02-dda6-4827-8afb-19957946f55a
+                stepCounter: 6037e1db-16c4-463b-bdf9-73ea0246826f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a082969-8ffd-4c7f-bd8b-9320aa5468e4
+          stepCounter: 61570fb9-610b-45c7-b83b-f36d33dabef5
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b070c5e7-d798-46a6-a2fc-bf77d8171fa8
+                stepCounter: 6037e1db-16c4-463b-bdf9-73ea0246826f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8a51687-8c5b-4ca4-a0df-279cf8e0d61c
+          stepCounter: 61570fb9-610b-45c7-b83b-f36d33dabef5
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_CUSTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 73f46db7-bee8-4b05-85d4-e890833a0322
+                stepCounter: 6037e1db-16c4-463b-bdf9-73ea0246826f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e611c0d8-becf-40e2-aa55-adf5a0fca30a
+          stepCounter: 61570fb9-610b-45c7-b83b-f36d33dabef5
+        config: {}
+        dataType: VARCHAR(15)
+        description: ""
+        name: O_CLERK
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4bd78aeb-8d2b-494a-be33-f5d5b84e2c6a
+                stepCounter: 6037e1db-16c4-463b-bdf9-73ea0246826f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c558596f-d68c-4a01-be3d-dd6ef4475d10
+          stepCounter: 61570fb9-610b-45c7-b83b-f36d33dabef5
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f0b54f1-9816-45fb-bd2a-a79ccfa20421
+                stepCounter: 6037e1db-16c4-463b-bdf9-73ea0246826f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dbd0b812-b0bb-4345-a0a7-c710eaa7299b
+          stepCounter: 61570fb9-610b-45c7-b83b-f36d33dabef5
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10ad3a05-430f-4efc-a2c3-d41f871c2905
+                stepCounter: 6037e1db-16c4-463b-bdf9-73ea0246826f
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          V_ORDERS: 6037e1db-16c4-463b-bdf9-73ea0246826f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: V_ORDERS
+        join:
+          joinCondition: |-
+            FROM {{ ref('DWH', 'V_ORDERS') }} "V_ORDERS"
+            WHERE --"ORD_DUP_FLAG" = 'N' AND "CUST_DUP_FLAG" = 'N' AND "CLERK_DUP_FLAG" = 'N'
+            --RSRC = 'ORDERS1' OR 
+            (ORD_RN = 1 AND CUST_RN = 1 AND CLERK_RN = 1)
+        name: HUB_ORDERS1
+        noLinkRefs: []
+  name: HUB_ORDERS1
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node
