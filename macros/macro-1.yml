@@ -37,5 +37,68 @@ macroString: |+
   {%- endmacro %}
 
 
+  {#-- ************************************************************************************************* #}
+  {#-- Testing templates #}
+  {#-- ************************************************************************************************* #}
+
+  {#-- Contains #}
+
+  {%- macro test_contains(column, text) -%}
+      select 1 
+      from {{this}} 
+      where upper({{column}}) like '%' || upper('{{text}}') || '%'
+  {%- endmacro %}
+
+
+  {#-- Uniqueness #}
+
+  {%- macro test_uniqueness(columns=[]) -%}
+      select 1 
+      from {{this}} 
+      group by 
+          {% for col in columns %}{{col}}{% if not loop.last %},{% endif %}{% endfor %}
+      having count(1) > 1
+  {%- endmacro %}
+
+  {#-- Range #}
+
+  {%- macro test_range(column, lower, upper) -%}
+      select 1 
+      from {{this}} 
+      where not {{column}} between {{lower}} and {{upper}}
+  {%- endmacro %}
+
+  {#-- Rowcount #}
+
+  {%- macro test_rowcount(sql_from) -%}
+      select 1
+      from (select count(*) rc from {{this}} ) this
+      where rc <> (select count(*) {{sql_from}} )
+  {%- endmacro %}
+
+  {#-- Ref Integrity #}
+
+  {%- macro test_ref_integrity(column, ref_table_col, ref_table) -%}
+      select 1
+      from {{this}} 
+      where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}})
+  {%- endmacro %}
+
+  {#-- Pipeline reconciliation #}
+
+  {%- macro test_pipeline(column, src_table) -%}
+      select 1 
+      from (
+          SELECT {{column}} col, COUNT(1) src_count
+          FROM {{src_table}}
+          GROUP BY 1) src
+      left join (
+          SELECT {{column}} col, COUNT(1) tgt_count
+          FROM {{this}}
+          GROUP BY 1) tgt
+      on src.col = tgt.col
+      where src.src_count <> tgt.tgt_count
+  {%- endmacro %}
+
 name: macro
 type: Macro

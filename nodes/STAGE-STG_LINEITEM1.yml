@@ -20,11 +20,25 @@ operation:
         description: ""
         name: Test for Uniqeness
         runOrder: After
+        templateString: "{{ test_uniqueness([\"L_ORDERKEY\",\"L_LINENUMBER\"])}}"
+      - continueOnFailure: false
+        description: ""
+        name: " Test for referential integrity"
+        runOrder: After
         templateString: |-
-          SELECT 1
-          FROM {{this}}
-          GROUP BY L_ORDERKEY, L_LINENUMBER
-          HAVING COUNT(1) > 1
+          {{ test_ref_integrity(
+              "O_CUSTKEY", 
+              "C_CUSTKEY",
+              "{{ref('DWH','DIM_CUSTOMER')}}"
+          ) }}
+      - continueOnFailure: true
+        description: ""
+        name: Test for rowcount
+        runOrder: After
+        templateString: |-
+          {{ test_rowcount(
+              "FROM {{ref('SRC_SAMPLE','LINEITEM')}}"
+          ) }} 
     columns:
       - appliedColumnTests: {}
         columnReference:
