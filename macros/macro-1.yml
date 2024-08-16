@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "1"
-macroString: |
+macroString: |+
   {%- macro row_number(order_by, partition_by=[], order='') -%}
       ROW_NUMBER() OVER (
           {%- for p_col in partition_by %}
@@ -36,12 +36,26 @@ macroString: |
   {#-- Testing templates #}
   {#-- ************************************************************************************************* #}
 
+
+  {#-- Uniqueness #}
+  {#-- Eg {{ test_uniqueness(["L_ORDERKEY","L_LINENUMBER"])}} #}
+
+  {%- macro test_uniqueness(columns=[]) -%}
+      select 1 
+      from {{this}} 
+      group by 
+          {% for col in columns %}{{col}}{% if not loop.last %},{% endif %}{% endfor %}
+      having count(1) > 1
+  {%- endmacro %}
+
+
   {#-- Contains #}
+  {#-- Eg {{ test_contains( "O_COMMENT", "TESTING") }} } #}
 
   {%- macro test_contains(column, text) -%}
       select 1 
       from {{this}} 
-      where upper({{column}}) like '%' || '{{text}}' || '%'
+      where upper({{column}}) like '%' || upper('{{text}}') || '%'
   {%- endmacro %}
 
   {#-- Range #}
@@ -53,6 +67,7 @@ macroString: |
   {%- endmacro %}
 
   {#-- Rowcount #}
+  {#-- Eg {{ test_rowcount( "FROM {{ref('SRC_SAMPLE','LINEITEM')}}") }} } #}
 
   {%- macro test_rowcount(sql_from) -%}
       select 1
@@ -61,11 +76,30 @@ macroString: |
   {%- endmacro %}
 
   {#-- Ref Integrity #}
+  {#-- Eg {{ test_ref_integrity("O_CUSTKEY", "C_CUSTKEY","{{ref('DWH','DIM_CUSTOMER')}}") }}} #}
 
   {%- macro test_ref_integrity(column, ref_table, ref_table_col) -%}
       select 1
       from {{this}} 
       where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}} )
   {%- endmacro %}
+
+  {#-- Pipeline reconciliation #}
+  {#-- Eg }
+
+  {%- macro test_ref_integrity(column, src_table) -%}
+      select 1 
+      from (
+          SELECT {{column}} col, COUNT(1) src_count
+          FROM {{src_table}}
+          GROUP BY 1) src
+      left join (
+          SELECT {{column}} col, COUNT(1) tgt_count
+          FROM {{this}}
+          GROUP BY 1) tgt
+      on src.col = tgt.col
+      where src.src_count <> tgt.tgt_count
+  {%- endmacro %}
+
 name: macro
 type: Macro
