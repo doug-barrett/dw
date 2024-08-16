@@ -23,16 +23,6 @@ operation:
         templateString: "{{ test_uniqueness([\"L_ORDERKEY\",\"L_LINENUMBER\"])}}"
       - continueOnFailure: true
         description: ""
-        name: " Test for referential integrity"
-        runOrder: After
-        templateString: |-
-          {{ test_ref_integrity(
-              "O_CUSTKEY", 
-              "C_CUSTKEY",
-              "{{ref('DWH','DIM_CUSTOMER')}}"
-          ) }}
-      - continueOnFailure: true
-        description: ""
         name: Test for rowcount
         runOrder: After
         templateString: |-

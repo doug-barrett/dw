@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "1"
-macroString: |+
+macroString: |
   {%- macro row_number(order_by, partition_by=[], order='') -%}
       ROW_NUMBER() OVER (
           {%- for p_col in partition_by %}
@@ -36,21 +36,13 @@ macroString: |+
       {{ ns.col }}
   {%- endmacro %}
 
-
   {#-- ************************************************************************************************* #}
   {#-- Testing templates #}
   {#-- ************************************************************************************************* #}
 
-  {#-- Contains #}
-
-  {%- macro test_contains(column, text) -%}
-      select 1 
-      from {{this}} 
-      where upper({{column}}) like '%' || upper('{{text}}') || '%'
-  {%- endmacro %}
-
 
   {#-- Uniqueness #}
+  {#-- Eg {{ test_uniqueness(["L_ORDERKEY","L_LINENUMBER"])}} #}
 
   {%- macro test_uniqueness(columns=[]) -%}
       select 1 
@@ -58,6 +50,16 @@ macroString: |+
       group by 
           {% for col in columns %}{{col}}{% if not loop.last %},{% endif %}{% endfor %}
       having count(1) > 1
+  {%- endmacro %}
+
+
+  {#-- Contains #}
+  {#-- Eg {{ test_contains( "O_COMMENT", "TESTING") }} } #}
+
+  {%- macro test_contains(column, text) -%}
+      select 1 
+      from {{this}} 
+      where upper({{column}}) like '%' || upper('{{text}}') || '%'
   {%- endmacro %}
 
   {#-- Range #}
@@ -69,24 +71,27 @@ macroString: |+
   {%- endmacro %}
 
   {#-- Rowcount #}
+  {#-- Eg {{ test_rowcount( "FROM {{ref('SRC_SAMPLE','LINEITEM')}}") }} } #}
 
   {%- macro test_rowcount(sql_from) -%}
       select 1
       from (select count(*) rc from {{this}} ) this
-      where rc <> (select count(*) {{sql_from}} )
+      where rc <> (select nvl(count(*),0) {{sql_from}} )
   {%- endmacro %}
 
   {#-- Ref Integrity #}
+  {#-- Eg {{ test_ref_integrity("O_CUSTKEY", "C_CUSTKEY","{{ref('DWH','DIM_CUSTOMER')}}") }}} #}
 
-  {%- macro test_ref_integrity(column, ref_table_col, ref_table) -%}
+  {%- macro test_ref_integrity(column, ref_table, ref_table_col) -%}
       select 1
       from {{this}} 
-      where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}})
+      where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}} )
   {%- endmacro %}
 
   {#-- Pipeline reconciliation #}
+  {#-- Eg #}
 
-  {%- macro test_pipeline(column, src_table) -%}
+  {%- macro test_ref_integrity(column, src_table) -%}
       select 1 
       from (
           SELECT {{column}} col, COUNT(1) src_count
@@ -99,6 +104,5 @@ macroString: |+
       on src.col = tgt.col
       where src.src_count <> tgt.tgt_count
   {%- endmacro %}
-
 name: macro
 type: Macro
