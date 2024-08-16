@@ -31,12 +31,9 @@ operation:
           ) }} 
       - continueOnFailure: true
         description: ""
-        name: Test
+        name: Test for RI - Customer
         runOrder: After
-        templateString: |-
-          SELECT 1
-          FROM {{this}}
-          WHERE UPPER(L_COMMENT) LIKE '%DOUG%'
+        templateString: "{{ test_ref_integrity(\"O_CUSTKEY\", \"C_CUSTKEY\",\"{{ref('DWH','DIM_CUSTOMER')}}\") }}"
     columns:
       - appliedColumnTests: {}
         columnReference:
