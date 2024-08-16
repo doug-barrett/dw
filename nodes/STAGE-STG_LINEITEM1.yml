@@ -39,6 +39,14 @@ operation:
           {{ test_rowcount(
               "FROM {{ref('SRC_SAMPLE','LINEITEM')}}"
           ) }} 
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          SELECT 1
+          FROM {{this}}
+          WHERE UPPER(L_COMMENT) LIKE '%DOUG%'
     columns:
       - appliedColumnTests: {}
         columnReference:
