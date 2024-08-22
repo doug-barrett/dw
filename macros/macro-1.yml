@@ -87,11 +87,13 @@ macroString: |
   {%- macro test_missing_dates(date_column, from, to) -%}
       select dr.dt
       from (
-          select '{{from}}'::date - 1 + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= '{{to}}') dr
-      left join 
-          (select {{date_column}}::date dt, count(*) cnt 
-           from {{this}}
-           group by 1) tab
+          select '{{from}}'::date - 1 + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= '{{to}}'
+      ) dr
+      left join (
+          select {{date_column}}::date dt, count(*) cnt 
+          from {{this}}
+          group by 1
+      ) tab
       on dr.dt = tab.dt
       where nvl(tab.cnt, 0) = 0
   {%- endmacro %}
@@ -102,11 +104,13 @@ macroString: |
   {%- macro test_missing_date_offset(date_column, from, to) -%}
       select dr.dt
       from (
-          select CURRENT_DATE - {{from}} + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= CURRENT_DATE - {{to}}) dr
-      left join 
-          (select {{date_column}}::date dt, count(*) cnt 
-           from {{this}}
-           group by 1) tab
+          select CURRENT_DATE - {{from}} + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= CURRENT_DATE - {{to}}
+      ) dr
+      left join (
+          select {{date_column}}::date dt, count(*) cnt 
+          from {{this}}
+          group by 1
+      ) tab
       on dr.dt = tab.dt
       where nvl(tab.cnt, 0) = 0
   {%- endmacro %}
