@@ -1,36 +1,33 @@
 fileVersion: 1
 id: "1"
-macroString: |+
-  {%- macro row_number(order_by, partition_by=[], order='') -%}
-      ROW_NUMBER() OVER (
-          {%- for p_col in partition_by %}
-              {%- if loop.first %} PARTITION BY {% endif %}
-                  {{- p_col -}}
-              {%- if not loop.last %}, {% endif -%}
-          {%- endfor -%}
-          {%- for o_col in order_by -%}
-              {%- if loop.first %} ORDER BY {% endif -%}
-                  {{- o_col -}}
-              {%- if not loop.last %}, {% endif -%}
-          {%- endfor -%}
-          {% if order != '' %} {{order}}{%- endif %} )
-  {%- endmacro -%}
+macroString: |
+  {#-- ************************************************************************************************* #}
+  {#-- Utility Macros #}
+  {#-- ************************************************************************************************* #}
+
+  {#-- group_by #}
+  {#-- Eg {{ group_by(10) }} #}
+
+  {%- macro group_by(n) -%}
+      GROUP BY 
+      {%- for n in range(n) %} {{n + 1}}{%- if not loop.last %}, {% endif -%}
+      {% endfor -%}
+  {%- endmacro %}
+
+  {#-- even_odd #}
+  {#-- Eg {{ even_odd("C_CUSTKEY") }} #}
 
   {%- macro even_odd(column) -%}
       CASE WHEN MOD({{ column }}, 2) = 0 THEN 'EVEN' ELSE 'ODD' END
   {%- endmacro %}
 
+  {#-- date_sk #}
+  {#-- Eg {{ date_sk("O_ORDERDATE") }} #}
+
   {%- macro date_sk(column) -%}
       TO_NUMBER(TO_CHAR({{ column }}, 'YYYYMMDD'))
   {%- endmacro %}
 
-  {%- macro replacer(column) -%}
-      {% set ns = namespace(col=column) %}
-      {% for p in parameters.replace %}
-          {% set ns.col = ns.col | replace(p.long,  p.short) %}
-      {% endfor %}
-      {{ ns.col }}
-  {%- endmacro %}
 
   {#-- ************************************************************************************************* #}
   {#-- Testing templates #}
@@ -50,7 +47,7 @@ macroString: |+
 
 
   {#-- Contains #}
-  {#-- Eg {{ test_contains( "O_COMMENT", "TESTING") }} } #}
+  {#-- Eg {{ test_contains( "O_COMMENT", "TESTING") }}  #}
 
   {%- macro test_contains(column, text) -%}
       select 1 
@@ -67,7 +64,7 @@ macroString: |+
   {%- endmacro %}
 
   {#-- Rowcount #}
-  {#-- Eg {{ test_rowcount( "FROM {{ref('SRC_SAMPLE','LINEITEM')}}") }} } #}
+  {#-- Eg {{ test_rowcount( "FROM {{ref('SRC_SAMPLE','LINEITEM')}}") }} #}
 
   {%- macro test_rowcount(sql_from) -%}
       select 1
@@ -76,30 +73,61 @@ macroString: |+
   {%- endmacro %}
 
   {#-- Ref Integrity #}
-  {#-- Eg {{ test_ref_integrity("O_CUSTKEY", "C_CUSTKEY","{{ref('DWH','DIM_CUSTOMER')}}") }}} #}
+  {#-- Eg {{ test_ref_integrity("O_CUSTKEY", "C_CUSTKEY","{{ref('DWH','DIM_CUSTOMER')}}") }} #}
 
-  {%- macro test_ref_integrity(column, ref_table, ref_table_col) -%}
+  {%- macro test_ref_integrity(column, ref_table_col, ref_table) -%}
       select 1
       from {{this}} 
       where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}} )
   {%- endmacro %}
 
-  {#-- Pipeline reconciliation #}
-  {#-- Eg }
+  {#-- Missing days range #}
+  {#-- Eg {{ test_missing_dates("O_ORDERDATE", "1995-01-01", "1996-01-01") }} #}
 
-  {%- macro test_ref_integrity(column, src_table) -%}
-      select 1 
+  {%- macro test_missing_dates(date_column, from, to) -%}
+      select dr.dt
       from (
-          SELECT {{column}} col, COUNT(1) src_count
-          FROM {{src_table}}
-          GROUP BY 1) src
-      left join (
-          SELECT {{column}} col, COUNT(1) tgt_count
-          FROM {{this}}
-          GROUP BY 1) tgt
-      on src.col = tgt.col
-      where src.src_count <> tgt.tgt_count
+          select '{{from}}'::date - 1 + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= '{{to}}') dr
+      left join 
+          (select {{date_column}}::date dt, count(*) cnt 
+           from {{this}}
+           group by 1) tab
+      on dr.dt = tab.dt
+      where nvl(tab.cnt, 0) = 0
   {%- endmacro %}
 
+  {#-- Missing days range CURRENT_DATE offset #}
+  {#-- Eg {{ test_missing_date_offset("O_ORDERDATE", 100, 1) }} #}
+
+  {%- macro test_missing_date_offset(date_column, from, to) -%}
+      select dr.dt
+      from (
+          select CURRENT_DATE - {{from}} + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= CURRENT_DATE - {{to}}
+      ) dr
+      left join (
+          select {{date_column}}::date dt, count(*) cnt 
+          from {{this}}
+          group by 1
+      ) tab
+      on dr.dt = tab.dt
+      where nvl(tab.cnt, 0) = 0
+  {%- endmacro %}
+
+
+  {#-- ************************************************************************************************* #}
+  {#-- Metadata Macros #}
+  {#-- ************************************************************************************************* #}
+
+  {#-- replacer #}
+  {#-- used for column renames eg {{ replacer(column.name) }} #}
+  {#-- Eg {{ date_sk("O_ORDERDATE") }} #}
+
+  {%- macro replacer(column) -%}
+      {% set ns = namespace(col=column) %}
+      {% for p in parameters.replace %}
+          {% set ns.col = ns.col | replace(p.long,  p.short) %}
+      {% endfor %}
+      {{ ns.col }}
+  {%- endmacro %}
 name: macro
 type: Macro
