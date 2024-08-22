@@ -39,6 +39,11 @@ operation:
               "C_CUSTKEY",
               "{{ref('DWH','DIM_CUSTOMER')}}") 
           }}
+      - continueOnFailure: true
+        description: ""
+        name: Test for missing dates
+        runOrder: After
+        templateString: "{{ test_missing_date_offset(\"O_ORDERDATE\", 100, 1) }}"
     columns:
       - appliedColumnTests:
           hasNull: false
@@ -376,6 +381,23 @@ operation:
               - columnCounter: 6926d865-341a-4deb-a830-f6330da1d83b
                 stepCounter: 63334682-5b32-4673-851b-e920622b3670
             transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: aa7dae99-b9f6-432d-888c-5ee15f304756
+          stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6c7604da-53ed-4e2a-a14d-895b7eb6e404
+                stepCounter: 63334682-5b32-4673-851b-e920622b3670
+            transform: ""
     cteString: ""
     enabledColumnTestIDs:
       - hasNull
@@ -401,7 +423,7 @@ operation:
           - locationName: STAGE
             nodeName: STG_LINEITEM
         join:
-          joinCondition: |-
+          joinCondition: |+
             FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
             LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
             ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
@@ -411,6 +433,7 @@ operation:
             ON "STG_LINEITEM"."L_SUPPKEY"= "DIM_SUPPLIER"."S_SUPPKEY"
             LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
             ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
+
         name: STG_LINEITEM1
         noLinkRefs: []
   name: STG_LINEITEM1
