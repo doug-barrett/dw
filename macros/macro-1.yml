@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "1"
-macroString: |+
+macroString: |
   {%- macro row_number(order_by, partition_by=[], order='') -%}
       ROW_NUMBER() OVER (
           {%- for p_col in partition_by %}
@@ -88,6 +88,19 @@ macroString: |+
       where {{column}} not in (select distinct {{ref_table_col}} from {{ref_table}} )
   {%- endmacro %}
 
+  {#-- Missing days #}
+  {#-- Eg {{ test_missing_dates("O_ORDERDATE", "1995-01-01", TO_CHAR(CURRENT_DATE-1)} #}
 
+  {%- macro missing_dates(date_column, from, to) -%}
+      select 1
+      from (
+          select '{{from}}'::date - 1 + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= '{{to}}') dr
+      left join 
+          (select {{date_column}}::date dt, count(*) cnt 
+           from {{this}}
+           group by 1) tab
+      on dr.dt = tab.dt
+      where nvl(tab.cnt, 0) = 0
+  {%- endmacro %}
 name: macro
 type: Macro
