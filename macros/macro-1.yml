@@ -87,13 +87,11 @@ macroString: |
   {%- macro test_missing_dates(date_column, from, to) -%}
       select dr.dt
       from (
-          select '{{from}}'::date - 1 + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= '{{to}}'
-      ) dr
-      left join (
-          select {{date_column}}::date dt, count(*) cnt 
-          from {{this}}
-          group by 1
-      ) tab
+          select '{{from}}'::date - 1 + row_number() over(order by 0) dt from table(generator(rowcount => 10000)) qualify dt <= '{{to}}') dr
+      left join 
+          (select {{date_column}}::date dt, count(*) cnt 
+           from {{this}}
+           group by 1) tab
       on dr.dt = tab.dt
       where nvl(tab.cnt, 0) = 0
   {%- endmacro %}
@@ -131,5 +129,15 @@ macroString: |
       {% endfor %}
       {{ ns.col }}
   {%- endmacro %}
+
+
+  {%- macro ref_raw(location_name, node_name) -%}
+      {%- raw -%}{{ ref('{% endraw %}{{- location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
+  {%- endmacro -%}
+
+
+  {%- macro ref_no_link_raw(location_name, node_name) -%}
+      {% raw %}{{ ref_no_link('{% endraw %}{{ location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
+  {%- endmacro -%}
 name: macro
 type: Macro
