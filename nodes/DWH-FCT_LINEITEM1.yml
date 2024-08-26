@@ -4,7 +4,9 @@ name: FCT_LINEITEM1
 operation:
   config:
     postSQL: ""
-    preSQL: ""
+    preSQL: |-
+      DELETE FROM {{this}}
+      WHERE O_ORDERDATE < CURRENT_DATE - {{parameters.delete_days}}
     testsEnabled: true
   database: ""
   deployEnabled: true

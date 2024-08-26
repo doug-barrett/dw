@@ -1,0 +1,112 @@
+fileVersion: 1
+id: 1e51f167-c17c-461e-a58c-44cda976b49b
+name: VAGG_LINEITEM1
+operation:
+  config: {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a5b11b80-4cb7-44c2-bbd2-5d980736919f
+          stepCounter: 1e51f167-c17c-461e-a58c-44cda976b49b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_CUSTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3bfcb7dd-fbf0-45aa-af90-a30e9cc854dd
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0c10109-8721-4527-9b47-688a99171eba
+          stepCounter: 1e51f167-c17c-461e-a58c-44cda976b49b
+        config:
+          isCountDistinct: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ORDER_COUNT
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd9ec9c3-b228-4320-a936-9e8075d68de0
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c211302-11c8-430b-9500-834a786b1471
+          stepCounter: 1e51f167-c17c-461e-a58c-44cda976b49b
+        config:
+          isSum: true
+        dataType: NUMBER(12,2)
+        description: ""
+        name: QUANTITY_SUM
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: db90c677-095e-4bdc-be67-ce91dd74d6f4
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a7460ab-94ed-4490-a6ca-6785d352fd37
+          stepCounter: 1e51f167-c17c-461e-a58c-44cda976b49b
+        config:
+          isAvg: true
+        dataType: NUMBER(12,2)
+        description: ""
+        name: QUANTITY_AVG
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: db90c677-095e-4bdc-be67-ce91dd74d6f4
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3e1bcd6d-2488-4aca-bc86-c30a54a8d7fe
+          stepCounter: 1e51f167-c17c-461e-a58c-44cda976b49b
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: ""
+        isCount: true
+        name: RECORD_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: COUNT(*)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          FCT_LINEITEM1: 4999889f-319d-46c8-a0b1-c198d50a315e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: FCT_LINEITEM1
+        join:
+          joinCondition: |
+            FROM {{ ref('DWH', 'FCT_LINEITEM1') }} "FCT_LINEITEM1"
+        name: VAGG_LINEITEM1
+        noLinkRefs: []
+  name: VAGG_LINEITEM1
+  overrideSQL: false
+  schema: ""
+  sqlType: "81"
+  type: sql
+  version: 1
+type: Node
