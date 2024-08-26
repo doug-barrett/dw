@@ -1,0 +1,55 @@
+{% set source = sources[0] %}
+{{ stage('Create Stage View') }}
+
+    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in columns %}
+            "{{ col.name }}"
+            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+    )
+    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+    AS
+        SELECT
+        {% for col in source.columns %}
+            {%- set count = namespace(value=0) -%}
+            {%- for i in config.strFunctions.get('items') -%}
+                {%- if col.name == i.funcColStr.name -%}
+                    {{ i.strFunc }}{{"("}} 
+                    {%- set count.value = count.value + 1 -%}
+                {%- endif-%}
+            {%- endfor -%}
+            {%- for i in config.numFunctions.get('items') -%}
+                {%- if col.name == i.funcColNum.name -%}
+                    {{ i.numFunc }}{{"("}} 
+                    {%- set count.value = count.value + 1 -%}
+                {%- endif-%}
+            {%- endfor -%}
+            {%- for i in config.dateFunctions.get('items') -%}
+                {%- if col.name == i.funcColDate.name -%}
+                    {{ i.dateFunc }}{{"("}} 
+                    {%- set count.value = count.value + 1 -%}
+                {%- endif-%}
+            {%- endfor -%}
+            {%- for i in config.aggFunctions.get('items') -%}
+                {%- if col.name == i.funcColAgg.name -%}
+                    {{ i.aggFunc }}{{"("}} 
+                    {%- set count.value = count.value + 1 -%}
+                {%- endif-%}
+            {%- endfor -%}
+            {{ get_source_transform(col) }} 
+            {%- for n in range(count.value) -%} 
+                {{") "}}       
+            {%- endfor -%}
+            AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+        {{ source.join }}
+
+        {% if config.aggFunctions %}
+            GROUP BY ALL
+        {% endif %}
+
+

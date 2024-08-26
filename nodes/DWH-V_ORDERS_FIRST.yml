@@ -1,0 +1,70 @@
+fileVersion: 1
+id: 52219716-0144-4ef5-b78d-0421d8bb1167
+name: V_ORDERS_FIRST
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Orders data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4f6fb8a8-6a93-4ee7-abd5-6723e3a15243
+          stepCounter: 52219716-0144-4ef5-b78d-0421d8bb1167
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: O_ORDERKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b295d28a-6f17-43dd-bbc3-5c3af4b5cd19
+                stepCounter: c771aafd-bb17-460b-b529-8b43360ffe98
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63f4fc71-d5fd-4ea8-8c78-a2713bcc9154
+          stepCounter: 52219716-0144-4ef5-b78d-0421d8bb1167
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: RN
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ROW_NUMBER() OVER (PARTITION BY O_CUSTKEY ORDER BY O_ORDERKEY)
+        systemColumnType: None
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_SAMPLE
+            nodeName: ORDERS
+        join:
+          joinCondition: FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+        name: V_ORDERS_FIRST
+        noLinkRefs: []
+  name: V_ORDERS_FIRST
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
