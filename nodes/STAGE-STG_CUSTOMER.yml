@@ -13,7 +13,7 @@ operation:
   description: Customer data as defined by TPC-H
   isMultisource: false
   locationName: STAGE
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
@@ -37,7 +37,7 @@ operation:
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
         dataType: STRING
-        description: ""
+        description: The customers name
         name: CUSTOMER_NAME
         nullable: true
         sourceColumnReferences:
@@ -192,6 +192,61 @@ operation:
               - columnCounter: 1f56fed1-f9aa-4780-80ac-b952f88ad393
                 stepCounter: 8376d1bf-8003-455c-abbf-5b9db13950b4
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1ad40b86-043e-4c35-8c7d-d1cb09291d14
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: N_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 72a81448-547f-4893-a608-13cf19972d05
+                stepCounter: a4b44182-13e6-4a68-9f53-915743d48af4
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b2708bf9-acca-4848-aed0-1a1bf2b8cd97
+          stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: f6567d7b-1d01-44b6-a650-cedb06f6da0e
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 0faf3841-fe05-4238-93a0-1b25a64c9dbc
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: b1e8159a-8b0f-491a-9c1b-d63bafacb9df
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 5832d5c8-a862-49bb-ba1f-34fd57a949a6
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 3f8debba-e4aa-46be-918e-661857f435d1
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: e343aef2-1e4c-4c5b-a9ec-c4f46583ec14
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: d92bee15-ace1-4ffa-9e81-ab85a435070a
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 56a0ce33-115a-4ab1-a01a-1707225cee4e
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: d6a47e74-c7be-491c-a2ee-db96ef46fe23
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 6390dc5e-82e4-4d6f-9fb8-0aca6d915c23
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 34628573-df20-4fe0-879f-99e5f5255bf1
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+          - columnCounter: 1ad40b86-043e-4c35-8c7d-d1cb09291d14
+            stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
+        name: CUSTOMER_HASH
+        nullable: true
+        sourceColumnReferences: []
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -209,15 +264,13 @@ operation:
           - locationName: SRC_SAMPLE
             nodeName: REGION
         join:
-          joinCondition: |-
+          joinCondition: |
 
             FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
             INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
             ON "CUSTOMER"."C_NATIONKEY"= "NATION"."N_NATIONKEY"
             INNER JOIN {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
             ON NATION."N_REGIONKEY"= "REGION"."R_REGIONKEY"
-
-            WHERE "CUSTOMER"."C_NATIONKEY" = 1
         name: STG_CUSTOMER
         noLinkRefs: []
   name: STG_CUSTOMER
