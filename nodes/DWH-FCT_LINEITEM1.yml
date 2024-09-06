@@ -4,9 +4,7 @@ name: FCT_LINEITEM1
 operation:
   config:
     postSQL: ""
-    preSQL: |-
-      DELETE FROM {{this}}
-      WHERE O_ORDERDATE < CURRENT_DATE - {{parameters.delete_days}}
+    preSQL: ""
     testsEnabled: true
   database: ""
   deployEnabled: true
@@ -265,6 +263,20 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 7db9e1ed-340e-4129-8d83-ba4441c3bdec
+          stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+        config: {}
+        dataType: DATE
+        description: ""
+        name: L_SHIPDATE1
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ae93fba-e08b-46f4-a910-5d29d2773446
+                stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 1a1a3d0a-3e2d-4cf7-bbd2-68f4dfdfbb28
           stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
         config: {}
@@ -387,23 +399,6 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: bfab54b5-d86c-4003-a641-a73e32339227
-          stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
-        config: {}
-        dataType: DATE
-        description: ""
-        name: O_ORDERDATE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: aa7dae99-b9f6-432d-888c-5ee15f304756
-                stepCounter: d310a6be-eacc-4e48-ab82-1d87eff8a2e1
-            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
