@@ -423,23 +423,22 @@ operation:
           - locationName: STAGE
             nodeName: STG_LINEITEM
         join:
-          joinCondition: |+
+          joinCondition: |-
             FROM {{ ref('STAGE', 'STG_LINEITEM') }} "STG_LINEITEM"
             LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
-            ON "STG_LINEITEM"."L_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
-            LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
-            ON "STG_LINEITEM"."L_PARTKEY" = "DIM_PART"."P_PARTKEY"
-            left JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
-            ON "STG_LINEITEM"."L_SUPPKEY"= "DIM_SUPPLIER"."S_SUPPKEY"
+            ON "STG_LINEITEM"."L_ORDERKEY"= "DIM_ORDERS"."O_ORDERKEY"
             LEFT JOIN {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
             ON "STG_LINEITEM"."O_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
-
+            LEFT JOIN {{ ref('DWH', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
+            ON "STG_LINEITEM"."L_SUPPKEY" = "DIM_SUPPLIER"."S_SUPPKEY"
+            LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
+            ON "STG_LINEITEM"."L_PARTKEY" = "DIM_PART"."P_PARTKEY"
         name: STG_LINEITEM1
         noLinkRefs: []
   name: STG_LINEITEM1
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: Base:::204
   type: sql
   version: 1
 type: Node
