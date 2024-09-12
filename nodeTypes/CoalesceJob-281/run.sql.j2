@@ -1,0 +1,5 @@
+{{ stage('Run Stored Procedure') }}
+CALL {{ ref_no_link(parameters.job_proc_location, parameters.job_proc)}}(JobID => {{config.jobId}}, EnvironmentID => {{parameters.job_environment_id}})
+
+{{ stage('Results')}}
+CREATE VIEW IF NOT EXISTS {{this}} AS SELECT 1 RESULTS
