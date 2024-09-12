@@ -1,0 +1,73 @@
+fileVersion: 1
+id: c3d71ab4-5550-4d11-8491-170d14e44844
+name: SQL_NODE
+operation:
+  config:
+    SQL_Deploy: |-
+      CREATE OR REPLACE TABLE {{ ref_no_link('STAGE', 'STG_CUSTOMER2') }} 
+       AS SELECT * FROM {{ ref_no_link('STAGE', 'STG_CUSTOMER') }} 
+       
+    SQL_Run1: |-
+      UPDATE {{ ref_no_link('STAGE', 'STG_CUSTOMER') }} 
+       SET CUSTOMER_NAME = TRIM(CUSTOMER_NAME)
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b5b6dbfa-2ee2-4094-8311-699c7f047e9f
+          stepCounter: c3d71ab4-5550-4d11-8491-170d14e44844
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSQL: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fbecdd76-42cd-4508-aa00-47d21bccdc7e
+          stepCounter: c3d71ab4-5550-4d11-8491-170d14e44844
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: ""
+        isSystemStartDate: true
+        name: SQL_STMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: SQL_NODE
+        noLinkRefs: []
+  name: SQL_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node
