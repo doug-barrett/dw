@@ -23,12 +23,14 @@ operation:
           - locationName: DWH
             nodeName: JOB_CUSTOMER_DIMENSION
           - locationName: DWH
+            nodeName: JOB_ORDERS_DIMENSION
+          - locationName: DWH
             nodeName: JOB_PART_DIMENSION
         join:
           joinCondition: |-
-            FROM {{ ref('DWH', 'JOB_CUSTOMER_DIMENSION') }} "JOB_CUSTOMER_DIMENSION"
-            INNER JOIN {{ ref('DWH', 'JOB_PART_DIMENSION') }} "JOB_PART_DIMENSION"
-            ON "JOB_CUSTOMER_DIMENSION"./*COLUMN*/ = "JOB_PART_DIMENSION"./*COLUMN*/
+            {{ ref('DWH', 'JOB_CUSTOMER_DIMENSION') }} "JOB_CUSTOMER_DIMENSION"
+            {{ ref('DWH', 'JOB_PART_DIMENSION') }} "JOB_PART_DIMENSION"
+            {{ ref('DWH', 'JOB_ORDERS_DIMENSION') }} "JOB_PART_DIMENSION"
         name: JOB_FACT_TABLES
         noLinkRefs: []
   name: JOB_FACT_TABLES
