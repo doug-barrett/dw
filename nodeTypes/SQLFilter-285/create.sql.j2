@@ -1,0 +1,38 @@
+{% set source = sources[0] %}
+{{ stage('Create Stage View') }}
+
+    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in columns %}
+            "{{ col.name }}"
+            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+    )
+    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+    AS
+        SELECT
+        {% for col in source.columns %}
+            
+            {{ get_source_transform(col) }}  AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+        {{ source.join }}
+        {% if "WHERE"  in source.join | upper %}
+            AND
+        {% else %}
+            WHERE 
+        {% endif %}
+        {% if config.filters %}
+            {%- for i in config.filters.get('items') -%}
+                {% if i.filterEquality == 'CONTAINS' %}
+                    CONTAINS("{{ i.filterCol.name }}" , '{{ i.filterValue }}')
+                {% else %}
+                    {{ i.filterCol.name }} {{ i.filterEquality }} {{ i.filterValue }}
+                {% endif %}
+                {%- if not loop.last -%}{{" AND " }}  {% endif %}
+            {%- endfor -%}
+        {% endif %}
+
+

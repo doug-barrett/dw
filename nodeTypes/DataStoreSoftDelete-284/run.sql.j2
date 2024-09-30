@@ -1,0 +1,132 @@
+{% set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
+{% set is_type_2 = columns | selectattr("isChangeTracking") | list | length > 0 %}
+{% set source = sources[0] %}
+
+    {% for test in node.tests if config.testsEnabled %}
+        {% if test.runOrder == 'Before' %}
+            {{ test_stage(test.name, test.continueOnFailure) }}
+            {{ test.templateString }}
+        {% endif %}
+    {% endfor %}
+
+
+	{% if config.preSQL %}
+		{{ stage('Pre-SQL') }}
+		{{ config.preSQL }}
+	{% endif %}
+
+
+            {{ stage('MERGE ' + source.name | string) }}
+            MERGE INTO {{ ref_no_link(node.location.name, node.name) }} "TGT"
+            USING (
+            /* New Rows That Don't Exist */
+            SELECT
+            {% for col in source.columns if not col.isSurrogateKey %}
+                {% if col.isSystemVersion %}
+                    1
+                {% elif col.isSystemDeleteFlag %}
+                    'N'
+                {% elif col.isSystemCurrentFlag %}
+                    'Y'
+                {% else %}
+                   {{ get_source_transform(col) }}
+                {% endif %}
+                AS "{{ col.name }}",
+            {% endfor %}
+                'INSERT_INITAL_VERSION_ROWS' AS "DML_OPERATION"
+            {{ source.join }}
+            LEFT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+            {% for col in source.columns if col.isBusinessKey -%}
+                {% if not loop.first %}
+                    AND
+                {% endif %}
+                    {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+            {% endfor %}
+            WHERE
+            {% for col in source.columns if col.isBusinessKey -%}
+                {% if not loop.first %}
+                    AND
+                {% endif %}
+                "DIM"."{{ col.name }}" IS NULL
+            {% endfor %}
+            UNION ALL
+            /* Deleted Rows That Exist */
+            SELECT
+            {% for col in source.columns if not col.isSurrogateKey %}
+                {% if col.isSystemVersion %}
+                    "DIM"."{{ col.name }}" + 1
+                {% elif col.isSystemDeleteFlag %}
+                    'Y'
+                {% elif col.isSystemCurrentFlag %}
+                    'Y'
+                {% else %}
+                   DIM.{{ col.name }}
+                {% endif %}
+                AS "{{ col.name }}",
+            {% endfor %}
+                'INSERT_DELETED_VERSION_ROWS' AS "DML_OPERATION"
+            {{ source.join }}
+            RIGHT JOIN {{ ref_no_link(node.location.name, node.name) }} "DIM" ON
+            {% for col in source.columns if col.isBusinessKey -%}
+                {% if not loop.first %}
+                    AND
+                {% endif %}
+                    {{ get_source_transform(col) }} = "DIM"."{{ col.name }}"
+            {% endfor %}
+            WHERE
+            {% for col in source.columns if col.isBusinessKey -%}
+                {% if not loop.first %}
+                    AND
+                {% endif %}
+                {{ get_source_transform(col) }} IS NULL
+            {% endfor %}
+ 
+        ) AS "SRC"
+        ON
+        {% for col in source.columns if col.isBusinessKey -%}
+            {% if not loop.first %}
+                AND
+            {% endif %}
+            "TGT"."{{ col.name }}" = "SRC"."{{ col.name }}"
+        {% endfor %}
+        AND "TGT"."{{ get_value_by_column_attribute("isSystemVersion") }}" = "SRC"."{{ get_value_by_column_attribute("isSystemVersion") }}"
+    
+        WHEN NOT MATCHED THEN INSERT (
+        {%- for col in source.columns if not col.isSurrogateKey %}
+            "{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        )
+        VALUES (
+        {%- for col in source.columns if not col.isSurrogateKey %}
+            "SRC"."{{ col.name }}"
+            {% if not loop.last %}, {% endif %}
+        {% endfor -%}
+        )
+
+
+	
+	{% if config.postSQL %}
+		{{ stage('Post-SQL') }}
+		{{ config.postSQL }}
+	{% endif %}
+	
+
+{% if config.testsEnabled %}
+	{% for test in node.tests %}
+		{% if test.runOrder == 'After' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+
+            {{ test_stage("Macro Tests")}}
+            {{ run_test() }}
+        {% endif %}
+	{% endfor %}
+
+	{% for column in columns %}
+		{% for test in column.tests %}
+			{{ test_stage(column.name + ": " + test.name) }}
+			{{ test.templateString }}
+		{% endfor %}
+	{% endfor %}
+{% endif %}

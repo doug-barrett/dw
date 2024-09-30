@@ -1,0 +1,46 @@
+{% set source = sources[0] %}
+{{ stage('Create Stage View') }}
+
+    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in columns %}
+            "{{ col.name }}"
+            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+    )
+    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+    AS
+        SELECT
+        {% for col in source.columns %}
+            
+            {{ get_source_transform(col) }}  AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+    {% if config.toggleWhere %}
+        {{ source.join }}
+    {% else %}
+
+        {% for dep in sources[0].dependencies %}
+            {%- if loop.first %} FROM 
+            {%- else %} JOIN 
+            {%- endif %}
+            {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}"
+            {%- if not loop.first %}
+            {%- for pkey in parameters.pkeys if pkey.table == dep.node.name %}
+                {% for k in pkey.pkey %}
+                {%- if loop.first %} ON {%- else %} AND {%- endif %}
+                {{ pkey.table }}.{{ k }} = 
+                {%- for dep1 in sources[0].dependencies if dep1.node.name !=  pkey.table %}
+                    {%- for col in dep1.columns if col.name == k %}
+                    {{ dep1.node.name }}.{{ col.name }}
+                    {%- endfor %}
+                {%- endfor %}
+                {% endfor %}
+            {%- endfor %}
+            {%- endif %}
+        {% endfor %}
+    {% endif %}
+
+

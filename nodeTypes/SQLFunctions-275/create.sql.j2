@@ -14,37 +14,49 @@
         SELECT
         {% for col in source.columns %}
             {%- set count = namespace(value=0) -%}
-            {%- for i in config.strFunctions.get('items') -%}
-                {%- if col.name == i.funcColStr.name -%}
-                    {{ i.strFunc }}{{"("}} 
-                    {%- set count.value = count.value + 1 -%}
-                {%- endif-%}
-            {%- endfor -%}
-            {%- for i in config.numFunctions.get('items') -%}
-                {%- if col.name == i.funcColNum.name -%}
-                    {{ i.numFunc }}{{"("}} 
-                    {%- set count.value = count.value + 1 -%}
-                {%- endif-%}
-            {%- endfor -%}
-            {%- for i in config.dateFunctions.get('items') -%}
-                {%- if col.name == i.funcColDate.name -%}
-                    {{ i.dateFunc }}{{"("}} 
-                    {%- set count.value = count.value + 1 -%}
-                {%- endif-%}
-            {%- endfor -%}
+
+            {% if config.strFunctions-%}
+                {%- for i in config.strFunctions.get('items') -%}            
+                    {%- if "funcColStr" in i and col.name == i.funcColStr.name -%}  
+                        {{ i.strFunc }}{{"("}} 
+                        {%- set count.value = count.value + 1 -%}
+                    {%- endif-%}
+                {%- endfor -%}
+            {%- endif-%}
+
+            {% if config.numFunctions-%}
+                {%- for i in config.numFunctions.get('items') -%}
+                    {%- if "funcColNum" in i and col.name.replace("""", "") == i.funcColNum.name -%}
+                        {{ i.numFunc }}{{"("}} 
+                        {%- set count.value = count.value + 1 -%}
+                    {%- endif-%}
+                {%- endfor -%}
+            {%- endif-%}
+
+            {% if config.dateFunctions-%}
+                {%- for i in config.dateFunctions.get('items') -%}
+                    {%- if "funcColDate" in i and col.name.replace("""", "") == i.funcColDate.name -%}
+                        {{ i.dateFunc }}{{"("}} 
+                        {%- set count.value = count.value + 1 -%}
+                    {%- endif-%}
+                {%- endfor -%}
+             {%- endif-%}
+
             {% if config.aggFunctions %}
                 {%- for i in config.aggFunctions.get('items') -%}
-                {%- if col.name == i.funcColAgg.name -%}
+                {%- if "funcColAgg" in i and col.name.replace("""", "") == i.funcColAgg.name -%}
                         {{ i.aggFunc }}{{"("}} 
                         {%- set count.value = count.value + 1 -%}
                     {%- endif-%}
                 {%- endfor -%}
             {%- endif-%}
+
             {{ get_source_transform(col) }} 
             {%- for n in range(count.value) -%} 
                 {{") "}}       
             {%- endfor -%}
-            AS "{{ col.name }}"
+            
+            {{ " " }} AS "{{ col.name }}"
             {%- if not loop.last -%}, {% endif %}
         {% endfor %}
 

@@ -1,0 +1,60 @@
+fileVersion: 1
+id: "288"
+isDisabled: false
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Copy of Copy of Copy of Copy of Functions
+    short: V
+    plural: Stages
+    tagColor: '#2EB67D'
+
+    joinTemplate: |
+      {%- set node_list = [] %}
+      {%- for fk in parameters.fkeys | sort(attribute = 'order') %} 
+        {%- for dep in sources[0].dependencies %}  
+          {%- if fk.table == dep.node.name %} 
+            {{- node_list.append(dep.node.name) or "" }}
+          {%- endif %}
+        {%- endfor %}
+      {%- endfor %}
+      FROM 
+      {% for dep in node_list | unique %}
+        {{ ref_raw("SRC_SAMPLE",dep) }} "{{ dep }}"{%- if not loop.first %},{%- endif %}
+      {% endfor %}  
+      WHERE 
+      {%- for c in config.tabJoins %}
+          {%- if not loop.first %} AND {%- else %} AND {%- endif %} 
+          "{{ fk.fk }}" = "{{ dep }}"."{{ fk.pk }}"
+      {%- endfor %}
+
+    config:
+    - groupName: Options
+
+      items:
+      - type: materializationSelector
+        default: view
+        options:
+        - view
+        isRequired: true
+        enableIf: "false"
+
+      - type: tabular
+        displayName: 'Join Functions'
+        attributeName: tabJoins
+        isRequired: false
+        columns:
+      
+        - type: columnDropdownSelector
+          displayName: Column Name
+          attributeName: funcColAgg
+          isRequired: false
+
+        - type: columnDropdownSelector
+          displayName: Column Name
+          attributeName: funcColAgg2
+          isRequired: false
+      
+name: SQL Join using Dropdown
+type: NodeType

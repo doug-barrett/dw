@@ -1,0 +1,47 @@
+{% set source = sources[0] %}
+{{ stage('Create Stage View') }}
+
+    CREATE OR REPLACE VIEW {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in columns %}
+            "{{ col.name }}"
+            {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+    )
+    {%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+    AS
+        SELECT
+        {% for col in source.columns %}
+            
+            {{ get_source_transform(col) }}  AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endfor %}
+
+    {% if config.toggleWhere %}
+        {{ source.join }}
+    {% else %}
+
+        {%- set node_list = [] %}
+
+        {%- for fk in parameters.fkeys | sort(attribute = 'order') %} 
+            {%- for dep in sources[0].dependencies %}  
+            {%- if fk.table == dep.node.name %} 
+                {{ node_list.append(dep.node.name) or "" }}
+            {%- endif %}
+            {%- endfor %}
+        {%- endfor %}
+
+        {% for dep in node_list | unique %}
+            {%- if loop.first %} FROM {%- else %} {%- if config.toggleLeft %} LEFT {%- endif %} JOIN {%- endif %}
+            {{ ref_raw("SRC_SAMPLE",dep) }} "{{ dep }}"
+            {%- if not loop.first %}
+            {%- for fk in parameters.fkeys if fk.table == dep and fk.fktable in node_list %}
+                {%- if loop.first %} ON {%- else %} AND {%- endif %} 
+                "{{ fk.fktable }}"."{{ fk.fk }}" = "{{ dep }}"."{{ fk.pk }}"
+            {%- endfor %}
+            {%- endif %}
+        {% endfor %}
+    {% endif %}
+
+
