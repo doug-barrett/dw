@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "288"
-isDisabled: false
+isDisabled: true
 metadata:
   defaultStorageLocation: STAGE
   error: null
@@ -11,22 +11,14 @@ metadata:
     tagColor: '#2EB67D'
 
     joinTemplate: |
-      {%- set node_list = [] %}
-      {%- for fk in parameters.fkeys | sort(attribute = 'order') %} 
-        {%- for dep in sources[0].dependencies %}  
-          {%- if fk.table == dep.node.name %} 
-            {{- node_list.append(dep.node.name) or "" }}
-          {%- endif %}
-        {%- endfor %}
-      {%- endfor %}
       FROM 
-      {% for dep in node_list | unique %}
-        {{ ref_raw("SRC_SAMPLE",dep) }} "{{ dep }}"{%- if not loop.first %},{%- endif %}
-      {% endfor %}  
+      {%- for dep in sources[0].dependencies %}
+        {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" {%- if not loop.last %},{%- endif %}
+      {%- endfor %}  
       WHERE 
-      {%- for c in config.tabJoins %}
-          {%- if not loop.first %} AND {%- else %} AND {%- endif %} 
-          "{{ fk.fk }}" = "{{ dep }}"."{{ fk.pk }}"
+      {%- for c in config.tabJoins.get('items') %}
+          {%- if not loop.first %} AND {%- endif %} 
+          "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
       {%- endfor %}
 
     config:
@@ -41,19 +33,19 @@ metadata:
         enableIf: "false"
 
       - type: tabular
-        displayName: 'Join Functions'
+        displayName: 'Join Links'
         attributeName: tabJoins
         isRequired: false
         columns:
       
         - type: columnDropdownSelector
           displayName: Column Name
-          attributeName: funcColAgg
+          attributeName: colJoin1
           isRequired: false
 
         - type: columnDropdownSelector
           displayName: Column Name
-          attributeName: funcColAgg2
+          attributeName: colJoin2
           isRequired: false
       
 name: SQL Join using Dropdown

@@ -1,0 +1,150 @@
+fileVersion: 1
+id: 0fd4644f-d31b-400c-b822-b00557c08de4
+name: TXM_PARTSUPP
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Partsupp data as defined by TPC-H
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f8978724-f99c-4782-a9c0-06393fe9d0d4
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PS_PARTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5449ee5f-29ed-48cc-9a94-30ad9a29df14
+                stepCounter: b142ca26-80b5-4a27-b950-7bfe13ec1ff7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d437ca64-51d8-462d-a3d9-ebe3b7447bb4
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PS_SUPPKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de20da1c-b932-40d7-b650-e26827f92543
+                stepCounter: b142ca26-80b5-4a27-b950-7bfe13ec1ff7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 60969ddd-13a6-49cb-8549-fb6cda023d19
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PS_AVAILQTY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4cd1d238-dc35-45d5-bdd8-f9d4b647dc00
+                stepCounter: b142ca26-80b5-4a27-b950-7bfe13ec1ff7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3bfe27f-f28e-411d-a205-a5c4bd78405c
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: PS_SUPPLYCOST
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6cdb825b-b20e-4617-a659-5047ceef87fb
+                stepCounter: b142ca26-80b5-4a27-b950-7bfe13ec1ff7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 42199e3a-4d34-456d-9f8b-3e2fb230ec9c
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: VARCHAR(199)
+        description: ""
+        name: PS_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2039d0fb-4d72-4516-8943-b3f20fcceba6
+                stepCounter: b142ca26-80b5-4a27-b950-7bfe13ec1ff7
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f205e00e-c182-40e8-86b6-3722ab1f82f6
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        isRegion: true
+        name: REGION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: REGION.R_NAME
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04161eeb-cdfb-4cf0-90b0-f8a0f30998ce
+          stepCounter: 0fd4644f-d31b-400c-b822-b00557c08de4
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        isNation: true
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: NATION.N_NAME
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_SAMPLE
+            nodeName: PARTSUPP
+        join:
+          joinCondition: |-
+            FROM
+              {{ ref('SRC_SAMPLE', 'PARTSUPP') }} "PARTSUPP"
+
+            JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
+            ON NATION.N_NATIONKEY = BLEH.BLEH
+            JOIN {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
+            ON REGION.R_REGIONKEY = NATION.N_REGIONKEY
+        name: TXM_PARTSUPP
+        noLinkRefs: []
+  name: TXM_PARTSUPP
+  overrideSQL: false
+  schema: ""
+  sqlType: "289"
+  type: sql
+  version: 1
+type: Node
