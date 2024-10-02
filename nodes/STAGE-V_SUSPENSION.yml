@@ -1,0 +1,67 @@
+fileVersion: 1
+id: c56964cf-581e-47b9-a3f0-0ec81a146941
+name: V_SUSPENSION
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 575cffaa-3609-4310-8b4f-4621f02726d7
+          stepCounter: c56964cf-581e-47b9-a3f0-0ec81a146941
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CASE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 618707c7-27a1-4749-b238-3e056fb9e400
+                stepCounter: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5a29e34d-c79a-4e56-8e18-80296e5cb46c
+          stepCounter: c56964cf-581e-47b9-a3f0-0ec81a146941
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: AS400_SUSPENSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c5dc07df-5493-4808-8073-8ec45a4ba56a
+                stepCounter: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+            transform: UPPER(TRIM(FILE_NAME))
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CASE_ATTACHMENT: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE
+            nodeName: CASE_ATTACHMENT
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE', 'CASE_ATTACHMENT') }} "CASE_ATTACHMENT"
+            WHERE UPPER(FILE_NAME) LIKE ANY ('%AS400%')
+        name: V_SUSPENSION
+        noLinkRefs: []
+  name: V_SUSPENSION
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node

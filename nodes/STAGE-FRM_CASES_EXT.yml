@@ -1,0 +1,119 @@
+fileVersion: 1
+id: 099f7e3a-ca18-4661-ad5e-44abcb4a19d4
+name: FRM_CASES_EXT
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d0b4ab94-6af4-407a-b357-a4da61c6964f
+          stepCounter: 099f7e3a-ca18-4661-ad5e-44abcb4a19d4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CASE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5239da7c-8f68-41bc-98d0-2cb98019ac00
+                stepCounter: faedf8bb-9875-434c-b2e6-2d6f2784695b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f36b429-5c46-4d0b-9891-9106eb9ef457
+          stepCounter: 099f7e3a-ca18-4661-ad5e-44abcb4a19d4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: FILE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c5dc07df-5493-4808-8073-8ec45a4ba56a
+                stepCounter: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 909f86d6-4d22-4ee4-bc23-74848ebe580e
+          stepCounter: 099f7e3a-ca18-4661-ad5e-44abcb4a19d4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CASE_COMMENT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: efe612ec-ef02-47b6-b48a-66afca6582bf
+                stepCounter: 81ffc2af-957d-4628-8e88-7f24672d6455
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a7a43289-8ec4-4250-8f09-c994eb849c1c
+          stepCounter: 099f7e3a-ca18-4661-ad5e-44abcb4a19d4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b85875ec-f5b1-4cd4-b933-6c31afbf7707
+                stepCounter: 81ffc2af-957d-4628-8e88-7f24672d6455
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CASE: faedf8bb-9875-434c-b2e6-2d6f2784695b
+          CASE_ATTACHMENT: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+          CASE_COMMENT: 81ffc2af-957d-4628-8e88-7f24672d6455
+          CASE_DETAILS: a5ce479f-d8e8-4ced-8153-bab9d6647334
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE
+            nodeName: CASE
+          - locationName: SOURCE
+            nodeName: CASE_ATTACHMENT
+          - locationName: SOURCE
+            nodeName: CASE_COMMENT
+          - locationName: SOURCE
+            nodeName: CASE_DETAILS
+        join:
+          joinCondition: |
+            FROM {{ ref('SOURCE', 'CASE') }}
+
+            JOIN {{ ref('SOURCE', 'CASE_DETAILS') }}
+                ON "CASE".case_key = CASE_DETAILS.case_key
+
+            LEFT JOIN {{ ref('SOURCE', 'CASE_ATTACHMENT') }}
+                ON "CASE".case_key = CASE_ATTACHMENT.case_key
+
+            LEFT JOIN {{ ref('SOURCE', 'CASE_COMMENT') }}
+                ON "CASE".case_key = CASE_COMMENT.case_key
+
+            WHERE trim("CASE".business_group_id) = 'FRM'
+                AND CASE_DETAILS.classification <> '2'
+                AND year("CASE".create_timestamp) IN (2021, 2022)
+        name: FRM_CASES_EXT
+        noLinkRefs: []
+  name: FRM_CASES_EXT
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

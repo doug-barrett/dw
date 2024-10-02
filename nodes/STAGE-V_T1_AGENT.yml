@@ -1,0 +1,66 @@
+fileVersion: 1
+id: 7e64fc5c-9166-4154-bb9c-e5c4566ab504
+name: V_T1_AGENT
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7c6ac667-304c-4b40-ac97-fd1847dd3066
+          stepCounter: 7e64fc5c-9166-4154-bb9c-e5c4566ab504
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: CASE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 618707c7-27a1-4749-b238-3e056fb9e400
+                stepCounter: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2244eca7-6340-444c-bdd6-c6c5b1689486
+          stepCounter: 7e64fc5c-9166-4154-bb9c-e5c4566ab504
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: T1_AGENT_WB
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c5dc07df-5493-4808-8073-8ec45a4ba56a
+                stepCounter: 0358db6c-48aa-4daa-bc25-ff475c0761f4
+            transform: UPPER(TRIM(FILE_NAME))
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE
+            nodeName: CASE_ATTACHMENT
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE', 'CASE_ATTACHMENT') }} "CASE_ATTACHMENT"
+            WHERE UPPER(FILE_NAME) LIKE ANY ('%AGENTWB%', '%AGENT WB%')
+        name: V_T1_AGENT
+        noLinkRefs: []
+  name: V_T1_AGENT
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
