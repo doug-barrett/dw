@@ -18,30 +18,19 @@
             {%- if not loop.last -%}, {% endif %}
         {% endfor %}
 
-    {% if config.toggleWhere %}
+    {%- if config.toggleWhere %}
         {{ source.join }}
-    {% else %}
-
-        {%- set node_list = [] %}
-
-        {%- for fk in parameters.fkeys | sort(attribute = 'order') %} 
-            {%- for dep in sources[0].dependencies %}  
-            {%- if fk.table == dep.node.name %} 
-                {{ node_list.append(dep.node.name) or "" }}
-            {%- endif %}
+    {%- else %}
+        FROM 
+        {%- for dep in sources[0].dependencies %}
+            {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" {%- if not loop.last %},{%- endif %}
+        {%- endfor %}  
+        WHERE 
+        {%- if config.tabJoins.get('items') %}
+            {%- for c in config.tabJoins.get('items') %}
+                {%- if not loop.first %} AND {%- endif %} 
+                "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
             {%- endfor %}
-        {%- endfor %}
+        {%- endif %}
 
-        {% for dep in node_list | unique %}
-            {%- if loop.first %} FROM {%- else %} {%- if config.toggleLeft %} LEFT {%- endif %} JOIN {%- endif %}
-            {{ ref_raw("SRC_SAMPLE",dep) }} "{{ dep }}"
-            {%- if not loop.first %}
-            {%- for fk in parameters.fkeys if fk.table == dep and fk.fktable in node_list %}
-                {%- if loop.first %} ON {%- else %} AND {%- endif %} 
-                "{{ fk.fktable }}"."{{ fk.fk }}" = "{{ dep }}"."{{ fk.pk }}"
-            {%- endfor %}
-            {%- endif %}
-        {% endfor %}
-    {% endif %}
-
-
+    {%- endif %}

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "288"
-isDisabled: true
+isDisabled: false
 metadata:
   defaultStorageLocation: STAGE
   error: null
@@ -16,10 +16,14 @@ metadata:
         {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" {%- if not loop.last %},{%- endif %}
       {%- endfor %}  
       WHERE 
-      {%- for c in config.tabJoins.get('items') %}
-          {%- if not loop.first %} AND {%- endif %} 
-          "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
-      {%- endfor %}
+        {% if not config|length %}
+        {% set config = {'tabJoins': {'items': []}} %}
+        {% endif %}
+        {%- for c in config.tabJoins.get('items') %}
+            {%- if not loop.first %} AND {%- endif %} 
+            "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
+        {%- endfor %}
+
 
     config:
     - groupName: Options
@@ -39,12 +43,12 @@ metadata:
         columns:
       
         - type: columnDropdownSelector
-          displayName: Column Name
+          displayName: Column 1
           attributeName: colJoin1
           isRequired: false
 
         - type: columnDropdownSelector
-          displayName: Column Name
+          displayName: Column 2
           attributeName: colJoin2
           isRequired: false
       
