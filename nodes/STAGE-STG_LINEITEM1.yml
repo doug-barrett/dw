@@ -44,6 +44,14 @@ operation:
         name: Test for missing dates
         runOrder: After
         templateString: "{{ test_missing_date_offset(\"O_ORDERDATE\", 100, 1) }}"
+      - continueOnFailure: false
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          SELECT 1
+          FROM {{this}}
+          WHERE L_LINENUMBER < 0
     columns:
       - appliedColumnTests:
           hasNull: true

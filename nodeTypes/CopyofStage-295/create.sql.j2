@@ -1,0 +1,10 @@
+{{ stage('Truncate Stage Table') }}
+{% if currentState is undefined %}
+    {{ "not in current state" }}
+{% elif currentState != desiredState %}
+    {% for col in desiredState.columns %}
+        {{col.name}}
+    {% endfor %}
+{% else %}
+    {{ "same" }}
+{% endif %}
