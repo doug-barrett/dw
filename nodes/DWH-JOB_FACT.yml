@@ -1,0 +1,35 @@
+fileVersion: 1
+id: 4614883c-a649-409d-b6a8-bc1580c1f221
+name: JOB_FACT
+operation:
+  config:
+    jobId: "113"
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: JOB_DIMENSIONS
+        join:
+          joinCondition: FROM {{ ref('DWH', 'JOB_DIMENSIONS') }} "JOB_DIMENSIONS"
+        name: JOB_FACT
+        noLinkRefs: []
+  name: JOB_FACT
+  overrideSQL: false
+  schema: ""
+  sqlType: "281"
+  type: sql
+  version: 1
+type: Node
