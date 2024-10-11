@@ -1,0 +1,134 @@
+fileVersion: 1
+id: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+name: VW_LAND_ZONE
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c887cd21-ddce-4c09-8a5d-7751d6b7096a
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ZONECODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6424a19-f2ea-4f98-a57e-878b93dc308a
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e89cd34e-728e-47e1-8d42-c80a595a3c07
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a00c4910-4ef0-4f70-a658-8403513876b7
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 914de804-ce09-46db-a634-32856921c99d
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 12c2683e-2fda-47f4-a336-7c6fa8364592
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d765c323-6564-4a56-90de-dd06ba43c499
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_DELIVERY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ce116f3b-f8cc-4982-966c-f7ab3a1d1316
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3e010ba-4c83-4b53-a6fd-e00a89bba78d
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1e58d894-0814-41e1-9df0-b82b5b7efd97
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bc110425-8e32-4c2a-a03d-908cfd4151b5
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: DSS_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4f0a3020-f5cd-4e04-b2ae-00f1d35b1cb6
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 83301af7-3b37-40f4-a569-607277cced29
+          stepCounter: a1baa989-624b-4d35-95a3-f9b6bdb23b9e
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6596b656-640c-4a6d-84bc-13b5f17f7fb4
+                stepCounter: af5625d6-1d11-4927-b5cd-5c365d8b8a8c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LAND_ZONE
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LAND_ZONE') }} "LAND_ZONE"
+        name: VW_LAND_ZONE
+        noLinkRefs: []
+  name: VW_LAND_ZONE
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

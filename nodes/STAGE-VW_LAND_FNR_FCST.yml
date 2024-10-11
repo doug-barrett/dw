@@ -1,0 +1,106 @@
+fileVersion: 1
+id: af3ced2d-f163-4324-adb5-4cfb3405c353
+name: VW_LAND_FNR_FCST
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c43dea0-b551-4fac-a0ef-d33bfa2e1e28
+          stepCounter: af3ced2d-f163-4324-adb5-4cfb3405c353
+        config: {}
+        dataType: DATE
+        description: ""
+        name: CLDR_DT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 74246438-18ad-4c2d-ac40-08dc33dd9e65
+                stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c5d60c48-3205-4978-b72c-466fce476887
+          stepCounter: af3ced2d-f163-4324-adb5-4cfb3405c353
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: PROD_CD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d96a2e2c-728f-4a88-a2f5-c7b28ca2f067
+                stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c018c466-692e-4ecc-9314-016e3f6edad4
+          stepCounter: af3ced2d-f163-4324-adb5-4cfb3405c353
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ZONENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3cfc3a58-b0e4-404f-954e-768779646fc2
+                stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c425005-53a2-4f7a-b0c3-e3192ecb292d
+          stepCounter: af3ced2d-f163-4324-adb5-4cfb3405c353
+        config: {}
+        dataType: NUMBER(20,10)
+        description: ""
+        name: FCST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b025dde0-74cd-4053-9450-c3593df75b32
+                stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 89c48bff-be30-4a9b-9222-22ff4fb7581a
+          stepCounter: af3ced2d-f163-4324-adb5-4cfb3405c353
+        config: {}
+        dataType: NUMBER(20,10)
+        description: ""
+        name: APPR_FCST
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 85c1ba3a-ce02-4f68-99e7-d3360236ae39
+                stepCounter: 5c279597-a7ff-4c83-bf18-f06afe3089ab
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LAND_FNR_FCST
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LAND_FNR_FCST') }} "LAND_FNR_FCST"
+        name: VW_LAND_FNR_FCST
+        noLinkRefs: []
+  name: VW_LAND_FNR_FCST
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 0c23cb91-3d41-45bb-ab04-74d1227c086e
+name: VW_LAND_PROD_WEIGHTED_CPI
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f84308fb-ebd6-4a89-80b7-02fa44c9ff0a
+          stepCounter: 0c23cb91-3d41-45bb-ab04-74d1227c086e
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f281c301-ee97-4ec4-b718-e666670f1484
+                stepCounter: 499554b0-b635-4cd2-9793-4e88a17d6436
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2452d32d-0da9-4298-bcf4-bc1977143b4a
+          stepCounter: 0c23cb91-3d41-45bb-ab04-74d1227c086e
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: WEIGHT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7c850412-0f8c-4c76-ad2a-048945ff9ab1
+                stepCounter: 499554b0-b635-4cd2-9793-4e88a17d6436
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LAND_PROD_WEIGHTED_CPI
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LAND_PROD_WEIGHTED_CPI') }} "LAND_PROD_WEIGHTED_CPI"
+        name: VW_LAND_PROD_WEIGHTED_CPI
+        noLinkRefs: []
+  name: VW_LAND_PROD_WEIGHTED_CPI
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

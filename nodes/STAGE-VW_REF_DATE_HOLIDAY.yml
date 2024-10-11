@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 7abfb72e-befe-4a2f-82cb-4170ec2fc7b3
+name: VW_REF_DATE_HOLIDAY
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d9b3440a-4f48-42c6-a929-03ef6f6d1cc5
+          stepCounter: 7abfb72e-befe-4a2f-82cb-4170ec2fc7b3
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: HOLIDAY_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 03969a22-10f4-44e1-8325-0ec040e7f0ef
+                stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a1adc38-e3b5-4a2b-a528-50ec3eaaf5ae
+          stepCounter: 7abfb72e-befe-4a2f-82cb-4170ec2fc7b3
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: HOLIDAY_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cd9e586d-7f41-4553-9f14-d26aed38a0f6
+                stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b057232-3497-47ea-a217-cc0c3c196cb1
+          stepCounter: 7abfb72e-befe-4a2f-82cb-4170ec2fc7b3
+        config: {}
+        dataType: DATE
+        description: ""
+        name: HOLIDAY_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e7a79db6-ba71-4654-8df0-80dfa1bccf44
+                stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c6f42e2b-97ef-496a-a2fd-96829af5fe5a
+          stepCounter: 7abfb72e-befe-4a2f-82cb-4170ec2fc7b3
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: NUMBER_DAYS_BEFORE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3ad8a76-8fe2-4d5e-9727-f0f22764eb38
+                stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d9f3400-f10f-43c7-9c63-e7dea63e05c0
+          stepCounter: 7abfb72e-befe-4a2f-82cb-4170ec2fc7b3
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: NUMBER_DAYS_AFTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9bdf1ed-7c6a-4d1b-9080-cc8c6a8dcd48
+                stepCounter: c13d0009-e85a-4a02-b34e-131bb850e537
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: REFERENCE
+            nodeName: REF_DATE_HOLIDAY
+        join:
+          joinCondition: FROM {{ ref('REFERENCE', 'REF_DATE_HOLIDAY') }} "REF_DATE_HOLIDAY"
+        name: VW_REF_DATE_HOLIDAY
+        noLinkRefs: []
+  name: VW_REF_DATE_HOLIDAY
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

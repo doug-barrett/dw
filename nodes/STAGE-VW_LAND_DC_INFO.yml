@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 0e6e8647-f234-4ad9-bb08-6edff32a38e8
+name: VW_LAND_DC_INFO
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 011eac7e-cbb8-4e50-91d4-0b2c9313054c
+          stepCounter: 0e6e8647-f234-4ad9-bb08-6edff32a38e8
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: DCCODE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c0ccff67-2eea-46ab-b6c7-926ce1bca9a0
+                stepCounter: 954e72db-d872-4069-b040-e27d12e30e8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d1a8c03-9973-4c2d-b4f7-4866485d9dd4
+          stepCounter: 0e6e8647-f234-4ad9-bb08-6edff32a38e8
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: DCNAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3917f701-e03d-44ad-9479-879de3a0c09e
+                stepCounter: 954e72db-d872-4069-b040-e27d12e30e8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 70887b2f-697e-4642-943a-8a2fff6f9536
+          stepCounter: 0e6e8647-f234-4ad9-bb08-6edff32a38e8
+        config: {}
+        dataType: DATE
+        description: ""
+        name: PC_DT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5a1cbb1b-7831-46df-8b3f-ceab186c68a8
+                stepCounter: 954e72db-d872-4069-b040-e27d12e30e8c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LAND_DC_INFO
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LAND_DC_INFO') }} "LAND_DC_INFO"
+        name: VW_LAND_DC_INFO
+        noLinkRefs: []
+  name: VW_LAND_DC_INFO
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node
