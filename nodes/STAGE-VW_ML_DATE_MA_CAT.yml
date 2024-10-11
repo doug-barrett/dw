@@ -1,58 +1,64 @@
-steps:
-  VW_ML_DATE_MA_CAT-d27dff77-878c-4814-b1b6-137df18aa83a:
-    operation:
-      config:
-        insertStrategy: UNION
-        selectDistinct: false
-      database: ""
-      deployEnabled: true
-      description: Used to assemble data for Multi-series (non Exogenous varible) Machine Learning data set
-      isMultisource: false
-      locationName: STAGE
-      materializationType: view
-      metadata:
-        appliedNodeTests: []
-        columns:
-          - columnReference:
-              columnCounter: cc2341d7-5e81-4289-8c28-ded0fbba3a4e
-              stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
-            dataType: DATE
-            description: ""
-            name: TRANSACTION_DATE
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: c36f9c65-1cfc-46ed-ae0c-c39dbc3bbfc3
-                    stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
-                transform: ""
-          - columnReference:
-              columnCounter: 9f6a8d76-2f83-4734-81e1-ea6bc64ce64c
-              stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
-            dataType: VARCHAR(50)
-            description: This is the product key
-            name: MA_CAT
-            nullable: true
-            sourceColumnReferences:
-              - columnReferences:
-                  - columnCounter: 62700dbf-8151-4a71-afe0-33dd5273b2fb
-                    stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
-                transform: ""
-        cteString: ""
-        enabledColumnTestIDs: []
-        sourceMapping:
-          - aliases: {}
-            customSQL:
-              customSQL: ""
-            dependencies:
-              - locationName: STAGE
-                nodeName: STG_ML_DATE_MA_CAT
-            join:
-              joinCondition: FROM {{ ref('STAGE', 'STG_ML_DATE_MA_CAT') }} "STG_ML_DATE_MA_CAT"
-            name: VW_ML_DATE_MA_CAT
-            noLinkRefs: []
-      name: VW_ML_DATE_MA_CAT
-      overrideSQL: false
-      schema: ""
-      sqlType: "16"
-      type: sql
-    stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
+fileVersion: 1
+id: d27dff77-878c-4814-b1b6-137df18aa83a
+name: VW_ML_DATE_MA_CAT
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Used to assemble data for Multi-series (non Exogenous varible) Machine Learning data set
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cc2341d7-5e81-4289-8c28-ded0fbba3a4e
+          stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
+        config: {}
+        dataType: DATE
+        description: ""
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c36f9c65-1cfc-46ed-ae0c-c39dbc3bbfc3
+                stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9f6a8d76-2f83-4734-81e1-ea6bc64ce64c
+          stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: MA_CAT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 62700dbf-8151-4a71-afe0-33dd5273b2fb
+                stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_ML_DATE_MA_CAT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_ML_DATE_MA_CAT') }} "STG_ML_DATE_MA_CAT"
+        name: VW_ML_DATE_MA_CAT
+        noLinkRefs: []
+  name: VW_ML_DATE_MA_CAT
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node
