@@ -1,0 +1,106 @@
+fileVersion: 1
+id: b71954bf-ff98-4057-823f-d7ce6065ceab
+name: VW_LAND_INV_SUPPLIER_ON_ORDER2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7b9ca49-aa49-499a-b6d8-3b9bc94d678b
+          stepCounter: b71954bf-ff98-4057-823f-d7ce6065ceab
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Calendar date in the format of YYYYMMDD prefixed with 'D' "
+        name: DAY_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9b2c0f0a-a860-4dc1-a863-b59430f8c66a
+                stepCounter: d5aa2496-b40d-402c-8f04-964eab1d36a2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8997be6a-2a61-4c38-9d18-73e2fe0f8ad8
+          stepCounter: b71954bf-ff98-4057-823f-d7ce6065ceab
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Cost Centre Code in Location hierarchy "
+        name: COST_CENTER_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 220dd2ff-1d5f-43ac-9c1d-9fa7ad4b06cf
+                stepCounter: d5aa2496-b40d-402c-8f04-964eab1d36a2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 62763e86-f6a3-4374-aacc-7958661a4de4
+          stepCounter: b71954bf-ff98-4057-823f-d7ce6065ceab
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Product Code in Product hierarchy "
+        name: PRODUCT_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 97450161-5600-4122-a073-9a02ce99403a
+                stepCounter: d5aa2496-b40d-402c-8f04-964eab1d36a2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: da9c5bab-74b1-45fe-970b-c603f3a80736
+          stepCounter: b71954bf-ff98-4057-823f-d7ce6065ceab
+        config: {}
+        dataType: VARCHAR(20)
+        description: "1 -  pack size "
+        name: PACK_SIZE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b760a609-120c-4c68-ad68-3ebd875b60a8
+                stepCounter: d5aa2496-b40d-402c-8f04-964eab1d36a2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9fd9700f-9e4b-4786-ad11-6674403bf9ff
+          stepCounter: b71954bf-ff98-4057-823f-d7ce6065ceab
+        config: {}
+        dataType: VARCHAR(20)
+        description: In transit stock
+        name: STOCK_IN_TRANSIT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bdd25f7f-c2d0-442b-ac5c-0a17ced042b6
+                stepCounter: d5aa2496-b40d-402c-8f04-964eab1d36a2
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LAND_INV_SUPPLIER_ON_ORDER
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LAND_INV_SUPPLIER_ON_ORDER') }} "LAND_INV_SUPPLIER_ON_ORDER"
+        name: VW_LAND_INV_SUPPLIER_ON_ORDER2
+        noLinkRefs: []
+  name: VW_LAND_INV_SUPPLIER_ON_ORDER2
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

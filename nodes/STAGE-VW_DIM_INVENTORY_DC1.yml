@@ -1,0 +1,64 @@
+fileVersion: 1
+id: a5c7309b-6615-4c81-8615-d0e759c62599
+name: VW_DIM_INVENTORY_DC1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d6528190-ec04-441e-85fe-decbbfdb0429
+          stepCounter: a5c7309b-6615-4c81-8615-d0e759c62599
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: DC_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aae8e46b-6731-4e3c-9fb1-0d92cdc8942c
+                stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 29c47d92-e53e-4822-a108-c471a7d25051
+          stepCounter: a5c7309b-6615-4c81-8615-d0e759c62599
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: DC_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d9a0a882-f4b2-494b-aa4e-a50057702be2
+                stepCounter: 8924505c-b8c1-4304-84ae-5d2d2ac3f798
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_DIM_INVENTORY_DC
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_DIM_INVENTORY_DC') }} "VW_DIM_INVENTORY_DC"
+        name: VW_DIM_INVENTORY_DC1
+        noLinkRefs: []
+  name: VW_DIM_INVENTORY_DC1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

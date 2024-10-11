@@ -1,0 +1,92 @@
+fileVersion: 1
+id: 04591dc1-859f-4220-a966-bd8c99751aa9
+name: VW_INVENTORY_DC6
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Type 1 DC Dimension - no surrogate key
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8e855a86-28b0-41c2-b431-f8305a3f1391
+          stepCounter: 04591dc1-859f-4220-a966-bd8c99751aa9
+        config: {}
+        dataType: VARCHAR(20)
+        description: ""
+        name: DC_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3e7d1e7f-e798-41d3-9ae8-d12faac5ad73
+                stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4ebe540-1e91-4017-9668-f467a69bec0d
+          stepCounter: 04591dc1-859f-4220-a966-bd8c99751aa9
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: DC_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0cef2ed1-51df-4e51-9c54-48f15974acfe
+                stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fb530479-0efa-4dad-8b4d-b74448071e08
+          stepCounter: 04591dc1-859f-4220-a966-bd8c99751aa9
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de417e93-1102-41c6-9e8c-bc0df3fd795e
+                stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 76691483-ba81-4322-bfad-1b692be81c32
+          stepCounter: 04591dc1-859f-4220-a966-bd8c99751aa9
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 702ee6e8-ba9e-404b-896d-5d1df948054f
+                stepCounter: 12229feb-c606-4c4f-8cba-d041fd816c7f
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATA
+            nodeName: DIM_INVENTORY_DC
+        join:
+          joinCondition: FROM {{ ref('DATA', 'DIM_INVENTORY_DC') }} "DIM_INVENTORY_DC"
+        name: VW_INVENTORY_DC6
+        noLinkRefs: []
+  name: VW_INVENTORY_DC6
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

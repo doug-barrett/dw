@@ -1,0 +1,148 @@
+fileVersion: 1
+id: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+name: VWA_LAND_FNR_FORECAST
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ba7c7111-fcf4-48f2-9b8a-708f66cb89bc
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: DATE
+        description: ""
+        name: LOAD_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c3fe37a2-f3df-4c05-be56-342e343621f7
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5521c3e7-a8f4-45d2-95c3-e6b14c8309a1
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: DATE
+        description: ""
+        name: FNR_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3778a1fa-c708-4a3b-9428-7e911e7444e0
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ec006a4-eaab-4b0c-a86c-d2858e2714b4
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: CHAR(6)
+        description: ""
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3dcc562c-9fd5-4a39-96b2-133efe519b6a
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 44807ee7-a866-4888-9615-1bd786ef937f
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ZONE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bf9e98b4-46d5-49f6-bb1f-11a767e366ae
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d1df05e3-5ff5-426d-8536-97a35dd8e297
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: INT
+        description: ""
+        name: ZONE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d662fac2-0492-46c4-8bfa-377c6cdfd680
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 739e6f16-6921-4efe-909e-8f356a8e42dd
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4422d2b8-18b1-4d37-bcb8-8dd4f578e888
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea3a5f47-8d23-4e17-a773-4517cb807bf6
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: NUMBER(20,10)
+        description: ""
+        name: FNR_FORECAST_UNITS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2dda462-8505-460a-b68b-405e03b4505e
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c78dd0da-05ff-4a46-bee3-3259448987d6
+          stepCounter: ba6c68dc-1327-4c69-b0a7-d8f326091ea7
+        config: {}
+        dataType: NUMBER(20,10)
+        description: ""
+        name: FNR_FORECAST_APPROVED_UNITS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c0ae2d3-30e3-447b-b77f-b5df51589aa2
+                stepCounter: 2120e6ad-2e15-4d33-9887-72062d4f69b1
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_LAND_FNR_FORECAST
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_LAND_FNR_FORECAST') }} "VW_LAND_FNR_FORECAST"
+        name: VWA_LAND_FNR_FORECAST
+        noLinkRefs: []
+  name: VWA_LAND_FNR_FORECAST
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

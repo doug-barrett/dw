@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 38842df9-f9ea-45ee-a0fd-9af83a290b54
+name: VW_LAND_INV_STORE_STK2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b60e1a73-d6b7-4207-a251-f2836770ac74
+          stepCounter: 38842df9-f9ea-45ee-a0fd-9af83a290b54
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: STORECODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a366831c-e5c8-46a5-9901-f70b3bccb375
+                stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 87532457-7e3d-4d8c-a211-7d716a86d359
+          stepCounter: 38842df9-f9ea-45ee-a0fd-9af83a290b54
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 169be146-9ea7-419f-a2d1-57f802d6cd7f
+                stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b81fdd55-e77f-4c2f-858c-79a2189bf7b0
+          stepCounter: 38842df9-f9ea-45ee-a0fd-9af83a290b54
+        config: {}
+        dataType: NUMBER(9,2)
+        description: ""
+        name: INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: df478f1d-58ce-4ac1-812b-560eda920242
+                stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac17b05c-f85b-48d9-b1e5-9d64d9e1ba6e
+          stepCounter: 38842df9-f9ea-45ee-a0fd-9af83a290b54
+        config: {}
+        dataType: DATE
+        description: ""
+        name: UPDATEDDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1dc8c09f-ae9c-428e-b62b-dcd45147fb53
+                stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0fa8086-4a75-4498-a43d-0780a43227e6
+          stepCounter: 38842df9-f9ea-45ee-a0fd-9af83a290b54
+        config: {}
+        dataType: DATE
+        description: ""
+        name: PC_DT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0bade734-00ae-402a-8e4f-b251f3a3badf
+                stepCounter: c3c5ff3a-7e62-4eef-87c3-2f753ce7e0ec
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LAND_INV_STORE_STK
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LAND_INV_STORE_STK') }} "LAND_INV_STORE_STK"
+        name: VW_LAND_INV_STORE_STK2
+        noLinkRefs: []
+  name: VW_LAND_INV_STORE_STK2
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 3e0c7edd-1715-4776-9263-852aa431e0d4
+name: VWA_FCT_INVENTORY_DC1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b709f948-a803-46f1-8868-6516ae794864
+          stepCounter: 3e0c7edd-1715-4776-9263-852aa431e0d4
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: DC_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 79a57f6f-d027-4d2e-b965-e6da7a2f87df
+                stepCounter: c5ad863f-af74-4a41-853e-7665ebf4473b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 34e60e33-e9d6-435b-b249-3a4a6cef1871
+          stepCounter: 3e0c7edd-1715-4776-9263-852aa431e0d4
+        config: {}
+        dataType: DATE
+        description: ""
+        name: UPDATED_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fc15e4e0-f876-4c99-8a46-fac8477187e4
+                stepCounter: c5ad863f-af74-4a41-853e-7665ebf4473b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1679276f-c5e6-46d5-bff6-b111d8b75f69
+          stepCounter: 3e0c7edd-1715-4776-9263-852aa431e0d4
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 12d00a78-fb01-4b93-994e-7aff8c3aaa19
+                stepCounter: c5ad863f-af74-4a41-853e-7665ebf4473b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 92b31b97-1164-4a5b-8b36-73e88974ab7c
+          stepCounter: 3e0c7edd-1715-4776-9263-852aa431e0d4
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b0fc81b7-7131-49be-917d-72093fc502e5
+                stepCounter: c5ad863f-af74-4a41-853e-7665ebf4473b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8458d438-d2f8-4ac9-ab6e-322c9c8cd549
+          stepCounter: 3e0c7edd-1715-4776-9263-852aa431e0d4
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 874eff9d-eb4e-48ad-b79d-9dfc6ea7ab41
+                stepCounter: c5ad863f-af74-4a41-853e-7665ebf4473b
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_FCT_INVENTORY_DC
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_FCT_INVENTORY_DC') }} "VW_FCT_INVENTORY_DC"
+        name: VWA_FCT_INVENTORY_DC1
+        noLinkRefs: []
+  name: VWA_FCT_INVENTORY_DC1
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

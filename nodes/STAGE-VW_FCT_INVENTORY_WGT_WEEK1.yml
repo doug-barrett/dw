@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 5644bf52-875b-404a-a599-0e6ee96e1e14
+name: VW_FCT_INVENTORY_WGT_WEEK1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c4ef5064-bdf4-4137-ad46-c4a2b8d27a75
+          stepCounter: 5644bf52-875b-404a-a599-0e6ee96e1e14
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: FINANCIAL_YYWW
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8505b335-8e87-4aff-98ec-560b8bf3ab63
+                stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9ce06be6-7726-4771-8464-c71c6f9cb056
+          stepCounter: 5644bf52-875b-404a-a599-0e6ee96e1e14
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 213ff0ec-e73f-4c60-b3e9-b7885d18c8ab
+                stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2e39d88d-2970-45bc-8198-adaa473372a9
+          stepCounter: 5644bf52-875b-404a-a599-0e6ee96e1e14
+        config: {}
+        dataType: VARCHAR(64)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: efd0af03-8501-4ebc-bbb1-512d6626dc06
+                stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cdfc35dc-6eb2-4f92-be54-d430631e80bf
+          stepCounter: 5644bf52-875b-404a-a599-0e6ee96e1e14
+        config: {}
+        dataType: NUMBER(13,2)
+        description: ""
+        name: MIN_INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2955deab-9220-47e9-8674-a6c8d66df39a
+                stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 41927245-500f-479e-865d-72eba0a901b6
+          stepCounter: 5644bf52-875b-404a-a599-0e6ee96e1e14
+        config: {}
+        dataType: DECIMAL(12,6)
+        description: ""
+        name: INVENTORY_WGT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 231362f3-f6c1-46e3-ab53-4ee85abf91e3
+                stepCounter: 4f505ba0-d730-4e1c-b850-828de8102b08
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_FCT_INVENTORY_WGT_WEEK
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_FCT_INVENTORY_WGT_WEEK') }} "VW_FCT_INVENTORY_WGT_WEEK"
+        name: VW_FCT_INVENTORY_WGT_WEEK1
+        noLinkRefs: []
+  name: VW_FCT_INVENTORY_WGT_WEEK1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 01e49a70-d2e1-404c-8597-51147a713521
+name: VWA_LAND_INV_DC_INBOUND
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5a59a7ce-c788-4c32-8c1d-37eca6539f91
+          stepCounter: 01e49a70-d2e1-404c-8597-51147a713521
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Calendar date in the format of YYYYMMDD prefixed with 'D' "
+        name: DAY_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 326e9722-e569-45c6-b186-50b91902fa73
+                stepCounter: 9a656d9f-0761-46df-97b5-6ae739e4a431
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0d7ecb8d-bfe7-4a8c-a83b-96bed7ee319d
+          stepCounter: 01e49a70-d2e1-404c-8597-51147a713521
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Cost Centre Code in Location hierarchy "
+        name: COST_CENTER_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3e43dda5-e8cd-44e7-8be2-e5907e6623fe
+                stepCounter: 9a656d9f-0761-46df-97b5-6ae739e4a431
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 08e81372-04ca-4595-b176-a0739cc9c35f
+          stepCounter: 01e49a70-d2e1-404c-8597-51147a713521
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Product Code in Product hierarchy "
+        name: PRODUCT_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 824504de-f168-4edf-b2f9-5f149345ccfd
+                stepCounter: 9a656d9f-0761-46df-97b5-6ae739e4a431
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85720888-e1e1-4a0b-8009-228085a954a2
+          stepCounter: 01e49a70-d2e1-404c-8597-51147a713521
+        config: {}
+        dataType: VARCHAR(20)
+        description: "Flag indicating the days on which a store may plan a receipt based on the store's release schedule "
+        name: ATP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bcf88318-b37d-4b1f-95a5-ce5ed3cd846f
+                stepCounter: 9a656d9f-0761-46df-97b5-6ae739e4a431
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 76ad9479-0976-4312-acc6-3a941d6a390f
+          stepCounter: 01e49a70-d2e1-404c-8597-51147a713521
+        config: {}
+        dataType: VARCHAR(255)
+        description: "Recommendation for ordering based on demand, allocation boundaries and available inventory "
+        name: RECEIPT_PLAN
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff5a8822-11d9-458f-8c67-5a44bb00d108
+                stepCounter: 9a656d9f-0761-46df-97b5-6ae739e4a431
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_LAND_INV_DC_INBOUND
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_LAND_INV_DC_INBOUND') }} "VW_LAND_INV_DC_INBOUND"
+        name: VWA_LAND_INV_DC_INBOUND
+        noLinkRefs: []
+  name: VWA_LAND_INV_DC_INBOUND
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,92 @@
+fileVersion: 1
+id: a69169a7-90ec-43d6-9c21-04636f856ac8
+name: VW_PRODUCT_GROUP2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a73475e6-7790-4db5-9668-8beb3ecf846c
+          stepCounter: a69169a7-90ec-43d6-9c21-04636f856ac8
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 18d3d1e3-7aac-4112-808c-78147644be82
+                stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 312acbdb-7727-4742-a937-c18b0a199d4c
+          stepCounter: a69169a7-90ec-43d6-9c21-04636f856ac8
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: GROUP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cc51217f-c410-4d05-b646-56c87fe9b110
+                stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31d9c935-5f03-4849-8b9a-8e6571f1e668
+          stepCounter: a69169a7-90ec-43d6-9c21-04636f856ac8
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: abf4b7d9-9ac1-4f98-935b-3a797fc9de3c
+                stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea39b866-3f4b-4011-affc-9d0f5afc4ceb
+          stepCounter: a69169a7-90ec-43d6-9c21-04636f856ac8
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 021b8512-29e2-444d-98a3-f2f77f2c9a4b
+                stepCounter: c74b1ff3-7a83-4492-8c26-b85dc7e1f50a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATASTORE
+            nodeName: DS_PRODUCT_GROUP
+        join:
+          joinCondition: FROM {{ ref('DATASTORE', 'DS_PRODUCT_GROUP') }} "DS_PRODUCT_GROUP"
+        name: VW_PRODUCT_GROUP2
+        noLinkRefs: []
+  name: VW_PRODUCT_GROUP2
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

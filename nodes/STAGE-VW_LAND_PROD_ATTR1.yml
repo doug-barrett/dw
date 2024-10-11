@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 2acb7f9b-5f2a-4860-be75-130c6bafad4d
+name: VW_LAND_PROD_ATTR1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cf3c1be6-2f7d-4272-9e20-08ae789cd97b
+          stepCounter: 2acb7f9b-5f2a-4860-be75-130c6bafad4d
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4a0fa4a6-6de7-4e17-8480-3341f83782ba
+                stepCounter: f8cc34c2-1d3a-47cc-9c03-d38064a08a6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7f1176a9-d4ab-498d-a7f2-b8b404dc378e
+          stepCounter: 2acb7f9b-5f2a-4860-be75-130c6bafad4d
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ATTRIBUTENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b0f20f6d-8a45-4b85-86fa-958221d08e27
+                stepCounter: f8cc34c2-1d3a-47cc-9c03-d38064a08a6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7bcd9ec-60ab-4f97-b4ec-6c5985ed2947
+          stepCounter: 2acb7f9b-5f2a-4860-be75-130c6bafad4d
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ATTRIBUTEVALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c44be0cf-153c-410b-8880-b0b95f43805b
+                stepCounter: f8cc34c2-1d3a-47cc-9c03-d38064a08a6c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_LAND_PROD_ATTR
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_LAND_PROD_ATTR') }} "VW_LAND_PROD_ATTR"
+        name: VW_LAND_PROD_ATTR1
+        noLinkRefs: []
+  name: VW_LAND_PROD_ATTR1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

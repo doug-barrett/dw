@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 4fa01c8a-d128-4205-84b9-2a6435b8be14
+name: VWA_ML_DATE_MA_CAT1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Used to assemble data for Multi-series (non Exogenous varible) Machine Learning data set
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fe78da24-1064-4685-a0a5-896964daf85e
+          stepCounter: 4fa01c8a-d128-4205-84b9-2a6435b8be14
+        config: {}
+        dataType: DATE
+        description: ""
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cc2341d7-5e81-4289-8c28-ded0fbba3a4e
+                stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: df22ecff-1fd7-4e4a-a706-5767495e74bb
+          stepCounter: 4fa01c8a-d128-4205-84b9-2a6435b8be14
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: MA_CAT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9f6a8d76-2f83-4734-81e1-ea6bc64ce64c
+                stepCounter: d27dff77-878c-4814-b1b6-137df18aa83a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_ML_DATE_MA_CAT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_ML_DATE_MA_CAT') }} "VW_ML_DATE_MA_CAT"
+        name: VWA_ML_DATE_MA_CAT1
+        noLinkRefs: []
+  name: VWA_ML_DATE_MA_CAT1
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

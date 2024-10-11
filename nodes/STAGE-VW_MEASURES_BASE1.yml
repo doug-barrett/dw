@@ -1,0 +1,134 @@
+fileVersion: 1
+id: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+name: VW_MEASURES_BASE1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 02754c98-8d24-4e54-89e1-98f92f5012c7
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 99c7d754-f1f6-4825-8819-e5a1ad27a54c
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fe1cda8f-e017-4c0a-bf97-108b55e57077
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a87fe17e-c808-4a4b-9dc3-a23ae4d70a67
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d7a162b-aa85-4685-83ba-6727f1f03f49
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: DATE
+        description: ""
+        name: BASE_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 017c9265-ae17-48aa-a4f8-3a2d8bd9ac43
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab87991d-5f4f-4aa6-a204-ba59219a1d89
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: DATE
+        description: ""
+        name: BASE_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f227176-7c60-40b1-822f-2f58775ab5f6
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 38223ec9-2f5a-45df-ab4c-40904da61725
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: BASE_MODE_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7c5dea34-eebc-4d89-ba68-3461b9aee19e
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f901eb8-33da-432a-aef3-d1792569fa5c
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: NUMBER(9,2)
+        description: ""
+        name: BASE_UNITS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7bfed98d-48a3-40e6-8605-58bac1a6e512
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ed1e0657-baf8-4490-b319-0b76ba87d12d
+          stepCounter: 89aec8b3-f56d-4c43-8e56-18bc06358c65
+        config: {}
+        dataType: NUMBER(9,2)
+        description: ""
+        name: BASE_UNITS_PER_DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a544ff74-8a73-4e40-92d8-72057cdb0049
+                stepCounter: f754b968-8ad1-4d4e-9086-9c91f6ae625b
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_MEASURES_BASE
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_MEASURES_BASE') }} "VW_MEASURES_BASE"
+        name: VW_MEASURES_BASE1
+        noLinkRefs: []
+  name: VW_MEASURES_BASE1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

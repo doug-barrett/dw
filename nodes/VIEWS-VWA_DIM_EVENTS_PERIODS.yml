@@ -1,0 +1,148 @@
+fileVersion: 1
+id: 85116bbb-4877-44ef-af4f-092c228916b0
+name: VWA_DIM_EVENTS_PERIODS
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7571664f-ae83-45af-afb7-012f3d924683
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8095"
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 05bd07f7-9dd7-4d84-b800-f96e60750d0b
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: INT
+        description: ""
+        name: ZONE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8096"
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 982e7138-9061-434e-aa12-60ae8aec893a
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e2d17dda-eabd-44ab-88c4-607609cacd28
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9456394a-1881-4a9a-b40b-85b02f6df48f
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: DATE
+        description: ""
+        name: EFFECTIVE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8097"
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fb5f3a85-6682-456c-a055-0e2db2f15868
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: DATE
+        description: ""
+        name: END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8098"
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ffcd1b4b-754d-41bd-9685-675994a85f6b
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: NUMBER(9,2)
+        description: ""
+        name: WAS_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8099"
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a02a8bcf-ecb5-46e0-a0ed-72b58c299ff9
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: NUMBER(9,2)
+        description: ""
+        name: NOW_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8100"
+                stepCounter: "613"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 685778ce-f66f-40d1-9945-5130135327df
+          stepCounter: 85116bbb-4877-44ef-af4f-092c228916b0
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: EVENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "8121"
+                stepCounter: "613"
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_DIM_EVENTS_PERIODS
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_DIM_EVENTS_PERIODS') }} "STG_DIM_EVENTS_PERIODS"
+        name: VWA_DIM_EVENTS_PERIODS
+        noLinkRefs: []
+  name: VWA_DIM_EVENTS_PERIODS
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

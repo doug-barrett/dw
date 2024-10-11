@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 6e856023-5f7d-49d6-8745-def7273f0c14
+name: VWA_LAND_PROD_GROUP
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a1629a5-7e0a-42ce-bd92-e8717f2e3140
+          stepCounter: 6e856023-5f7d-49d6-8745-def7273f0c14
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: GROUPNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 46d9b9cc-d2f3-48e8-864d-25f006498de5
+                stepCounter: b46cd160-f77c-4479-b5f1-cc987c7bf82a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3d43c8eb-5d2f-4ad7-8d3d-d80b29bc61b8
+          stepCounter: 6e856023-5f7d-49d6-8745-def7273f0c14
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: PRODUCTKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8a67b354-ed6b-40ee-aeec-3672d884f3a1
+                stepCounter: b46cd160-f77c-4479-b5f1-cc987c7bf82a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4d9e818f-b21f-4b21-9fdb-89791a1c8477
+          stepCounter: 6e856023-5f7d-49d6-8745-def7273f0c14
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ZONECODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1a40c465-b8dc-4cfe-9c56-dc1f22cc435b
+                stepCounter: b46cd160-f77c-4479-b5f1-cc987c7bf82a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_LAND_PROD_GROUP
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_LAND_PROD_GROUP') }} "VW_LAND_PROD_GROUP"
+        name: VWA_LAND_PROD_GROUP
+        noLinkRefs: []
+  name: VWA_LAND_PROD_GROUP
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

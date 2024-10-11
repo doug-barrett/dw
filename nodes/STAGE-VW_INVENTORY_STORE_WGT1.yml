@@ -1,0 +1,162 @@
+fileVersion: 1
+id: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+name: VW_INVENTORY_STORE_WGT1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 635c1aab-c082-498f-bf0d-3d9750f415e1
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DATA_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d79a2a9f-2883-41bb-82fd-5cd0d0802a1d
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e9c35f4e-6cdf-4e1c-98c5-6259d55227ff
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: VARCHAR(64)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d5f1aaa8-22f4-4783-8e13-f1bb1346eba9
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ff4f929-46b1-4648-82a1-1596939ffb9f
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0115dd73-111d-4303-8635-65d295674b23
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b9c9bcc-fd81-494f-8a4a-3fd249501ed5
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_DELIVERY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 29e8b18f-6b6c-433a-ba26-78d078ae0d64
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 01b36d82-7854-4123-85fb-60103fa8fd7a
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: STORE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d0e9277a-a552-4a35-b7cd-a41663ce832a
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b86a3b6-8b6a-4cea-8a4a-269e8a2fd78a
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: DECIMAL(12,4)
+        description: ""
+        name: STORE_WGT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 61ced4de-4ebb-409c-ad7f-72988355195c
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fa02b0e6-1524-47d4-a9fc-32d2e5e9dd9d
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: NUMBER(13,2)
+        description: ""
+        name: INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1892a251-44a2-4fdd-9764-2b101c3acf67
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 915d7b0c-9b06-46a2-8985-9d7e906e3c36
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: INTEGER
+        description: ""
+        name: INVENTORY_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2f12f685-ea61-416a-a3e2-84703e0707c2
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb2d0559-af6a-4ee4-bb07-a2954491b1f8
+          stepCounter: 673abb8f-0aa6-4ca5-b8d7-6eb86151633e
+        config: {}
+        dataType: DECIMAL(12,6)
+        description: ""
+        name: INVENTORY_WGT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 79da44b3-49b7-4724-b57a-0a941441cdc4
+                stepCounter: f9d479c5-bb55-48fc-a88d-79f914230095
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_INVENTORY_STORE_WGT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_INVENTORY_STORE_WGT') }} "STG_INVENTORY_STORE_WGT"
+        name: VW_INVENTORY_STORE_WGT1
+        noLinkRefs: []
+  name: VW_INVENTORY_STORE_WGT1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

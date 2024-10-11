@@ -1,0 +1,92 @@
+fileVersion: 1
+id: f42db9e9-5c5b-426e-a078-6fe0fd9fdb9c
+name: VWA_PRODUCT_GROUP
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cc55f92e-de97-41b2-85d1-7bd9e8c2b33a
+          stepCounter: f42db9e9-5c5b-426e-a078-6fe0fd9fdb9c
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7a8693ff-3fbc-4d25-a97b-4d75e8818118
+                stepCounter: 5c6dc012-1fd3-458a-ad23-cbb272520aa8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4081d79a-89b3-4ec9-8215-33d768b2d884
+          stepCounter: f42db9e9-5c5b-426e-a078-6fe0fd9fdb9c
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: GROUP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 093405d1-8b7c-4d36-878f-4d3fce90a3eb
+                stepCounter: 5c6dc012-1fd3-458a-ad23-cbb272520aa8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f890782c-c31a-4003-a492-429885a04fa0
+          stepCounter: f42db9e9-5c5b-426e-a078-6fe0fd9fdb9c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0005a2f3-4446-4daa-9223-79e919c3b032
+                stepCounter: 5c6dc012-1fd3-458a-ad23-cbb272520aa8
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5618881f-ddca-4ac6-9edc-baaa19d1d620
+          stepCounter: f42db9e9-5c5b-426e-a078-6fe0fd9fdb9c
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c0d1afc5-f6b1-40bb-b942-62828affb743
+                stepCounter: 5c6dc012-1fd3-458a-ad23-cbb272520aa8
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_PRODUCT_GROUP
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_PRODUCT_GROUP') }} "VW_PRODUCT_GROUP"
+        name: VWA_PRODUCT_GROUP
+        noLinkRefs: []
+  name: VWA_PRODUCT_GROUP
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 873b7896-f70c-46d3-b8ab-9425843d34fb
+name: VW_ML_DATE_MA_CAT_SALES1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 458d6e63-72a0-4c00-bca3-4e54562f9729
+          stepCounter: 873b7896-f70c-46d3-b8ab-9425843d34fb
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 406b6a7b-88c2-4098-a92e-da578a935483
+                stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a8b5227-9081-4386-b9b2-b805b0225c16
+          stepCounter: 873b7896-f70c-46d3-b8ab-9425843d34fb
+        config: {}
+        dataType: STRING
+        description: This is the product key
+        name: MA_CAT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 96082a5f-aed4-4dd6-a11d-7fa9ffc808ab
+                stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b2e48f80-200e-4f4e-ad19-fffff98af6a8
+          stepCounter: 873b7896-f70c-46d3-b8ab-9425843d34fb
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: UNITS_SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1ea5302-f172-4d83-bab7-d6904e8daad2
+                stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_ML_DATE_MA_CAT_SALES
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_ML_DATE_MA_CAT_SALES') }} "STG_ML_DATE_MA_CAT_SALES"
+        name: VW_ML_DATE_MA_CAT_SALES1
+        noLinkRefs: []
+  name: VW_ML_DATE_MA_CAT_SALES1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

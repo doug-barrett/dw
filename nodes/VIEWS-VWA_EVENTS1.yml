@@ -1,0 +1,162 @@
+fileVersion: 1
+id: e31b5485-821b-4862-9834-ac1cf796867d
+name: VWA_EVENTS1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7fa9bdd-b6ff-46b5-8f69-71024ebc2a6d
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ZONE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f937c5a4-432b-46b5-99aa-6f1b96b2800f
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f544b23f-de49-4e38-95a5-042ad93e37ad
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: EFFECTIVE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ce327776-4787-4338-8cd2-c8108cfec3a3
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5d490355-0a27-4c18-9b1c-03844152c164
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04a03d73-041d-4500-a5c4-0e176425e967
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: WAS_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d5fafd1d-56cf-4d0e-b2ac-b1e3e5a3ca8a
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f2f84d5e-cc00-4f3f-991a-c197c57c67b5
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: NOW_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 37fff66c-e886-4695-aa56-385c7aad1f87
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ce2e786c-6ca7-426b-ab73-4ae669e0867f
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: PC_DT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 804e1191-02eb-44e0-ba47-c31081324c6f
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ed73cc9-e7b1-4a93-85ce-da74b8e701e8
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 995650bc-48ab-4c5e-8b05-1e7ba05250f8
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: da322d06-8555-4bfb-a1e3-2337ba212888
+          stepCounter: e31b5485-821b-4862-9834-ac1cf796867d
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 16c9507b-d120-47f2-9a16-f3ca983f83c8
+                stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATASTORE
+            nodeName: DS_EVENTS
+        join:
+          joinCondition: FROM {{ ref('DATASTORE', 'DS_EVENTS') }} "DS_EVENTS"
+        name: VWA_EVENTS1
+        noLinkRefs: []
+  name: VWA_EVENTS1
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 92740f8d-fdda-4e65-85f2-085395b24b77
+name: VWA_ML_DATE_PROD1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Used to assemble data for Multi-series and Exogenous varible (price) Machine Learning data set - has future values in it
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5c34b980-b7c1-44c5-9a58-77329f83834a
+          stepCounter: 92740f8d-fdda-4e65-85f2-085395b24b77
+        config: {}
+        dataType: DATE
+        description: ""
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0fe76942-2d39-4e08-b14e-e40cc71f329e
+                stepCounter: 3e3adda0-11fc-48f1-8bea-539a587a183d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8175d87c-ed9f-4578-b910-c7de0a1cd295
+          stepCounter: 92740f8d-fdda-4e65-85f2-085395b24b77
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d1c5f796-2aca-422f-ac1c-0a6f07174ceb
+                stepCounter: 3e3adda0-11fc-48f1-8bea-539a587a183d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95753ad8-7fbc-41a9-ab96-861a13d09b80
+          stepCounter: 92740f8d-fdda-4e65-85f2-085395b24b77
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: FINANCIAL_YYWW
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d6356db0-943f-426b-9127-7faf55f0f728
+                stepCounter: 3e3adda0-11fc-48f1-8bea-539a587a183d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a2ead90-f86c-48c0-8fd6-a9e4f8e8a042
+          stepCounter: 92740f8d-fdda-4e65-85f2-085395b24b77
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: HOLIDAY_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 474750f4-e3e4-4c1c-b10c-e64924291c2a
+                stepCounter: 3e3adda0-11fc-48f1-8bea-539a587a183d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 313dab6b-cc05-4ff6-8169-2cebbceebbaf
+          stepCounter: 92740f8d-fdda-4e65-85f2-085395b24b77
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e23c8c93-3e0f-4ce8-afe5-b52ae1ea9ba4
+                stepCounter: 3e3adda0-11fc-48f1-8bea-539a587a183d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_ML_DATE_PROD
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_ML_DATE_PROD') }} "VW_ML_DATE_PROD"
+        name: VWA_ML_DATE_PROD1
+        noLinkRefs: []
+  name: VWA_ML_DATE_PROD1
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

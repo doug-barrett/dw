@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 67cd28d1-a0a8-4d07-b7d4-6f6885524c75
+name: VW_ZONE1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: |-
+    INSERT INTO    "C_DIXONS_DEV"."DS"."DS_ZONE_DETAIL" (
+        "ZONE_CODE" ,
+        "ZONE_NAME" ,
+        "ZONE_GEOGRAPHY" ,
+        "ZONE_DELIVERY" ,
+        "SYSTEM_CREATE_TIME" ,
+        "SYSTEM_UPDATE_TIME" )
+    SELECT  "ZONECODE" ,
+        "ZONENAME" ,
+        "ZONE_GEOGRAPHY" ,
+        "ZONE_DELIVERY" ,
+        "DSS_CREATE_TIME" ,
+        "DSS_UPDATE_TIME"
+    FROM WIIBIT.STAGE.DS_ZONE_DETAIL
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb42a069-5fd3-4f1a-8e68-fe09ff364aa6
+          stepCounter: 67cd28d1-a0a8-4d07-b7d4-6f6885524c75
+        config: {}
+        dataType: INT
+        description: ""
+        name: ZONE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e25a06f6-aaee-481f-84ac-f6aaffb61a49
+                stepCounter: 954e561c-53c6-44ab-a26d-4b1f901b5254
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95ed9a06-0b87-401f-8bbe-d4d150e6aa26
+          stepCounter: 67cd28d1-a0a8-4d07-b7d4-6f6885524c75
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c8d2fb84-1245-4a0b-a78f-5a79d283d0fd
+                stepCounter: 954e561c-53c6-44ab-a26d-4b1f901b5254
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 518ad7b9-feb6-44de-b0cf-8e20c72f5ad2
+          stepCounter: 67cd28d1-a0a8-4d07-b7d4-6f6885524c75
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cf83576a-4de4-4a66-b37b-c83ae734db18
+                stepCounter: 954e561c-53c6-44ab-a26d-4b1f901b5254
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: adfd51c3-ed32-42e9-accd-6f5e99eaeb39
+          stepCounter: 67cd28d1-a0a8-4d07-b7d4-6f6885524c75
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_DELIVERY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3f20764e-94fd-47d5-9847-b68222985e83
+                stepCounter: 954e561c-53c6-44ab-a26d-4b1f901b5254
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_ZONE
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_ZONE') }} "VW_ZONE"
+        name: VW_ZONE1
+        noLinkRefs: []
+  name: VW_ZONE1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

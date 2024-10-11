@@ -1,0 +1,106 @@
+fileVersion: 1
+id: a47ccb8f-cf9b-48a1-986f-607fbce06562
+name: VWA_INVENTORY_DC_STK1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dd5cb18a-40c6-4a04-b6d7-fbcd77d92152
+          stepCounter: a47ccb8f-cf9b-48a1-986f-607fbce06562
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: DC_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6bcc1511-5969-40e5-8104-3c4f00c07f98
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: de61d382-12c0-484d-b124-6f47142583b0
+          stepCounter: a47ccb8f-cf9b-48a1-986f-607fbce06562
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2a15dbd-9bc5-4770-bacb-344c976e7fc1
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4f5f4c2-d9f1-4d9b-b21c-0167c4eba3c8
+          stepCounter: a47ccb8f-cf9b-48a1-986f-607fbce06562
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e8778e2d-78e9-45b6-9e72-67144b91b648
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f92d9aad-4113-4b7e-84b0-ba6cbdd913da
+          stepCounter: a47ccb8f-cf9b-48a1-986f-607fbce06562
+        config: {}
+        dataType: DATE
+        description: ""
+        name: UPDATED_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e024b35a-7c0c-4a0e-a233-7a721041fef0
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: afe4f7fa-b37a-4a94-b532-0e8fd10e1781
+          stepCounter: a47ccb8f-cf9b-48a1-986f-607fbce06562
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d3204c49-77ce-4bae-be1e-fb49b284fea8
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATASTORE
+            nodeName: DS_INVENTORY_DC_STK
+        join:
+          joinCondition: FROM {{ ref('DATASTORE', 'DS_INVENTORY_DC_STK') }} "DS_INVENTORY_DC_STK"
+        name: VWA_INVENTORY_DC_STK1
+        noLinkRefs: []
+  name: VWA_INVENTORY_DC_STK1
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,64 @@
+fileVersion: 1
+id: a290f60c-552a-497d-b0de-db8f5bb323d5
+name: VW_EVENTS_REGION3
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Delete Base ALL events (for products that have never been promoted) when a promotion is added for a product / geography
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7c0f0bb7-e158-4d63-8fc9-486aa7f4404b
+          stepCounter: a290f60c-552a-497d-b0de-db8f5bb323d5
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d135a8b5-0ceb-4fb0-9fc9-25d23025bd48
+                stepCounter: 34d4c87f-5ab6-45c2-a53a-c00885b6086c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 36de93fa-3521-42a0-a7b0-261977160daf
+          stepCounter: a290f60c-552a-497d-b0de-db8f5bb323d5
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SQL_STMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 29e085a2-c92c-4942-862b-8676152d407a
+                stepCounter: 34d4c87f-5ab6-45c2-a53a-c00885b6086c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: SQL_EVENTS_REGION
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'SQL_EVENTS_REGION') }} "SQL_EVENTS_REGION"
+        name: VW_EVENTS_REGION3
+        noLinkRefs: []
+  name: VW_EVENTS_REGION3
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 0f7c6c0a-c091-4fb9-96a5-002ecbd13f7d
+name: VW_CAMPAIGN
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31fbad67-6d30-433e-97fa-8138227f6784
+          stepCounter: 0f7c6c0a-c091-4fb9-96a5-002ecbd13f7d
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: DEAL_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 62f79416-71fd-4cb2-8fb4-f4c7d70f08c5
+                stepCounter: 22736c40-37ef-4acd-b50b-62cf5ccfd8db
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f1927e64-a3ff-43f8-8df8-a8ad09cc9b1a
+          stepCounter: 0f7c6c0a-c091-4fb9-96a5-002ecbd13f7d
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: DEAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 754847cd-0e1f-47dd-9eda-1f65f36f50cd
+                stepCounter: 22736c40-37ef-4acd-b50b-62cf5ccfd8db
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3f2754e7-3ca0-4c0e-a074-b4add331ad78
+          stepCounter: 0f7c6c0a-c091-4fb9-96a5-002ecbd13f7d
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: DEAL_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c95b083b-abb5-4180-92fb-c88a78848e1d
+                stepCounter: 22736c40-37ef-4acd-b50b-62cf5ccfd8db
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 862b2439-d4a7-4d6f-8363-ec8cb7ec8e77
+          stepCounter: 0f7c6c0a-c091-4fb9-96a5-002ecbd13f7d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DEAL_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 08c84f40-8289-47b4-8815-20fd48f83786
+                stepCounter: 22736c40-37ef-4acd-b50b-62cf5ccfd8db
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2ba67e1b-dd04-4da6-b920-ace6437ec111
+          stepCounter: 0f7c6c0a-c091-4fb9-96a5-002ecbd13f7d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DEAL_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 746d46c8-5e1a-4b8a-a95b-9164d0c9dd34
+                stepCounter: 22736c40-37ef-4acd-b50b-62cf5ccfd8db
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: VIEWS
+            nodeName: VWA_CAMPAIGN
+        join:
+          joinCondition: FROM {{ ref('VIEWS', 'VWA_CAMPAIGN') }} "VWA_CAMPAIGN"
+        name: VW_CAMPAIGN
+        noLinkRefs: []
+  name: VW_CAMPAIGN
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

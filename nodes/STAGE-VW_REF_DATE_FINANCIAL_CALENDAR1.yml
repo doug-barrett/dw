@@ -1,0 +1,92 @@
+fileVersion: 1
+id: 220059a5-a0e7-4411-abd2-497ceb94112e
+name: VW_REF_DATE_FINANCIAL_CALENDAR1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c4cc8f90-5f08-4309-96d6-4a82047f4d75
+          stepCounter: 220059a5-a0e7-4411-abd2-497ceb94112e
+        config: {}
+        dataType: DATE
+        description: ""
+        name: CALENDAR_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0d52d180-c690-4abb-b8e3-24d50d59c521
+                stepCounter: 4abb0e86-c43a-4a50-a26d-f5b0cf7eee03
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 820f9e8c-9786-409f-9981-fe201d8912ee
+          stepCounter: 220059a5-a0e7-4411-abd2-497ceb94112e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: FINANCIAL_PERIOD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1d9d66c3-b858-456b-974c-9d80a69f6c04
+                stepCounter: 4abb0e86-c43a-4a50-a26d-f5b0cf7eee03
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1662ba60-5d4b-4368-9ae7-4f17d25630ee
+          stepCounter: 220059a5-a0e7-4411-abd2-497ceb94112e
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: FINANCIAL_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 70151a58-8f09-43f8-a0b0-6e6c029404e5
+                stepCounter: 4abb0e86-c43a-4a50-a26d-f5b0cf7eee03
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 00ac2b95-3715-4bd6-bc99-7bb54951e79b
+          stepCounter: 220059a5-a0e7-4411-abd2-497ceb94112e
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: FINANCIAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e1af883b-0cb5-4c4c-92ad-d5571fb355af
+                stepCounter: 4abb0e86-c43a-4a50-a26d-f5b0cf7eee03
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_REF_DATE_FINANCIAL_CALENDAR
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_REF_DATE_FINANCIAL_CALENDAR') }} "VW_REF_DATE_FINANCIAL_CALENDAR"
+        name: VW_REF_DATE_FINANCIAL_CALENDAR1
+        noLinkRefs: []
+  name: VW_REF_DATE_FINANCIAL_CALENDAR1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

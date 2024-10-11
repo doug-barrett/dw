@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 039a857f-fa58-4f31-b2d6-3d74ce9364f9
+name: VWA_PROMO_AUDIT
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6d0fc781-a768-47d1-898a-001853dc00db
+          stepCounter: 039a857f-fa58-4f31-b2d6-3d74ce9364f9
+        config: {}
+        dataType: VARIANT
+        description: ""
+        name: CONTENTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d0e860c5-214d-493d-9f6c-b0a55e851dfa
+                stepCounter: 01d62db4-aca9-4aa8-8398-d8c89857fdbb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab69ea94-a87e-498a-92ac-1dbef32f9acd
+          stepCounter: 039a857f-fa58-4f31-b2d6-3d74ce9364f9
+        config: {}
+        dataType: TIMESTAMP_LTZ(9)
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c29caf0c-29bf-46ad-8a7f-8a7b38361fa3
+                stepCounter: 01d62db4-aca9-4aa8-8398-d8c89857fdbb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 41f8855f-8b4d-4e0c-9279-5b17cb933a2f
+          stepCounter: 039a857f-fa58-4f31-b2d6-3d74ce9364f9
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SOURCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3087996c-e1f3-4e97-b500-6e1ce0ff3902
+                stepCounter: 01d62db4-aca9-4aa8-8398-d8c89857fdbb
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_PROMO_AUDIT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_PROMO_AUDIT') }} "VW_PROMO_AUDIT"
+        name: VWA_PROMO_AUDIT
+        noLinkRefs: []
+  name: VWA_PROMO_AUDIT
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

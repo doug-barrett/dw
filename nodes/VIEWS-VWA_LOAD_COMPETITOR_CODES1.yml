@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 6f11ae0d-f544-4e69-891b-57a7b57b742c
+name: VWA_LOAD_COMPETITOR_CODES1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 08b7f440-0ce5-4812-81f5-2534610e9712
+          stepCounter: 6f11ae0d-f544-4e69-891b-57a7b57b742c
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: COMPETITOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7c0a98f1-0e08-4dcc-a7fb-de751e1bfc81
+                stepCounter: 84b9b020-0268-4c0a-93b3-70e12c86558d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0212215-7662-4d0a-81b4-71f69dc836bd
+          stepCounter: 6f11ae0d-f544-4e69-891b-57a7b57b742c
+        config: {}
+        dataType: VARCHAR(4)
+        description: ""
+        name: CMPTTN_CD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d38b4311-73a5-42ad-9793-ec4113f13edb
+                stepCounter: 84b9b020-0268-4c0a-93b3-70e12c86558d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e569b0c-8fd9-4749-86ba-50041214c0c1
+          stepCounter: 6f11ae0d-f544-4e69-891b-57a7b57b742c
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: STORECODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f0252df-ee1c-4b1e-810b-07422464cbec
+                stepCounter: 84b9b020-0268-4c0a-93b3-70e12c86558d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: LAND
+            nodeName: LOAD_COMPETITOR_CODES
+        join:
+          joinCondition: FROM {{ ref('LAND', 'LOAD_COMPETITOR_CODES') }} "LOAD_COMPETITOR_CODES"
+        name: VWA_LOAD_COMPETITOR_CODES1
+        noLinkRefs: []
+  name: VWA_LOAD_COMPETITOR_CODES1
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 4707b6f3-0ae8-4e31-b14c-9a62556cd4c6
+name: VWA_PRODUCT_SECURITY
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Type 1 Product Dimension - no surrogate key required
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 345a0471-0e28-4efe-80af-e5f8b05b3e54
+          stepCounter: 4707b6f3-0ae8-4e31-b14c-9a62556cd4c6
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: LOGIN_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d72a0810-826b-4eaa-a0f1-7834adf3af9c
+                stepCounter: 9aa63d83-0291-4ab3-8f12-03918a991bbf
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 00c5570f-8888-48f4-a591-764fce886a6b
+          stepCounter: 4707b6f3-0ae8-4e31-b14c-9a62556cd4c6
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 20403902-1c5a-4772-b5a1-b6dc42591d2b
+                stepCounter: 9aa63d83-0291-4ab3-8f12-03918a991bbf
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_PRODUCT_SECURITY
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_PRODUCT_SECURITY') }} "VW_PRODUCT_SECURITY"
+        name: VWA_PRODUCT_SECURITY
+        noLinkRefs: []
+  name: VWA_PRODUCT_SECURITY
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

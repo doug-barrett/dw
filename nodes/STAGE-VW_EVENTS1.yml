@@ -1,0 +1,162 @@
+fileVersion: 1
+id: a69d6051-1b5c-439b-8785-e0e158dc6d91
+name: VW_EVENTS1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b27066ee-589a-4a8a-8c14-de9459f708d7
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: ZONE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0f60b194-0a55-4041-89c7-7512473b25b1
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8eb56e1-ed17-4c6a-bb7b-ef886080e2e6
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3e6932af-4062-4b1d-b3f2-02b4ca509004
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b593579a-cbb1-4ea3-a28c-7663ed4a6cf2
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: DATE
+        description: ""
+        name: EFFECTIVE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4dbdf2ea-0df1-43ed-8212-e602006f06ed
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d795faaf-138f-48cd-b72c-c3a67e1d3331
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: DATE
+        description: ""
+        name: END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d22a919b-ffe9-466d-9c4a-dade643b7871
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bad1a86d-40af-4063-bb8f-0e10dca5b81e
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: WAS_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 965e2b88-e71d-4bdc-b52c-7e12891a4208
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7feff62-1850-4172-8139-81a4f4b16cbc
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: NOW_PRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5cd2f668-3721-47fc-bfb8-aee422526e16
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c110e262-9443-4f59-9cc4-b82442c39f57
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: DATE
+        description: ""
+        name: PC_DT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c19fd36c-9827-48e2-bd4d-4908f84484ea
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6cba05a9-7d5f-41a3-86dc-dd921a7a69f2
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5a62ce8-f37c-46b3-b363-75ddd3c56731
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4aa1e35d-39b8-4c47-810a-12b9c9ea307c
+          stepCounter: a69d6051-1b5c-439b-8785-e0e158dc6d91
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0c61e381-0f78-4575-b7f2-0bd12c2ac396
+                stepCounter: fe5d855d-0d58-4cbb-a6cc-6e5200677a5a
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_EVENTS
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_EVENTS') }} "VW_EVENTS"
+        name: VW_EVENTS1
+        noLinkRefs: []
+  name: VW_EVENTS1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

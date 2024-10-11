@@ -1,0 +1,148 @@
+fileVersion: 1
+id: 152d3f73-af72-4397-821a-890e99c0c643
+name: VW_EVENT_INVENTORY_WGT1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 78d39ba0-e95b-4dd8-9448-ce7032eb441c
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: INT
+        description: ""
+        name: DIM_EVENTS_REGION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c8cb056-0d8d-4021-b644-f7a211eaf9f6
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63f84811-a87d-42ca-a2b4-277805d7a9ef
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: DATE
+        description: ""
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 14c7f2f8-710d-4ee7-9f5d-ec2fac3d1b4c
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b18fcdd-e7c8-4a6a-b4f9-8e4b188b451b
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 91ca932c-c546-40b0-badf-16265534fd4d
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 479c00df-c5a9-41bd-a298-1d56632c0e04
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: VARCHAR(64)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0ec65839-54c1-4cf2-a6c6-f221050b8447
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9864f3a6-afaa-475d-9455-1be756ec28cf
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: NUMBER(13,2)
+        description: ""
+        name: INVENTORY_MIN
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ec770be2-38d0-4a29-86ae-2ba2cf0c87a7
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1295bf12-30e5-4ed7-b670-a2f0ddabc81f
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: DECIMAL(12,6)
+        description: ""
+        name: INVENTORY_WGT_MIN
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a9bbf52b-02f3-40c1-8f2e-14ebc11d12cd
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f53cbde6-f7bd-4ae6-a0c0-0769cb36f43f
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: NUMBER(13,2)
+        description: ""
+        name: INVENTORY_AVG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e8212466-1f8a-44f8-93e3-0fa156dbdb35
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fbba74ee-c884-483b-a39c-caab32ad4e16
+          stepCounter: 152d3f73-af72-4397-821a-890e99c0c643
+        config: {}
+        dataType: DECIMAL(12,6)
+        description: ""
+        name: INVENTORY_WGT_AVG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1a6328cf-9d9b-4315-8d54-7a027534088a
+                stepCounter: 14be523b-b355-49a6-ad14-da397ed80444
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: VW_EVENT_INVENTORY_WGT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'VW_EVENT_INVENTORY_WGT') }} "VW_EVENT_INVENTORY_WGT"
+        name: VW_EVENT_INVENTORY_WGT1
+        noLinkRefs: []
+  name: VW_EVENT_INVENTORY_WGT1
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

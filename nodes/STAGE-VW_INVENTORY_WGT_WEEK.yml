@@ -1,0 +1,120 @@
+fileVersion: 1
+id: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+name: VW_INVENTORY_WGT_WEEK
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63307320-dc23-4f77-8926-a3488be1a855
+          stepCounter: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: FINANCIAL_YYWW
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b2958028-6568-470e-8c4c-c5e28a5ed771
+                stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 26092fd1-c704-4078-b62e-f56dc5d3e8e4
+          stepCounter: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4c2069b4-a249-4bd5-b9fd-b255d8eebe2f
+                stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b4b58eba-0a56-4a1b-b70c-17ad00a4f2c7
+          stepCounter: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+        config: {}
+        dataType: VARCHAR(64)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f402c63f-7deb-4d3b-8a32-8c96dc187c7c
+                stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 229e3a67-ae2f-4131-ba7a-846936b3e20b
+          stepCounter: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+        config: {}
+        dataType: NUMBER(13,2)
+        description: ""
+        name: MIN_INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d1f74f2f-753b-47c4-aded-b53b8a7a30d7
+                stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 10794b74-fbd0-4e9c-bb09-747827c9ea97
+          stepCounter: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+        config: {}
+        dataType: DECIMAL(12,6)
+        description: ""
+        name: INVENTORY_WGT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 692bd9e0-cb32-443a-abba-a12c9addcc01
+                stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 86740c45-924f-46d8-acc8-5b7235a8281a
+          stepCounter: 35209d90-e4e9-48ae-9e8f-30503cd1e97a
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dfb6a1dd-1bfb-4b27-b2cc-c0723ad1cded
+                stepCounter: 4b5f00f4-5dec-4ced-8fc9-255807a28082
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATA
+            nodeName: FCT_INVENTORY_WGT_WEEK
+        join:
+          joinCondition: FROM {{ ref('DATA', 'FCT_INVENTORY_WGT_WEEK') }} "FCT_INVENTORY_WGT_WEEK"
+        name: VW_INVENTORY_WGT_WEEK
+        noLinkRefs: []
+  name: VW_INVENTORY_WGT_WEEK
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node
