@@ -1,0 +1,94 @@
+steps:
+  VW_ML_DATE_PROD_SALES-3b594c66-9a41-4ab9-9cf9-f70193b39588:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 44226664-0e07-4aac-9a66-6ab4e9bdfc7e
+              stepCounter: 3b594c66-9a41-4ab9-9cf9-f70193b39588
+            dataType: DATE
+            description: ""
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 3fb726f8-f72c-4c72-ae5a-9272b663cb62
+                    stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+                transform: ""
+          - columnReference:
+              columnCounter: b97cf186-203a-4e2b-bb40-8184c05b4f29
+              stepCounter: 3b594c66-9a41-4ab9-9cf9-f70193b39588
+            dataType: VARCHAR(50)
+            description: This is the product key
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 087e75fc-cf69-4c64-9c9d-20f88a7b6a9f
+                    stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+                transform: ""
+          - columnReference:
+              columnCounter: 56bd6f7c-b7ce-4377-9659-42c7e75d6406
+              stepCounter: 3b594c66-9a41-4ab9-9cf9-f70193b39588
+            dataType: VARCHAR(64)
+            description: ""
+            name: HOLIDAY_NAME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 69eaf70b-22da-4e59-a556-5db32e22a95c
+                    stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+                transform: ""
+          - columnReference:
+              columnCounter: d8d9dba8-1299-4e4d-a5d3-2a6b2daab133
+              stepCounter: 3b594c66-9a41-4ab9-9cf9-f70193b39588
+            dataType: DECIMAL(9,2)
+            description: ""
+            name: PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: ae8d57f8-5c3a-489a-900a-9b30eecf23fd
+                    stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+                transform: ""
+          - columnReference:
+              columnCounter: f0bdc486-4911-4e13-ba6a-9c6422af72a2
+              stepCounter: 3b594c66-9a41-4ab9-9cf9-f70193b39588
+            dataType: NUMBER(9,2)
+            description: ""
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: d18db567-6243-4b05-83ff-af86c559f651
+                    stepCounter: dbd950cf-ea16-48ba-bc70-ca15b18e82e6
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_ML_DATE_PROD_SALES
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'STG_ML_DATE_PROD_SALES') }} "STG_ML_DATE_PROD_SALES"
+            name: VW_ML_DATE_PROD_SALES
+            noLinkRefs: []
+      name: VW_ML_DATE_PROD_SALES
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 3b594c66-9a41-4ab9-9cf9-f70193b39588

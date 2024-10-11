@@ -1,222 +1,220 @@
-fileVersion: 1
-id: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-name: DS_EVENTS
-operation:
-  config:
-    postSQL: |-
-      DELETE FROM {{this}}
-      WHERE ZONE_CODE IS NULL
-    preSQL: ""
-    testsEnabled: true
-  database: ""
-  deployEnabled: true
-  description: ""
-  isMultisource: false
-  locationName: DATASTORE
-  materializationType: table
-  metadata:
-    appliedNodeTests:
-      - continueOnFailure: false
-        description: ""
-        name: Uniqueness
-        runOrder: After
-        templateString: |-
-          SELECT 1
-          FROM {{this}}
-          WHERE ZONE_CODE IS NOT NULL
-          GROUP BY ZONE_CODE, PRODKEY, EFFECTIVE_DATE 
-          HAVING COUNT(1) > 1
-    columns:
-      - appliedColumnTests:
-          hasNull: true
-          isDistinct: false
-        columnReference:
-          columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: VARCHAR(50)
-        description: ""
-        hashDetails: null
-        isBusinessKey: true
-        name: ZONE_CODE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 5bb25255-5414-4b12-9baf-2f7adbb24571
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+steps:
+  DS_EVENTS-5f9e1382-ded6-478f-87e6-27ac0d7b03f1:
+    operation:
+      config:
+        postSQL: |-
+          DELETE FROM {{this}}
+          WHERE ZONE_CODE IS NULL
+        preSQL: ""
+        testsEnabled: true
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: DATASTORE
+      materializationType: table
+      metadata:
+        appliedNodeTests:
+          - continueOnFailure: false
+            description: ""
+            name: Uniqueness
+            runOrder: After
+            templateString: |-
+              SELECT 1
+              FROM {{this}}
+              WHERE ZONE_CODE IS NOT NULL
+              GROUP BY ZONE_CODE, PRODKEY, EFFECTIVE_DATE 
+              HAVING COUNT(1) > 1
+        columns:
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: false
+            columnReference:
+              columnCounter: fb4ce7fb-de1d-401e-9c38-aaf9c3325c5a
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: VARCHAR(50)
+            description: ""
+            hashDetails: null
+            isBusinessKey: true
+            name: ZONE_CODE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 5bb25255-5414-4b12-9baf-2f7adbb24571
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: ""
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: false
+            columnReference:
+              columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: VARCHAR(50)
+            description: This is the product key
+            hashDetails: null
+            isBusinessKey: true
+            name: PRODKEY
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: c683cc61-d449-4184-8e0f-47654a63826f
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: RIGHT('000000'||"PRODKEY",6)
+          - appliedColumnTests:
+              hasNull: true
+              isDistinct: false
+            columnReference:
+              columnCounter: ce327776-4787-4338-8cd2-c8108cfec3a3
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: DATE
+            description: ""
+            hashDetails: null
+            isBusinessKey: true
+            name: EFFECTIVE_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 083c5bc5-5efd-44ca-a71f-84b61f7c6bb7
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: DATE
+            description: ""
+            hashDetails: null
+            name: END_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 2556ebf1-e71a-4edf-8508-c7b941c09d87
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: d5fafd1d-56cf-4d0e-b2ac-b1e3e5a3ca8a
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashDetails: null
+            name: WAS_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 46678e99-ef6b-41b8-8b21-d07898c49719
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 37fff66c-e886-4695-aa56-385c7aad1f87
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: DECIMAL(9,2)
+            description: ""
+            hashDetails: null
+            name: NOW_PRICE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: bcbc6114-c0d4-4dfa-9e1b-3e224a98d6b7
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: ""
+          - appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 804e1191-02eb-44e0-ba47-c31081324c6f
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: DATE
+            description: ""
+            hashDetails: null
+            name: PC_DT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 25879125-071a-4e66-8d7f-663035de2a36
+                    stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+                transform: ""
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 995650bc-48ab-4c5e-8b05-1e7ba05250f8
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: SYSTEM_CREATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+            systemColumnType: None
             transform: ""
-      - appliedColumnTests:
-          hasNull: true
-          isDistinct: false
-        columnReference:
-          columnCounter: c5b7c926-7461-42fc-b3de-921d23949e8d
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: VARCHAR(50)
-        description: This is the product key
-        hashDetails: null
-        isBusinessKey: true
-        name: PRODKEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: c683cc61-d449-4184-8e0f-47654a63826f
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
-            transform: RIGHT('000000'||"PRODKEY",6)
-      - appliedColumnTests:
-          hasNull: true
-          isDistinct: false
-        columnReference:
-          columnCounter: ce327776-4787-4338-8cd2-c8108cfec3a3
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: DATE
-        description: ""
-        hashDetails: null
-        isBusinessKey: true
-        name: EFFECTIVE_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 083c5bc5-5efd-44ca-a71f-84b61f7c6bb7
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+          - acceptedValues:
+              strictMatch: true
+              values: []
+            appliedColumnTests:
+              hasNull: false
+              isDistinct: false
+            columnReference:
+              columnCounter: 16c9507b-d120-47f2-9a16-f3ca983f83c8
+              stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
+            config: {}
+            dataType: TIMESTAMP
+            defaultValue: ""
+            description: ""
+            keyColumnType: None
+            name: SYSTEM_UPDATE_TIME
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: "0"
+                    stepCounter: "0"
+                transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+            systemColumnType: None
             transform: ""
-      - appliedColumnTests:
-          hasNull: false
-          isDistinct: false
-        columnReference:
-          columnCounter: 0a4812f7-6de4-49ab-b56e-4d9fc71c36ce
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: DATE
-        description: ""
-        hashDetails: null
-        name: END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 2556ebf1-e71a-4edf-8508-c7b941c09d87
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
-            transform: ""
-      - appliedColumnTests:
-          hasNull: false
-          isDistinct: false
-        columnReference:
-          columnCounter: d5fafd1d-56cf-4d0e-b2ac-b1e3e5a3ca8a
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: DECIMAL(9,2)
-        description: ""
-        hashDetails: null
-        name: WAS_PRICE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 46678e99-ef6b-41b8-8b21-d07898c49719
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
-            transform: ""
-      - appliedColumnTests:
-          hasNull: false
-          isDistinct: false
-        columnReference:
-          columnCounter: 37fff66c-e886-4695-aa56-385c7aad1f87
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: DECIMAL(9,2)
-        description: ""
-        hashDetails: null
-        name: NOW_PRICE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: bcbc6114-c0d4-4dfa-9e1b-3e224a98d6b7
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
-            transform: ""
-      - appliedColumnTests:
-          hasNull: false
-          isDistinct: false
-        columnReference:
-          columnCounter: 804e1191-02eb-44e0-ba47-c31081324c6f
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: DATE
-        description: ""
-        hashDetails: null
-        name: PC_DT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 25879125-071a-4e66-8d7f-663035de2a36
-                stepCounter: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests:
-          hasNull: false
-          isDistinct: false
-        columnReference:
-          columnCounter: 995650bc-48ab-4c5e-8b05-1e7ba05250f8
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: SYSTEM_CREATE_TIME
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-        systemColumnType: None
-        transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests:
-          hasNull: false
-          isDistinct: false
-        columnReference:
-          columnCounter: 16c9507b-d120-47f2-9a16-f3ca983f83c8
-          stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: SYSTEM_UPDATE_TIME
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-        systemColumnType: None
-        transform: ""
-    cteString: ""
-    enabledColumnTestIDs:
-      - hasNull
-      - isDistinct
-    sourceMapping:
-      - aliases:
-          LAND_PROMO_WAS_NOW: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
-        customSQL:
-          customSQL: ""
-        dependencies:
-          - locationName: LAND
-            nodeName: LAND_PROMO_WAS_NOW
-        join:
-          joinCondition: |
-            FROM {{ ref('LAND', 'LAND_PROMO_WAS_NOW') }} "LAND_PROMO_WAS_NOW"
-            WHERE "ZONECODE" IS NOT NULL
-        name: DS_EVENTS
-        noLinkRefs: []
-  name: DS_EVENTS
-  overrideSQL: false
-  schema: ""
-  sqlType: "1"
-  type: sql
-  version: 1
-type: Node
+        cteString: ""
+        enabledColumnTestIDs:
+          - hasNull
+          - isDistinct
+        sourceMapping:
+          - aliases:
+              LAND_PROMO_WAS_NOW: 5260a3f1-390d-4e1f-aff1-4da0c15db0da
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: LAND
+                nodeName: LAND_PROMO_WAS_NOW
+            join:
+              joinCondition: |
+                FROM {{ ref('LAND', 'LAND_PROMO_WAS_NOW') }} "LAND_PROMO_WAS_NOW"
+                WHERE "ZONECODE" IS NOT NULL
+            name: DS_EVENTS
+            noLinkRefs: []
+      name: DS_EVENTS
+      overrideSQL: false
+      schema: ""
+      sqlType: "1"
+      type: sql
+    stepCounter: 5f9e1382-ded6-478f-87e6-27ac0d7b03f1

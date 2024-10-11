@@ -1,0 +1,70 @@
+steps:
+  VW_ML_DATE_MA_CAT_SALES-4e338502-71a9-40d7-a944-c6547f16a526:
+    operation:
+      config:
+        insertStrategy: UNION
+        selectDistinct: false
+      database: ""
+      deployEnabled: true
+      description: ""
+      isMultisource: false
+      locationName: STAGE
+      materializationType: view
+      metadata:
+        appliedNodeTests: []
+        columns:
+          - columnReference:
+              columnCounter: 2217c314-759f-4b07-b37b-d4f81e5f706a
+              stepCounter: 4e338502-71a9-40d7-a944-c6547f16a526
+            dataType: TIMESTAMP
+            description: ""
+            name: TRANSACTION_DATE
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 406b6a7b-88c2-4098-a92e-da578a935483
+                    stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+                transform: ""
+          - columnReference:
+              columnCounter: 8b4259a5-45d9-419d-9993-a575cf83d03f
+              stepCounter: 4e338502-71a9-40d7-a944-c6547f16a526
+            dataType: STRING
+            description: This is the product key
+            name: MA_CAT
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: 96082a5f-aed4-4dd6-a11d-7fa9ffc808ab
+                    stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+                transform: ""
+          - columnReference:
+              columnCounter: 9a9c3cf6-c619-454b-90ea-83285e63cebd
+              stepCounter: 4e338502-71a9-40d7-a944-c6547f16a526
+            dataType: FLOAT
+            description: ""
+            name: UNITS_SALES
+            nullable: true
+            sourceColumnReferences:
+              - columnReferences:
+                  - columnCounter: a1ea5302-f172-4d83-bab7-d6904e8daad2
+                    stepCounter: cbfdd124-b7b6-452a-b143-776ec5b2855c
+                transform: ""
+        cteString: ""
+        enabledColumnTestIDs: []
+        sourceMapping:
+          - aliases: {}
+            customSQL:
+              customSQL: ""
+            dependencies:
+              - locationName: STAGE
+                nodeName: STG_ML_DATE_MA_CAT_SALES
+            join:
+              joinCondition: FROM {{ ref('STAGE', 'STG_ML_DATE_MA_CAT_SALES') }} "STG_ML_DATE_MA_CAT_SALES"
+            name: VW_ML_DATE_MA_CAT_SALES
+            noLinkRefs: []
+      name: VW_ML_DATE_MA_CAT_SALES
+      overrideSQL: false
+      schema: ""
+      sqlType: "16"
+      type: sql
+    stepCounter: 4e338502-71a9-40d7-a944-c6547f16a526
