@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 1553ddeb-6642-4cde-aa92-817c09b63f0e
+name: VW_INVENTORY_DC_STK
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4755d5c4-5e13-48ee-915d-aa9ee43d41f7
+          stepCounter: 1553ddeb-6642-4cde-aa92-817c09b63f0e
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: DC_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6bcc1511-5969-40e5-8104-3c4f00c07f98
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 495575e9-6899-4f29-b95f-a19c9ca0f464
+          stepCounter: 1553ddeb-6642-4cde-aa92-817c09b63f0e
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: PRODKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a2a15dbd-9bc5-4770-bacb-344c976e7fc1
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7e2d45b9-48c5-4d8c-b13b-36490b16610b
+          stepCounter: 1553ddeb-6642-4cde-aa92-817c09b63f0e
+        config: {}
+        dataType: DECIMAL(9,2)
+        description: ""
+        name: INVENTORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e8778e2d-78e9-45b6-9e72-67144b91b648
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ebfe5ff4-3b1d-426a-829d-86f745870e43
+          stepCounter: 1553ddeb-6642-4cde-aa92-817c09b63f0e
+        config: {}
+        dataType: DATE
+        description: ""
+        name: UPDATED_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e024b35a-7c0c-4a0e-a233-7a721041fef0
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8da1e81b-878a-434e-bba5-4298e1a65b37
+          stepCounter: 1553ddeb-6642-4cde-aa92-817c09b63f0e
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d3204c49-77ce-4bae-be1e-fb49b284fea8
+                stepCounter: d2448fb0-ea93-4b6a-aba4-f31878348b35
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATASTORE
+            nodeName: DS_INVENTORY_DC_STK
+        join:
+          joinCondition: FROM {{ ref('DATASTORE', 'DS_INVENTORY_DC_STK') }} "DS_INVENTORY_DC_STK"
+        name: VW_INVENTORY_DC_STK
+        noLinkRefs: []
+  name: VW_INVENTORY_DC_STK
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node
