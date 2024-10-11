@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 37bf584a-b811-4c31-82c7-cdb6c456b99d
+name: VWA_EVENTS3
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Delete Base ALL events (products that have never been promoted) when a promotion is added for a product / geography
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 39c234c1-e425-4b78-a48b-5e4999dde8d7
+          stepCounter: 37bf584a-b811-4c31-82c7-cdb6c456b99d
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b407cbe5-d712-4975-b322-55b50b65922d
+                stepCounter: a09ef102-4ad5-4163-a713-31f957297b74
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: baceec84-1034-431b-bf1b-1da1c8d0d51c
+          stepCounter: 37bf584a-b811-4c31-82c7-cdb6c456b99d
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SQL_STMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: faa4769c-1d7b-437b-b1af-f3d1db1130e3
+                stepCounter: a09ef102-4ad5-4163-a713-31f957297b74
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: SQL_EVENTS
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'SQL_EVENTS') }} "SQL_EVENTS"
+        name: VWA_EVENTS3
+        noLinkRefs: []
+  name: VWA_EVENTS3
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,121 @@
+fileVersion: 1
+id: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+name: VWA_ZONE2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: |
+    Type 1 Zone  Dimension - no surrogate key required
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5c642c47-ea67-49cd-91a6-8713e4150174
+          stepCounter: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+        config: {}
+        dataType: INT
+        description: ""
+        name: ZONE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7bb5fa25-edd8-4889-befb-df368513b518
+                stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5442dfa0-8ee4-49e6-8fc2-b17c94d5299c
+          stepCounter: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5f438f77-9079-4d9a-a363-cdd7af69074e
+                stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f5764021-00b3-47a3-8c94-978dedcc1407
+          stepCounter: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bcc39867-91fa-4c55-a8aa-68037cfef00d
+                stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e1f3c6f1-0976-4f5f-859f-1165f4acf401
+          stepCounter: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: ZONE_DELIVERY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6861a1eb-d15e-45f5-b391-d7a40b25a08a
+                stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 38783b81-b9c2-424b-89ef-f80468e31a76
+          stepCounter: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 47281386-cc07-4a03-b341-5d51e1632ab9
+                stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b0fb3219-f028-40c1-b8b0-0f82cf003c70
+          stepCounter: 2a8a90bc-b010-4038-8e51-3a1ff689ec47
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 53d9e27a-99f8-46b8-a658-a5efb9574cca
+                stepCounter: 60485eef-5f0f-4e58-88de-e60de6bdd818
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DATA
+            nodeName: DIM_ZONE
+        join:
+          joinCondition: FROM {{ ref('DATA', 'DIM_ZONE') }} "DIM_ZONE"
+        name: VWA_ZONE2
+        noLinkRefs: []
+  name: VWA_ZONE2
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

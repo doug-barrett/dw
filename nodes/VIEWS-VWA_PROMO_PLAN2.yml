@@ -1,0 +1,134 @@
+fileVersion: 1
+id: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+name: VWA_PROMO_PLAN2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4f544526-2ed0-4b5d-af18-14802e01e095
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DIM_FORECAST_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3c61b24d-7e61-4033-a08e-196b786b7e9e
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f3179e0-9084-419a-bcce-3808e698f29a
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a877ec48-f67d-47bc-b554-95740e9fc853
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 79e7faad-b67d-46e2-ac6b-fa0636c0646e
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: VARCHAR(6)
+        description: ""
+        name: PRODKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 976eaa4b-c4d5-4f4c-87c6-61a283e7deb9
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b2ed8145-0ba9-48a6-936f-41c232ee875d
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: DATE
+        description: ""
+        name: EFFECTIVE_DATE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6d07ade2-b0fa-481e-a880-edea942e27b0
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bb692e5f-5548-4297-af6b-e72106f5fd33
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: STRING
+        description: Indicates the DML operation (INSERT, DELETE) recorded.
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e13e40c3-8e0b-42b5-b050-1b3e19752513
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 40bade79-9f3a-451b-8e37-1a3c33be0ee2
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: STRING
+        description: Indicates whether the operation was part of an UPDATE statement.
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7f769cd6-4972-43c2-98c8-f6cdc704dc93
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1faf8186-82c5-4099-b6fb-12ff7cc1ade4
+          stepCounter: c68f0825-5fe3-4e9e-a2ed-4a0be9a2f13b
+        config: {}
+        dataType: STRING
+        description: Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e58b5532-affb-4440-bcf9-0ffd14060822
+                stepCounter: a7d9813b-0c0c-44d8-a9b9-fe0bd9391337
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STR_PROMO_PLAN
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STR_PROMO_PLAN') }} "STR_PROMO_PLAN"
+        name: VWA_PROMO_PLAN2
+        noLinkRefs: []
+  name: VWA_PROMO_PLAN2
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

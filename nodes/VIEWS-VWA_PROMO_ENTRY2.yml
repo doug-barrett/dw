@@ -1,0 +1,120 @@
+fileVersion: 1
+id: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+name: VWA_PROMO_ENTRY2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94197198-37ab-496d-8b8a-20d1623fac5c
+          stepCounter: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ZONE_GEOGRAPHY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fd6ace5f-b194-4325-b39e-d70da301a152
+                stepCounter: b85c7f78-3667-47eb-9e3c-74b1656b9532
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77ede3be-7d84-4b11-95f1-45e84551aaf0
+          stepCounter: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+        config: {}
+        dataType: VARCHAR(6)
+        description: ""
+        name: PRODKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cf0e4ff0-acb6-4bdb-9881-7395ada36544
+                stepCounter: b85c7f78-3667-47eb-9e3c-74b1656b9532
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f18d5c0e-b8dc-4749-a3df-2f1230b3974a
+          stepCounter: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+        config: {}
+        dataType: DATE
+        description: ""
+        name: EFFECTIVE_DATE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f39a94cd-c734-4163-b036-87b14054beb0
+                stepCounter: b85c7f78-3667-47eb-9e3c-74b1656b9532
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 50214de6-7487-4ca9-82f5-068ecb0f1ab5
+          stepCounter: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+        config: {}
+        dataType: STRING
+        description: Indicates the DML operation (INSERT, DELETE) recorded.
+        name: METADATA$ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 55abb665-4ab7-46fc-ab7d-4b9e29dfcdf5
+                stepCounter: b85c7f78-3667-47eb-9e3c-74b1656b9532
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ce5ad151-a778-4e04-b1d0-882c73eeff1e
+          stepCounter: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+        config: {}
+        dataType: STRING
+        description: Indicates whether the operation was part of an UPDATE statement.
+        name: METADATA$ISUPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: be929b84-6ef5-491e-a32d-7ed6cb0deae9
+                stepCounter: b85c7f78-3667-47eb-9e3c-74b1656b9532
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4a20396a-5f26-4103-8a7e-a87bb3e44588
+          stepCounter: 1c0d5168-f7d6-4f93-9ef6-4f3125d7ea20
+        config: {}
+        dataType: STRING
+        description: Specifies the unique and immutable ID for the row, which can be used to track changes to specific rows over time.
+        name: METADATA$ROW_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4aa48988-e3ca-4311-9364-db90a70d0238
+                stepCounter: b85c7f78-3667-47eb-9e3c-74b1656b9532
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STR_PROMO_ENTRY
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STR_PROMO_ENTRY') }} "STR_PROMO_ENTRY"
+        name: VWA_PROMO_ENTRY2
+        noLinkRefs: []
+  name: VWA_PROMO_ENTRY2
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node

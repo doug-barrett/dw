@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 94218e75-d8a7-404c-b0df-ab1f64f6e6de
+name: VWA_EVENTS_REGION2
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Delete Base ALL events (for products that have never been promoted) when a promotion is added for a product / geography
+  isMultisource: false
+  locationName: VIEWS
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a92cfecc-f284-4a01-b7e7-9a106c520d3e
+          stepCounter: 94218e75-d8a7-404c-b0df-ab1f64f6e6de
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d135a8b5-0ceb-4fb0-9fc9-25d23025bd48
+                stepCounter: 34d4c87f-5ab6-45c2-a53a-c00885b6086c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab36a47c-9f07-4a40-9251-c059cb965338
+          stepCounter: 94218e75-d8a7-404c-b0df-ab1f64f6e6de
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SQL_STMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 29e085a2-c92c-4942-862b-8676152d407a
+                stepCounter: 34d4c87f-5ab6-45c2-a53a-c00885b6086c
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: SQL_EVENTS_REGION
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'SQL_EVENTS_REGION') }} "SQL_EVENTS_REGION"
+        name: VWA_EVENTS_REGION2
+        noLinkRefs: []
+  name: VWA_EVENTS_REGION2
+  overrideSQL: false
+  schema: ""
+  sqlType: "17"
+  type: sql
+  version: 1
+type: Node
