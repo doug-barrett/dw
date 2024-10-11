@@ -1,0 +1,134 @@
+fileVersion: 1
+id: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+name: VW_DATE_CAMPAIGN
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd3e729e-b6fb-49ed-b5b0-3af34ba39a66
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: CALENDAR_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: adf1aedd-1e2b-4715-ab42-0fd73dd6431b
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f750d94-ab0d-45bd-9d8d-a888bf42658b
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: DEAL_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ba51c138-9be9-4d1b-928a-f4a3b0314d78
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a463bb90-ccbc-480a-8d67-42d4d146aa68
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: INT
+        description: ""
+        name: DEAL_SEQ
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d8a64f4e-3b3f-461e-bc0c-2eecc09a1570
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 212d3c6c-b892-479c-9a05-41d2fd8a0a41
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: VARCHAR(64)
+        description: ""
+        name: DEAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 01f25f24-8695-4a6c-a76e-d2af2cff101a
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 27bcb4dc-f446-4ca3-b2f4-0edfc9160b26
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: DEAL_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4466169a-7420-453b-bc0c-db69ccd9f8a9
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7273fcd-41f8-4e1e-b912-6ad27938cfdf
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DEAL_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3ccbf399-4983-40a1-9e51-baa58dc787cf
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ff5385d7-048e-4529-ab7e-4b0fcad9d4fb
+          stepCounter: cb1ec8c1-0bcb-4be2-bc98-269c3b87d11d
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DEAL_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 23fe2e8c-6586-4d5d-b387-c79b32742aba
+                stepCounter: 3e75e110-81b7-4de7-8fc1-d9eb3c7062bb
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_DATE_CAMPAIGN
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_DATE_CAMPAIGN') }} "STG_DATE_CAMPAIGN"
+        name: VW_DATE_CAMPAIGN
+        noLinkRefs: []
+  name: VW_DATE_CAMPAIGN
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node

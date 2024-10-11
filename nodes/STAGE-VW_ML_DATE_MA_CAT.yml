@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 74779996-d533-4dfe-b12d-f9d1be354fd5
+name: VW_ML_DATE_MA_CAT
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Used to assemble data for Multi-series (non Exogenous varible) Machine Learning data set
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae5b507b-dcbb-40fb-9d23-f84df7568298
+          stepCounter: 74779996-d533-4dfe-b12d-f9d1be354fd5
+        config: {}
+        dataType: DATE
+        description: ""
+        name: TRANSACTION_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c36f9c65-1cfc-46ed-ae0c-c39dbc3bbfc3
+                stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: feed7565-2878-4a60-9397-e622c9c37025
+          stepCounter: 74779996-d533-4dfe-b12d-f9d1be354fd5
+        config: {}
+        dataType: VARCHAR(50)
+        description: This is the product key
+        name: MA_CAT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 62700dbf-8151-4a71-afe0-33dd5273b2fb
+                stepCounter: 84c5ab19-0359-4da4-a29f-e355062d76cc
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_ML_DATE_MA_CAT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'STG_ML_DATE_MA_CAT') }} "STG_ML_DATE_MA_CAT"
+        name: VW_ML_DATE_MA_CAT
+        noLinkRefs: []
+  name: VW_ML_DATE_MA_CAT
+  overrideSQL: false
+  schema: ""
+  sqlType: "16"
+  type: sql
+  version: 1
+type: Node
