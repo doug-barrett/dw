@@ -264,13 +264,14 @@ operation:
           - locationName: SRC_SAMPLE
             nodeName: REGION
         join:
-          joinCondition: |
+          joinCondition: |+
 
             FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
             INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
             ON "CUSTOMER"."C_NATIONKEY"= "NATION"."N_NATIONKEY"
             INNER JOIN {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
             ON NATION."N_REGIONKEY"= "REGION"."R_REGIONKEY"
+
         name: STG_CUSTOMER
         noLinkRefs: []
   name: STG_CUSTOMER
