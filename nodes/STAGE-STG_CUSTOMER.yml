@@ -4,7 +4,7 @@ name: STG_CUSTOMER
 operation:
   config:
     insertStrategy: INSERT
-    postSQL: CALL SYSTEM$WAIT(60, 'MINUTES');
+    postSQL: ""
     preSQL: ""
     testsEnabled: true
     truncateBefore: true
@@ -17,7 +17,9 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: false
         columnReference:
           columnCounter: 63c6b52f-cf4f-4cb1-bde4-19e9f438cc18
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -31,7 +33,9 @@ operation:
               - columnCounter: 199ffb2d-3237-43b8-a7f6-e1ca0d053205
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: f6567d7b-1d01-44b6-a650-cedb06f6da0e
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -45,12 +49,14 @@ operation:
               - columnCounter: 4d83ab7f-4cac-45f3-8615-30dd0bac79a7
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
             transform: UPPER("CUSTOMER"."C_NAME")
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 0faf3841-fe05-4238-93a0-1b25a64c9dbc
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: VARCHAR(40)
+        dataType: STRING
         description: ""
         name: C_ADDRESS
         nullable: true
@@ -58,13 +64,15 @@ operation:
           - columnReferences:
               - columnCounter: fcbca7f7-4164-4a10-a3e6-7c8582716026
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
-            transform: ""
-      - appliedColumnTests: {}
+            transform: NVL("CUSTOMER"."C_ADDRESS",'')
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: b1e8159a-8b0f-491a-9c1b-d63bafacb9df
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: VARCHAR(25)
+        dataType: STRING
         description: Nation customer is based
         name: NATION
         nullable: true
@@ -72,13 +80,15 @@ operation:
           - columnReferences:
               - columnCounter: 0aecb403-0d0d-4d5b-a889-ae37722bd5a8
                 stepCounter: a4b44182-13e6-4a68-9f53-915743d48af4
-            transform: ""
-      - appliedColumnTests: {}
+            transform: NVL("NATION"."N_NAME",'')
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 5832d5c8-a862-49bb-ba1f-34fd57a949a6
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: VARCHAR(25)
+        dataType: STRING
         description: Geographic region customer is based
         name: REGION
         nullable: true
@@ -86,13 +96,15 @@ operation:
           - columnReferences:
               - columnCounter: e53bbf4b-6d9e-4970-83eb-4f6c766768fb
                 stepCounter: 8376d1bf-8003-455c-abbf-5b9db13950b4
-            transform: ""
-      - appliedColumnTests: {}
+            transform: NVL("REGION"."R_NAME",'')
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 3f8debba-e4aa-46be-918e-661857f435d1
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: NUMBER(38,0)
+        dataType: STRING
         description: xx
         name: C_NATIONKEY
         nullable: true
@@ -100,13 +112,15 @@ operation:
           - columnReferences:
               - columnCounter: d72e4bd5-cb99-4857-b3af-d2a5c287fad3
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
-            transform: ""
-      - appliedColumnTests: {}
+            transform: NVL("CUSTOMER"."C_NATIONKEY",'')
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: e343aef2-1e4c-4c5b-a9ec-c4f46583ec14
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: VARCHAR(15)
+        dataType: STRING
         description: ""
         name: C_PHONE
         nullable: true
@@ -114,13 +128,15 @@ operation:
           - columnReferences:
               - columnCounter: 3fa5b6ec-f4ff-49e2-b649-22e400fbf901
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
-            transform: ""
-      - appliedColumnTests: {}
+            transform: NVL("CUSTOMER"."C_PHONE",'')
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: d92bee15-ace1-4ffa-9e81-ab85a435070a
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
         config: {}
-        dataType: NUMBER(12,2)
+        dataType: STRING
         description: ""
         name: C_ACCTBAL
         nullable: true
@@ -128,8 +144,10 @@ operation:
           - columnReferences:
               - columnCounter: d4294861-a808-4fcb-9dcc-07e08e11aafd
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
-            transform: ""
-      - appliedColumnTests: {}
+            transform: NVL("CUSTOMER"."C_ACCTBAL",'')
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 56a0ce33-115a-4ab1-a01a-1707225cee4e
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -147,7 +165,9 @@ operation:
               CASE WHEN "CUSTOMER"."C_ACCTBAL" > 1000 THEN 'HIGH'
               ELSE 'LOW'
               END
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: d6a47e74-c7be-491c-a2ee-db96ef46fe23
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -161,7 +181,9 @@ operation:
               - columnCounter: 296569e3-145d-430f-8936-2ce72d20069f
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 6390dc5e-82e4-4d6f-9fb8-0aca6d915c23
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -178,7 +200,9 @@ operation:
       - acceptedValues:
           strictMatch: false
           values: []
-        appliedColumnTests: {}
+        appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 34628573-df20-4fe0-879f-99e5f5255bf1
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -192,7 +216,9 @@ operation:
               - columnCounter: 1f56fed1-f9aa-4780-80ac-b952f88ad393
                 stepCounter: 8376d1bf-8003-455c-abbf-5b9db13950b4
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: 1ad40b86-043e-4c35-8c7d-d1cb09291d14
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -209,7 +235,9 @@ operation:
       - acceptedValues:
           strictMatch: true
           values: []
-        appliedColumnTests: {}
+        appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
           columnCounter: b2708bf9-acca-4848-aed0-1a1bf2b8cd97
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -248,7 +276,9 @@ operation:
         nullable: true
         sourceColumnReferences: []
     cteString: ""
-    enabledColumnTestIDs: []
+    enabledColumnTestIDs:
+      - hasNull
+      - isDistinct
     sourceMapping:
       - aliases:
           CUSTOMER: 3347eb7e-b521-4684-a291-fd780b3cdef4
