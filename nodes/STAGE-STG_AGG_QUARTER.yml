@@ -1,0 +1,84 @@
+fileVersion: 1
+id: a07ae177-a6ce-457f-bccd-01c68c47be49
+name: STG_AGG_QUARTER
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cdbadddb-ba3a-4daf-93b0-f49997333ced
+          stepCounter: a07ae177-a6ce-457f-bccd-01c68c47be49
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: GLOBAL_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b089173f-f01d-4ad6-b3f0-b0fcb1696ac2
+                stepCounter: ce889bd3-82f6-43cd-a280-fb847a556ff7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c764757e-4627-4146-964f-a98f46f504e3
+          stepCounter: a07ae177-a6ce-457f-bccd-01c68c47be49
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: LAST_DATEKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 45892e9b-368b-4e03-ae7f-ca7ff9ee717c
+                stepCounter: ce889bd3-82f6-43cd-a280-fb847a556ff7
+            transform: MAX("CALENDAR"."DATEKEY")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac470d76-955f-4339-a095-650ff67f4cc3
+          stepCounter: a07ae177-a6ce-457f-bccd-01c68c47be49
+        config: {}
+        dataType: DATE
+        description: ""
+        name: LAST_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2791ffa4-1963-4dbf-b421-6b6a7822fb1d
+                stepCounter: ce889bd3-82f6-43cd-a280-fb847a556ff7
+            transform: MAX("CALENDAR"."DATE")
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CALENDAR: ce889bd3-82f6-43cd-a280-fb847a556ff7
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE
+            nodeName: CALENDAR
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE', 'CALENDAR') }} "CALENDAR"
+            GROUP BY "GLOBAL_QUARTER"
+        name: STG_AGG_QUARTER
+        noLinkRefs: []
+  name: STG_AGG_QUARTER
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

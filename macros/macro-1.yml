@@ -23,11 +23,19 @@ macroString: |
 
   {#-- date_sk #}
   {#-- Eg {{ date_sk("O_ORDERDATE") }} #}
-
   {%- macro date_sk(column) -%}
-      TO_NUMBER(TO_CHAR({{ column }}, 'YYYYMMDD'))
+      TO_NUMBER(TO_CHAR(TO_DATE({{to_first( column, ' ')}}), 'YYYYMMDD'))
   {%- endmacro %}
 
+  {%- macro to_date(column) -%}
+      TO_DATE({{to_first( column, ' ')}})
+  {%- endmacro %}
+
+  {%- macro to_first(column, first) -%}
+      IFF(POSITION('{{first}}' IN {{ column }}) > 0, 
+          LEFT({{ column }}, POSITION('{{first}}' IN {{ column }})-1),
+          {{ column }})
+  {%- endmacro %}
 
   {#-- ************************************************************************************************* #}
   {#-- Testing templates #}

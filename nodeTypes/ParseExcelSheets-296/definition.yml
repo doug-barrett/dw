@@ -1,0 +1,58 @@
+fileVersion: 1
+id: "296"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Copy of Parse Excel
+    short: EL
+    plural: none
+    tagColor: 'aqua'
+
+    deployStrategy: advanced
+
+    config:
+    - groupName: Stored Procedure Options
+      items:
+
+      - displayName: Stored Procedure Storage Location
+        attributeName: spLocation
+        type: textBox
+        isRequired: true
+
+            
+    - groupName: Excel File Processing Options
+      items:
+      - displayName: Source File Storage Location
+        attributeName: srcFileStrLoc
+        type: textBox
+        isRequired: true
+
+      - displayName: Source File Stage
+        attributeName: srcStage
+        type: textBox
+        default: stage_name
+        isRequired: true
+
+      - displayName: Source File Name
+        attributeName: srcFile
+        type: textBox
+        default: file.xlsx
+        isRequired: true
+
+      - displayName: Sheet Name
+        attributeName: srcSheet
+        type: textBox
+        default: Sheet1
+        isRequired: true
+
+
+    systemColumns:
+    - displayName: 'SRC'
+      attributeName: src
+      transform: ''
+      dataType: VARIANT
+      placement: beginning
+name: Parse Excel Sheets
+type: NodeType
