@@ -1,19 +1,42 @@
 fileVersion: 1
-id: 6ad8ec9a-c752-45d7-97b0-1949971756c4
-name: WRK_CUSTOMER
+id: 08cb43ce-bf22-464b-bd30-1619550bc950
+name: V_CUSTOMER
 operation:
   config:
-    groupByAll: false
-    insertStrategy: INSERT
-    orderby: false
-    orderbycolumn:
+    aggFunctions:
       items:
         - {}
-    postSQL: ""
-    preSQL: ""
-    selectDistinct: false
-    testsEnabled: false
-    truncateBefore: true
+    dateFunctions:
+      items:
+        - {}
+    numFunctions:
+      items:
+        - funcColNum:
+            columnCounter: 46a2a4cd-2c86-434b-b017-60a059d4a3e4
+            stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
+          numFunc: ABS
+        - funcColNum:
+            columnCounter: 46a2a4cd-2c86-434b-b017-60a059d4a3e4
+            stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
+          numFunc: ROUND
+    strFunctions:
+      items:
+        - funcColStr:
+            columnCounter: d2293db6-537a-4be2-8b06-dd9f241e39b6
+            stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
+          strFunc: UPPER
+        - funcColStr:
+            columnCounter: 920311b6-8abe-4a57-a064-dd9ab34f4f0d
+            stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
+          strFunc: TRIM
+        - funcColStr:
+            columnCounter: 920311b6-8abe-4a57-a064-dd9ab34f4f0d
+            stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
+          strFunc: LOWER
+        - funcColStr:
+            columnCounter: 920311b6-8abe-4a57-a064-dd9ab34f4f0d
+            stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
+          strFunc: UPPER
   database: ""
   deployEnabled: true
   description: Customer data as defined by TPC-H
@@ -25,8 +48,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 80c19d12-1545-409e-af55-f3191afe7a76
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: d4562d34-bdf9-41d7-ade0-62bdd33c60ff
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -39,8 +62,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 01834309-ebfc-4b0a-b04a-129dc48e3e50
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: d2293db6-537a-4be2-8b06-dd9f241e39b6
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: VARCHAR(25)
         description: ""
@@ -50,11 +73,11 @@ operation:
           - columnReferences:
               - columnCounter: a2bf55ef-d090-450c-b8f9-0256fdcd0f0d
                 stepCounter: 682a91d6-0028-40cd-8f02-ccaa582adba0
-            transform: UPPER("CUSTOMER"."C_NAME")
+            transform: UPPER(C_NAME)
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1115f132-e22d-4b06-8c4d-a9342fb111e5
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: 675a0794-91ef-4170-81b4-3ae4b12610be
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: VARCHAR(40)
         description: ""
@@ -67,8 +90,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6af10993-6574-47c1-9565-daffb1af51a7
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: 1e7a262a-93dc-4e04-8696-6a5c79f9f0b2
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: NUMBER(38,0)
         description: ""
@@ -81,8 +104,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 49d5ea0c-c43b-4c46-ba60-b2d72326289c
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: f4ac475f-2dd7-4c57-94bc-0266f2ad02b5
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: VARCHAR(15)
         description: ""
@@ -95,8 +118,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 39ad216d-7893-45fa-bc23-c8a10ba14992
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: 46a2a4cd-2c86-434b-b017-60a059d4a3e4
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: NUMBER(12,2)
         description: ""
@@ -106,28 +129,11 @@ operation:
           - columnReferences:
               - columnCounter: cc535f7f-b812-4009-9504-c5c893c89e15
                 stepCounter: 682a91d6-0028-40cd-8f02-ccaa582adba0
-            transform: ""
+            transform: ROUND(ABS(C_ACCTBAL))
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ee6e4918-4010-49ce-b277-eebaffc6c08c
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
-        config: {}
-        dataType: STRING
-        description: ""
-        name: C_ACCTBAL_CAT
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: cc535f7f-b812-4009-9504-c5c893c89e15
-                stepCounter: 682a91d6-0028-40cd-8f02-ccaa582adba0
-            transform: |-
-              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 5000 THEN 'HIGH'
-              ELSE 'LOW' 
-              END
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: d6604cfd-2f8b-4051-a950-69f8d8e0bdc9
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: 77693c6c-4fd6-4671-97d4-8d0d4a31da0b
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: VARCHAR(10)
         description: ""
@@ -140,8 +146,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 132ad8ad-a564-4945-a746-87a28f740ea4
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
+          columnCounter: 920311b6-8abe-4a57-a064-dd9ab34f4f0d
+          stepCounter: 08cb43ce-bf22-464b-bd30-1619550bc950
         config: {}
         dataType: VARCHAR(117)
         description: ""
@@ -151,28 +157,15 @@ operation:
           - columnReferences:
               - columnCounter: 5de4a9bd-c486-45a4-ab7a-db5a4269370a
                 stepCounter: 682a91d6-0028-40cd-8f02-ccaa582adba0
-            transform: ""
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: a04e6d97-1ecf-4bb5-bfba-01653a64a9b8
-          stepCounter: 6ad8ec9a-c752-45d7-97b0-1949971756c4
-        config: {}
-        dataType: VARCHAR(10)
-        description: ""
-        name: C_MKTSEGMENT1
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 6466c5b0-4ea0-439d-8d09-2c251f97ff87
-                stepCounter: 682a91d6-0028-40cd-8f02-ccaa582adba0
-            transform: ""
+            transform: UPPER(LOWER(TRIM(C_COMMENT)))
     cteString: ""
+    description: ""
+    destinationName: ""
     enabledColumnTestIDs: []
+    materializationOption: ""
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          CUSTOMER: 682a91d6-0028-40cd-8f02-ccaa582adba0
         customSQL:
           customSQL: ""
         dependencies:
@@ -180,12 +173,12 @@ operation:
             nodeName: CUSTOMER
         join:
           joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
-        name: WRK_CUSTOMER
+        name: V_CUSTOMER
         noLinkRefs: []
-  name: WRK_CUSTOMER
+  name: V_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: Base:::204
+  sqlType: "275"
   type: sql
   version: 1
 type: Node

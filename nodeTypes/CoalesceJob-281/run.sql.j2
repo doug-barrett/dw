@@ -1,5 +1,9 @@
 {{ stage('Run Stored Procedure') }}
-CALL {{ ref_no_link(parameters.job_proc_location, parameters.job_proc)}}(JobID => {{config.jobId}}, EnvironmentID => {{parameters.job_environment_id}})
+CALL {{ ref_no_link(parameters.job_proc_location, "COALESCE_API_RUN_JOB_COMPLETE_SQL_CHILD_RESTART")}}(
+        job_id => {{config.jobId}}, 
+        environment_id => {{parameters.job_environment_id}}, 
+        try_restart_child_jobs_flag => '{{parameters.job_try_restart_child_jobs}}',
+        except_job_id_array => {{parameters.job_skip_array}})
 
 {{ stage('Results')}}
 CREATE VIEW IF NOT EXISTS {{this}} AS SELECT 1 RESULTS
