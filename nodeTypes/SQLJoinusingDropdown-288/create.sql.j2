@@ -21,16 +21,17 @@
     {%- if config.toggleWhere %}
         {{ source.join }}
     {%- else %}
-        FROM 
-        {%- for dep in sources[0].dependencies %}
-            {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" {%- if not loop.last %},{%- endif %}
-        {%- endfor %}  
-        WHERE 
-        {%- if config.tabJoins.get('items') %}
-            {%- for c in config.tabJoins.get('items') %}
-                {%- if not loop.first %} AND {%- endif %} 
-                "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
-            {%- endfor %}
-        {%- endif %}
+  FROM 
+  {%- for dep in sources[0].dependencies %}
+    {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" 
+    {%- if not loop.last %},{%- endif %}
+  {%- endfor %}  
+  WHERE 
+    {% if not config|length %}
+      {% set config = {'tabJoins': {'items': []}} %}
+    {% endif %}
+    {%- for c in config.tabJoins.get('items') %}
+      {%- if not loop.first %} AND {%- endif %} "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
+    {%- endfor %}
 
     {%- endif %}

@@ -11,19 +11,20 @@ metadata:
     tagColor: '#2EB67D'
 
     joinTemplate: |
-      FROM 
-      {%- for dep in sources[0].dependencies %}
-        {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" {%- if not loop.last %},{%- endif %}
-      {%- endfor %}  
-      WHERE 
-        {% if not config|length %}
-        {% set config = {'tabJoins': {'items': []}} %}
-        {% endif %}
-        {%- for c in config.tabJoins.get('items') %}
-            {%- if not loop.first %} AND {%- endif %} 
-            "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
-        {%- endfor %}
-
+      {% if config.toggleWhere %}
+        FROM 
+        {%- for dep in sources[0].dependencies %}
+          {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}" 
+          {%- if not loop.last %},{%- endif %}
+        {%- endfor %}  
+        WHERE 
+          {% if not config|length %}
+            {% set config = {'tabJoins': {'items': []}} %}
+          {% endif %}
+          {%- for c in config.tabJoins.get('items') %}
+            {%- if not loop.first %} AND {%- endif %} "{{ c.colJoin1.name }}" = "{{ c.colJoin2.name }}"
+          {%- endfor %}
+      {% endif %}
 
     config:
     - groupName: Options
@@ -35,6 +36,11 @@ metadata:
         - view
         isRequired: true
         enableIf: "false"
+
+      - displayName: Use Join Tab SQL
+        attributeName: toggleWhere
+        type: toggleButton
+        default: true
 
       - type: tabular
         displayName: 'Join Links'
@@ -51,6 +57,10 @@ metadata:
           displayName: Column 2
           attributeName: colJoin2
           isRequired: false
-      
+
+    mappingColumns:                                  # Adds additional columns to the mapping grid for additional metadata per node-column
+    - type: textBox                                  # Generic textbox in mapping grid
+      headerName: 'My Header'                        # GUI display name (string, required) 
+      attributeName: 'myMappingColumn' 
 name: SQL Join using Dropdown
 type: NodeType
