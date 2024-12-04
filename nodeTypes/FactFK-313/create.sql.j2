@@ -1,0 +1,43 @@
+{{ stage('Create Fact Table') }}
+
+{% set db = storageLocations | selectattr('name', 'equalto', node.location.name) | map(attribute='database') | first %}
+{% set dim_prefix = "DIM_" %}
+{% set dim_key_suffix = "_KEY" %}
+
+CREATE OR REPLACE TABLE {{ this }}
+(
+    {% for col in columns %}
+        "{{ col.name }}" {{ col.dataType }}
+        {%- if not col.nullable %} NOT NULL
+            {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+        {% endif %}
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+{% if config.fk %}
+    {% for col in columns %}
+        {% if col.name.startswith(dim_prefix) %}
+            {% set dim = col.name | replace(dim_key_suffix,"") %}
+            {{ stage('Create Dim Constraint Table ' + dim ) }}
+
+            EXECUTE IMMEDIATE 
+            'BEGIN
+                EXECUTE IMMEDIATE (
+                    SELECT TOP 1 SQL FROM (
+                        SELECT ''ALTER TABLE {{ ref(config.dimLocation, dim) }} ADD PRIMARY KEY ({{col.name}}) '' AS SQL
+                        WHERE NOT EXISTS (SELECT 1 FROM {{db}}.INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = ''{{ dim }}'')
+                        UNION 
+                        SELECT ''SELECT ''''1'''' '' AS SQL));
+            END;'
+
+            {{ stage('Create Fact Table Constraint ' + col.name  ) }}
+            ALTER TABLE {{this}} ADD CONSTRAINT fk_{{col.name }} 
+            FOREIGN KEY ({{col.name }}) REFERENCES {{ ref(config.dimLocation, dim) }} ({{ col.name  }})
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+ 
