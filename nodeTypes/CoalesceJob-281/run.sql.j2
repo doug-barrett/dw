@@ -1,0 +1,9 @@
+{{ stage('Run Stored Procedure') }}
+CALL DOUG_DB.PUBLIC.COALESCE_API_RUN_JOB_CHILD(
+        job_id => {{config.jobId}}, 
+        environment_id => {{parameters.job_environment_id}}, 
+        try_restart_child_jobs_flag => '{{parameters.job_try_restart_child_jobs}}',
+        except_job_id_array => {{parameters.job_skip_array}})
+
+{{ stage('Create something to display') }}
+CREATE VIEW IF NOT EXISTS {{this}} AS SELECT 1 RESULT

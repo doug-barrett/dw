@@ -1,0 +1,36 @@
+fileVersion: 1
+id: 08b6c87a-8b0c-4024-aadd-4bd4122c80f9
+name: JOB_AGG
+operation:
+  config:
+    envId: "{{ parameters.job_env }}"
+    jobId: "122"
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: JOB_FACT
+        join:
+          joinCondition: FROM {{ ref('DWH', 'JOB_FACT') }} "JOB_FACT"
+        name: JOB_AGG
+        noLinkRefs: []
+  name: JOB_AGG
+  overrideSQL: false
+  schema: ""
+  sqlType: "281"
+  type: sql
+  version: 1
+type: Node

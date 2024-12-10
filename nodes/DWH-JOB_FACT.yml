@@ -1,0 +1,49 @@
+fileVersion: 1
+id: 76ae3782-1e6e-40d1-bc7d-b6e10cb03378
+name: JOB_FACT
+operation:
+  config:
+    envId: "{{ parameters.job_env }}"
+    jobId: "109"
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: JOB_DIM_CUSTOMER
+          - locationName: DWH
+            nodeName: JOB_DIM_ORDERS
+          - locationName: DWH
+            nodeName: JOB_DIM_PART
+          - locationName: DWH
+            nodeName: JOB_DIM_SUPPLIER
+        join:
+          joinCondition: |-
+            FROM {{ ref('DWH', 'JOB_DIM_SUPPLIER') }} "JOB_DIM_SUPPLIER"
+            INNER JOIN {{ ref('DWH', 'JOB_DIM_PART') }} "JOB_DIM_PART"
+            ON "JOB_DIM_SUPPLIER"./*COLUMN*/ = "JOB_DIM_PART"./*COLUMN*/
+            INNER JOIN {{ ref('DWH', 'JOB_DIM_ORDERS') }} "JOB_DIM_ORDERS"
+            ON "JOB_DIM_SUPPLIER"./*COLUMN*/ = "JOB_DIM_ORDERS"./*COLUMN*/
+            INNER JOIN {{ ref('DWH', 'JOB_DIM_CUSTOMER') }} "JOB_DIM_CUSTOMER"
+            ON "JOB_DIM_SUPPLIER"./*COLUMN*/ = "JOB_DIM_CUSTOMER"./*COLUMN*/
+        name: JOB_FACT
+        noLinkRefs: []
+  name: JOB_FACT
+  overrideSQL: false
+  schema: ""
+  sqlType: "281"
+  type: sql
+  version: 1
+type: Node

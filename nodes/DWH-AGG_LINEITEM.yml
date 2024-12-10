@@ -1,0 +1,142 @@
+fileVersion: 1
+id: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+name: AGG_LINEITEM
+operation:
+  config:
+    groupByAll: false
+    insertStrategy: UNION ALL
+    orderby: false
+    orderbycolumn:
+      items:
+        - {}
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d3d02cf1-5fba-489f-ac65-29af9ff855f1
+          stepCounter: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+        config: {}
+        dataType: DATE
+        description: ""
+        isBusinessKey: true
+        name: O_ORDERDATE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f1bbd9a9-0f09-464d-ba50-acdb8d38f283
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2117e20f-b25a-4e83-8a35-2e3a2e5676ab
+          stepCounter: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: L_QUANTITY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: db90c677-095e-4bdc-be67-ce91dd74d6f4
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: sum("FCT_LINEITEM1"."L_QUANTITY")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd29809b-ff43-4a9e-a9ee-3d833b0d171a
+          stepCounter: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: L_EXTENDEDPRICE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbcb0686-7ff6-4639-97cc-70fcbe0dfb13
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: sum("FCT_LINEITEM1"."L_EXTENDEDPRICE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ae1db47-3812-45d8-b155-2c988c8dcaca
+          stepCounter: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: LINE_COUNT
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e796ad99-2be2-4975-bdd9-a5c7d2a05b11
+                stepCounter: 4999889f-319d-46c8-a0b1-c198d50a315e
+            transform: COUNT(1)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2546987f-fd89-4149-9455-8a10c1fb6a76
+          stepCounter: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 87614ed3-f1d3-45f6-b694-2671055d4065
+          stepCounter: b33f75d1-e7e2-4300-9a10-790a82ea37e2
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          FCT_LINEITEM1: 4999889f-319d-46c8-a0b1-c198d50a315e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: FCT_LINEITEM1
+        join:
+          joinCondition: |-
+            FROM {{ ref('DWH', 'FCT_LINEITEM1') }} "FCT_LINEITEM1"
+            WHERE O_ORDERDATE NOT IN (SELECT DISTINCT "O_ORDERDATE" FROM {{this}})
+            GROUP BY ALL
+        name: AGG_LINEITEM
+        noLinkRefs:
+          - locationName: DWH
+            nodeName: AGG_LINEITEM
+  name: AGG_LINEITEM
+  overrideSQL: false
+  schema: ""
+  sqlType: Base:::205
+  type: sql
+  version: 1
+type: Node
