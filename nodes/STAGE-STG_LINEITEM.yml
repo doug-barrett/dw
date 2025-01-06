@@ -287,10 +287,12 @@ operation:
           - locationName: SRC_SAMPLE
             nodeName: ORDERS
         join:
-          joinCondition: |
+          joinCondition: |-
             FROM {{ ref('SRC_SAMPLE', 'LINEITEM') }} "LINEITEM"
             INNER JOIN {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
             ON "LINEITEM"."L_ORDERKEY" = "ORDERS"."O_ORDERKEY"
+
+            WHERE "ORDERS"."O_ORDERDATE" = '{{parameters.refresh_date}}'
         name: STG_LINEITEM
         noLinkRefs: []
   name: STG_LINEITEM
