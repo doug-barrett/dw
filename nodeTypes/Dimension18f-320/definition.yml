@@ -1,0 +1,95 @@
+fileVersion: 1
+id: "320"
+isDisabled: true
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Dimension_18F
+    short: DIM
+    tagColor: '#1E339A'
+    plural: Dimensions
+
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        isRequired: true
+        default: table
+        options:
+        - table
+        - view
+
+      - type: multisourceToggle
+        enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
+
+      - type: businessKeyColumns
+        isRequired: true
+
+      - type: changeTrackingColumns
+        isRequired: false
+
+      - type: overrideSQLToggle
+        enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
+
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: true
+        
+      - displayName: Pre-SQL
+        attributeName: preSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+      - displayName: Post-SQL
+        attributeName: postSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+    systemColumns:
+    - displayName: '{{NODE_NAME}}_KEY'
+      transform: ''
+      dataType: STRING
+      placement: beginning
+      attributeName: isSurrogateKey
+
+    - displayName: SYSTEM_VERSION
+      transform: ''
+      dataType: NUMBER
+      placement: end
+      attributeName: isSystemVersion
+
+    - displayName: CRNT_FLAG
+      transform: ''
+      dataType: BOOLEAN
+      placement: end
+      attributeName: isSystemCurrentFlag
+
+    - displayName: EFCTV_START_TMSTMP
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemStartDate
+
+    - displayName: EFCTV_END_TMSTMP
+      transform: CAST('9000-01-01 00:00:00' AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemEndDate
+
+    - displayName: CRTD_TMSTMP
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemCreateDate
+
+    - displayName: LAST_UPDTD_TMSTMP
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: isSystemUpdateDate
+name: Dimension 18f
+type: NodeType
