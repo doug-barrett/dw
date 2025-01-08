@@ -1,0 +1,25 @@
+{{ stage('Create Fact Table') }}
+
+{% set db = storageLocations | selectattr('name', 'equalto', node.location.name) | map(attribute='database') | first %}
+{% set dim_prefix = "DIM_" %}
+{% set dim_key_suffix = "_KEY" %}
+
+CREATE OR REPLACE TABLE {{ this }}
+(
+    {% for col in columns %}
+        "{{ col.name }}" {{ col.dataType }}
+        {%- if not col.nullable %} NOT NULL
+            {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+        {%- endif %}
+        {%- if config.fk and col.name.startswith(dim_prefix) %}
+            {% set dim = col.name | replace(dim_key_suffix,"") %}
+            FOREIGN KEY REFERENCES {{ ref(config.dimLocation, dim) }} ({{ col.name  }})
+        {%- endif %}
+        {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+ 

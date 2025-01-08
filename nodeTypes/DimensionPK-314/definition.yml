@@ -1,11 +1,11 @@
 fileVersion: 1
-id: Dimension
+id: "314"
 isDisabled: true
 metadata:
   defaultStorageLocation: DWH
   error: null
   nodeMetadataSpec: |-
-    capitalized: Dimension
+    capitalized: Copy of Dimension
     short: DIM
     tagColor: '#1E339A'
     plural: Dimensions
@@ -18,7 +18,7 @@ metadata:
         default: table
         options:
         - table
-        - view
+        enableIf: "false"
 
       - type: multisourceToggle
         enableIf: "{% if node.materializationType == 'table' %} true {% else %} false {% endif %}"
@@ -31,6 +31,11 @@ metadata:
 
       - type: overrideSQLToggle
         enableIf: "{% if node.materializationType == 'view' %} true {% else %} false {% endif %}"
+
+      - displayName: Add Primary Key
+        attributeName: pk
+        type: toggleButton
+        default: true
 
       - displayName: Enable Tests
         attributeName: testsEnabled
@@ -91,5 +96,5 @@ metadata:
       dataType: TIMESTAMP
       placement: end
       attributeName: isSystemUpdateDate
-name: Dimension
+name: Dimension PK
 type: NodeType
