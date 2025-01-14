@@ -1,0 +1,320 @@
+fileVersion: 1
+id: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+name: V_NODE
+operation:
+  config:
+    OverrideSQLCreate: false
+    groupByAll: false
+    insertStrategy: UNION
+    secureoption: false
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: baaa47d7-bb7f-4ef0-8035-b0315149832d
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: SUPPKEY
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b878a7e3-be20-4aeb-a35c-7e355cd3c3a8
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: VARCHAR(53)
+        defaultValue: ""
+        description: ""
+        name: SUPP_NAME
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f9d44b50-f0d3-4d36-9d4c-77b876dca6e4
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: VARCHAR(25)
+        defaultValue: ""
+        description: ""
+        name: NATION
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ef8fd19a-a72f-4204-a632-55b021c87e6b
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: NUMBER(38,6)
+        defaultValue: ""
+        description: ""
+        name: TOTAL_SALES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ec02228a-2a84-406d-875c-c812a6307dc5
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: NUMBER(38,6)
+        defaultValue: ""
+        description: ""
+        name: TOP_SALES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cdcd7b39-6ef7-4dc0-88e6-bf0f12a51077
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: NUMBER(38,6)
+        defaultValue: ""
+        description: ""
+        name: MID_SALES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 36415ab4-a0b4-4df3-a53b-561f63bb832b
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: NUMBER(38,6)
+        defaultValue: ""
+        description: ""
+        name: BOTTOM_SALES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 76c8e977-2f24-4399-9217-5bcfa8295920
+          stepCounter: 31f4ecd8-30a3-46c1-ae25-c3c621f5ea64
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: TOP_NATIONS
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: |-
+            {{ stage('Override Create SQL') }}
+            	CREATE OR REPLACE VIEW {{ ref('DWH', 'V_NODE')}} AS (
+            WITH 
+                sales_year as (
+                    SELECT TOP 5 YEAR(O_ORDERDATE) YR
+                    FROM {{ref('SRC_SAMPLE','ORDERS')}}
+                    GROUP BY YEAR(O_ORDERDATE)
+                    ORDER BY YEAR(O_ORDERDATE) DESC
+                    )
+                ,sales_base AS (
+                    SELECT L.L_SUPPKEY SUPPKEY, N.N_NAME NATION, 
+                           SUM(((L.L_EXTENDEDPRICE * L.L_QUANTITY) * (1 - L.L_DISCOUNT))) SALES_AMT
+                    FROM {{ref('SRC_SAMPLE','LINEITEM')}} L
+                    JOIN {{ref('SRC_SAMPLE','ORDERS')}} O ON L.L_ORDERKEY = O.O_ORDERKEY
+                    JOIN {{ref('SRC_SAMPLE','CUSTOMER')}} C ON O.O_CUSTKEY = C.C_CUSTKEY
+                    JOIN {{ref('SRC_SAMPLE','NATION')}} N ON C.C_NATIONKEY = N.N_NATIONKEY
+                    --LEFT JOIN DOUG_DB.DEV_STG.EXCLUDE_SUPPLIERS E ON L.L_SUPPKEY = E.E_SUPPKEY
+                    WHERE --E.E_SUPPKEY IS NULL AND
+                      O.O_ORDERSTATUS = 'F'
+                     AND YEAR(O.O_ORDERDATE) in (SELECT YR FROM sales_year)
+                    GROUP BY SUPPKEY, NATION)
+                ,supplier_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT
+                    FROM sales_base
+                    GROUP BY SUPPKEY)
+                ,nation_rank as (
+                    SELECT SUPPKEY, NATION, SALES_AMT,
+                           ROW_NUMBER() OVER (PARTITION BY SUPPKEY ORDER BY SALES_AMT) NATION_RANK,
+                           ROW_NUMBER() OVER (PARTITION BY SUPPKEY ORDER BY SALES_AMT DESC) NATION_RANK_REV
+                    FROM sales_base)
+                ,top_nation_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT, LISTAGG(NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK) TOP_NATIONS
+                    FROM nation_rank
+                    WHERE NATION_RANK <= 10
+                    GROUP BY SUPPKEY)
+                ,mid_nation_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT, LISTAGG(NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK) MID_NATIONS
+                    FROM nation_rank
+                    WHERE NATION_RANK > 10 AND NATION_RANK_REV > 10
+                    GROUP BY SUPPKEY)
+                ,bottom_nation_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT, LISTAGG(NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK) BOTTOM_NATIONS
+                    FROM nation_rank
+                    WHERE NATION_RANK_REV <= 10
+                    GROUP BY SUPPKEY)
+                ,supplier_details as (
+                    SELECT S_SUPPKEY SUPPKEY, S_NAME || ' ('||N_NAME||')' SUPP_NAME, N_NAME NATION
+                    FROM {{ref('SRC_SAMPLE','SUPPLIER')}} S
+                    JOIN {{ref('SRC_SAMPLE','NATION')}} N ON S.S_NATIONKEY = N.N_NATIONKEY)
+            SELECT s.SUPPKEY, s.SUPP_NAME, s.NATION, 
+                   total.SALES_AMT TOTAL_SALES, 
+                   top.SALES_AMT TOP_SALES,
+                   mid.SALES_AMT MID_SALES,
+                   bot.SALES_AMT BOTTOM_SALES,
+                   top.TOP_NATIONS 
+            FROM supplier_details s 
+            JOIN supplier_sales total ON s.SUPPKEY = total.SUPPKEY
+            JOIN top_nation_sales top ON  s.SUPPKEY = top.SUPPKEY
+            JOIN mid_nation_sales mid ON  s.SUPPKEY = mid.SUPPKEY
+            JOIN bottom_nation_sales bot ON  s.SUPPKEY = bot.SUPPKEY
+            ORDER BY 1
+            	)
+        dependencies:
+          - locationName: SRC_SAMPLE
+            nodeName: CUSTOMER
+          - locationName: SRC_SAMPLE
+            nodeName: LINEITEM
+          - locationName: SRC_SAMPLE
+            nodeName: NATION
+          - locationName: SRC_SAMPLE
+            nodeName: ORDERS
+          - locationName: SRC_SAMPLE
+            nodeName: SUPPLIER
+        join:
+          joinCondition: |2-
+
+                sales_year as (
+                    SELECT TOP 5 YEAR(O_ORDERDATE) YR
+                    FROM {{ref('SRC_SAMPLE','ORDERS')}}
+                    GROUP BY YEAR(O_ORDERDATE)
+                    ORDER BY YEAR(O_ORDERDATE) DESC
+                    )
+                ,sales_base AS (
+                    SELECT L.L_SUPPKEY SUPPKEY, N.N_NAME NATION, 
+                           SUM(((L.L_EXTENDEDPRICE * L.L_QUANTITY) * (1 - L.L_DISCOUNT))) SALES_AMT
+                    FROM {{ref('SRC_SAMPLE','LINEITEM')}} L
+                    JOIN {{ref('SRC_SAMPLE','ORDERS')}} O ON L.L_ORDERKEY = O.O_ORDERKEY
+                    JOIN {{ref('SRC_SAMPLE','CUSTOMER')}} C ON O.O_CUSTKEY = C.C_CUSTKEY
+                    JOIN {{ref('SRC_SAMPLE','NATION')}} N ON C.C_NATIONKEY = N.N_NATIONKEY
+                    --LEFT JOIN DOUG_DB.DEV_STG.EXCLUDE_SUPPLIERS E ON L.L_SUPPKEY = E.E_SUPPKEY
+                    WHERE --E.E_SUPPKEY IS NULL AND
+                      O.O_ORDERSTATUS = 'F'
+                     AND YEAR(O.O_ORDERDATE) in (SELECT YR FROM sales_year)
+                    GROUP BY SUPPKEY, NATION)
+                ,supplier_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT
+                    FROM sales_base
+                    GROUP BY SUPPKEY)
+                ,nation_rank as (
+                    SELECT SUPPKEY, NATION, SALES_AMT,
+                           ROW_NUMBER() OVER (PARTITION BY SUPPKEY ORDER BY SALES_AMT) NATION_RANK,
+                           ROW_NUMBER() OVER (PARTITION BY SUPPKEY ORDER BY SALES_AMT DESC) NATION_RANK_REV
+                    FROM sales_base)
+                ,top_nation_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT, LISTAGG(NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK) TOP_NATIONS
+                    FROM nation_rank
+                    WHERE NATION_RANK <= 10
+                    GROUP BY SUPPKEY)
+                ,mid_nation_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT, LISTAGG(NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK) MID_NATIONS
+                    FROM nation_rank
+                    WHERE NATION_RANK > 10 AND NATION_RANK_REV > 10
+                    GROUP BY SUPPKEY)
+                ,bottom_nation_sales as (
+                    SELECT SUPPKEY, SUM(SALES_AMT) SALES_AMT, LISTAGG(NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK) BOTTOM_NATIONS
+                    FROM nation_rank
+                    WHERE NATION_RANK_REV <= 10
+                    GROUP BY SUPPKEY)
+                ,supplier_details as (
+                    SELECT S_SUPPKEY SUPPKEY, S_NAME || ' ('||N_NAME||')' SUPP_NAME, N_NAME NATION
+                    FROM {{ref('SRC_SAMPLE','SUPPLIER')}} S
+                    JOIN {{ref('SRC_SAMPLE','NATION')}} N ON S.S_NATIONKEY = N.N_NATIONKEY)
+            SELECT s.SUPPKEY, s.SUPP_NAME, s.NATION, 
+                   total.SALES_AMT TOTAL_SALES, 
+                   top.SALES_AMT TOP_SALES,
+                   mid.SALES_AMT MID_SALES,
+                   bot.SALES_AMT BOTTOM_SALES,
+                   top.TOP_NATIONS 
+            FROM supplier_details s 
+            JOIN supplier_sales total ON s.SUPPKEY = total.SUPPKEY
+            JOIN top_nation_sales top ON  s.SUPPKEY = top.SUPPKEY
+            JOIN mid_nation_sales mid ON  s.SUPPKEY = mid.SUPPKEY
+            JOIN bottom_nation_sales bot ON  s.SUPPKEY = bot.SUPPKEY
+            ORDER BY 1
+        name: V_NODE
+        noLinkRefs: []
+  name: V_NODE
+  overrideSQL: true
+  schema: ""
+  sqlType: Base:::188
+  type: sql
+  version: 1
+type: Node

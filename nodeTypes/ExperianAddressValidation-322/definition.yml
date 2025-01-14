@@ -1,0 +1,84 @@
+fileVersion: 1
+id: "322"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Experian API call
+    short: EXP
+    plural: API Calls
+    tagColor: 'orange'
+
+    config:
+
+    - groupName: Options
+      items:
+     
+      - displayName: Snowflake EXTERNAL ACCESS INTEGRATION Name
+        attributeName: extIntegration
+        type: textBox
+        default: "EXPERIAN_API_INTEGRATION"
+
+      - type: columnDropdownSelector
+        displayName: Address Field
+        attributeName: addField
+        isRequired: false    
+
+      - displayName: URI
+        attributeName: uri
+        type: textBox
+        default: "https://api.experianaperture.io/address/validate/v1"
+        isRequired: true
+
+      - displayName: Headers
+        attributeName: headers
+        type: textBox
+        default: "{
+            'Auth-Token': '',
+            'x-app-key': '',
+            'Reference-Id': '',
+            'Timeout-Seconds': '',
+            'Add-Components': 'false',
+            'Add-Metadata': 'false',
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }"
+        isRequired: false
+
+
+      - displayName: Payload
+        attributeName: payload
+        type: textBox
+        default: "{
+            'country_iso': 'AUS',
+            'datasets': ['au-address'],
+            'components': {'unspecified': [address]},
+            'options': [
+                {
+                  'name': 'prompt_set',
+                  'value': 'default'
+                },
+                {
+                  'name': 'flatten',
+                  'value': 'true'
+                },
+                {
+                  'name': 'intensity',
+                  'value': 'exact'
+                }
+            ],
+            'layouts': ['default'],
+            'layout_format': 'default'
+        }"
+        isRequired: false
+
+    systemColumns:
+
+    - displayName: 'RESPONSE'
+      attributeName: value
+      transform: '{}'
+      dataType: VARIANT
+      placement: end
+name: Experian Address Validation
+type: NodeType

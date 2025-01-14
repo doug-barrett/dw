@@ -1,0 +1,60 @@
+{{ stage('Create Stage Table') }}
+
+	CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+	(
+		{% for col in columns %}
+			"{{ col.name }}" {{ col.dataType }}
+			{%- if not col.nullable %} NOT NULL
+				{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+			{% endif %}
+			{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+			{%- if not loop.last -%}, {% endif %}
+		{% endfor %}
+	)
+	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+
+{{ stage('Create Python Procedure ') }}
+{% set source = sources[0] %}
+CREATE OR REPLACE PROCEDURE {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}()
+RETURNS STRING
+language python
+runtime_version=3.8
+handler = 'call_api'
+external_access_integrations=({{config.extIntegration}})
+packages = ('snowflake-snowpark-python','requests','pandas')
+as
+$$
+import _snowflake
+import requests
+import json
+from snowflake.snowpark.functions import sql_expr
+from snowflake.snowpark.functions import lit
+
+def call_experian(address):
+    uri = 'https://api.experianaperture.io/address/validate/v1'
+    h = {{config.headers}}
+    p = {{config.payload}}
+    # Make the API call
+    response = requests.post(uri, headers=h, json=p)
+    return json.loads(response.text)
+
+        
+def call_api(snowpark_session):
+    
+    df = snowpark_session.sql('''SELECT TOP 5
+        {%- for col in source.columns %}
+        {{ get_source_transform(col) }} AS "{{ col.name }}"
+        {%- if not loop.last -%}, {% endif %}
+        {%- endfor %} {{ source.join }} '''.rstrip())
+    
+    dict = []
+    for row in df.to_local_iterator():
+        r = row.as_dict()
+        r['RESPONSE'] = call_experian(str(r.get('{{config.addField.name}}')))
+        dict.append(r)
+    df_final = snowpark_session.create_dataframe(dict)
+    df_final.write.mode('overwrite').save_as_table('{{this}}')
+    return 'done'
+$$;
