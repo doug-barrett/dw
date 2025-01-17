@@ -162,7 +162,7 @@ operation:
               - columnCounter: d4294861-a808-4fcb-9dcc-07e08e11aafd
                 stepCounter: 3347eb7e-b521-4684-a291-fd780b3cdef4
             transform: |-
-              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 3000 THEN 'HIGH'
+              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 5000 THEN 'HIGH'
               ELSE 'LOW'
               END
       - appliedColumnTests:
@@ -311,7 +311,7 @@ operation:
           - locationName: SRC_SAMPLE
             nodeName: REGION
         join:
-          joinCondition: |+
+          joinCondition: |-
 
             FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
             INNER JOIN {{ ref('SRC_SAMPLE', 'NATION') }} "NATION"
@@ -319,6 +319,7 @@ operation:
             INNER JOIN {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
             ON NATION."N_REGIONKEY"= "REGION"."R_REGIONKEY"
 
+            where 1 = 1
         name: STG_CUSTOMER
         noLinkRefs: []
   name: STG_CUSTOMER
