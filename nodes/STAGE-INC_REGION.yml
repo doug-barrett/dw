@@ -1,0 +1,81 @@
+fileVersion: 1
+id: 04fbb85d-676d-4495-aaa2-e8f38f4deb55
+name: INC_REGION
+operation:
+  config:
+    OverrideSQLCreate: false
+    groupByAll: false
+    insertStrategy: UNION
+    secureoption: false
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Region data as defined by TPC-H
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: abff43c2-d7db-4bf9-bdc6-6b3513000c83
+          stepCounter: 04fbb85d-676d-4495-aaa2-e8f38f4deb55
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: R_REGIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a9f757ee-6e33-476d-86dd-f2e74c58d736
+                stepCounter: 8376d1bf-8003-455c-abbf-5b9db13950b4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 514edef3-d61e-4271-9fa4-6a5f0b1cf176
+          stepCounter: 04fbb85d-676d-4495-aaa2-e8f38f4deb55
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: R_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e53bbf4b-6d9e-4970-83eb-4f6c766768fb
+                stepCounter: 8376d1bf-8003-455c-abbf-5b9db13950b4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: da341c0b-f191-49c5-8dbe-8435a22d2ab7
+          stepCounter: 04fbb85d-676d-4495-aaa2-e8f38f4deb55
+        config: {}
+        dataType: VARCHAR(152)
+        description: ""
+        name: R_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f56fed1-f9aa-4780-80ac-b952f88ad393
+                stepCounter: 8376d1bf-8003-455c-abbf-5b9db13950b4
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_SAMPLE
+            nodeName: REGION
+        join:
+          joinCondition: FROM {{ ref('SRC_SAMPLE', 'REGION') }} "REGION"
+        name: INC_REGION
+        noLinkRefs: []
+  name: INC_REGION
+  overrideSQL: false
+  schema: ""
+  sqlType: Incremental:::230
+  type: sql
+  version: 1
+type: Node

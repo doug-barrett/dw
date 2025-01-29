@@ -55,6 +55,14 @@ operation:
           SELECT 1
           FROM {{this}}
           WHERE L_LINENUMBER < 0
+      - continueOnFailure: false
+        description: ""
+        name: Test 1
+        runOrder: After
+        templateString: |-
+          SELECT 1 
+          FROM {{this}}
+          WHERE L_QUANTITY < 0
     columns:
       - appliedColumnTests:
           hasNull: true
