@@ -33,11 +33,11 @@ from snowflake.snowpark.functions import sql_expr
 from snowflake.snowpark.functions import lit
 
 def call_experian(address):
-    uri = 'https://api.experianaperture.io/address/validate/v1'
+    uri = '{{config.uri}}'
     h = {{config.headers}}
     p = {{config.payload}}
     # Make the API call
-    response = requests.post(uri, headers=h, json=p)
+    response = requests.get(uri, headers=h, json=p)
     return json.loads(response.text)
 
         
