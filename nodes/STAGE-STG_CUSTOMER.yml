@@ -15,11 +15,19 @@ operation:
   locationName: STAGE
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: false
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          SELECT 1
+          FROM {{this}}
+          WHERE C_ACCTBAL < 1000 
     columns:
       - appliedColumnTests:
           hasNull: true
-          isDistinct: false
+          isDistinct: true
         columnReference:
           columnCounter: 63c6b52f-cf4f-4cb1-bde4-19e9f438cc18
           stepCounter: 6269a7fe-18c6-4579-9dfe-f2a592e1fc99
@@ -34,7 +42,7 @@ operation:
                 stepCounter: 49fa0a4e-b414-43e9-afc5-1b15d81ae8bf
             transform: ""
       - appliedColumnTests:
-          hasNull: false
+          hasNull: true
           isDistinct: false
         columnReference:
           columnCounter: f6567d7b-1d01-44b6-a650-cedb06f6da0e

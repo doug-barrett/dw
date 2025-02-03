@@ -1,0 +1,95 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : CopyInto with Full Load Option == #}
+{# == Node Type Description    : This node loads data from internal or external stages to target table using full load or reload option == #}
+{#Release date:20240531 Version:1.0.0#}
+{#Release date:20240822  Version:1.1.1 Released By:AS  Description: Materialization type transient table added #}
+{#Release date:20241025  Version:1.1.4 Released By:AS  Description: Unified Storage and file format inputs #}
+{#Release date:20241105  Version:1.1.5 Released By:AS  Description: Truncate option added in config #}
+{#Release date:20250109  Version:1.1.8 Released By:AS  Description:  Path config added under Source data and new config added for PARQUET fileformat#}
+
+
+
+# Storage Location-database and schema
+{% set srcSchName = node.location.name %}
+{% set db = storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='database') | first %}
+{% set sch = storageLocations | selectattr('name', 'equalto', srcSchName) | map(attribute='schema') | first %}
+
+# Internal or External Stage locations
+{% set stageStorageLocationName = config.stageStorageLocationName %}
+{% set dbStage = storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='database') | first %}
+{% set schStage = storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='schema') | first %}
+
+# File name
+{%if config.fileNames | length > 0 and ',' in config.fileNames  %}
+    {% set formatted_variable = config.fileNames.split(',') | map('string') | join("','") %}
+    {% set final_variable = "'" + formatted_variable + "'" %}
+    {% set fileNameSQL = 'FILES = (' + final_variable +')' %}
+
+{%- elif config.fileNames | length > 0 %} 
+    {% set fileNameSQL = 'FILES = (' + "'"+config.fileNames + "'"+')' %}                               
+{%- else -%}
+    {% set fileNameSQL = "" %} 
+{% endif %}
+
+{#Subfolder path #}
+{%set subf = ""%}
+{% set subfolder_value = config.subfolder | default('') %}
+{%if config.subfolder == "" %}
+    {%set subf = "" %}
+{%elif config.subfolder == None%}
+    {%set subf = "" %}
+{%else%}
+    {%set subf = "WHERE RELATIVE_PATH LIKE '"+ subfolder_value +"'"%}
+{%endif%}
+
+# Extraction Query Storage Location
+{% set extractionQueryStorageLocationName = config.extractionQueryStorageLocationName %}
+{% set dbExtractionQuery = storageLocations | selectattr('name', 'equalto', extractionQueryStorageLocationName) | map(attribute='database') | first %}
+{% set schExtractionQuery = storageLocations | selectattr('name', 'equalto', extractionQueryStorageLocationName) | map(attribute='schema') | first %}
+
+{# Extraction Query Details #}
+{% set extractionQueryName = config.extractionQueryName %}
+{% set extractionQueryVersion = config.extractionQueryVersion %}
+
+{# == Queries to be excuted before data insertion  == #} 
+{% if config.preSQL %}
+    {{ stage('Pre-SQL') }}
+    {{ config.preSQL }}
+{% endif %}	
+
+{# == Truncate data before data insertion  == #}
+{% if config.truncateBefore %}	
+    {{ stage('Truncate Stage Table') }}
+    TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+{% endif %}
+
+{{ stage('Directory Table Refresh') }}
+ALTER STAGE "{{ dbStage }}"."{{ schStage }}".{{ config.stageName }} REFRESH
+
+{{ stage('PDF Processing') }}
+INSERT INTO "{{ db }}"."{{ sch }}"."{{ node.name }}" (
+    {%- for col in columns %}
+        "{{ col.name }}"
+    {%- if not loop.last -%}, {% endif %}
+    {%- endfor %}
+)
+SELECT
+{%- for col in sources[0].columns %}
+    {% if ( col.extractedData) %}
+        "{{ dbExtractionQuery }}"."{{ schExtractionQuery }}"."{{ extractionQueryName }}"!PREDICT(
+  GET_PRESIGNED_URL(@"{{ dbStage }}"."{{ schStage }}".{{ config.stageName }}, RELATIVE_PATH), {{ extractionQueryVersion }})
+    {% else %}
+        {{ get_source_transform(col) }} AS "{{ col.name }}" 
+    {%endif%}
+{%- if not loop.last -%}, {% endif %}
+{%- endfor %}
+
+FROM DIRECTORY('@"{{ dbStage }}"."{{ schStage }}".{{ config.stageName }}') 
+{{subf}}

@@ -1,0 +1,137 @@
+fileVersion: 1
+id: "328"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Document AI Stage
+    short: 'DOC'
+    tagColor: '#bd6db7'
+    isDisabled: false
+    plural: Doc AI
+
+    deployStrategy: advanced
+
+    config:
+    - groupName: General Options
+      items:
+      - type: materializationSelector
+        default: table
+        options:
+        - table
+        - transient table
+        isRequired: true 
+      
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: false
+        enableIf: "{%if config.inferschema %} false {%else%} true {%endif%}"
+
+    - groupName: Source Data
+      items:
+
+      - displayName: Coalesce Storage Location of Stage
+        attributeName: stageStorageLocationName
+        type: textBox
+        default: 'Enter Storage Location name'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: Stage Name
+        attributeName: stageName
+        type: textBox
+        default: 'Enter stage name-stage_name'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: Path or subfolder 
+        attributeName: subfolder
+        type: textBox
+        default: 'Enter pattern to match files to process.  %/folder/subfolder% or %.csv for example'
+        enableIf: "true"
+        isRequired: false
+
+      - displayName: File Name(s) (Ex:a.csv,b.csv )
+        attributeName: fileNames
+        type: textBox
+        enableIf: "{% if config.intextstage or config.inferschema %} true {% else %} false {% endif %}"
+        isRequired: false
+        
+    - groupName: Extraction Query
+      items:
+
+      - displayName: Coalesce Storage Location of Extraction Query
+        attributeName: extractionQueryStorageLocationName
+        type: textBox
+        default: 'Enter Storage Location name'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: Extraction Query Name
+        attributeName: extractionQueryName
+        type: textBox
+        default: 'Enter Extraction Query name'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: Extraction Query Version
+        attributeName: extractionQueryVersion
+        type: textBox
+        default: 'Enter Extraction Query version'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: Pre-SQL
+        attributeName: preSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+
+      - displayName: Post-SQL
+        attributeName: postSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+        enableIf: "{% if node.materializationType == 'view' %} false {% else %} true {% endif %}"
+        
+    systemColumns:
+    - displayName: FILENAME
+      transform: "REGEXP_SUBSTR(RELATIVE_PATH, '[^/]+$')"
+      dataType: STRING
+      placement: beginning
+      attributeName: fileName
+
+    - displayName: FILE_URL
+      transform: 'FILE_URL'
+      dataType: STRING
+      placement: beginning
+      attributeName: presignedURL
+
+    - displayName: FILE_LAST_MODIFIED
+      transform: 'TO_TIMESTAMP_NTZ(LAST_MODIFIED)'
+      dataType: TIMESTAMP_NTZ
+      placement: beginning
+      attributeName: fileLastModified
+
+    - displayName: SIZE
+      transform: 'SIZE'
+      dataType: NUMBER
+      placement: beginning
+      attributeName: size
+
+    - displayName: EXTRACTED_DATA
+      transform: ''
+      dataType: VARIANT
+      placement: beginning
+      attributeName: extractedData
+
+    - displayName: DATA_EXTRACT_TIMESTAMP
+      transform: 'CURRENT_TIMESTAMP::TIMESTAMP_NTZ'
+      dataType: TIMESTAMP_NTZ
+      placement: beginning
+      attributeName: fileLastModified
+name: Document AI
+type: NodeType
