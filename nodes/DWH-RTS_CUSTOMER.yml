@@ -1,15 +1,17 @@
 fileVersion: 1
-id: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
-name: HUB_CUSTOMER
+id: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+name: RTS_CUSTOMER
 operation:
   config:
+    is_hk:
+      columnCounter: 5587f92b-b1a5-44ee-ade8-d92b05609e21
+      stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
     postSQL: ""
     preSQL: ""
-    testsEnabled: false
   database: ""
   deployEnabled: true
   description: Customer data as defined by TPC-H
-  isMultisource: true
+  isMultisource: false
   locationName: DWH
   materializationType: table
   metadata:
@@ -17,43 +19,25 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a3509298-9c57-4086-b739-2bb0ed023594
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
-        config:
-          is_Hub_hk: true
+          columnCounter: 5587f92b-b1a5-44ee-ade8-d92b05609e21
+          stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+        config: {}
         dataType: STRING
         description: ""
-        hashDetails: null
-        name: H_CUSTOMER_KEY
+        name: L_CUSTOMER_NATION_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4e4fae30-5521-46c8-90c7-cc15f1ebaed6
+              - columnCounter: ca8f0731-df40-4d46-9ab5-e22035a4c399
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 82f36fd8-1c37-454c-9d87-e8a64b86b743
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
+          columnCounter: 617223f9-3bca-4e2c-a40f-c9a4775ff076
+          stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
         config: {}
-        dataType: NUMBER(38,0)
-        description: ""
-        hashDetails: null
-        name: C_CUSTKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f82226f3-cf92-4091-95ae-f470d2be0eca
-                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: ec43265d-0ad7-41c2-ae60-9e1ca3cdaf74
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
-        config: {}
-        dataType: TIMESTAMP
+        dataType: DATETIME
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
-        hashDetails: null
         name: LDTS
         nullable: true
         sourceColumnReferences:
@@ -63,12 +47,11 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0369cb10-0014-4c56-b98a-a6a0838e50b9
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
+          columnCounter: 3078a7fd-58cf-4616-8206-f63a33dc01e9
+          stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
         config: {}
         dataType: STRING
         description: The Record Source (RSRC) describes the source of this data.
-        hashDetails: null
         name: RSRC
         nullable: true
         sourceColumnReferences:
@@ -76,10 +59,27 @@ operation:
               - columnCounter: 3eed9b39-1588-4a51-a1fb-7f560ac416f4
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e12c3634-d680-4107-bf9e-84a4204b2538
+          stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        is_stg: true
+        name: ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases:
-          DVSTG_CUSTOMER: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
@@ -87,12 +87,12 @@ operation:
             nodeName: DVSTG_CUSTOMER
         join:
           joinCondition: FROM {{ ref('STAGE', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
-        name: CUSTOMERS
+        name: RTS_CUSTOMER
         noLinkRefs: []
-  name: HUB_CUSTOMER
+  name: RTS_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: DV2:::6
+  sqlType: "334"
   type: sql
   version: 1
 type: Node

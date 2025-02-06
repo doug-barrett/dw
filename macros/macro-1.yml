@@ -562,5 +562,16 @@ macroString: |-
        {%- endfor -%}
        {{- result|join(delimiter) -}}
   {%- endmacro -%}
+
+  {#-------------------------------------------------------------------------#}
+  {#-- Outputs list of multi-active keys from the direct parent object     --#}
+  {#-- Usage: Node definition of multi-active satellite v1                 --#}
+  {#--   delimiter: delimiter character to be used in string concatenation --#}
+  {#-------------------------------------------------------------------------#}
+  {%- macro get_ma_keys() -%}
+       {%- for col in columns if col.is_ma_key %}
+            {{ col.name }}{%- if not loop.last %},{%- endif -%}
+       {%- endfor -%}
+  {%- endmacro -%}
 name: macro
 type: Macro

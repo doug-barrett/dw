@@ -1,0 +1,138 @@
+fileVersion: 1
+id: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+name: SATV1_CUSTOMER
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: Customer data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 755449e7-2c87-4505-bdab-9c6266fc5792
+          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+        config:
+          is_hk: true
+        dataType: STRING
+        description: ""
+        name: L_CUSTOMER_NATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5587f92b-b1a5-44ee-ade8-d92b05609e21
+                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc416596-e02d-4f3b-b4ed-905ce4af55d7
+          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3078a7fd-58cf-4616-8206-f63a33dc01e9
+                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1f953995-081f-4c89-9ef4-ca1b42a9756f
+          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+        config: {}
+        dataType: STRING
+        description: ""
+        name: ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e12c3634-d680-4107-bf9e-84a4204b2538
+                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 52b6b66e-7237-45d6-ae05-a23bb6acbf3b
+          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+        config: {}
+        dataType: DATETIME
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 617223f9-3bca-4e2c-a40f-c9a4775ff076
+                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 98035238-36e2-4f3c-99fd-a4881af4ceb4
+          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        is_system_ledts: true
+        name: LEDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+              OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+              ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 30364188-e4fb-47fd-986f-1035c4e137e0
+          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_system_current_col: true
+        name: IS_CURRENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              CASE 
+                WHEN 
+                  LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+                  OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+                  ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") IS NULL 
+                THEN TRUE 
+                ELSE FALSE 
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: RTS_CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('DWH', 'RTS_CUSTOMER') }} "RTS_CUSTOMER"
+        name: SATV1_CUSTOMER
+        noLinkRefs: []
+  name: SATV1_CUSTOMER
+  overrideSQL: false
+  schema: ""
+  sqlType: DV2:::9
+  type: sql
+  version: 1
+type: Node

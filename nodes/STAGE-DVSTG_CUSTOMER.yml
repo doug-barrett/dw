@@ -4,7 +4,7 @@ name: DVSTG_CUSTOMER
 operation:
   config:
     contains_multiactive_data: false
-    generate_ghost_records: true
+    generate_ghost_records: false
     testsEnabled: true
   database: ""
   deployEnabled: true
@@ -26,8 +26,8 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4e7f092f-0577-4c24-a3a1-22128680ec54
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
+              - columnCounter: dbf336d3-6688-4aa0-ba17-65c195c9c065
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -40,8 +40,8 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2f70c817-6360-4e6d-8f61-ee034a170f3f
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
+              - columnCounter: cb345af1-dbb0-4e7a-a9db-ad9e6952e433
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -54,9 +54,9 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1d6adb05-3bdf-493f-9b13-2d3b3bdac711
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
-            transform: NVL("CUSTOMER"."C_ADDRESS",'0')
+              - columnCounter: d2ba8bcf-07ef-4b63-80d2-0062505ee138
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 7155cd45-1bad-47a5-a6dd-8200ca0f696a
@@ -68,9 +68,9 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2d7126f1-1464-4170-8b00-dc50912671a5
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
-            transform: NVL("CUSTOMER"."C_NATIONKEY",'0')
+              - columnCounter: ad1a1e6d-7b66-4c90-96d8-98f070d83ebb
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 3b2f9d31-d534-4f50-8401-71a64167b3d0
@@ -82,9 +82,9 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5d404fdd-1285-40d8-951d-5ab82b32f34d
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
-            transform: NVL("CUSTOMER"."C_PHONE",'0')
+              - columnCounter: 62fa5209-05cd-4d4a-85a8-dd010c9ceba4
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 4a939a58-1773-463e-8190-b0b06d9d3ed5
@@ -96,9 +96,9 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 3d72d9a8-c907-4ac5-988b-6519ddd43b75
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
-            transform: NVL("CUSTOMER"."C_ACCTBAL",'0')
+              - columnCounter: 4a0a2e1c-89b3-4d03-baf0-8c0c10958789
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: debf1df3-4bb0-47f4-955e-009deb9735d9
@@ -110,9 +110,9 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 85c22486-dd2b-4ea3-bad6-d2b5df4d6639
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
-            transform: NVL("CUSTOMER"."C_MKTSEGMENT",'0')
+              - columnCounter: 7bc2a586-020b-44df-961d-de2f4bbb5e6b
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 25dd9251-bb72-41e4-8803-ba1d27b74616
@@ -124,8 +124,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1f7e6fd1-bd40-4c70-8b74-fec571d0bd41
-                stepCounter: 87e9a2a4-c205-4eb8-903e-ffcbb85faef4
+              - columnCounter: 33648671-bcb8-4884-9b11-a45e9819b9e1
+                stepCounter: ecb1d065-edc5-4204-a116-f87aba6bd9cb
             transform: ""
       - acceptedValues:
           strictMatch: true
@@ -279,14 +279,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_CUSTOMER: ecb1d065-edc5-4204-a116-f87aba6bd9cb
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SRC_SAMPLE
-            nodeName: CUSTOMER
+          - locationName: STAGE
+            nodeName: STG_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('SRC_SAMPLE', 'CUSTOMER') }} "CUSTOMER"
+          joinCondition: FROM {{ ref('STAGE', 'STG_CUSTOMER') }} "STG_CUSTOMER"
         name: DVSTG_CUSTOMER
         noLinkRefs: []
   name: DVSTG_CUSTOMER
