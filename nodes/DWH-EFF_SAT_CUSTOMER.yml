@@ -1,0 +1,147 @@
+fileVersion: 1
+id: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+name: EFF_SAT_CUSTOMER
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    use_edts: false
+  database: ""
+  deployEnabled: true
+  description: Customer data as defined by TPC-H
+  isMultisource: false
+  locationName: DWH
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 68ff872b-c554-40f4-890c-8bf0bd2f55ef
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config:
+          is_link_hashkey: true
+        dataType: STRING
+        description: ""
+        name: L_CUSTOMER_NATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca8f0731-df40-4d46-9ab5-e22035a4c399
+                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b26c9d66-12f3-43e1-8a89-fc887d4ac09f
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config:
+          is_driving_hashkey: true
+        dataType: STRING
+        description: ""
+        name: H_NATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b01b9e18-117e-49a0-9219-15904c83322d
+                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 776ba895-e5f2-4e34-bdb0-470e2c22d8dc
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3eed9b39-1588-4a51-a1fb-7f560ac416f4
+                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 168e93e2-ba09-4acd-a41e-d44aa5d04cd0
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config: {}
+        dataType: DATETIME
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7312d6a3-7c9c-4ee3-99cd-93b61233b9b5
+                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 237bc511-7014-4b68-85d9-0e5ab624de08
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config: {}
+        dataType: TIMESTAMP_TZ(9)
+        defaultValue: ""
+        description: The date when the relationship startet
+        is_start_date_col: true
+        name: START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1aab7c3f-0a5e-43c0-9de7-9e45ca2e3d26
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config: {}
+        dataType: TIMESTAMP_TZ(9)
+        defaultValue: ""
+        description: The date when the relationship ended
+        is_end_date_col: true
+        name: END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3ad5f3bf-a3e2-4a31-9823-2ff61d68331b
+          stepCounter: feb9cc7c-0ed0-4dd3-a9f2-6e35e9f57a82
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: Has the relation been deleted
+        is_relation_deleted_col: true
+        name: RELATION_DELETED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: DVSTG_CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
+        name: EFF_SAT_CUSTOMER
+        noLinkRefs: []
+  name: EFF_SAT_CUSTOMER
+  overrideSQL: false
+  schema: ""
+  sqlType: "337"
+  type: sql
+  version: 1
+type: Node

@@ -1,6 +1,6 @@
 fileVersion: 1
 id: "1"
-macroString: |-
+macroString: |+
   {%- macro ref_raw(location_name, node_name) -%}
       {% raw %}{{ ref('{% endraw %}{{ location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
   {%- endmacro -%}
@@ -573,5 +573,25 @@ macroString: |-
             {{ col.name }}{%- if not loop.last %},{%- endif -%}
        {%- endfor -%}
   {%- endmacro -%}
+
+  {% macro format_list(attribute_list, prefix="", postfix="", spacenumber=0,separator="\ns, ") -%}
+      {%- set tmp_list = [] -%}
+      {%- for attribute in attribute_list -%}
+          {%- set attribute_string = prefix ~ attribute ~ postfix  -%}
+          {%- set x = tmp_list.append(attribute_string) -%}
+      {%- endfor -%}
+      {%- set spaces = "    " * spacenumber -%}
+      {%- set separator = separator | replace("s", spaces * spacenumber)  -%}
+      {%- set out_attribute_list = tmp_list|join(separator) -%}
+      {{ out_attribute_list }}
+  {%- endmacro %}
+
+  {%- macro format_multikey(columns, prefix=none, condition='AND', operator='=', attribute_quotes='"') -%}
+      {%- for col in columns -%}
+          {{- prefix[0] ~ '.' ~ attribute_quotes ~ col ~ attribute_quotes}} {{ operator }} {{ prefix[1] ~ '.'~ attribute_quotes ~ col ~ attribute_quotes-}}
+          {%- if not loop.last %} {{ operator }} {% endif %}
+      {% endfor -%}
+  {%- endmacro -%}
+
 name: macro
 type: Macro

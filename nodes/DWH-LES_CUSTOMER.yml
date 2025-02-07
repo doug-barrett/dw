@@ -1,11 +1,11 @@
 fileVersion: 1
-id: 7fb8300f-46c1-48af-adb9-db442c78ddfd
-name: RTS_CUSTOMER
+id: 4cb1c609-a655-4d26-8344-7d49ea9119e8
+name: LES_CUSTOMER
 operation:
   config:
     is_hk:
-      columnCounter: 47fbdf4a-e162-4d49-a6c7-826dfa3aa576
-      stepCounter: 7fb8300f-46c1-48af-adb9-db442c78ddfd
+      columnCounter: a8c2f9bf-f4aa-4a7e-ab54-71078b156ef3
+      stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
     postSQL: ""
     preSQL: ""
   database: ""
@@ -19,8 +19,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 47fbdf4a-e162-4d49-a6c7-826dfa3aa576
-          stepCounter: 7fb8300f-46c1-48af-adb9-db442c78ddfd
+          columnCounter: a8c2f9bf-f4aa-4a7e-ab54-71078b156ef3
+          stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
         config: {}
         dataType: STRING
         description: ""
@@ -33,8 +33,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7b0f1a62-5b2f-4fa6-89cd-dca3a06b38df
-          stepCounter: 7fb8300f-46c1-48af-adb9-db442c78ddfd
+          columnCounter: 3fdbf4e0-2926-4ec9-8363-50e9edd5926d
+          stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
         config: {}
         dataType: DATETIME
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
@@ -47,8 +47,8 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 269774e8-d6da-4d15-a8ce-41323faee35c
-          stepCounter: 7fb8300f-46c1-48af-adb9-db442c78ddfd
+          columnCounter: 03108465-dc25-4747-a3e0-eb5289040da9
+          stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
         config: {}
         dataType: STRING
         description: The Record Source (RSRC) describes the source of this data.
@@ -64,18 +64,18 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 530066ae-ca25-4efa-a66b-42330478eafb
-          stepCounter: 7fb8300f-46c1-48af-adb9-db442c78ddfd
+          columnCounter: 6104673d-a3cb-495f-9c6f-694ba5f1923c
+          stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
         config: {}
         dataType: STRING
         defaultValue: ""
-        description: The Stage (STG) references the exact source of this data, specific for record tracking.
+        description: ""
         is_stg: true
-        name: STG
+        name: ACTION
         nullable: true
         sourceColumnReferences:
           - columnReferences: []
-            transform: "'{{ sources[0].dependencies[0].node.location.name }}.{{ sources[0].dependencies[0].node.name }}'"
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -86,18 +86,13 @@ operation:
           - locationName: STAGE
             nodeName: DVSTG_CUSTOMER
         join:
-          joinCondition: |-
-            FROM {{ ref('STAGE', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
-            WHERE "DVSTG_CUSTOMER"."LDTS" > 
-            (SELECT COALESCE(MAX("LDTS"),TO_TIMESTAMP('0001-01-01T00:00:01', 'YYYY-MM-DDTHH24:MI:SS'))
-            FROM {{ ref_no_link(node.location.name, node.name) }}
-            WHERE "LDTS" != TO_TIMESTAMP('8888-12-31T23:59:59', 'YYYY-MM-DDTHH24:MI:SS'))
-        name: RTS_CUSTOMER
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
+        name: LES_CUSTOMER
         noLinkRefs: []
-  name: RTS_CUSTOMER
+  name: LES_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: DV2:::27
+  sqlType: "334"
   type: sql
   version: 1
 type: Node

@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
-name: SATV1_CUSTOMER
+id: be8b301c-3627-4ddb-b82c-eccee22f55f4
+name: LESV1_CUSTOMER
 operation:
   config:
     postSQL: ""
@@ -16,23 +16,23 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 755449e7-2c87-4505-bdab-9c6266fc5792
-          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+          columnCounter: 4a414a3c-ffb5-4930-b3c2-71179f1e703f
+          stepCounter: be8b301c-3627-4ddb-b82c-eccee22f55f4
         config:
           is_hk: true
         dataType: STRING
         description: ""
-        name: L_CUSTOMER_NATION_KEY
+        name: H_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5587f92b-b1a5-44ee-ade8-d92b05609e21
-                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+              - columnCounter: a8c2f9bf-f4aa-4a7e-ab54-71078b156ef3
+                stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: dc416596-e02d-4f3b-b4ed-905ce4af55d7
-          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+          columnCounter: 09044345-c407-42ff-a329-70b92eb18932
+          stepCounter: be8b301c-3627-4ddb-b82c-eccee22f55f4
         config: {}
         dataType: STRING
         description: The Record Source (RSRC) describes the source of this data.
@@ -40,27 +40,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 3078a7fd-58cf-4616-8206-f63a33dc01e9
-                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+              - columnCounter: 03108465-dc25-4747-a3e0-eb5289040da9
+                stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1f953995-081f-4c89-9ef4-ca1b42a9756f
-          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
-        config: {}
-        dataType: STRING
-        description: ""
-        name: ACTION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e12c3634-d680-4107-bf9e-84a4204b2538
-                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 52b6b66e-7237-45d6-ae05-a23bb6acbf3b
-          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+          columnCounter: 11f84ed8-d8ac-48d6-8783-1a64549e7134
+          stepCounter: be8b301c-3627-4ddb-b82c-eccee22f55f4
         config: {}
         dataType: DATETIME
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
@@ -68,16 +54,16 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 617223f9-3bca-4e2c-a40f-c9a4775ff076
-                stepCounter: fbad2b9b-60c5-4246-8c7c-3b68ee18cfde
+              - columnCounter: 3fdbf4e0-2926-4ec9-8363-50e9edd5926d
+                stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 98035238-36e2-4f3c-99fd-a4881af4ceb4
-          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+          columnCounter: b32f8273-4ebf-4b51-baa6-415f51aca8fa
+          stepCounter: be8b301c-3627-4ddb-b82c-eccee22f55f4
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
@@ -91,13 +77,27 @@ operation:
               COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
               OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
               ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8e789fcc-18cc-4e87-8186-4bd2799edd66
+          stepCounter: be8b301c-3627-4ddb-b82c-eccee22f55f4
+        config: {}
+        dataType: STRING
+        description: ""
+        name: ACTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6104673d-a3cb-495f-9c6f-694ba5f1923c
+                stepCounter: 4cb1c609-a655-4d26-8344-7d49ea9119e8
+            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 30364188-e4fb-47fd-986f-1035c4e137e0
-          stepCounter: 7fb3a14a-f53e-4b12-90e3-148a80d40efe
+          columnCounter: 7b6a826f-0f6f-4066-887a-07c28e3b2b81
+          stepCounter: be8b301c-3627-4ddb-b82c-eccee22f55f4
         config: {}
         dataType: BOOLEAN
         defaultValue: ""
@@ -124,12 +124,12 @@ operation:
           customSQL: ""
         dependencies:
           - locationName: DWH
-            nodeName: RTS_CUSTOMER
+            nodeName: LES_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('DWH', 'RTS_CUSTOMER') }} "RTS_CUSTOMER"
-        name: SATV1_CUSTOMER
+          joinCondition: FROM {{ ref('DWH', 'LES_CUSTOMER') }} "LES_CUSTOMER"
+        name: LESV1_CUSTOMER
         noLinkRefs: []
-  name: SATV1_CUSTOMER
+  name: LESV1_CUSTOMER
   overrideSQL: false
   schema: ""
   sqlType: DV2:::9
