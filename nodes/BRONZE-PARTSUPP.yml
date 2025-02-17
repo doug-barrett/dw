@@ -1,6 +1,6 @@
 fileVersion: 1
-id: e5c5e5b9-e1b2-417f-b340-ff5b0cddfb26
-name: NATION
+id: 2dfaa9ea-bd30-4db3-8625-dc8526e04a1c
+name: PARTSUPP
 operation:
   database: ""
   dataset: ""
@@ -14,13 +14,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b923ff3b-e77a-4952-9db3-05fd44a532ed
-          stepCounter: e5c5e5b9-e1b2-417f-b340-ff5b0cddfb26
+          columnCounter: d613b76d-0bd6-419f-9d48-2f1e1c59b475
+          stepCounter: 2dfaa9ea-bd30-4db3-8625-dc8526e04a1c
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: N_NATIONKEY
+        name: PS_PARTKEY
         nullable: false
         primaryKey: false
         sourceColumnReferences:
@@ -33,32 +33,13 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 23c1215e-b276-4c11-b4b9-6356fe4a47c7
-          stepCounter: e5c5e5b9-e1b2-417f-b340-ff5b0cddfb26
-        config: {}
-        dataType: VARCHAR(25)
-        defaultValue: ""
-        description: ""
-        name: N_NAME
-        nullable: false
-        primaryKey: false
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-        transform: ""
-        uniqueKey: false
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 66b615c0-f5d0-4903-b591-93f0adead5b7
-          stepCounter: e5c5e5b9-e1b2-417f-b340-ff5b0cddfb26
+          columnCounter: 90fbce41-c119-4da0-a8a7-7e92cb8a9b09
+          stepCounter: 2dfaa9ea-bd30-4db3-8625-dc8526e04a1c
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: N_REGIONKEY
+        name: PS_SUPPKEY
         nullable: false
         primaryKey: false
         sourceColumnReferences:
@@ -71,13 +52,51 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 41b5210d-3330-428d-b9f0-a38077a6461d
-          stepCounter: e5c5e5b9-e1b2-417f-b340-ff5b0cddfb26
+          columnCounter: fa0507ad-1cc8-42f2-84a8-ca8feacda288
+          stepCounter: 2dfaa9ea-bd30-4db3-8625-dc8526e04a1c
         config: {}
-        dataType: VARCHAR(152)
+        dataType: NUMBER(38,0)
         defaultValue: ""
         description: ""
-        name: N_COMMENT
+        name: PS_AVAILQTY
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 11b9b4c5-048f-49c0-9f72-80ce1df3ba07
+          stepCounter: 2dfaa9ea-bd30-4db3-8625-dc8526e04a1c
+        config: {}
+        dataType: NUMBER(12,2)
+        defaultValue: ""
+        description: ""
+        name: PS_SUPPLYCOST
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a382d97-8b10-4f92-8413-4bcc28af65cc
+          stepCounter: 2dfaa9ea-bd30-4db3-8625-dc8526e04a1c
+        config: {}
+        dataType: VARCHAR(199)
+        defaultValue: ""
+        description: ""
+        name: PS_COMMENT
         nullable: true
         primaryKey: false
         sourceColumnReferences:
@@ -86,11 +105,11 @@ operation:
         transform: ""
         uniqueKey: false
     join:
-      joinCondition: FROM {{ ref('BRONZE', 'NATION') }}
-  name: NATION
+      joinCondition: FROM {{ ref('BRONZE', 'PARTSUPP') }}
+  name: PARTSUPP
   schema: ""
   sqlType: Source
-  table: NATION
+  table: PARTSUPP
   type: sourceInput
   version: 1
 type: Node
