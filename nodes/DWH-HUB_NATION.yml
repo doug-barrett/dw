@@ -10,7 +10,7 @@ operation:
   database: ""
   deployEnabled: true
   description: Customer data as defined by TPC-H
-  isMultisource: false
+  isMultisource: true
   locationName: DWH
   materializationType: table
   metadata:
@@ -29,6 +29,10 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
+              - columnCounter: ef124559-7901-4f02-93da-147f32ab3299
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
+          - columnReferences:
               - columnCounter: b01b9e18-117e-49a0-9219-15904c83322d
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
@@ -43,6 +47,10 @@ operation:
         name: RSRC
         nullable: true
         sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 954a5cbd-8f35-4eae-af24-46424acb15cb
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
           - columnReferences:
               - columnCounter: 3eed9b39-1588-4a51-a1fb-7f560ac416f4
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
@@ -59,6 +67,10 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
+              - columnCounter: a3858095-40a4-412a-b67f-b4cf17860f1a
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
+          - columnReferences:
               - columnCounter: 7312d6a3-7c9c-4ee3-99cd-93b61233b9b5
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
@@ -74,12 +86,27 @@ operation:
         nullable: false
         sourceColumnReferences:
           - columnReferences:
+              - columnCounter: 8db60dba-26f3-47bf-9862-09691102fb5e
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
+          - columnReferences:
               - columnCounter: 7155cd45-1bad-47a5-a6dd-8200ca0f696a
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
+      - aliases:
+          DVSTG_NATION: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DWH
+            nodeName: DVSTG_NATION
+        join:
+          joinCondition: FROM {{ ref('DWH', 'DVSTG_NATION') }} "DVSTG_NATION"
+        name: NATION
+        noLinkRefs: []
       - aliases:
           DVSTG_CUSTOMER: 66d3852e-76f1-4208-9900-a9f9d3f34b49
         customSQL:
@@ -90,7 +117,7 @@ operation:
         join:
           joinCondition: |
             FROM {{ ref('STAGE', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
-        name: HUB_NATION
+        name: CUSTOMER
         noLinkRefs: []
   name: HUB_NATION
   overrideSQL: false

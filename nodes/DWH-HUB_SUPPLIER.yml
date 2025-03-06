@@ -1,6 +1,6 @@
 fileVersion: 1
-id: 0e391c6d-6937-4a63-878e-a6203e502858
-name: HUB_ORDERS
+id: ed6a4044-a3b6-4600-9b5f-4735a1e937af
+name: HUB_SUPPLIER
 operation:
   config:
     disable_hwm: true
@@ -9,7 +9,7 @@ operation:
     testsEnabled: true
   database: ""
   deployEnabled: true
-  description: Orders data as defined by TPC-H
+  description: ""
   isMultisource: false
   locationName: DWH
   materializationType: table
@@ -18,64 +18,60 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 3f00c6c3-0bd5-4463-a8e2-08658dbd2d01
-          stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+          columnCounter: e71dfbdf-4b55-400a-a0dd-f2f07352e415
+          stepCounter: ed6a4044-a3b6-4600-9b5f-4735a1e937af
         config:
           is_Hub_hk: true
         dataType: STRING
         description: ""
-        hashDetails: null
-        name: H_ORDER_KEY
+        name: H_SUPPLIER_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9bc511c9-b3d1-4a49-ab9c-96b081b81bf7
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
+              - columnCounter: a9f382b4-ca65-457a-a004-c47f9a127faa
+                stepCounter: 294ff1a4-7e2c-4566-81bf-ad35d7cdedcc
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 28d3566c-c394-4247-9856-c11e0dad31dc
-          stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+          columnCounter: 924be08f-f12a-4fad-a2ef-0964d831fe0a
+          stepCounter: ed6a4044-a3b6-4600-9b5f-4735a1e937af
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        hashDetails: null
-        name: O_ORDERKEY
+        name: S_SUPPKEY
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 26bce2dc-c52f-4f22-83e3-1a43f408d6bc
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
-            transform: XXXXX
+              - columnCounter: 057368c9-930d-45c8-b2c6-441d73cdcf4d
+                stepCounter: 294ff1a4-7e2c-4566-81bf-ad35d7cdedcc
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9fbf279d-3ccb-45be-bf3e-090ef60ac163
-          stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+          columnCounter: 01a736f3-8380-452d-8797-7a1f829626b1
+          stepCounter: ed6a4044-a3b6-4600-9b5f-4735a1e937af
         config: {}
         dataType: TIMESTAMP
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
-        hashDetails: null
         name: LDTS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 77face16-3ba1-4339-86ed-806760c8f7f6
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
+              - columnCounter: 38501f27-5e65-490d-91b9-66d1622dfedf
+                stepCounter: 294ff1a4-7e2c-4566-81bf-ad35d7cdedcc
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6d2ed53f-e4fe-4a0f-a057-59d3fc79fc18
-          stepCounter: 0e391c6d-6937-4a63-878e-a6203e502858
+          columnCounter: 479712e5-618a-44b2-ace2-7ffefcb947bc
+          stepCounter: ed6a4044-a3b6-4600-9b5f-4735a1e937af
         config: {}
         dataType: STRING
         description: The Record Source (RSRC) describes the source of this data.
-        hashDetails: null
         name: RSRC
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 6bf6c00a-f52f-428a-a186-7eea03dd12ca
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
+              - columnCounter: 22a41c19-7cbe-4b1e-bf0c-9b060a9a739c
+                stepCounter: 294ff1a4-7e2c-4566-81bf-ad35d7cdedcc
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
@@ -84,13 +80,13 @@ operation:
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: STAGE
-            nodeName: DVSTG_ORDERS
+          - locationName: DWH
+            nodeName: DVSTG_SUPPLIER
         join:
-          joinCondition: FROM {{ ref('STAGE', 'DVSTG_ORDERS') }} "DVSTG_ORDERS"
-        name: HUB_ORDERS
+          joinCondition: FROM {{ ref('DWH', 'DVSTG_SUPPLIER') }} "DVSTG_SUPPLIER"
+        name: HUB_SUPPLIER
         noLinkRefs: []
-  name: HUB_ORDERS
+  name: HUB_SUPPLIER
   overrideSQL: false
   schema: ""
   sqlType: DV2:::6
