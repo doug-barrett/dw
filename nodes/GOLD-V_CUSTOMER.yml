@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: Customer data as defined by TPC-H
   isMultisource: false
-  locationName: DWH
+  locationName: GOLD
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -244,14 +244,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          DIM_CUSTOMER: 8746b194-d0e8-40b1-a53f-475b3a99ae36
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: DWH
+          - locationName: GOLD
             nodeName: DIM_CUSTOMER
         join:
-          joinCondition: FROM {{ ref('DWH', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
+          joinCondition: FROM {{ ref('GOLD', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
         name: V_CUSTOMER
         noLinkRefs: []
   name: V_CUSTOMER

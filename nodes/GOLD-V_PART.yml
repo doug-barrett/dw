@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: Part data as defined by TPC-H
   isMultisource: false
-  locationName: DWH
+  locationName: GOLD
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -244,14 +244,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          DIM_PART: 9b94a43d-012a-421f-9da9-f8a15c696e1a
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: DWH
+          - locationName: GOLD
             nodeName: DIM_PART
         join:
-          joinCondition: FROM {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
+          joinCondition: FROM {{ ref('GOLD', 'DIM_PART') }} "DIM_PART"
         name: V_PART
         noLinkRefs: []
   name: V_PART

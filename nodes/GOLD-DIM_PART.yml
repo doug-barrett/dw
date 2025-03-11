@@ -10,7 +10,7 @@ operation:
   deployEnabled: true
   description: Part data as defined by TPC-H
   isMultisource: false
-  locationName: DWH
+  locationName: GOLD
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -264,14 +264,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_PART: b801fdc1-a97a-4e8c-94b1-fe802cbcc2e3
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: STAGE
+          - locationName: SILVER
             nodeName: STG_PART
         join:
-          joinCondition: FROM {{ ref('STAGE', 'STG_PART') }} "STG_PART"
+          joinCondition: FROM {{ ref('SILVER', 'STG_PART') }} "STG_PART"
         name: DIM_PART
         noLinkRefs: []
   name: DIM_PART

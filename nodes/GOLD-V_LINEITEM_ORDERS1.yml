@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: DWH
+  locationName: GOLD
   materializationType: view
   metadata:
     appliedNodeTests: []
@@ -457,14 +457,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          FCT_LINEITEM_ORDERS1: 4004a743-06b9-4492-989e-d2c0af14e533
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: DWH
+          - locationName: GOLD
             nodeName: FCT_LINEITEM_ORDERS1
         join:
-          joinCondition: FROM {{ ref('DWH', 'FCT_LINEITEM_ORDERS1') }} "FCT_LINEITEM_ORDERS1"
+          joinCondition: FROM {{ ref('GOLD', 'FCT_LINEITEM_ORDERS1') }} "FCT_LINEITEM_ORDERS1"
         name: V_LINEITEM_ORDERS1
         noLinkRefs: []
   name: V_LINEITEM_ORDERS1

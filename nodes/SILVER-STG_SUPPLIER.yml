@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: Supplier data as defined by TPC-H
   isMultisource: false
-  locationName: STAGE
+  locationName: SILVER
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -118,14 +118,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          SUPPLIER: 82bf2ce5-08f2-49fe-b08e-f0d926c7a307
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SRC_SAMPLE
+          - locationName: BRONZE
             nodeName: SUPPLIER
         join:
-          joinCondition: FROM {{ ref('SRC_SAMPLE', 'SUPPLIER') }} "SUPPLIER"
+          joinCondition: FROM {{ ref('BRONZE', 'SUPPLIER') }} "SUPPLIER"
         name: STG_SUPPLIER
         noLinkRefs: []
   name: STG_SUPPLIER

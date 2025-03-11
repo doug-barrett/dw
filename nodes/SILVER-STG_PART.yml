@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: Part data as defined by TPC-H
   isMultisource: false
-  locationName: STAGE
+  locationName: SILVER
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -146,14 +146,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          PART: db4ad159-19e5-4e9c-a7ca-8150d24f0dbf
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SRC_SAMPLE
+          - locationName: BRONZE
             nodeName: PART
         join:
-          joinCondition: FROM {{ ref('SRC_SAMPLE', 'PART') }} "PART"
+          joinCondition: FROM {{ ref('BRONZE', 'PART') }} "PART"
         name: STG_PART
         noLinkRefs: []
   name: STG_PART

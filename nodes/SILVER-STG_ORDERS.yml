@@ -12,7 +12,7 @@ operation:
   deployEnabled: true
   description: Orders data as defined by TPC-H
   isMultisource: false
-  locationName: STAGE
+  locationName: SILVER
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -146,14 +146,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          ORDERS: 6d230bde-6084-4bbe-8762-68a0040e8e23
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SRC_SAMPLE
+          - locationName: BRONZE
             nodeName: ORDERS
         join:
-          joinCondition: FROM {{ ref('SRC_SAMPLE', 'ORDERS') }} "ORDERS"
+          joinCondition: FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
         name: STG_ORDERS
         noLinkRefs: []
   name: STG_ORDERS

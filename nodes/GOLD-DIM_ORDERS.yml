@@ -10,7 +10,7 @@ operation:
   deployEnabled: true
   description: Orders data as defined by TPC-H
   isMultisource: false
-  locationName: DWH
+  locationName: GOLD
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -264,14 +264,15 @@ operation:
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          STG_ORDERS: f70b0b7e-3a62-4d19-8b5d-2c0a6fe54c48
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: STAGE
+          - locationName: SILVER
             nodeName: STG_ORDERS
         join:
-          joinCondition: FROM {{ ref('STAGE', 'STG_ORDERS') }} "STG_ORDERS"
+          joinCondition: FROM {{ ref('SILVER', 'STG_ORDERS') }} "STG_ORDERS"
         name: DIM_ORDERS
         noLinkRefs: []
   name: DIM_ORDERS
