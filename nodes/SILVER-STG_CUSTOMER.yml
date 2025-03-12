@@ -146,18 +146,57 @@ operation:
               - columnCounter: b3fa94ec-b236-45ca-85ed-b6fe3bc5cbf8
                 stepCounter: cc0b13cd-7b59-4ded-9699-1b2efe2331dd
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 86cec2f0-4090-4997-ab0e-4243f37f4a28
+          stepCounter: 81a30818-47a6-4212-a988-447e017e25d1
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: N_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4df43530-4ea2-4313-af1d-1b6c28b6f221
+                stepCounter: f82283ec-9c8f-4bc3-80c2-6b390ddd3a19
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ceeba305-cd59-4fd5-acee-c4f4b6275207
+          stepCounter: 81a30818-47a6-4212-a988-447e017e25d1
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: R_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b8e80617-14d1-47cf-9bee-158ede6c6ebc
+                stepCounter: f258b7bb-9853-45ae-873c-b04d503328e3
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
           CUSTOMER: cc0b13cd-7b59-4ded-9699-1b2efe2331dd
+          NATION: f82283ec-9c8f-4bc3-80c2-6b390ddd3a19
+          REGION: f258b7bb-9853-45ae-873c-b04d503328e3
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: BRONZE
             nodeName: CUSTOMER
+          - locationName: BRONZE
+            nodeName: NATION
+          - locationName: BRONZE
+            nodeName: REGION
         join:
-          joinCondition: FROM {{ ref('BRONZE', 'CUSTOMER') }} "CUSTOMER"
+          joinCondition: |-
+            FROM {{ ref('BRONZE', 'CUSTOMER') }} "CUSTOMER"
+            INNER JOIN {{ ref('BRONZE', 'NATION') }} "NATION"
+            ON "CUSTOMER"."C_NATIONKEY" = "NATION"."N_NATIONKEY"
+            INNER JOIN {{ ref('BRONZE', 'REGION') }} "REGION"
+            ON NATION."N_REGIONKEY" = "REGION"."R_REGIONKEY"
         name: STG_CUSTOMER
         noLinkRefs: []
   name: STG_CUSTOMER
