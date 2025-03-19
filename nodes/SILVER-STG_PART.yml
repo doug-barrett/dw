@@ -1,0 +1,165 @@
+fileVersion: 1
+id: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+name: STG_PART
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3e86e636-20ab-478b-8286-69ab11000c7f
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: P_PARTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a62ee382-5468-4870-be93-6898a04fd3e1
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a9d90b7-e893-466f-b7b4-84a108fdf5a3
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: VARCHAR(55)
+        description: ""
+        name: P_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bdf3a881-a4fd-4c3e-a0e9-75704ee623d3
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d5beaca3-3d40-4ac8-8a37-7f1b94dca0fc
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: P_MFGR
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 704e1529-93f2-4d84-87e3-b41bb4d81057
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59300862-f2fd-4019-9253-1ba979e3704c
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: P_BRAND
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e6f43dc8-da1f-4722-a35a-1e508da8c0da
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85869d31-a008-46d4-9b77-d325b1f4d890
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: VARCHAR(25)
+        description: ""
+        name: P_TYPE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9aa27ad3-94e7-4b06-b102-82de8eb57293
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8b678ca1-9c34-452d-8bd2-f0c77fe5bb4a
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: P_SIZE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c9957e07-6eb8-47bb-8a93-e7a9ad46944b
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 072b24a5-1933-4b39-a34f-af5dbe644495
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: P_CONTAINER
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1c9d2201-3f5c-4ee8-a564-30cbf2a51d8d
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2e788555-8d65-4340-aeea-dee93ffb22bc
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: P_RETAILPRICE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 51c8621e-f83c-4462-bc47-604a7ab11ec4
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4474ac8-2a3c-47d3-a5fd-74d66d04e7a0
+          stepCounter: dfcc2ea4-14ea-4049-bcb9-b2380e47de3b
+        config: {}
+        dataType: VARCHAR(23)
+        description: ""
+        name: P_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1a0c8deb-8993-4ba5-9173-6351b6c4101c
+                stepCounter: edf4fad1-b863-4696-8cf1-049bac249cd7
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: PART
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'PART') }} "PART"
+        name: STG_PART
+        noLinkRefs: []
+  name: STG_PART
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
