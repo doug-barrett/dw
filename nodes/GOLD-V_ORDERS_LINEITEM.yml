@@ -20,7 +20,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - Originates from the 'O_ORDERKEY' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the unique identifier for an order, serving as a primary key in the orders table.
+          - Used for joining with other tables like customer and line item details to analyze order-specific metrics.
+          - Plays a crucial role in various reports and business metrics, such as order frequency, average order value, and customer order history.
         name: O_ORDERKEY
         nullable: false
         sourceColumnReferences:
@@ -34,7 +38,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - Derived from the 'L_LINENUMBER' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Denotes the line item number within a specific order, indicating the sequence of items.
+          - Functions as a business key in conjunction with the order key, critical for analyzing individual items within orders.
+          - Essential for generating reports on order composition, product performance, and sales analysis at the line item level.
         name: L_LINENUMBER
         nullable: false
         sourceColumnReferences:
@@ -48,7 +56,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |-
+          - Originates from the 'DIM_CUSTOMER_KEY' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the foreign key linking to the customer dimension table, providing customer-specific details.
+          - It is nullable.
+          - Used to analyze customer behavior, segment customers based on order patterns, and track customer lifetime value.
         name: DIM_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
@@ -62,7 +74,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |-
+          - Directly sourced from the 'DIM_ORDERS_KEY' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Acts as a foreign key, linking to the orders dimension table, and offering detailed order information.
+          - It is nullable.
+          - Essential for in-depth order analysis, trend identification, and performance evaluation, facilitating comprehensive reporting and strategic decision-making.
         name: DIM_ORDERS_KEY
         nullable: true
         sourceColumnReferences:
@@ -76,7 +92,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |-
+          - Sourced directly from the 'DIM_PART_KEY' column within the 'FCT_ORDERS_LINEITEM' table.
+          - Functions as a foreign key that connects to the part dimension table, providing detailed part information.
+          - It is nullable.
+          - Pivotal for conducting part-level analysis, tracking sales performance, and managing inventory effectively, supporting key business decisions.
         name: DIM_PART_KEY
         nullable: true
         sourceColumnReferences:
@@ -90,7 +110,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - Directly derived from the 'O_CUSTKEY' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the customer's unique identifier, essential for linking orders to specific customers.
+          - Facilitates customer-centric analysis, enabling insights into purchasing patterns, segmentation, and targeted marketing strategies.
+          - Supports the calculation of customer lifetime value and other key performance indicators related to customer engagement.
         name: O_CUSTKEY
         nullable: false
         sourceColumnReferences:
@@ -104,7 +128,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(1)
-        description: ""
+        description: |-
+          - The value is sourced from the 'O_ORDERSTATUS' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Indicates the current status of an order (e.g., 'Pending', 'Shipped', 'Complete').
+          - Enables real-time monitoring of order fulfillment, facilitating proactive management of order exceptions and ensuring customer satisfaction.
+          - Key for performance tracking and operational efficiency improvements.
         name: O_ORDERSTATUS
         nullable: false
         sourceColumnReferences:
@@ -118,7 +146,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - Directly sourced from the 'O_TOTALPRICE' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the total monetary value of an order, inclusive of all items and applicable charges.
+          - Vital for revenue analysis, profitability assessment, and financial reporting, providing insights into sales performance and financial health.
+          - Supports pricing strategy optimization and revenue forecasting.
         name: O_TOTALPRICE
         nullable: false
         sourceColumnReferences:
@@ -132,7 +164,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: DATE
-        description: ""
+        description: |-
+          - The value is sourced from the 'O_ORDERDATE' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the date when the order was placed.
+          - Enables trend analysis, seasonality identification, and performance tracking over time, supporting informed decision-making.
+          - Pivotal for sales forecasting, inventory management, and resource planning, aligning business operations with demand patterns.
         name: O_ORDERDATE
         nullable: false
         sourceColumnReferences:
@@ -146,7 +182,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: |-
+          - Value is sourced from the 'O_ORDERPRIORITY' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Indicates the priority level assigned to an order (e.g., 'High', 'Medium', 'Low').
+          - Facilitates prioritization of order fulfillment efforts, ensuring timely delivery for critical orders and enhancing customer satisfaction.
+          - Supports resource allocation optimization and service level management.
         name: O_ORDERPRIORITY
         nullable: false
         sourceColumnReferences:
@@ -160,7 +200,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: |-
+          - Directly sourced from the 'O_CLERK' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the name or identifier of the clerk responsible for processing the order.
+          - Useful for performance evaluation, workload distribution analysis, and accountability tracking within the sales and customer service teams.
+          - Supports process improvement initiatives and employee training programs.
         name: O_CLERK
         nullable: false
         sourceColumnReferences:
@@ -174,7 +218,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - The value is sourced from the 'O_SHIPPRIORITY' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Indicates the shipping priority assigned to an order, influencing the delivery timeline and logistics planning.
+          - Facilitates efficient allocation of shipping resources, ensuring timely delivery and minimizing transportation costs.
+          - Supports customer service management and supply chain optimization.
         name: O_SHIPPRIORITY
         nullable: false
         sourceColumnReferences:
@@ -188,7 +236,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: |-
+          - Directly sourced from the 'O_COMMENT' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Contains descriptive information or notes related to the order, providing context and additional details.
+          - Offers valuable insights for order analysis, customer service inquiries, and issue resolution, improving communication and understanding.
+          - Supports process refinement and customer experience enhancement.
         name: O_COMMENT
         nullable: false
         sourceColumnReferences:
@@ -202,7 +254,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - The value is sourced from the 'L_ORDERKEY' column of the 'FCT_ORDERS_LINEITEM' table.
+          - References the unique identifier of the order to which the line item belongs, linking line items to specific orders.
+          - Critical for analyzing order composition, tracking order fulfillment, and calculating order-level metrics, providing a holistic view of sales activities.
+          - Supports cross-functional analysis and process optimization.
         name: L_ORDERKEY
         nullable: false
         sourceColumnReferences:
@@ -216,7 +272,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - Value is sourced from the 'L_PARTKEY' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the unique identifier of the part or product included in the line item, linking line items to specific products.
+          - Vital for product performance analysis, inventory management, and sales forecasting, providing insights into product demand and trends.
+          - Supports strategic decision-making related to product development and portfolio management.
         name: L_PARTKEY
         nullable: false
         sourceColumnReferences:
@@ -230,7 +290,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_SUPPKEY' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the unique identifier of the supplier providing the part or product in the line item, connecting line items to suppliers.
+          - Enables supplier performance evaluation, procurement optimization, and supply chain risk management, ensuring reliable sourcing and competitive pricing.
+          - Supports strategic partnerships and supplier relationship management.
         name: L_SUPPKEY
         nullable: false
         sourceColumnReferences:
@@ -244,7 +308,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_QUANTITY' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the number of units of the part or product ordered in the line item, quantifying the demand for each item.
+          - Crucial for inventory planning, production scheduling, and demand forecasting, aligning supply with customer needs.
+          - Supports sales performance analysis and revenue projection.
         name: L_QUANTITY
         nullable: false
         sourceColumnReferences:
@@ -258,7 +326,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_EXTENDEDPRICE' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the total price of the line item, calculated as the unit price multiplied by the quantity ordered, reflecting the revenue generated by each item.
+          - Vital for revenue analysis, profitability assessment, and pricing strategy optimization, providing insights into product performance and market dynamics.
+          - Supports financial reporting and budget planning.
         name: L_EXTENDEDPRICE
         nullable: false
         sourceColumnReferences:
@@ -272,7 +344,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - The value is sourced from the 'L_DISCOUNT' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the discount applied to the line item, reducing the price paid by the customer.
+          - Enables margin analysis, promotion effectiveness evaluation, and pricing strategy refinement, optimizing profitability and sales volume.
+          - Supports customer loyalty programs and targeted marketing campaigns.
         name: L_DISCOUNT
         nullable: false
         sourceColumnReferences:
@@ -286,7 +362,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_TAX' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the tax amount applied to the line item, contributing to the total cost borne by the customer.
+          - Essential for financial compliance, tax reporting, and pricing strategy optimization, ensuring adherence to legal and regulatory requirements.
+          - Supports accurate calculation of total order value and revenue distribution.
         name: L_TAX
         nullable: false
         sourceColumnReferences:
@@ -300,7 +380,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(1)
-        description: ""
+        description: |-
+          - The value is sourced from the 'L_RETURNFLAG' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Indicates whether the line item was returned by the customer, providing insights into product quality and customer satisfaction.
+          - Enables return analysis, quality control, and customer service improvements, reducing return rates and enhancing brand reputation.
+          - Supports warranty management and product lifecycle assessment.
         name: L_RETURNFLAG
         nullable: false
         sourceColumnReferences:
@@ -314,7 +398,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(1)
-        description: ""
+        description: |-
+          - The value is sourced from the 'L_LINESTATUS' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Indicates the current status of the line item (e.g., 'Shipped', 'Delivered', 'Cancelled'), providing visibility into order fulfillment progress.
+          - Enables real-time monitoring of order status, facilitating proactive management of order exceptions and ensuring customer satisfaction.
+          - Supports performance tracking and operational efficiency improvements.
         name: L_LINESTATUS
         nullable: false
         sourceColumnReferences:
@@ -328,7 +416,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: DATE
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_SHIPDATE' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the date when the line item was shipped to the customer, reflecting the delivery performance and order fulfillment efficiency.
+          - Enables on-time delivery analysis, logistics optimization, and supply chain performance management, ensuring timely product delivery and customer satisfaction.
+          - Supports customer communication and delivery schedule management.
         name: L_SHIPDATE
         nullable: false
         sourceColumnReferences:
@@ -342,7 +434,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: DATE
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_COMMITDATE' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the date when the line item was committed to be shipped, indicating the agreed-upon delivery timeline.
+          - Enables delivery performance tracking, order management, and customer communication, ensuring adherence to delivery commitments and enhancing customer satisfaction.
+          - Supports proactive issue resolution and exception handling.
         name: L_COMMITDATE
         nullable: false
         sourceColumnReferences:
@@ -356,7 +452,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: DATE
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_RECEIPTDATE' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Represents the date when the line item was received by the customer, confirming successful delivery and order completion.
+          - Enables delivery confirmation, customer satisfaction assessment, and supply chain performance evaluation, ensuring timely and accurate order fulfillment.
+          - Supports proactive issue resolution and exception handling.
         name: L_RECEIPTDATE
         nullable: false
         sourceColumnReferences:
@@ -370,7 +470,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: |-
+          - The value is sourced from the 'L_SHIPINSTRUCT' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Provides specific instructions or guidelines for shipping the line item, ensuring proper handling and delivery.
+          - Facilitates efficient logistics management, reduces shipping errors, and enhances customer satisfaction by meeting specific delivery requirements.
+          - Supports customized shipping solutions and specialized handling procedures.
         name: L_SHIPINSTRUCT
         nullable: false
         sourceColumnReferences:
@@ -384,7 +488,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(10)
-        description: ""
+        description: |-
+          - The value is sourced from the 'L_SHIPMODE' column of the 'FCT_ORDERS_LINEITEM' table.
+          - Indicates the mode of transportation used to ship the line item (e.g., 'Air', 'Sea', 'Truck'), impacting delivery speed and cost.
+          - Enables transportation cost optimization, delivery time management, and logistics planning, ensuring efficient and cost-effective shipping solutions.
+          - Supports carrier selection and performance evaluation.
         name: L_SHIPMODE
         nullable: false
         sourceColumnReferences:
@@ -398,7 +506,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: VARCHAR(44)
-        description: ""
+        description: |-
+          - Directly sourced from the 'L_COMMENT' column in the 'FCT_ORDERS_LINEITEM' table.
+          - Contains descriptive information or notes related to the line item, providing context and additional details.
+          - Offers valuable insights for order analysis, customer service inquiries, and issue resolution, improving communication and understanding.
+          - Supports process refinement and customer experience enhancement.
         name: L_COMMENT
         nullable: false
         sourceColumnReferences:
@@ -412,7 +524,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |-
+          - Originates from the 'SYSTEM_CREATE_DATE' column in the source table 'FCT_ORDERS_LINEITEM'.
+          - This column is automatically generated by the system.
+          - Records the timestamp when a new record is created, facilitating data auditing and tracking.
+          - Useful for identifying data insertion patterns, monitoring system activity, and ensuring data integrity.
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
@@ -426,7 +542,11 @@ operation:
           stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |-
+          - Originates from the 'SYSTEM_UPDATE_DATE' column in the source table 'FCT_ORDERS_LINEITEM'.
+          - This column is automatically generated by the system.
+          - Records the timestamp when a record is last updated, facilitating data auditing and change tracking.
+          - Useful for identifying data modification patterns, monitoring system activity, and ensuring data integrity.
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:

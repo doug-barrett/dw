@@ -20,7 +20,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |-
+          - This column serves as the primary key for the DIM_ORDERS dimension table.
+          - It is sourced from the DIM_ORDERS table, specifically the DIM_ORDERS_KEY column.
+          - As a surrogate key, it uniquely identifies each record in the dimension, which facilitates efficient data retrieval and joining with other tables in the data warehouse.
+          - It supports downstream reporting and analytics by providing a stable and consistent reference to order data.
         name: DIM_ORDERS_KEY
         nullable: true
         sourceColumnReferences:
@@ -34,7 +38,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column represents the unique identifier for each order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERKEY column.
+          - The O_ORDERKEY serves as a business key, originating from the transactional system, providing a direct link to the source system's order identification.
+          - It is crucial for tracking and analyzing order-specific metrics and is essential for joining with other order-related tables.
         name: O_ORDERKEY
         nullable: false
         sourceColumnReferences:
@@ -48,7 +56,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column represents the customer key associated with each order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_CUSTKEY column.
+          - It links each order to a specific customer, enabling analysis of customer order patterns and behaviors.
+          - This is used in reports and dashboards to understand customer-specific order metrics and trends.
         name: O_CUSTKEY
         nullable: false
         sourceColumnReferences:
@@ -62,7 +74,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: VARCHAR(1)
-        description: ""
+        description: |-
+          - This column indicates the status of the order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERSTATUS column.
+          - Possible values include 'O' (Open), 'F' (Fulfilled), 'P' (Pending), etc., and it allows for filtering and grouping orders based on their current state.
+          - This is used in reports to monitor order fulfillment rates and identify bottlenecks in the order processing pipeline.
         name: O_ORDERSTATUS
         nullable: false
         sourceColumnReferences:
@@ -76,7 +92,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |-
+          - This column represents the total price of the order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_TOTALPRICE column.
+          - This is a crucial metric for financial analysis, sales reporting, and profitability calculations.
+          - It is used in reports to track revenue, calculate average order value, and perform other financial analyses.
         name: O_TOTALPRICE
         nullable: false
         sourceColumnReferences:
@@ -90,7 +110,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: DATE
-        description: ""
+        description: |-
+          - This column represents the date when the order was placed.
+          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERDATE column.
+          - It enables time-based analysis of order patterns, such as monthly order volumes and seasonal trends.
+          - This column is essential for time series analysis, trend identification, and forecasting of future order volumes.
         name: O_ORDERDATE
         nullable: false
         sourceColumnReferences:
@@ -104,7 +128,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: |-
+          - This column indicates the priority of the order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERPRIORITY column.
+          - Values can include '1-URGENT', '2-HIGH', '3-MEDIUM', '4-NOT SPECIFIED', '5-LOW', and allows for prioritizing order fulfillment based on customer needs.
+          - This is used to ensure that high-priority orders are processed promptly, which helps maintain customer satisfaction and meet service level agreements.
         name: O_ORDERPRIORITY
         nullable: false
         sourceColumnReferences:
@@ -118,7 +146,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: |-
+          - This column identifies the clerk responsible for processing the order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_CLERK column.
+          - It enables tracking of clerk performance and workload distribution.
+          - This is used in reports to analyze the efficiency of individual clerks and identify training needs.
         name: O_CLERK
         nullable: false
         sourceColumnReferences:
@@ -132,7 +164,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column indicates the shipping priority of the order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_SHIPPRIORITY column.
+          - It is a numerical value, enabling differentiation of shipping urgency.
+          - This information is crucial for logistics and supply chain management, ensuring timely delivery and optimizing shipping costs.
         name: O_SHIPPRIORITY
         nullable: false
         sourceColumnReferences:
@@ -146,7 +182,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: VARCHAR(79)
-        description: ""
+        description: |-
+          - This column contains additional comments or notes related to the order.
+          - It is sourced from the DIM_ORDERS table, specifically the O_COMMENT column.
+          - This can provide valuable context for understanding specific order requirements or issues.
+          - This is used for customer service and operational analysis, helping to resolve issues and improve customer satisfaction.
         name: O_COMMENT
         nullable: false
         sourceColumnReferences:
@@ -160,7 +200,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |-
+          - This column indicates the version number of the record.
+          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_VERSION column.
+          - This column is automatically maintained by the system and tracks changes to the record over time.
+          - It supports auditing and historical analysis by allowing tracking of changes to the data.
         name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
@@ -174,7 +218,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: VARCHAR
-        description: ""
+        description: |-
+          - This column indicates whether the record is the most current version.
+          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_CURRENT_FLAG column.
+          - It is automatically maintained by the system and indicates the current active record.
+          - It is used to easily identify the most up-to-date information for each entity, simplifying queries and reporting.
         name: SYSTEM_CURRENT_FLAG
         nullable: true
         sourceColumnReferences:
@@ -188,7 +236,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |-
+          - This column indicates the date and time when the record became active.
+          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_START_DATE column.
+          - It is automatically maintained by the system, marking the beginning of the record's validity period.
+          - This is used for tracking the history of changes and ensuring data accuracy over time.
         name: SYSTEM_START_DATE
         nullable: true
         sourceColumnReferences:
@@ -202,7 +254,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |-
+          - This column indicates the date and time when the record became inactive.
+          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_END_DATE column.
+          - It is automatically maintained by the system, marking the end of the record's validity period.
+          - Together with SYSTEM_START_DATE, it defines the period during which the record was valid, supporting temporal analysis.
         name: SYSTEM_END_DATE
         nullable: true
         sourceColumnReferences:
@@ -216,7 +272,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |-
+          - This column indicates the date and time when the record was created.
+          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_CREATE_DATE column.
+          - It is automatically maintained by the system and provides a timestamp of when the record was initially inserted.
+          - This is used for auditing and tracking the creation of data records.
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
@@ -230,7 +290,11 @@ operation:
           stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |-
+          - This column indicates the date and time when the record was last updated.
+          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_UPDATE_DATE column.
+          - It is automatically maintained by the system and tracks the last modification timestamp of the record.
+          - This is used for auditing changes and identifying when data was last modified.
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:

@@ -20,7 +20,12 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |
+          - This is a surrogate key for the DIM_PART dimension table.
+          - It is sourced from the DIM_PART_KEY column in the DIM_PART table.
+          - It is a unique identifier for each record in the DIM_PART dimension.
+          - This key is used to join with fact tables for analysis and reporting, specifically on part-related metrics.
+          - Serves as the primary key for the dimension, ensuring uniqueness and efficient data retrieval.
         name: DIM_PART_KEY
         nullable: true
         sourceColumnReferences:
@@ -34,7 +39,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |
+          - This column represents the part key from the source table DIM_PART.
+          - It is sourced from the P_PARTKEY column in the DIM_PART table.
+          - It acts as a business key, uniquely identifying each part.
+          - It can be used in reports and dashboards to analyze metrics related to specific parts.
         name: P_PARTKEY
         nullable: false
         sourceColumnReferences:
@@ -48,7 +57,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR(55)
-        description: ""
+        description: |
+          - This column represents the name of the part.
+          - It is sourced from the P_NAME column in the DIM_PART table.
+          - It provides a descriptive name for each part, aiding in identification and categorization.
+          - This attribute is used in reports and analyses to filter and group data based on part names.
         name: P_NAME
         nullable: false
         sourceColumnReferences:
@@ -62,7 +75,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: |
+          - This column represents the manufacturer of the part.
+          - It is sourced from the P_MFGR column in the DIM_PART table.
+          - It identifies the company that produces the part.
+          - This attribute can be used to analyze sales and performance by manufacturer, providing insights into market share and supplier effectiveness.
         name: P_MFGR
         nullable: false
         sourceColumnReferences:
@@ -76,7 +93,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR(10)
-        description: ""
+        description: |
+          - This column represents the brand of the part.
+          - It is sourced from the P_BRAND column in the DIM_PART table.
+          - It indicates the brand name under which the part is sold.
+          - This attribute can be used to analyze sales and performance by brand, useful for marketing and brand management.
         name: P_BRAND
         nullable: false
         sourceColumnReferences:
@@ -90,7 +111,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: |
+          - This column represents the type of the part.
+          - It is sourced from the P_TYPE column in the DIM_PART table.
+          - It categorizes the part based on its type or function.
+          - This attribute is used in reports and analyses to filter and group data based on part types, supporting product portfolio analysis.
         name: P_TYPE
         nullable: false
         sourceColumnReferences:
@@ -104,7 +129,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |
+          - This column represents the size of the part.
+          - It is sourced from the P_SIZE column in the DIM_PART table.
+          - It indicates the size or dimension of the part.
+          - This attribute is used in reports and analyses to filter and group data based on part sizes, which is useful for inventory management and logistics.
         name: P_SIZE
         nullable: false
         sourceColumnReferences:
@@ -118,7 +147,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR(10)
-        description: ""
+        description: |
+          - This column represents the container type used for the part.
+          - It is sourced from the P_CONTAINER column in the DIM_PART table.
+          - It specifies the type of container in which the part is stored or shipped.
+          - This attribute can be used to optimize packaging and shipping strategies, potentially reducing costs and improving efficiency.
         name: P_CONTAINER
         nullable: false
         sourceColumnReferences:
@@ -132,7 +165,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
+        description: |
+          - This column represents the retail price of the part.
+          - It is sourced from the P_RETAILPRICE column in the DIM_PART table.
+          - It indicates the price at which the part is sold to customers.
+          - This attribute is crucial for revenue analysis, profitability calculations, and pricing strategy development.
         name: P_RETAILPRICE
         nullable: false
         sourceColumnReferences:
@@ -146,7 +183,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR(23)
-        description: ""
+        description: |
+          - This column contains descriptive comments about the part.
+          - It is sourced from the P_COMMENT column in the DIM_PART table.
+          - It can include additional information or notes about the part.
+          - This attribute provides context and details that can be useful for understanding specific part characteristics or issues.
         name: P_COMMENT
         nullable: true
         sourceColumnReferences:
@@ -160,7 +201,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: NUMBER
-        description: ""
+        description: |
+          - This column indicates the version number of the record in the DIM_PART dimension table.
+          - It is sourced from the SYSTEM_VERSION column in the DIM_PART table.
+          - The column is automatically maintained by the system.
+          - It helps track changes to the dimension over time, supporting auditing and historical analysis.
         name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
@@ -174,7 +219,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: VARCHAR
-        description: ""
+        description: |
+          - This column indicates whether the record is the most current version in the DIM_PART dimension table.
+          - It is sourced from the SYSTEM_CURRENT_FLAG column in the DIM_PART table.
+          - The column is automatically maintained by the system.
+          - It simplifies querying for the most up-to-date information, improving report accuracy and efficiency.
         name: SYSTEM_CURRENT_FLAG
         nullable: true
         sourceColumnReferences:
@@ -188,7 +237,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |
+          - This column indicates the date and time when the record became active in the DIM_PART dimension table.
+          - It is sourced from the SYSTEM_START_DATE column in the DIM_PART table.
+          - The column is automatically maintained by the system.
+          - It helps track the effective dates of dimension attributes, enabling time-based analysis and reporting.
         name: SYSTEM_START_DATE
         nullable: true
         sourceColumnReferences:
@@ -202,7 +255,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |
+          - This column indicates the date and time when the record expired or became inactive in the DIM_PART dimension table.
+          - It is sourced from the SYSTEM_END_DATE column in the DIM_PART table.
+          - The column is automatically maintained by the system.
+          - Together with the start date, it defines the period for which the record was valid, supporting historical data analysis.
         name: SYSTEM_END_DATE
         nullable: true
         sourceColumnReferences:
@@ -216,7 +273,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |
+          - This column indicates the date and time when the record was created in the DIM_PART dimension table.
+          - It is sourced from the SYSTEM_CREATE_DATE column in the DIM_PART table.
+          - The column is automatically maintained by the system.
+          - It provides a timestamp of record creation, useful for auditing and data lineage tracking.
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
@@ -230,7 +291,11 @@ operation:
           stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
         config: {}
         dataType: TIMESTAMP
-        description: ""
+        description: |
+          - This column indicates the date and time when the record was last updated in the DIM_PART dimension table.
+          - It is sourced from the SYSTEM_UPDATE_DATE column in the DIM_PART table.
+          - The column is automatically maintained by the system.
+          - It helps track when changes were made to the record, supporting auditing and data quality monitoring.
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
