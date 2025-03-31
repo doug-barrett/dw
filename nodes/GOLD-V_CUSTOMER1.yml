@@ -1,0 +1,342 @@
+fileVersion: 1
+id: 708dc608-7342-42ce-8e20-15381ed98715
+name: V_CUSTOMER1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f287fdee-dbba-40e0-81c4-930947b25860
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: NUMBER
+        description: |-
+          - This column is the primary key for the dimension table `DIM_CUSTOMER`, sourced directly from the `DIM_CUSTOMER_KEY` column of the `DIM_CUSTOMER` table.
+          - As a surrogate key, it uniquely identifies each customer record within the data warehouse.
+          - It is a crucial element for joining with fact tables to facilitate analysis and reporting on customer-related metrics, such as sales performance or customer lifetime value.
+        name: DIM_CUSTOMER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6d5e0859-4761-4174-b6de-ae911191741e
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 34e335b9-4333-4df7-9150-b7e439b12c72
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: NUMBER(38,0)
+        description: |-
+          - This column represents the customer key and originates from the `C_CUSTKEY` column in the `DIM_CUSTOMER` table.
+          - It serves as a business key, directly reflecting the customer identifier from the source system.
+          - This key is essential for identifying individual customers and linking customer information across different systems or data sources, and is used in customer-centric reports and analyses.
+        name: C_CUSTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dcd35db7-6cbd-4fd9-9151-28bae3228d3f
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6dc278da-7a57-4938-ad81-f7e4e6bf698f
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(25)
+        description: |-
+          - This column stores the name of the customer, sourced from the `CUSTOMER_NAME` column of the `DIM_CUSTOMER` table.
+          - It provides a descriptive attribute for identifying customers in reports and analyses.
+          - Business users can utilize this column to easily recognize and differentiate customers when reviewing sales data, customer segmentation, or other relevant metrics.
+        name: CUSTOMER_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 85c4b0a9-95af-43c0-b0be-2b6c99d5622d
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0ad7587-7a1d-4f15-92bf-dc0fc4947fd6
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(40)
+        description: |-
+          - This column stores the address of the customer, and it is sourced directly from the `C_ADDRESS` column of the `DIM_CUSTOMER` table.
+          - This provides key information about the customer's location.
+          - It can be used for geographic analysis, targeted marketing campaigns, and to understand regional customer distributions.
+        name: C_ADDRESS
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6e987f24-4ac0-423d-a826-777a1616549a
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: af7c35bd-2c5b-4a8b-a7d4-2143c15b5238
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: NUMBER(38,0)
+        description: |-
+          - This column represents the nation key associated with the customer, sourced directly from the `C_NATIONKEY` column in the `DIM_CUSTOMER` table.
+          - It serves as a foreign key to the NATION dimension, facilitating joins and analysis across customer and geographic data.
+          - This enables reporting on customer behavior and sales trends by nation, supporting international business strategies and regional performance assessments.
+        name: C_NATIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0fae669a-9105-49d1-9bb3-d27a98304a8c
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 18fa9c71-5cb2-44d1-a19a-5b8a75abfa0f
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(15)
+        description: |-
+          - This column stores the customer's phone number, sourced from the `C_PHONE` column of the `DIM_CUSTOMER` table.
+          - It enables direct communication with customers and supports customer service and marketing activities.
+          - The phone number can be used for contacting customers regarding orders, support inquiries, or promotional offers.
+        name: C_PHONE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a7a78525-688c-4a16-bdd9-61406c827f44
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: be0245f5-ea58-42e8-b6a6-c05d5a3b64c6
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: NUMBER(12,2)
+        description: |-
+          - This column represents the customer's account balance, sourced directly from the `C_ACCTBAL` column in the `DIM_CUSTOMER` table.
+          - It provides a financial snapshot of the customer's relationship with the business.
+          - This is used in financial analysis, credit risk assessment, and to understand the economic value of individual customers.
+        name: C_ACCTBAL
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 921c09f8-de17-4e88-8fee-6606bec2c5ce
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7774c9a3-706d-46d2-8e22-dc5b178cb3f6
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: STRING
+        description: |-
+          - This column categorizes the customer's account balance, sourced directly from the `C_ACCTBAL_CAT` column in the `DIM_CUSTOMER` table.
+          - It provides a simplified view of customer account standing.
+          - This is valuable for segmentation, risk management, and developing targeted financial products or services.
+        name: C_ACCTBAL_CAT
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ad100db7-edaf-4ae7-ac5b-546fc15b430d
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8dd7a56c-cf0f-4b63-89b7-d4d6ef24e0c0
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(10)
+        description: |-
+          - This column indicates the market segment to which the customer belongs and is sourced from the `C_MKTSEGMENT` column of the `DIM_CUSTOMER` table.
+          - Market segments are used for targeted marketing and sales strategies.
+          - Analyzing sales and engagement metrics by market segment allows businesses to tailor their approach and optimize resource allocation.
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aee27f5a-ce49-4a8d-881d-650ad8d47f74
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb72eced-d3ed-4e82-8e0e-23e4b2224981
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(117)
+        description: |-
+          - This column contains comments or notes about the customer, sourced directly from the `C_COMMENT` column in the `DIM_CUSTOMER` table.
+          - It provides additional context and qualitative information about the customer relationship.
+          - Customer service teams can leverage these comments to better understand customer needs and preferences, improving support and satisfaction.
+        name: C_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c295d78e-07d7-4ac5-8ec4-5be066da2a59
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 36621599-d535-4b17-874f-7615131f4687
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(25)
+        description: |-
+          - This column represents the nation of the customer, sourced from the `NATION` column of the `DIM_CUSTOMER` table.
+          - It provides a geographic attribute for the customer, enabling location-based analysis.
+          - Business users can use this column to analyze sales performance by nation, identify key international markets, and tailor marketing strategies to specific regions.
+        name: NATION
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 859fe045-2583-469d-bd72-c71033e0186b
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: da41e3b5-a47b-439b-af76-2465812d934b
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR(25)
+        description: |-
+          - This column represents the region of the customer, sourced from the `REGION` column of the `DIM_CUSTOMER` table.
+          - Regions group nations together for broader geographic analysis.
+          - This is used to understand sales and customer trends at a regional level, supporting strategic decisions about market expansion or resource allocation.
+        name: REGION
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 65ef81b4-d67f-4c9e-958a-59f5a85fa2c0
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5a690fee-fdb1-44c2-8432-fb8031ecc49b
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: NUMBER
+        description: |-
+          - This column indicates the version number of the customer record, sourced from the `SYSTEM_VERSION` column of the `DIM_CUSTOMER` table.
+          - It is used for tracking changes to customer information over time.
+          - Data engineers can use this to implement data lineage and audit trails, ensuring data quality and compliance.
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: abc01482-b15a-4d1c-bac5-781fff861c16
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c38afc75-db0b-47a5-adae-e40a81ea1f26
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: VARCHAR
+        description: |-
+          - This column flags whether the customer record is the most current version, sourced from the `SYSTEM_CURRENT_FLAG` column of the `DIM_CUSTOMER` table.
+          - It simplifies querying for the most up-to-date customer information.
+          - This is used in reports and analyses that require accurate, current data, avoiding the inclusion of outdated or superseded records.
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 381b11f1-3838-4044-96f7-a42e14845513
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b4c44e93-8545-446e-8746-3a8c7de48861
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: TIMESTAMP
+        description: |-
+          - This column indicates the start date when the customer record became valid, sourced from the `SYSTEM_START_DATE` column of the `DIM_CUSTOMER` table.
+          - It is crucial for tracking the history of customer data and performing time-based analysis.
+          - Data analysts use this column to understand when customer attributes were in effect, enabling accurate trend analysis and historical reporting.
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d57ba9e2-de72-4b3a-bc47-c9e724d376a9
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8a56031d-1bb9-4556-8cca-2a148ba59b74
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: TIMESTAMP
+        description: |-
+          - This column indicates the end date when the customer record is no longer valid, sourced from the `SYSTEM_END_DATE` column of the `DIM_CUSTOMER` table.
+          - It complements the start date to define the period of validity for a customer record.
+          - This is used to maintain an accurate history of customer data, track changes over time, and ensure that analyses only include valid records for a given time period.
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e575704b-9f8e-4c86-8f94-057075ef1db1
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 645e8a45-84c5-42e7-bb72-53c7db1c8d99
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: TIMESTAMP
+        description: |-
+          - This column stores the timestamp when the customer record was initially created, sourced from the `SYSTEM_CREATE_DATE` column of the `DIM_CUSTOMER` table.
+          - It is useful for auditing and tracking the creation of customer accounts.
+          - Data governance teams can utilize this column to monitor data quality, identify potential anomalies, and ensure compliance with data retention policies.
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: edbf9834-9204-4734-938f-bb2b08eac897
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 323a5eb9-8318-4d58-92e0-2c6dcc94827a
+          stepCounter: 708dc608-7342-42ce-8e20-15381ed98715
+        config: {}
+        dataType: TIMESTAMP
+        description: |-
+          - This column records the timestamp of the last update to the customer record, sourced from the `SYSTEM_UPDATE_DATE` column of the `DIM_CUSTOMER` table.
+          - It is used for auditing and tracking changes to customer information.
+          - This column helps in monitoring data quality, identifying potential discrepancies, and ensuring that data reflects the most recent customer interactions or modifications.
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9be7069d-c764-4eab-928a-c0896786432a
+                stepCounter: 4358fdf9-a323-418e-9c81-f558dad59734
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: GOLD
+            nodeName: V_CUSTOMER
+        join:
+          joinCondition: FROM {{ ref('GOLD', 'V_CUSTOMER') }} "V_CUSTOMER"
+        name: V_CUSTOMER1
+        noLinkRefs: []
+  name: V_CUSTOMER1
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
