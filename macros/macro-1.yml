@@ -1,6 +1,8 @@
 fileVersion: 1
 id: "1"
 macroString: |
+  {% import "Test" as test with context %}
+
   {#-- ************************************************************************************************* #}
   {#-- Utility Macros #}
   {#-- ************************************************************************************************* #}
@@ -138,6 +140,141 @@ macroString: |
 
   {%- macro ref_no_link_raw(location_name, node_name) -%}
       {% raw %}{{ ref_no_link('{% endraw %}{{ location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
+  {%- endmacro -%}
+
+  {%- macro sortorder_by_colv(return) -%}
+      {%- set nsVariables = namespace(sortcolNames="") -%}
+      {%if config.orderby %}
+          {%- for i in config.orderbycolumn.get('items') -%}
+              {%- set colName = i.sortColName.name -%}
+              {%- set colOrder = i.sortOrder -%}
+  	        {%- if loop.first -%}	      
+  		        {%- set nsVariables.sortcolNames = '"' + colName + '"' + colOrder -%}	  
+  	        {%- else -%}      
+  		        {%- set nsVariables.sortcolNames = nsVariables.sortcolNames + ',' + '"' + colName + '"' + colOrder-%}	  
+  	        {%- endif -%}
+          {%- endfor -%}	
+              {%- set nsVariables.sortcolNames = 'order by' + nsVariables.sortcolNames -%}
+   
+      {% endif %} 
+      
+      {{- nsVariables.sortcolNames -}}
+   
+  {%- endmacro -%}
+
+
+
+
+  {#-- This macro will split the join clause into from and rest of the clauses like where,groupby,orderby ,qualify  #}
+  {#-- Input parmeters   - joinclause #}
+  {#-- Return            - from clause and other clauses #}
+
+
+  {%- macro get_clause( joinclause , ret_clause ) -%}
+
+              {% set join_clause = joinclause %}
+              {% set has_where_clause = 'where'in join_clause %}
+              {% set has_WHERE_clause = 'WHERE'in join_clause %}
+              {% set has_order_clause = 'order by'in join_clause %}
+              {% set has_ORDER_clause = 'ORDER BY'in join_clause %}
+              {% set has_group_clause =  'group by'in join_clause %}
+              {% set has_GROUP_clause = 'GROUP BY'in join_clause %}
+              {% set has_qualify_clause =  'qualify'in join_clause %}
+              {% set has_QUALIFY_clause = 'QUALIFY'in join_clause %}
+
+             
+
+              {% set clause='default' %}
+
+              {% if has_where_clause %}
+
+                  {% set keyword='where'%} 
+                  {% set clause='where_clause' %}
+    
+              {% elif  has_WHERE_clause %}
+
+                   {% set keyword='WHERE'%}
+                   {% set clause='where_clause' %}
+              {% endif %}
+
+              {% if has_group_clause and clause != 'where_clause'  %}
+
+                   {% set keyword='group by'%}
+                   {% set clause='group_clause' %}
+              
+              {% elif  has_GROUP_clause and clause != 'where_clause' %}
+
+                   {% set keyword='GROUP BY'%}
+                   {% set clause='group_clause' %}
+
+              {% endif %}
+  			
+              {% if has_qualify_clause and clause != 'where_clause' and clause != 'group_clause'  %}
+
+                   {% set keyword='qualify'%}
+                   {% set clause='qualify_clause' %}
+              
+              {% elif  has_QUALIFY_clause and clause != 'where_clause' and clause != 'group_clause'  %}
+
+                   {% set keyword='QUALIFY'%}
+                   {% set clause='qualify_clause' %}
+
+              {% endif %}            
+
+  			{% if has_order_clause and  clause != 'where_clause' and clause != 'group_clause' and clause != 'qualify_clause' %}
+
+                   {% set keyword='order by'%}
+                   {% set clause='order_clause' %}
+              
+              {% elif has_ORDER_clause and clause != 'where_clause' and clause != 'group_clause' and clause != 'qualify_clause' %}
+
+                   {% set keyword='ORDER BY'%}
+                   {% set clause='order_clause' %}
+
+              {% endif %}
+
+
+
+              {% if clause == 'where_clause' %}
+                 {% set parts = join_clause.split(keyword) %}
+                 {% set from_clause = parts[0] %}
+                 {% set add_clause = 'AND' + join_clause.split(keyword)[1] %}
+
+              {% elif clause == 'group_clause' %}
+
+                 {% set parts = join_clause.split(keyword) %}
+                 {% set from_clause = parts[0] %}
+                 {% set add_clause = 'group by' + join_clause.split(keyword)[1] %}
+
+              
+              {% elif clause == 'qualify_clause' %}
+
+                 {% set parts = join_clause.split(keyword) %}
+                 {% set from_clause = parts[0] %}
+                 {% set add_clause = 'qualify' + join_clause.split(keyword)[1] %}
+
+
+              {% elif clause == 'order_clause' %}
+
+                 {% set parts = join_clause.split(keyword) %}
+                 {% set from_clause = parts[0] %}
+                 {% set add_clause =  'order by' + join_clause.split(keyword)[1] %}
+                 
+
+              {% else %}
+
+                 {% set from_clause = join_clause %}
+                 {% set add_clause = '' %}
+
+              {% endif %}
+  			
+  			{% if ret_clause == 'from' %}
+  			   {{ from_clause }}
+  			{% else %}
+  			   {{ add_clause }}
+  			{% endif %}
+  			
+  			
   {%- endmacro -%}
 name: macro
 type: Macro

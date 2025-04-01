@@ -1,26 +1,14 @@
 fileVersion: 1
-id: "289"
-isDisabled: true
+id: "356"
+isDisabled: false
 metadata:
   defaultStorageLocation: SILVER
   error: null
   nodeMetadataSpec: |
     capitalized: Copy of Stage
-    short: TXM
+    short: STG
     plural: Stages
     tagColor: '#2EB67D'
-
-    joinTemplate: |
-      {% for dep in sources[0].dependencies %}
-        {%- if loop.first %} FROM {%- else %}  JOIN {%- endif %}
-        {{ ref_raw(dep.node.location.name,dep.node.name) }} "{{ dep.node.name }}"
-        {%- if not loop.first %} ON BLAH.BLAH = BLAH.BLAH {%- endif %}
-      {% endfor %}
-      JOIN {{ ref_raw("SRC_SAMPLE", "NATION")}} "NATION"
-      ON NATION.N_NATIONKEY = BLEH.BLEH
-      JOIN {{ ref_raw("SRC_SAMPLE", "REGION")}} "REGION"
-      ON REGION.R_REGIONKEY = NATION.N_REGIONKEY
-      
 
     config:
     - groupName: Options
@@ -70,18 +58,5 @@ metadata:
         type: textBox
         syntax: sql
         isRequired: false
-
-    systemColumns:
-    - displayName: REGION
-      transform: 'REGION.R_NAME'
-      dataType: STRING
-      placement: end
-      attributeName: isRegion
-
-    - displayName: NATION
-      transform: 'NATION.N_NAME'
-      dataType: STRING
-      placement: end
-      attributeName: isNation
-name: TXM Stage
+name: Copy of Stage
 type: NodeType
