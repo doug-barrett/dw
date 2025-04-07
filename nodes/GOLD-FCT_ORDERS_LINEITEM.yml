@@ -12,7 +12,7 @@ operation:
     postSQL: ""
     preSQL: ""
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     truncateBefore: false
   database: ""
   deployEnabled: true
@@ -22,16 +22,16 @@ operation:
   materializationType: table
   metadata:
     appliedNodeTests:
-      - continueOnFailure: true
+      - continueOnFailure: false
         description: ""
         name: Reconcile against source
         runOrder: After
-        templateString: "{{ test_rowcount( \"FROM {{ref('BRONZE','LINEITEM')}}\") }} #}"
+        templateString: "{{ test.expect_table_row_count_to_equal_other_table( \"{{this}}\", \"{{ref('BRONZE', 'LINEITEM')}}\") }} "
       - continueOnFailure: true
         description: ""
         name: Check for missing dates
         runOrder: After
-        templateString: "{{ test_missing_date_offset(\"O_ORDERDATE\", 100, 1) }} #}"
+        templateString: "{{ test_missing_date_offset(\"O_ORDERDATE\", 100, 1) }} "
     columns:
       - appliedColumnTests: {}
         columnReference:
