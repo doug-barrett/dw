@@ -1,0 +1,36 @@
+fileVersion: 1
+id: d35d9365-a860-4795-95d7-f13036edb45b
+name: SQL_NODE
+operation:
+  config:
+    SQL_Deploy: |-
+      CREATE OR REPLACE VIEW {{ ref_no_link('SILVER', 'VW_CUSTOMER') }} 
+       AS SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} 
+       
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: SQL_NODE
+        noLinkRefs: []
+  name: SQL_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node
