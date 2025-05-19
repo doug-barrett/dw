@@ -1,0 +1,67 @@
+fileVersion: 1
+id: de64d56f-dc64-4ec8-86a7-e965f9250868
+name: V_SALESFORCE_CAMPAIGN
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fae1b71d-a8f4-4c2c-a203-4b04b94cf96c
+          stepCounter: de64d56f-dc64-4ec8-86a7-e965f9250868
+        config: {}
+        dataType: VARIANT
+        description: ""
+        name: VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 29a11cbe-b8ba-4e8e-aeb1-3bb73faf7fda
+                stepCounter: 0e7d74c1-2d95-4acf-8bb4-95954dc74ac0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0db69f73-0d0b-4561-b76d-38a004aef223
+          stepCounter: de64d56f-dc64-4ec8-86a7-e965f9250868
+        config: {}
+        dataType: STRING
+        description: ""
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 11fdcbc7-f090-464c-8bff-51153d090b20
+                stepCounter: 0e7d74c1-2d95-4acf-8bb4-95954dc74ac0
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EXT_SALESFORCE: 0e7d74c1-2d95-4acf-8bb4-95954dc74ac0
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: EXT_SALESFORCE
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'EXT_SALESFORCE') }} "EXT_SALESFORCE"
+            WHERE "FILENAME" LIKE '%Campaign.json'
+        name: V_SALESFORCE_CAMPAIGN
+        noLinkRefs: []
+  name: V_SALESFORCE_CAMPAIGN
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node

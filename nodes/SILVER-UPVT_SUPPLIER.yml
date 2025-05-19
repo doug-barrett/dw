@@ -1,0 +1,86 @@
+fileVersion: 1
+id: 1cfc9404-3afa-4ce3-9fff-c7586d7fea80
+name: UPVT_SUPPLIER
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 880cfebd-b966-4f18-bc58-f032162254ab
+          stepCounter: 1cfc9404-3afa-4ce3-9fff-c7586d7fea80
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: S_SUPPKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3df6d768-8f01-412a-918c-0ff203bb72c7
+                stepCounter: 87df0404-e139-41ed-8e17-6d276b4aada6
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7a0c105-cb46-430f-bb7d-872ad1be0359
+          stepCounter: 1cfc9404-3afa-4ce3-9fff-c7586d7fea80
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        isKey: true
+        name: KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d2831f67-1b6e-4086-95ae-83c012418114
+          stepCounter: 1cfc9404-3afa-4ce3-9fff-c7586d7fea80
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        isValue: true
+        name: VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: SUPPLIER
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'SUPPLIER') }} "SUPPLIER"
+        name: UPVT_SUPPLIER
+        noLinkRefs: []
+  name: UPVT_SUPPLIER
+  overrideSQL: false
+  schema: ""
+  sqlType: "226"
+  type: sql
+  version: 1
+type: Node
