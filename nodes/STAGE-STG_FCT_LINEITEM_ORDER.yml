@@ -81,6 +81,20 @@ operation:
               - columnCounter: 9e36ffa8-2c11-4026-838b-a2784de7cb63
                 stepCounter: 96950e17-c55c-4721-9742-47a102b9eda2
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0953d8da-58ab-425a-83c6-421f18e2cf26
+          stepCounter: f1d37a51-281d-4ca8-a6ef-2bebbbbef2ce
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: DIM_PART_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 13fed0b5-e26b-4634-86d1-b0ee52685967
+                stepCounter: 27f979a8-811f-4728-817d-34c6df5af25c
+            transform: ""
       - appliedColumnTests:
           hasNull: false
           isDistinct: false
@@ -433,6 +447,7 @@ operation:
           BR_LINEITEM_ORDER_CUSTOMER_NATION: 6790a0e1-9547-4203-92fe-475f46368f74
           DIM_CUSTOMER: 72f26043-57fe-4ec4-8d18-e141091579a0
           DIM_ORDERS: 96950e17-c55c-4721-9742-47a102b9eda2
+          DIM_PART: 27f979a8-811f-4728-817d-34c6df5af25c
           SATV0_LINEITEM: 0379c375-e8f3-4bb2-955b-b1ea9afa7e51
         customSQL:
           customSQL: ""
@@ -444,9 +459,11 @@ operation:
           - locationName: DWH
             nodeName: DIM_ORDERS
           - locationName: DWH
+            nodeName: DIM_PART
+          - locationName: DWH
             nodeName: SATV0_LINEITEM
         join:
-          joinCondition: |
+          joinCondition: |-
             FROM {{ ref('DWH', 'BR_LINEITEM_ORDER_CUSTOMER_NATION') }} "BR_LINEITEM_ORDER_CUSTOMER_NATION"
             INNER JOIN {{ ref('DWH', 'SATV0_LINEITEM') }} "SATV0_LINEITEM"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."H_LINEITEM_KEY" = "SATV0_LINEITEM"."H_LINEITEM_KEY"
@@ -454,6 +471,8 @@ operation:
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."C_CUSTKEY" = "DIM_CUSTOMER"."C_CUSTKEY"
             LEFT JOIN {{ ref('DWH', 'DIM_ORDERS') }} "DIM_ORDERS"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."O_ORDERKEY" = "DIM_ORDERS"."O_ORDERKEY"
+            LEFT JOIN {{ ref('DWH', 'DIM_PART') }} "DIM_PART"
+            ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."L_PARTKEY" = "DIM_PART"."P_PARTKEY"
         name: STG_FCT_LINEITEM_ORDER
         noLinkRefs: []
   name: STG_FCT_LINEITEM_ORDER
