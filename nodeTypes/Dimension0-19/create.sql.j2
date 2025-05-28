@@ -1,0 +1,45 @@
+{{ stage('Create Dimension Table') }}
+
+CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+(
+	{% for col in columns %}
+		"{{ col.name }}" {{ col.dataType }}
+		{% if col.isSurrogateKey %}
+			identity
+		{% endif %}
+		{%- if not col.nullable %} NOT NULL
+			{%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+		{% endif %}
+		{%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+		{%- if not loop.last -%}, {% endif %}
+	{% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+
+
+
+{{ stage('Insert Zero Record') }}
+INSERT INTO {{ this }}
+(SELECT 
+{% for col in sources[0].columns %}
+	{% set dtparams = col.dataType.partition('(')[-1].rpartition(')')[0].split(',') %}
+	{% if col.isSurrogateKey %}0
+		{% elif col.isSystemCurrentFlag %}'Y'
+		{% elif col.isSystemStartDate or col.isSystemEndDate or col.isSystemUpdateDate or col.isSystemCreateDate %}{{ get_source_transform(col) }}
+		{% elif col.isSystemVersion%}1
+		{% elif col.dataType[:3] | upper in ('NUM','INT','DEC','FLO') %}0
+		{% elif col.dataType[:4] | upper in ('DATE','TIME') %}CAST('0001-01-01' AS {{ col.dataType }})
+		{% elif col.dataType[:3] | upper in ('VAR','CHA','STR','BIN') %}
+			{% if dtparams[0] and dtparams[0] | int < 7 %}
+				SUBSTRING('UNKNOWN',1,{{ dtparams[0] }})
+			{% else %}
+				'UNKNOWN'
+			{% endif %}
+		{% elif col.nullable %}NULL
+		{% else %}''
+	{% endif %}
+	AS "{{ col.name }}"
+	{% if not loop.last %}, {% endif %}
+{% endfor %}
+)
+

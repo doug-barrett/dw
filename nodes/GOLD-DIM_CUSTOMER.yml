@@ -1,5 +1,5 @@
 fileVersion: 1
-id: b7a9be0a-2753-4791-8b97-520f2e2829cd
+id: 248e3671-5cd8-4654-b523-b3e8853cdc38
 name: DIM_CUSTOMER
 operation:
   config:
@@ -13,29 +13,19 @@ operation:
   locationName: GOLD
   materializationType: table
   metadata:
-    appliedNodeTests:
-      - continueOnFailure: true
-        description: ""
-        name: Test
-        runOrder: After
-        templateString: "{{ test.expect_table_row_count_to_equal_other_table( \"{{this}}\", \"{{ref('BRONZE', 'CUSTOMER')}}\") }} "
+    appliedNodeTests: []
     columns:
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: b26c76f1-94c3-4cd5-a50b-752d63f583de
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: e64c92f4-22b8-478b-a8f9-24ae3673398b
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: |-
-          This column is a system-generated surrogate key for the customer dimension table.
-          - It uniquely identifies each customer record in the data warehouse.
-          - As a primary key, it ensures the uniqueness of each record.
-          - It has no source column, as it is auto-generated during the data loading process.
-          - Serves as a crucial link for joining fact tables with the customer dimension, facilitating analysis of customer behavior and trends in reports and business metrics.
+        description: ""
         isSurrogateKey: true
         name: DIM_CUSTOMER_KEY
         nullable: true
@@ -44,230 +34,128 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: dbeab305-a4ab-4d8c-b285-0d25afc59425
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: fa41626e-f87c-4d07-bb7c-8b2150712a80
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: NUMBER(38,0)
-        description: |-
-          This column represents the customer's key identifier.
-          - It originates from the 'C_CUSTKEY' column in the 'STG_CUSTOMER' stage table.
-          - 'C_CUSTKEY' serves as a natural business key for the customer dimension.
-          - It is used to track customer-related activities and performance metrics.
-          - It plays a crucial role in linking customer data across different systems and enables accurate reporting on customer-specific KPIs.
+        description: ""
         isBusinessKey: true
         name: C_CUSTKEY
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 584934ef-9a3b-4af6-9a7d-1f91c99d7fae
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: 21b5c2cb-3159-4326-94b5-7b837b407909
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 38f7c988-6a37-41aa-a18e-543401e00a3f
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 8ada30c8-c78d-4cac-8bf8-02715d723ca4
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: VARCHAR(25)
-        description: |-
-          This column represents the name of the customer.
-          - It is sourced directly from the 'CUSTOMER_NAME' column of the 'STG_CUSTOMER' stage table.
-          - It used in reports, dashboards, and customer relationship management (CRM) systems.
-          - Essential for identifying customers and personalizing interactions.
-          - It enables business users to easily recognize and analyze data related to specific customers.
-        name: CUSTOMER_NAME_2222
+        description: ""
+        name: C_NAME
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 8fdbb786-d3ae-402e-8f1a-c58f64ad9d03
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: e14834db-3466-4b9e-95c5-8f2e67535d40
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f49e6360-463f-4a8e-873a-85e732a705af
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 1a651cd0-33d3-410e-aa73-5b860ab670a7
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: VARCHAR(40)
-        description: |-
-          This column stores the address of the customer.
-          - It is populated from the 'C_ADDRESS' column in the 'STG_CUSTOMER' stage table.
-          - This address information is used for shipping, billing, and marketing purposes.
-          - It is a key attribute for understanding the geographical distribution of customers.
-          - Used in reports to analyze sales and marketing performance based on customer location.
+        description: ""
         name: C_ADDRESS
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5e4bf745-22b3-41c4-99ce-3208e3da6134
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: 43b696cb-710b-40bd-b13a-1c4ea0fc8a88
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: cbf5678e-d926-4695-8c3e-94aed5feb326
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: a12e1f7c-5296-45cc-8a11-ebbaa1fe094c
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: NUMBER(38,0)
-        description: |-
-          This column represents the nation key associated with the customer.
-          - It comes from the 'C_NATIONKEY' column in the 'STG_CUSTOMER' stage table.
-          - It serves as a foreign key to the nation dimension, allowing for detailed analysis by country.
-          - Used to categorize customers by nationality.
-          - It enables geographic segmentation and analysis of business metrics by nation.
+        description: ""
         name: C_NATIONKEY
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: bf8da73b-7112-4778-b449-c45b552514f3
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: e0de88ec-5fdb-4438-bd57-ea25358b1b33
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 43f29363-eb9d-4c8d-a996-643ac5eac003
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 28f9361a-baf9-4dde-9aa7-a36342c5985f
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: VARCHAR(15)
-        description: |-
-          This column contains the phone number of the customer.
-          - It is derived from the 'C_PHONE' column in the 'STG_CUSTOMER' stage table.
-          - Used for contacting customers and verifying their identity.
-          - It supports customer service and marketing initiatives.
-          - It is crucial for personalized communication and targeted campaigns.
+        description: ""
         name: C_PHONE
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: dbd399db-722d-400e-99a9-97f95338f063
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: 6adc2ddf-dd45-4cf2-9b82-5fd6d9aa9a04
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: e9f2c575-ecb4-4f2c-8b4e-6c94755cd186
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 47dd4e03-b11a-4b90-8004-9069f06d2ece
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: NUMBER(12,2)
-        description: |-
-          This column stores the account balance of the customer.
-          - It is sourced from the 'C_ACCTBAL' column in the 'STG_CUSTOMER' stage table.
-          - Represents the financial standing of the customer.
-          - It is used for credit risk assessment and financial analysis.
-          - Useful in reports and dashboards to monitor customer account values and financial performance.
+        description: ""
         name: C_ACCTBAL
         nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: c5fd2402-3739-4e14-be63-740203bd205a
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: d26593d8-e988-44cb-b129-46082c7e6968
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7703f9a0-81f1-4a02-98fd-674d991259db
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
-        config: {}
-        dataType: STRING
-        description: |-
-          This column categorizes the customer's account balance.
-          - The data is sourced from the 'C_ACCTBAL_CAT' column of the 'STG_CUSTOMER' stage table.
-          - Enables segmentation of customers based on their financial value.
-          - This categorization aids in tailoring services and marketing efforts.
-          - It is used in reports to analyze the distribution of customers across different balance categories.
-        name: C_ACCTBAL_CAT
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b778c0a3-dbb8-4376-9550-7a3903c77aaa
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 75f83209-d3f7-437c-8c22-5cef884f478b
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 9d0376c1-9442-4d29-a09f-c644a86a5636
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: VARCHAR(10)
-        description: |-
-          This column represents the market segment to which the customer belongs.
-          - It is extracted from the 'C_MKTSEGMENT' column in the 'STG_CUSTOMER' stage table.
-          - It allows for analysis of customer behavior and performance within specific market segments.
-          - Aids in targeted marketing campaigns and product development strategies.
-          - Used in reports to compare the performance of different market segments.
+        description: ""
         name: C_MKTSEGMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a5078d5f-6bb2-4927-ba5b-4ddc1f849e79
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: b983c2c3-616c-4c01-bd05-a8496f3ae455
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c4240b05-efa1-48e7-b949-9826259999d1
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 2b12480c-9c29-4b1b-abcc-0676471597f0
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: VARCHAR(117)
-        description: |-
-          This column contains descriptive comments about the customer.
-          - It originates from the 'C_COMMENT' column in the 'STG_CUSTOMER' stage table.
-          - Provides additional context and information about individual customers.
-          - Used for qualitative analysis and understanding customer-specific situations.
-          - It is helpful in customer service and relationship management to address unique needs and concerns.
+        description: ""
         name: C_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 70c0f044-6951-4301-81ae-589bd49172e1
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 54731eb0-26e0-4ca4-87b1-d6cd1e1d1a61
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
-        config: {}
-        dataType: VARCHAR(25)
-        description: |-
-          This column specifies the nation of the customer.
-          - It is sourced from the 'NATION' column in the 'STG_CUSTOMER' stage table.
-          - This provides a geographic context for understanding customer distribution.
-          - Facilitates analysis of customer behavior and market trends by nation.
-          - It allows for targeted marketing campaigns and customized product offerings based on location.
-        name: NATION
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 444a6ecf-51a2-48e1-9e6e-aefb5582d24f
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 58d94d43-d4a4-4154-8415-3f9b8760688b
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
-        config: {}
-        dataType: VARCHAR(25)
-        description: |-
-          This column represents the region where the customer is located.
-          - It is derived from the 'REGION' column in the 'STG_CUSTOMER' stage table.
-          - This regional information is used for geographic segmentation and analysis.
-          - Allows for the development of region-specific marketing strategies.
-          - It enables businesses to understand regional performance variations and tailor their approaches accordingly.
-        name: REGION
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f88330a3-8b60-4400-b7c5-0608b0b25411
-                stepCounter: 40484468-42da-4dbf-a7db-0136fe665042
+              - columnCounter: f93cdd8a-8d78-4160-a4b3-4535d754f494
+                stepCounter: 17d4aa6b-6822-4647-ab57-058703366ba9
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 91bd7819-6276-42ac-b77f-e5e7d71b924f
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: bc2529ca-8762-4bc2-908f-b3e294050bd1
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: |-
-          This column indicates the version number of the record.
-          - It is system-generated and has no source column.
-          - It is used for tracking changes to customer data over time.
-          - It ensures data integrity and facilitates auditing.
-          - It is a technical field primarily for data management and version control purposes.
+        description: ""
         isSystemVersion: true
         name: SYSTEM_VERSION
         nullable: true
@@ -279,17 +167,12 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 6854c1dc-120f-44c2-bc7b-4ab47b58ea72
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: e7cddcff-bb95-4032-80a6-5491484078a3
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: VARCHAR
         defaultValue: ""
-        description: |-
-          This column flags whether the record is the most current version.
-          - System-generated with no source column.
-          - Employed to identify the most up-to-date customer information.
-          - Simplifies querying for current data and reduces complexity in reporting.
-          - It helps to ensure that reports and analyses are based on the latest information.
+        description: ""
         isSystemCurrentFlag: true
         name: SYSTEM_CURRENT_FLAG
         nullable: true
@@ -301,17 +184,12 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 63a9fd5e-56a1-4a8b-8df5-8d2b0b3fd68c
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 0ffc8382-6647-427d-b539-e98ed3e7f128
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: |-
-          This column indicates the timestamp when the record became active.
-          - System-generated using the current timestamp.
-          - Used to track the period during which a customer record is valid.
-          - Supports historical data analysis and time-based reporting.
-          - The transformation applied is: 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+        description: ""
         isSystemStartDate: true
         name: SYSTEM_START_DATE
         nullable: true
@@ -323,17 +201,12 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: d8305444-9dd7-4276-9f9d-b65c94a87d95
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: cd6b97fd-6e5a-4f22-aa18-27cae1329bc0
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: |-
-          This column indicates the timestamp when the record expires or is no longer considered current.
-          - System-generated with a default value of '2999-12-31 00:00:00'.
-          - Used in conjunction with SYSTEM_START_DATE to define the validity period of a record.
-          - Supports temporal data analysis and version control.
-          - The transformation applied is: 'CAST('2999-12-31 00:00:00' AS TIMESTAMP)'.
+        description: ""
         isSystemEndDate: true
         name: SYSTEM_END_DATE
         nullable: true
@@ -345,17 +218,12 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 09616351-406d-478e-a8e2-5aa00cd52e26
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: b970e7e2-0c01-491a-8b74-025fa3da2b08
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: |-
-          This column indicates the timestamp when the record was initially created.
-          - System-generated using the current timestamp.
-          - Useful for tracking the creation date of customer records.
-          - Supports auditing and historical analysis.
-          - The transformation applied is: 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+        description: ""
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
         nullable: true
@@ -367,17 +235,12 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 00253d74-8e0e-4e41-8808-611df558c225
-          stepCounter: b7a9be0a-2753-4791-8b97-520f2e2829cd
+          columnCounter: 47b657fa-bf3e-4b15-96a1-d6b43a004530
+          stepCounter: 248e3671-5cd8-4654-b523-b3e8853cdc38
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: |-
-          This column indicates the timestamp when the record was last updated.
-          - System-generated using the current timestamp.
-          - Used to track when changes were made to customer records.
-          - Supports auditing and identifying recent modifications.
-          - The transformation applied is: 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+        description: ""
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
         nullable: true
