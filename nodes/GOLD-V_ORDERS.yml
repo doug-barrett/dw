@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 103f1722-4149-4ffa-a1b0-370763595cf4
+id: 58b65804-d554-488b-aca6-6ac07d0ce2f3
 name: V_ORDERS
 operation:
   config:
@@ -7,7 +7,7 @@ operation:
     selectDistinct: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Staging table for orders data
   isMultisource: false
   locationName: GOLD
   materializationType: view
@@ -16,291 +16,227 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0fbda88e-48a3-498b-9fb6-c40fafe81e1b
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: f0dd3d3a-90ff-4f6a-b5b4-ff47ad5a9dcd
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: NUMBER
-        description: |-
-          - This column serves as the primary key for the DIM_ORDERS dimension table.
-          - It is sourced from the DIM_ORDERS table, specifically the DIM_ORDERS_KEY column.
-          - As a surrogate key, it uniquely identifies each record in the dimension, which facilitates efficient data retrieval and joining with other tables in the data warehouse.
-          - It supports downstream reporting and analytics by providing a stable and consistent reference to order data.
+        description: ""
         name: DIM_ORDERS_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: eafa29a6-3e68-4bb1-a2e1-d956e8c67086
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: 8fea1f3f-3b3f-4b06-812c-404c640a32a8
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5d244547-25a8-440f-bf5c-19662f83cd5c
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - This column represents the unique identifier for each order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERKEY column.
-          - The O_ORDERKEY serves as a business key, originating from the transactional system, providing a direct link to the source system's order identification.
-          - It is crucial for tracking and analyzing order-specific metrics and is essential for joining with other order-related tables.
-        name: O_ORDERKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ec33d32c-d97c-410f-9562-6293aa57e915
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: aa620f87-cc64-4e15-8b59-a039312ba32b
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - This column represents the customer key associated with each order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_CUSTKEY column.
-          - It links each order to a specific customer, enabling analysis of customer order patterns and behaviors.
-          - This is used in reports and dashboards to understand customer-specific order metrics and trends.
-        name: O_CUSTKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ce0be40f-91e2-4672-8c65-0b8c052ec5a1
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 19faae1e-8115-4740-ad60-8df46da9dbdc
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: VARCHAR(1)
-        description: |-
-          - This column indicates the status of the order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERSTATUS column.
-          - Possible values include 'O' (Open), 'F' (Fulfilled), 'P' (Pending), etc., and it allows for filtering and grouping orders based on their current state.
-          - This is used in reports to monitor order fulfillment rates and identify bottlenecks in the order processing pipeline.
-        name: O_ORDERSTATUS
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3dbfe8f5-8f8c-4db2-a503-bc45d8926b6a
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 93c9aa05-14c0-4949-b0a5-209dec500388
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: NUMBER(12,2)
-        description: |-
-          - This column represents the total price of the order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_TOTALPRICE column.
-          - This is a crucial metric for financial analysis, sales reporting, and profitability calculations.
-          - It is used in reports to track revenue, calculate average order value, and perform other financial analyses.
-        name: O_TOTALPRICE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ad8e6eb0-ea67-4578-bfd4-597034f92566
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 9023ec32-8909-4bf6-b0df-c98920e3b7b4
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: DATE
-        description: |-
-          - This column represents the date when the order was placed.
-          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERDATE column.
-          - It enables time-based analysis of order patterns, such as monthly order volumes and seasonal trends.
-          - This column is essential for time series analysis, trend identification, and forecasting of future order volumes.
-        name: O_ORDERDATE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: fafbe892-01ff-47f2-ba06-0eff6c1d092a
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 8bec060f-9eba-4a42-8353-5d966b863ce6
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: VARCHAR(15)
-        description: |-
-          - This column indicates the priority of the order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_ORDERPRIORITY column.
-          - Values can include '1-URGENT', '2-HIGH', '3-MEDIUM', '4-NOT SPECIFIED', '5-LOW', and allows for prioritizing order fulfillment based on customer needs.
-          - This is used to ensure that high-priority orders are processed promptly, which helps maintain customer satisfaction and meet service level agreements.
-        name: O_ORDERPRIORITY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 0258fb84-d879-40f4-83d8-0f21f89ce0ae
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 2496eefe-9bbb-447d-aa14-5a127112053c
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: VARCHAR(15)
-        description: |-
-          - This column identifies the clerk responsible for processing the order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_CLERK column.
-          - It enables tracking of clerk performance and workload distribution.
-          - This is used in reports to analyze the efficiency of individual clerks and identify training needs.
-        name: O_CLERK
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ca09bf6e-f382-4055-ade7-cac65c70517a
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 407bb8f0-178f-45d6-8589-fb182dde205a
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - This column indicates the shipping priority of the order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_SHIPPRIORITY column.
-          - It is a numerical value, enabling differentiation of shipping urgency.
-          - This information is crucial for logistics and supply chain management, ensuring timely delivery and optimizing shipping costs.
-        name: O_SHIPPRIORITY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: cefc1038-1a74-4f05-a0d7-cb0f0fb9e932
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0b444297-5442-49f9-9a0c-eb0837e4d9d0
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
-        config: {}
-        dataType: VARCHAR(79)
-        description: |-
-          - This column contains additional comments or notes related to the order.
-          - It is sourced from the DIM_ORDERS table, specifically the O_COMMENT column.
-          - This can provide valuable context for understanding specific order requirements or issues.
-          - This is used for customer service and operational analysis, helping to resolve issues and improve customer satisfaction.
-        name: O_COMMENT
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 15df3fe0-579a-41d8-9a7a-78cc656a407d
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: f4a56c1f-8e18-40e8-8869-b452116b36f9
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: dca046de-f0bf-48a6-9d9b-eddf94351817
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: NUMBER
-        description: |-
-          - This column indicates the version number of the record.
-          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_VERSION column.
-          - This column is automatically maintained by the system and tracks changes to the record over time.
-          - It supports auditing and historical analysis by allowing tracking of changes to the data.
+        description: ""
+        name: O_ORDER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dbeb3751-31fa-4321-9816-ec70463b80d3
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bb2d6383-0771-43f8-9358-0447ccb7468e
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: O_CUST_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fc69b95f-4fc8-4637-90b9-3d1c187db156
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: db50f8da-75bb-4445-918d-80d30bafdac4
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: DATE
+        description: ""
+        name: O_ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 24479160-607a-404a-91ec-d5bd4d744e99
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 68044511-b0ec-44c4-9566-d74000554bbb
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: O_ORDERSTATUS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: abc8b897-4e20-452f-be92-47b0921f0c1b
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a7ab304e-49d3-48fb-96f5-0b2a16769436
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: O_CLERK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3e061ed6-806c-485e-881c-c8cc0b6110ac
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 78bb9618-550d-4417-b5a8-8d9eaf068345
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: O_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5e66f31d-725a-478a-99b2-c55d054ebb26
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ae3b56cf-a421-4fea-9e03-d4f56c827d8f
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: O_ORDERPRIORITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9fbadc7a-8dcf-47b7-92f3-b6e10f6ba212
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e3d90f8-54ee-4937-afc9-c464677c0da3
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: O_SHIPPRIORITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5d13ad8-7392-40e0-9573-39a51e573293
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 463ce593-553b-4e6e-8ec9-0123a1aded99
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: O_TOTALPRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3cbe904-8c34-49b0-8bc3-2ee25d08375b
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e97fdea3-690f-45a6-86a4-fa3abe89f2b4
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
+        config: {}
+        dataType: NUMBER
+        description: ""
         name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9b16465b-01be-4c8c-9a8f-820f98b14cfb
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: 0812778e-3fe4-43a2-9c73-e71e577fd40a
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c6e76d5b-8f83-4d99-80a7-b9470e8df01d
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: 8e77d9c1-83b5-43e5-a0a4-df8d37dfae8d
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: VARCHAR
-        description: |-
-          - This column indicates whether the record is the most current version.
-          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_CURRENT_FLAG column.
-          - It is automatically maintained by the system and indicates the current active record.
-          - It is used to easily identify the most up-to-date information for each entity, simplifying queries and reporting.
+        description: ""
         name: SYSTEM_CURRENT_FLAG
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e28184d2-daf7-4dfc-85ca-5463e3f6c78e
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: 904c5814-eac4-4c0a-9b02-5cf2b5589721
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6d626936-1c15-4c26-a625-547c87f4f309
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: 2065dd77-ea0f-40c1-b458-6047cf24d8c6
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: TIMESTAMP
-        description: |-
-          - This column indicates the date and time when the record became active.
-          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_START_DATE column.
-          - It is automatically maintained by the system, marking the beginning of the record's validity period.
-          - This is used for tracking the history of changes and ensuring data accuracy over time.
+        description: ""
         name: SYSTEM_START_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 356b1b3a-2362-4663-8ad9-515ff38303ed
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: 7bec6671-5470-407c-b1f8-269cbef36779
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7ff1e4b4-be33-4d27-9f12-4ca72db47a67
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: 7d654122-5205-4557-8768-424bf1e4f01d
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: TIMESTAMP
-        description: |-
-          - This column indicates the date and time when the record became inactive.
-          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_END_DATE column.
-          - It is automatically maintained by the system, marking the end of the record's validity period.
-          - Together with SYSTEM_START_DATE, it defines the period during which the record was valid, supporting temporal analysis.
+        description: ""
         name: SYSTEM_END_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: acdf5127-6209-407f-937a-ae6f4a301939
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: fb0edc76-933d-49e2-85a4-908e8fd5325b
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 84b6b684-ec7f-467c-907e-912bce7168b3
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: c8fc9178-76ac-47d8-b546-f5ad5d33a177
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: TIMESTAMP
-        description: |-
-          - This column indicates the date and time when the record was created.
-          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_CREATE_DATE column.
-          - It is automatically maintained by the system and provides a timestamp of when the record was initially inserted.
-          - This is used for auditing and tracking the creation of data records.
+        description: ""
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: f462b689-95c5-4e2e-b6e5-83470fcf4995
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: 7d9f6fd3-96ad-42b8-a381-b6fe42077b49
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6a1c70a5-0266-44f5-bacb-772aa2b136a8
-          stepCounter: 103f1722-4149-4ffa-a1b0-370763595cf4
+          columnCounter: 8cacd691-fba1-4a44-9f5a-a53de418db9b
+          stepCounter: 58b65804-d554-488b-aca6-6ac07d0ce2f3
         config: {}
         dataType: TIMESTAMP
-        description: |-
-          - This column indicates the date and time when the record was last updated.
-          - It is sourced from the DIM_ORDERS table, specifically the SYSTEM_UPDATE_DATE column.
-          - It is automatically maintained by the system and tracks the last modification timestamp of the record.
-          - This is used for auditing changes and identifying when data was last modified.
+        description: ""
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 0677948a-80f4-40f5-aa4a-b5595cc10894
-                stepCounter: edb3232f-5fdf-4640-8bce-5e55a97d7a35
+              - columnCounter: 09934fb8-81c7-45b9-930c-71de82daa233
+                stepCounter: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []

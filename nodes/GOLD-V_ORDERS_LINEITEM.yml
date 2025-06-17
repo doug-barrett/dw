@@ -1,5 +1,5 @@
 fileVersion: 1
-id: b693d8e7-86d0-416a-b80f-2c269376af3d
+id: 073684d0-d142-44ac-be57-e48a9305a128
 name: V_ORDERS_LINEITEM
 operation:
   config:
@@ -7,7 +7,7 @@ operation:
     selectDistinct: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Staging table for lineitem data
   isMultisource: false
   locationName: GOLD
   materializationType: view
@@ -16,548 +16,331 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c1ad92e3-6f02-48ef-9781-615c3f0ee612
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - Originates from the 'O_ORDERKEY' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the unique identifier for an order, serving as a primary key in the orders table.
-          - Used for joining with other tables like customer and line item details to analyze order-specific metrics.
-          - Plays a crucial role in various reports and business metrics, such as order frequency, average order value, and customer order history.
-        name: O_ORDERKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 6b2d146a-0e89-42f4-aa32-7d67b448d03e
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 025470b3-a662-406d-a7c7-ef71b69b4f92
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - Derived from the 'L_LINENUMBER' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Denotes the line item number within a specific order, indicating the sequence of items.
-          - Functions as a business key in conjunction with the order key, critical for analyzing individual items within orders.
-          - Essential for generating reports on order composition, product performance, and sales analysis at the line item level.
-        name: L_LINENUMBER
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3b2748b2-0f22-4dcb-ab33-7a1989307b4b
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 8447dc4b-e416-41a0-b4ff-332df458fd9f
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 95934e82-8490-4cac-be19-644bc1b9a8b0
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
         dataType: NUMBER
-        description: |-
-          - Originates from the 'DIM_CUSTOMER_KEY' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the foreign key linking to the customer dimension table, providing customer-specific details.
-          - It is nullable.
-          - Used to analyze customer behavior, segment customers based on order patterns, and track customer lifetime value.
+        description: ""
+        name: L_ORDER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c8d735b6-fcfb-4277-a596-5446fdfb8a53
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c02de19-2584-498e-90b4-c9918085ef58
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: NUMBER
+        description: ""
         name: DIM_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 113fed8d-f54b-464c-ab06-e04ee26de175
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 6cdc587c-ec5d-4dfa-aaca-519d16efdab7
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0e3992f5-cb9a-4209-a233-b37616af2456
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 0a2885a0-4ba0-48a9-8a4f-13756ea575f5
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
         dataType: NUMBER
-        description: |-
-          - Directly sourced from the 'DIM_ORDERS_KEY' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Acts as a foreign key, linking to the orders dimension table, and offering detailed order information.
-          - It is nullable.
-          - Essential for in-depth order analysis, trend identification, and performance evaluation, facilitating comprehensive reporting and strategic decision-making.
-        name: DIM_ORDERS_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: bd59777a-6628-4c6c-99dd-cc0739b687c6
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 93fde5cc-6011-4895-b231-64f20d4ffed6
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER
-        description: |-
-          - Sourced directly from the 'DIM_PART_KEY' column within the 'FCT_ORDERS_LINEITEM' table.
-          - Functions as a foreign key that connects to the part dimension table, providing detailed part information.
-          - It is nullable.
-          - Pivotal for conducting part-level analysis, tracking sales performance, and managing inventory effectively, supporting key business decisions.
+        description: ""
         name: DIM_PART_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 25d875d0-3f5d-4551-bc5c-c70c2d30f740
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 83801031-d084-4cd6-b466-6f03df0fdeb7
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ff55af8b-9b48-4234-9019-d4777b2519f3
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 25af87e6-a007-4068-a838-373068fb1c8d
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: DIM_ORDERS_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d189b736-9c57-44f6-83f1-f627a3914ee9
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb39c99a-fb7c-46b9-be4d-d16dc4d244f5
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: L_LINENUMBER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d9670be9-85cc-435d-b922-03e4ed707db9
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 289cea6e-d851-4ad8-99ed-ff8aa3d95c29
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
         dataType: NUMBER(38,0)
-        description: |-
-          - Directly derived from the 'O_CUSTKEY' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the customer's unique identifier, essential for linking orders to specific customers.
-          - Facilitates customer-centric analysis, enabling insights into purchasing patterns, segmentation, and targeted marketing strategies.
-          - Supports the calculation of customer lifetime value and other key performance indicators related to customer engagement.
-        name: O_CUSTKEY
-        nullable: false
+        description: ""
+        name: O_CUST_ID
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 9277022e-85bc-4da1-bbfd-a5e1ccf94a79
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: b001cbbf-9573-464e-bfdd-4958d16c4dd9
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 088ef834-d97e-4428-bd36-4a01f96e5428
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: VARCHAR(1)
-        description: |-
-          - The value is sourced from the 'O_ORDERSTATUS' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Indicates the current status of an order (e.g., 'Pending', 'Shipped', 'Complete').
-          - Enables real-time monitoring of order fulfillment, facilitating proactive management of order exceptions and ensuring customer satisfaction.
-          - Key for performance tracking and operational efficiency improvements.
-        name: O_ORDERSTATUS
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 264d8701-0ef7-4473-ab58-43015520cd55
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4ddb2366-b763-49ce-abb4-510aaf6186fc
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(12,2)
-        description: |-
-          - Directly sourced from the 'O_TOTALPRICE' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the total monetary value of an order, inclusive of all items and applicable charges.
-          - Vital for revenue analysis, profitability assessment, and financial reporting, providing insights into sales performance and financial health.
-          - Supports pricing strategy optimization and revenue forecasting.
-        name: O_TOTALPRICE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 211820dd-4066-4f32-95d5-188829f379ab
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 6c352d03-8ec8-4336-818e-88ffbeb07bc0
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 732822b7-2c05-4de2-9ae1-75afbfa745e5
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
         dataType: DATE
-        description: |-
-          - The value is sourced from the 'O_ORDERDATE' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the date when the order was placed.
-          - Enables trend analysis, seasonality identification, and performance tracking over time, supporting informed decision-making.
-          - Pivotal for sales forecasting, inventory management, and resource planning, aligning business operations with demand patterns.
+        description: ""
         name: O_ORDERDATE
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: ff48bef6-ba0e-4964-9ba6-55f905ced4bb
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 7694b3ec-201e-4dd2-bc67-18bd8530ba5b
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 64c68b06-9ed3-40ea-b8ff-6b8bc293dd5b
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 40796a7c-ea1c-489d-9080-aa7cd494bf0e
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
-        dataType: VARCHAR(15)
-        description: |-
-          - Value is sourced from the 'O_ORDERPRIORITY' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Indicates the priority level assigned to an order (e.g., 'High', 'Medium', 'Low').
-          - Facilitates prioritization of order fulfillment efforts, ensuring timely delivery for critical orders and enhancing customer satisfaction.
-          - Supports resource allocation optimization and service level management.
-        name: O_ORDERPRIORITY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e2f060c4-da15-4b06-ab73-6ce4d60c6d00
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4755e853-a266-4935-ac5a-02cc3ee39db1
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: VARCHAR(15)
-        description: |-
-          - Directly sourced from the 'O_CLERK' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the name or identifier of the clerk responsible for processing the order.
-          - Useful for performance evaluation, workload distribution analysis, and accountability tracking within the sales and customer service teams.
-          - Supports process improvement initiatives and employee training programs.
-        name: O_CLERK
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 6dbcadc4-981d-4427-9eef-00037533f1eb
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: d28e41b0-ef00-40e1-a878-c35c147b21c5
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - The value is sourced from the 'O_SHIPPRIORITY' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Indicates the shipping priority assigned to an order, influencing the delivery timeline and logistics planning.
-          - Facilitates efficient allocation of shipping resources, ensuring timely delivery and minimizing transportation costs.
-          - Supports customer service management and supply chain optimization.
-        name: O_SHIPPRIORITY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 4f7b081e-fb58-4c08-82ec-db9fe257aff3
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0aa7e0ba-2c1c-4174-9dc4-aad954c14866
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: VARCHAR(79)
-        description: |-
-          - Directly sourced from the 'O_COMMENT' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Contains descriptive information or notes related to the order, providing context and additional details.
-          - Offers valuable insights for order analysis, customer service inquiries, and issue resolution, improving communication and understanding.
-          - Supports process refinement and customer experience enhancement.
-        name: O_COMMENT
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 73442d12-c096-4550-987c-b4d1f7ff249c
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0a97f5ed-3fad-44ae-9f26-f09deb4659c5
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - The value is sourced from the 'L_ORDERKEY' column of the 'FCT_ORDERS_LINEITEM' table.
-          - References the unique identifier of the order to which the line item belongs, linking line items to specific orders.
-          - Critical for analyzing order composition, tracking order fulfillment, and calculating order-level metrics, providing a holistic view of sales activities.
-          - Supports cross-functional analysis and process optimization.
-        name: L_ORDERKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ec2e04d8-5115-43b9-b882-ae1e055c72f2
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 213c934b-e706-4dd0-ba7e-d66ebb86671f
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - Value is sourced from the 'L_PARTKEY' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the unique identifier of the part or product included in the line item, linking line items to specific products.
-          - Vital for product performance analysis, inventory management, and sales forecasting, providing insights into product demand and trends.
-          - Supports strategic decision-making related to product development and portfolio management.
-        name: L_PARTKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b4a78522-3d8c-43f1-8be2-72298f1178c7
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 3d52720d-2bf6-4bb6-9eca-f00f1e9cfc7a
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(38,0)
-        description: |-
-          - Directly sourced from the 'L_SUPPKEY' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the unique identifier of the supplier providing the part or product in the line item, connecting line items to suppliers.
-          - Enables supplier performance evaluation, procurement optimization, and supply chain risk management, ensuring reliable sourcing and competitive pricing.
-          - Supports strategic partnerships and supplier relationship management.
-        name: L_SUPPKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: ec1df616-fefd-43dc-950a-4bbfef4630a1
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 042f8f8c-1116-4a86-bbd2-1d22cb9696a0
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(12,2)
-        description: |-
-          - Directly sourced from the 'L_QUANTITY' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the number of units of the part or product ordered in the line item, quantifying the demand for each item.
-          - Crucial for inventory planning, production scheduling, and demand forecasting, aligning supply with customer needs.
-          - Supports sales performance analysis and revenue projection.
-        name: L_QUANTITY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 70b88f25-7c6a-4e2f-bd6c-3511532013c5
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 82738f80-17cf-4752-b805-91c586c7ed66
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(12,2)
-        description: |-
-          - Directly sourced from the 'L_EXTENDEDPRICE' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the total price of the line item, calculated as the unit price multiplied by the quantity ordered, reflecting the revenue generated by each item.
-          - Vital for revenue analysis, profitability assessment, and pricing strategy optimization, providing insights into product performance and market dynamics.
-          - Supports financial reporting and budget planning.
-        name: L_EXTENDEDPRICE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b695318b-0821-4850-945f-7902d0e0d452
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: ab7145af-a8ec-44b9-9637-80084e3b4fe7
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: NUMBER(12,2)
-        description: |-
-          - The value is sourced from the 'L_DISCOUNT' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the discount applied to the line item, reducing the price paid by the customer.
-          - Enables margin analysis, promotion effectiveness evaluation, and pricing strategy refinement, optimizing profitability and sales volume.
-          - Supports customer loyalty programs and targeted marketing campaigns.
+        dataType: NUMBER
+        description: ""
         name: L_DISCOUNT
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: dd27ebf6-7ccf-4e56-9b93-955bd53959f2
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: c42204b0-f5dc-4276-a859-e9221383c192
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4f13626f-46ea-413d-863a-1cd45a8730c0
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 6034f6ee-abff-43bc-a601-4f0874012572
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
-        dataType: NUMBER(12,2)
-        description: |-
-          - Directly sourced from the 'L_TAX' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the tax amount applied to the line item, contributing to the total cost borne by the customer.
-          - Essential for financial compliance, tax reporting, and pricing strategy optimization, ensuring adherence to legal and regulatory requirements.
-          - Supports accurate calculation of total order value and revenue distribution.
-        name: L_TAX
-        nullable: false
+        dataType: NUMBER
+        description: ""
+        name: L_EXTENDEDPRICE
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: ee6ad66d-e705-49eb-8877-c6c3129e2a73
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 8cd2c53a-2d4d-49e1-a1d6-77838db6f4f4
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 94ee667d-51d1-4129-b95e-bab00a355135
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 1fe3fa43-d1aa-4cd0-8145-a82446ae0d2c
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
-        dataType: VARCHAR(1)
-        description: |-
-          - The value is sourced from the 'L_RETURNFLAG' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Indicates whether the line item was returned by the customer, providing insights into product quality and customer satisfaction.
-          - Enables return analysis, quality control, and customer service improvements, reducing return rates and enhancing brand reputation.
-          - Supports warranty management and product lifecycle assessment.
-        name: L_RETURNFLAG
-        nullable: false
+        dataType: NUMBER
+        description: ""
+        name: L_QUANTITY
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1ad97a6d-2e25-4bfa-ac87-f598f6d6c956
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 1d21cdf4-0315-4fbe-852c-aaf374ac84b6
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2073382f-c55f-405f-b6fd-52194a923902
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: e5c80989-b4a6-4b25-a49d-566079fba16c
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
-        dataType: VARCHAR(1)
-        description: |-
-          - The value is sourced from the 'L_LINESTATUS' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Indicates the current status of the line item (e.g., 'Shipped', 'Delivered', 'Cancelled'), providing visibility into order fulfillment progress.
-          - Enables real-time monitoring of order status, facilitating proactive management of order exceptions and ensuring customer satisfaction.
-          - Supports performance tracking and operational efficiency improvements.
-        name: L_LINESTATUS
-        nullable: false
+        dataType: NUMBER
+        description: ""
+        name: L_SUPP_ID
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: ab7cf674-c8fd-4c26-9dcd-2c4f2806fe93
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 92c3cff7-a013-400f-962e-591a8ac1447e
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6836d093-7f7d-4479-9dc4-a7bcb2466c49
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 62bc3165-feb4-4c39-8430-a7d812b2a3e8
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
-        dataType: DATE
-        description: |-
-          - Directly sourced from the 'L_SHIPDATE' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the date when the line item was shipped to the customer, reflecting the delivery performance and order fulfillment efficiency.
-          - Enables on-time delivery analysis, logistics optimization, and supply chain performance management, ensuring timely product delivery and customer satisfaction.
-          - Supports customer communication and delivery schedule management.
-        name: L_SHIPDATE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3165c38f-5aa9-4f29-9331-599e4bde68cb
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: ce92839b-46aa-4856-bd83-805cd0dfb03f
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: DATE
-        description: |-
-          - Directly sourced from the 'L_COMMITDATE' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the date when the line item was committed to be shipped, indicating the agreed-upon delivery timeline.
-          - Enables delivery performance tracking, order management, and customer communication, ensuring adherence to delivery commitments and enhancing customer satisfaction.
-          - Supports proactive issue resolution and exception handling.
-        name: L_COMMITDATE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 2d98f957-7327-47ee-add1-488c5b1abe6b
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: f3d24f28-980c-4fd1-8bb1-c9b1fb38719c
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: DATE
-        description: |-
-          - Directly sourced from the 'L_RECEIPTDATE' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Represents the date when the line item was received by the customer, confirming successful delivery and order completion.
-          - Enables delivery confirmation, customer satisfaction assessment, and supply chain performance evaluation, ensuring timely and accurate order fulfillment.
-          - Supports proactive issue resolution and exception handling.
-        name: L_RECEIPTDATE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: d39de57c-efcc-4bb6-9514-cc80e8b95001
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: fad8d54e-5820-4b48-8a3b-d71dc9b84174
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: VARCHAR(25)
-        description: |-
-          - The value is sourced from the 'L_SHIPINSTRUCT' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Provides specific instructions or guidelines for shipping the line item, ensuring proper handling and delivery.
-          - Facilitates efficient logistics management, reduces shipping errors, and enhances customer satisfaction by meeting specific delivery requirements.
-          - Supports customized shipping solutions and specialized handling procedures.
-        name: L_SHIPINSTRUCT
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 313fb81f-4d43-477d-a982-38a81a2cac8d
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: c3fc5692-b9c4-45d1-87b8-03644e0e628f
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: VARCHAR(10)
-        description: |-
-          - The value is sourced from the 'L_SHIPMODE' column of the 'FCT_ORDERS_LINEITEM' table.
-          - Indicates the mode of transportation used to ship the line item (e.g., 'Air', 'Sea', 'Truck'), impacting delivery speed and cost.
-          - Enables transportation cost optimization, delivery time management, and logistics planning, ensuring efficient and cost-effective shipping solutions.
-          - Supports carrier selection and performance evaluation.
-        name: L_SHIPMODE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: abcfae92-40d0-45c6-a2dc-f07b4af96562
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: b5c98cc5-34ce-4e3d-ace3-d572913d5206
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
-        config: {}
-        dataType: VARCHAR(44)
-        description: |-
-          - Directly sourced from the 'L_COMMENT' column in the 'FCT_ORDERS_LINEITEM' table.
-          - Contains descriptive information or notes related to the line item, providing context and additional details.
-          - Offers valuable insights for order analysis, customer service inquiries, and issue resolution, improving communication and understanding.
-          - Supports process refinement and customer experience enhancement.
+        dataType: VARCHAR
+        description: ""
         name: L_COMMENT
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: dcf8f1ec-550d-4fe9-bf78-72a992013fe5
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 2cc9f52c-2bc1-4a82-b1cd-443a92214d07
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c4b7d42d-d7d7-44d7-a747-74108961bf8b
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: 9738b7a2-7530-47c0-af85-dbe12ec62074
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: DATE
+        description: ""
+        name: L_COMMITDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6cd18703-4f5f-41b5-b935-7075006be954
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d9fe5b51-b849-43d4-acd1-af7864aaa7e9
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: L_LINESTATUS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c9fd2595-9f1a-4368-a179-36003bc9daea
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8c20f57a-9ff5-4749-bbc9-3c0c53576d13
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: L_PART_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a32f0eff-26cf-4523-bfa2-b9df78d3371c
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b2ef191a-8614-4c56-b443-1e747933d3cc
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: DATE
+        description: ""
+        name: L_RECEIPTDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 426bf1a8-18c9-4faf-8d30-0eb9ba07bef5
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a384c30-1a1a-4eea-bed1-24358cb0781a
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: L_RETURNFLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9031cdd8-9806-43bb-8f84-2939cf9e9764
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a6c18c5f-e804-4499-be4b-4f3b8fcf250b
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: DATE
+        description: ""
+        name: L_SHIPDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bb0eaba4-3292-44c9-bc40-53e7610bbf10
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 93429d9d-03ab-42b0-abe6-93104c9b3edc
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: L_SHIPINSTRUCT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 871903ee-6572-40ff-aace-c7172501d204
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 048dd0bb-aefb-4aad-848f-ad8aec23779e
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: L_SHIPMODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c1e9cb56-e6c4-4843-a3b7-e698d392dae4
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 111f6ebc-7fdb-4a96-9a0c-4c60e9b78603
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: L_TAX
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 651a8845-68d5-467e-bb10-f0e36d39fd8d
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 81db9cd9-8e7c-4f11-be05-50fcaa06d0b9
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
         dataType: TIMESTAMP
-        description: |-
-          - Originates from the 'SYSTEM_CREATE_DATE' column in the source table 'FCT_ORDERS_LINEITEM'.
-          - This column is automatically generated by the system.
-          - Records the timestamp when a new record is created, facilitating data auditing and tracking.
-          - Useful for identifying data insertion patterns, monitoring system activity, and ensuring data integrity.
+        description: ""
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 67753a9e-0edc-4d87-8644-6246a8ffd654
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: 00b993b1-3af6-472b-818f-c32162b3b709
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: db652ba6-2a41-4b8f-bc36-112114325b9f
-          stepCounter: b693d8e7-86d0-416a-b80f-2c269376af3d
+          columnCounter: c5f0b963-90c9-4252-b3ea-63d0c3ef752e
+          stepCounter: 073684d0-d142-44ac-be57-e48a9305a128
         config: {}
         dataType: TIMESTAMP
-        description: |-
-          - Originates from the 'SYSTEM_UPDATE_DATE' column in the source table 'FCT_ORDERS_LINEITEM'.
-          - This column is automatically generated by the system.
-          - Records the timestamp when a record is last updated, facilitating data auditing and change tracking.
-          - Useful for identifying data modification patterns, monitoring system activity, and ensuring data integrity.
+        description: ""
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 3693fcdb-d595-4892-b72e-941195e7d613
-                stepCounter: 2de17e10-f555-4d28-9077-e4329cba3123
+              - columnCounter: f873191f-19d3-4568-9411-8b00e073addc
+                stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          FCT_ORDERS_LINEITEM: bc647ec9-0618-4da8-8aaf-455ad9523b6c
         customSQL:
           customSQL: ""
         dependencies:

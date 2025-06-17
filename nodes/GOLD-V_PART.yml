@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 1615ac06-c05e-4d85-8109-09caea383e11
+id: d97d1c29-f1de-4286-bafd-a7f21cbafc15
 name: V_PART
 operation:
   config:
@@ -7,7 +7,7 @@ operation:
     selectDistinct: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Dimension table for part data
   isMultisource: false
   locationName: GOLD
   materializationType: view
@@ -16,274 +16,227 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5cd1736a-b401-4549-8e9a-7655fedc0ff9
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: fdbb82f4-cac4-410d-a8a2-5e49dcc44204
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: NUMBER
-        description: |
-          - This is a surrogate key for the DIM_PART dimension table.
-          - It is sourced from the DIM_PART_KEY column in the DIM_PART table.
-          - It is a unique identifier for each record in the DIM_PART dimension.
-          - This key is used to join with fact tables for analysis and reporting, specifically on part-related metrics.
-          - Serves as the primary key for the dimension, ensuring uniqueness and efficient data retrieval.
+        description: ""
         name: DIM_PART_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: c085d68e-456f-44e6-860b-0a81d6e60940
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 51170093-29fa-4f78-aa4b-7ae94d34302e
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 1ba3de63-5dd0-401b-9c30-9f498018c193
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 00da0e91-e1ea-446e-ad94-8a81088df180
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
-        dataType: NUMBER(38,0)
-        description: |
-          - This column represents the part key from the source table DIM_PART.
-          - It is sourced from the P_PARTKEY column in the DIM_PART table.
-          - It acts as a business key, uniquely identifying each part.
-          - It can be used in reports and dashboards to analyze metrics related to specific parts.
-        name: P_PARTKEY
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 424d5df1-e9ed-4f3e-84a2-866120707c7f
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: a024b315-a5b2-43ac-936f-7ad93ccd12ed
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
-        config: {}
-        dataType: VARCHAR(55)
-        description: |
-          - This column represents the name of the part.
-          - It is sourced from the P_NAME column in the DIM_PART table.
-          - It provides a descriptive name for each part, aiding in identification and categorization.
-          - This attribute is used in reports and analyses to filter and group data based on part names.
-        name: P_NAME
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 96dcc6b4-cab1-471e-9962-5cd4892284b4
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7c124a1b-cde3-4587-80dd-c4459228b599
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
-        config: {}
-        dataType: VARCHAR(25)
-        description: |
-          - This column represents the manufacturer of the part.
-          - It is sourced from the P_MFGR column in the DIM_PART table.
-          - It identifies the company that produces the part.
-          - This attribute can be used to analyze sales and performance by manufacturer, providing insights into market share and supplier effectiveness.
-        name: P_MFGR
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b2b08f35-bc69-4121-8b88-d407a1fc2fb5
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 5166804c-423b-423e-9cf7-3a0887fdea8c
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
-        config: {}
-        dataType: VARCHAR(10)
-        description: |
-          - This column represents the brand of the part.
-          - It is sourced from the P_BRAND column in the DIM_PART table.
-          - It indicates the brand name under which the part is sold.
-          - This attribute can be used to analyze sales and performance by brand, useful for marketing and brand management.
+        dataType: VARCHAR
+        description: ""
         name: P_BRAND
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: efd1d789-0f20-4633-8a70-af5c49ea67d3
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 1908c532-84f5-4794-bc48-fe1dc8c4aef9
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a6c04d0b-d785-4afb-ba70-7c222564b23a
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: d303c237-ae32-4c7c-8798-2bcf0bb6ac15
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
-        dataType: VARCHAR(25)
-        description: |
-          - This column represents the type of the part.
-          - It is sourced from the P_TYPE column in the DIM_PART table.
-          - It categorizes the part based on its type or function.
-          - This attribute is used in reports and analyses to filter and group data based on part types, supporting product portfolio analysis.
-        name: P_TYPE
-        nullable: false
+        dataType: VARCHAR
+        description: ""
+        name: P_COMMENT
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: f3191bf9-a6b2-49d8-9fcb-0e11dfd18f0a
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: d600db89-ad82-44a5-9b1d-30eb053b2fcf
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a946683d-89a7-4072-a098-1c71093e0283
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 846f566b-3569-4421-998b-2419d9e539b3
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
-        dataType: NUMBER(38,0)
-        description: |
-          - This column represents the size of the part.
-          - It is sourced from the P_SIZE column in the DIM_PART table.
-          - It indicates the size or dimension of the part.
-          - This attribute is used in reports and analyses to filter and group data based on part sizes, which is useful for inventory management and logistics.
-        name: P_SIZE
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 6448bb11-ec00-4573-871f-3b37c85d29d1
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4cbccbe3-4328-4bbb-8e5a-3f2e1615d026
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
-        config: {}
-        dataType: VARCHAR(10)
-        description: |
-          - This column represents the container type used for the part.
-          - It is sourced from the P_CONTAINER column in the DIM_PART table.
-          - It specifies the type of container in which the part is stored or shipped.
-          - This attribute can be used to optimize packaging and shipping strategies, potentially reducing costs and improving efficiency.
+        dataType: VARCHAR
+        description: ""
         name: P_CONTAINER
-        nullable: false
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 0f84d900-5034-41d3-9fd9-20de7b01b245
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 51d2d429-b34c-47e0-ae37-05c32b76728a
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 064a0eee-efba-4ec7-8a19-bfc0675e0db1
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: cb59bdd4-1b45-4654-9c8f-9a9d6eea5fd5
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
-        dataType: NUMBER(12,2)
-        description: |
-          - This column represents the retail price of the part.
-          - It is sourced from the P_RETAILPRICE column in the DIM_PART table.
-          - It indicates the price at which the part is sold to customers.
-          - This attribute is crucial for revenue analysis, profitability calculations, and pricing strategy development.
-        name: P_RETAILPRICE
-        nullable: false
+        dataType: VARCHAR
+        description: ""
+        name: P_MFGR
+        nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4504505f-bd4a-4863-82ac-c974fdf5c926
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 5da744dd-acbe-493f-9611-4e31302a83f9
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: c0a39be7-16fa-4367-820b-3190b632d3f6
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 514bb119-6ef4-44ab-9191-1f44779b2c2a
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: P_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 479a862f-1666-4cc1-b6cc-4b03c8ff06c2
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4e664ff-ba91-4d7e-a6ff-bd16eed8d9de
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: NUMBER
-        description: |
-          - This column indicates the version number of the record in the DIM_PART dimension table.
-          - It is sourced from the SYSTEM_VERSION column in the DIM_PART table.
-          - The column is automatically maintained by the system.
-          - It helps track changes to the dimension over time, supporting auditing and historical analysis.
+        description: ""
+        name: P_PART_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6e080e15-a781-4eeb-b2e9-2353ba2c5c48
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 40800961-77fe-41e9-94b8-5ae9598a6332
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: P_RETAILPRICE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ecab6574-3680-438d-9ccd-d64b63573c07
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 75521ee5-943f-4e6f-8f60-745192c05493
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: P_SIZE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7486a360-c85a-4569-9fea-4f9ef93d6400
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c137e14b-e0c1-4086-8900-e928cc917711
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: P_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 506a297e-0f67-41b3-a8e7-6d367c3d5c65
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d295605b-14cd-40b7-981e-9df05fb225c9
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
+        config: {}
+        dataType: NUMBER
+        description: ""
         name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a919644c-b7b8-4ee8-9e09-fef539b01589
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 460dba3f-345b-433a-8a1a-6683e73b03ac
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 19957539-41ca-410c-bb29-15ab9bb851c3
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 1a2758ea-74b8-48bf-b0f8-10fc3db85e87
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: VARCHAR
-        description: |
-          - This column indicates whether the record is the most current version in the DIM_PART dimension table.
-          - It is sourced from the SYSTEM_CURRENT_FLAG column in the DIM_PART table.
-          - The column is automatically maintained by the system.
-          - It simplifies querying for the most up-to-date information, improving report accuracy and efficiency.
+        description: ""
         name: SYSTEM_CURRENT_FLAG
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b8e1ec7f-9fe9-45f2-848f-cd3dc9ee3167
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 72a514c3-9f80-46d4-94e7-5548889b250d
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 6cf9d09c-a582-4be6-95c8-b84b76ed581c
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 69565e98-08c7-4e0a-b833-bc707c1f8ea7
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: TIMESTAMP
-        description: |
-          - This column indicates the date and time when the record became active in the DIM_PART dimension table.
-          - It is sourced from the SYSTEM_START_DATE column in the DIM_PART table.
-          - The column is automatically maintained by the system.
-          - It helps track the effective dates of dimension attributes, enabling time-based analysis and reporting.
+        description: ""
         name: SYSTEM_START_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5786dcd0-89ce-471f-8a98-2aec11c3bf7c
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 603af3a0-6e84-46c8-b14a-a8b585e4dd59
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 594e436a-faf0-4080-a124-51956afa0870
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 5c26bf0d-77d1-497a-9778-a3ffda271597
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: TIMESTAMP
-        description: |
-          - This column indicates the date and time when the record expired or became inactive in the DIM_PART dimension table.
-          - It is sourced from the SYSTEM_END_DATE column in the DIM_PART table.
-          - The column is automatically maintained by the system.
-          - Together with the start date, it defines the period for which the record was valid, supporting historical data analysis.
+        description: ""
         name: SYSTEM_END_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 49ba146c-f1e0-4a45-b24c-585249d819dd
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: dd2b0be7-b8d3-4a6f-9ed0-f016739cff43
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d649ba92-d619-4fcc-a223-3eff76db9d89
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: 53f0817b-4d6e-4131-abad-b53d0cf01c27
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: TIMESTAMP
-        description: |
-          - This column indicates the date and time when the record was created in the DIM_PART dimension table.
-          - It is sourced from the SYSTEM_CREATE_DATE column in the DIM_PART table.
-          - The column is automatically maintained by the system.
-          - It provides a timestamp of record creation, useful for auditing and data lineage tracking.
+        description: ""
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: bfdd00f9-2bdb-4339-9ba0-0db3c7313581
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: ad7d2fce-ce2d-4c57-a60d-46fb21c9bd07
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f2ea096a-b850-457d-8637-9fdbb6308458
-          stepCounter: 1615ac06-c05e-4d85-8109-09caea383e11
+          columnCounter: b6a598ca-bc9c-4f58-b840-d6793f822ac8
+          stepCounter: d97d1c29-f1de-4286-bafd-a7f21cbafc15
         config: {}
         dataType: TIMESTAMP
-        description: |
-          - This column indicates the date and time when the record was last updated in the DIM_PART dimension table.
-          - It is sourced from the SYSTEM_UPDATE_DATE column in the DIM_PART table.
-          - The column is automatically maintained by the system.
-          - It helps track when changes were made to the record, supporting auditing and data quality monitoring.
+        description: ""
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5398ca61-00fa-48c5-94e3-6829562513fa
-                stepCounter: 48ba5a8d-ac84-49d4-abd9-c79c4abbdb5a
+              - columnCounter: 57ca718d-1354-4f4b-b5c4-e99b426e1ba4
+                stepCounter: d190b733-41a6-4531-8795-c02eefe9165d
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
