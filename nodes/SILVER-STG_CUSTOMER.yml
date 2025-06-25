@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 4d118ebd-6376-499c-8e5d-c39934fae97d
+id: e5eb2ccd-6541-4b12-abd7-5d445096c027
 name: STG_CUSTOMER
 operation:
   config:
@@ -10,196 +10,215 @@ operation:
     truncateBefore: true
   database: ""
   deployEnabled: true
-  description: Staging table for customer data
+  description: ""
   isMultisource: false
   locationName: SILVER
   materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: true
         columnReference:
-          columnCounter: 8a290423-a38a-4dc0-a051-e257e1bc7dc0
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
+          columnCounter: 07095bad-c4ca-484e-819c-1c67f2c4a474
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
         config: {}
-        dataType: NUMBER
-        description: ""
+        dataType: NUMBER(38,0)
+        description: |-
+          - This column represents the unique identifier for each customer.
+          - It originates from the 'C_CUST_ID' column in the 'CUSTOMER' table within the Bronze layer.
+          - Serves as a primary key within the customer dimension, crucial for linking customer information across various business processes and reports.
+          - Useful for analyzing customer behavior, segmenting markets, and tracking key performance indicators (KPIs) related to customer acquisition and retention.
         name: C_CUST_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: cff8d32f-7617-4b56-8080-60927c341461
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
+              - columnCounter: 455f71f6-1ad3-44c3-b7c7-4ba77a1b1032
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: 0e779c59-f353-4eae-9e22-36afba2b8497
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
+          columnCounter: d85a4403-c99e-48b7-9810-430c8d869686
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
         config: {}
-        dataType: VARCHAR
-        description: ""
-        name: C_NAME
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: a3d1c8de-8af2-4f55-bed4-92f7a7e20023
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: d7e80d99-d5fb-48ed-b1c9-13b0d9e9f226
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: VARCHAR
-        description: ""
-        name: C_ADDRESS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: e69c6a8f-ea7e-4491-bde2-b8dedebe2ff6
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: adf07d9c-a0b4-4daa-9782-d79a47b080d5
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: VARCHAR
-        description: ""
-        name: C_PHONE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3f036714-3f95-4efe-811d-557d65fc5425
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: d2342775-099a-45e1-aa1d-92bfd9f782e8
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: VARCHAR
-        description: ""
-        name: C_MKTSEGMENT
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: d1b7ee9a-74ed-4886-a449-bc05d521cbb9
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: c1f87510-ae98-49a4-bb02-f45d99967776
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: NUMBER
-        description: ""
+        dataType: NUMBER(38,0)
+        description: |-
+          - This column represents the nation identifier associated with the customer.
+          - It is sourced directly from the 'C_NATION_ID' column of the 'CUSTOMER' table in the Bronze layer.
+          - It links to the nation dimension, which allows for geographical analysis of customer data.
+          - Important for understanding regional customer trends, tailoring marketing strategies, and reporting sales by nation.
         name: C_NATION_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 6f546d84-8b7f-4596-9558-9936c06b7239
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
+              - columnCounter: 30d53f3e-2536-4e1b-b0f6-725576175462
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: false
         columnReference:
-          columnCounter: 2ac4646f-6e27-4b35-9cf6-6890cd4a529f
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
+          columnCounter: 79a36cc7-069c-4f09-ae4b-144ddd9abe90
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
         config: {}
-        dataType: VARCHAR(25)
-        description: ""
-        name: NATION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 92e69d5f-502b-460a-b85e-ede2d26b831d
-                stepCounter: 895d817e-1776-46b1-840f-77198294ae43
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 6acc89a0-8105-4415-91d7-6eb13c731fee
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: VARCHAR(25)
-        description: ""
-        name: REGION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: b8064fc9-f21a-4f7e-9a29-959328c66920
-                stepCounter: 951cede1-20a9-4a7a-ab35-512f9db7474b
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 4509ccd3-19dd-4235-82c5-974ce104e908
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: NUMBER
-        description: ""
+        dataType: NUMBER(12,2)
+        description: |-
+          - This column represents the account balance of the customer.
+          - It is sourced directly from the 'C_ACCTBAL' column of the 'CUSTOMER' table in the Bronze layer.
+          - Used in financial analysis to assess customer value and credit risk.
+          - Essential for generating reports on customer profitability, identifying high-value customers, and informing credit policies.
         name: C_ACCTBAL
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4afa8530-8477-4397-a6d9-9fbc09bf73dd
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
+              - columnCounter: 75485000-dba2-4e02-9e4f-e575f0cf4836
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
             transform: ""
-      - appliedColumnTests: {}
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: e421cbf5-8695-4a3c-a8b7-005a1624f458
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
+          columnCounter: fa3adaa2-c19e-43f6-9c92-c14ac4df3de4
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
         config: {}
-        dataType: STRING
-        description: ""
-        name: CUSTOMER_CATEGORY
+        dataType: VARCHAR(40)
+        description: |-
+          - This column contains the address of the customer, converted to uppercase.
+          - The data is sourced from the 'C_ADDRESS' column in the 'CUSTOMER' table from the Bronze layer.
+          - The transformation 'UPPER' ensures data consistency and uniformity for reporting and analysis.
+          - Used for geographical customer segmentation, targeted marketing campaigns, and delivery logistics.
+        name: C_ADDRESS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 4afa8530-8477-4397-a6d9-9fbc09bf73dd
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: |-
-              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 5000 THEN 'HIGH-'
-              ELSE 'LOW-'
-              END || "NATION"."N_NAME"
-      - appliedColumnTests: {}
+              - columnCounter: 2dd9d63a-16c7-430b-a0d1-6a0e198d539b
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
+            transform: UPPER("CUSTOMER"."C_ADDRESS")
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
         columnReference:
-          columnCounter: 6d4fe5f0-2a85-49c5-bb1e-4554712c639a
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
+          columnCounter: ff274c7f-3104-4025-aa9c-6bd9436e266a
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
         config: {}
-        dataType: VARCHAR
-        description: ""
+        dataType: VARCHAR(117)
+        description: |-
+          - This column stores descriptive comments related to the customer, converted to uppercase.
+          - It originates from the 'C_COMMENT' column in the 'CUSTOMER' table in the Bronze layer.
+          - The 'UPPER' transformation ensures consistency in text case for improved data quality and searchability.
+          - Useful for capturing additional customer-specific information that might not fit into structured fields, aiding in customer service and personalized interactions.
         name: C_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: bed74568-4a8f-46ea-a59f-6931538d8681
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: ""
+              - columnCounter: ddb9ca8b-a271-483d-beb5-d8b673476a38
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
+            transform: UPPER("CUSTOMER"."C_COMMENT")
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
+        columnReference:
+          columnCounter: 60bb7b0a-0228-4330-b25b-a621f9d3e66f
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
+        config: {}
+        dataType: VARCHAR(10)
+        description: |-
+          - This column represents the market segment to which the customer belongs, and it's converted to uppercase.
+          - It is derived from the 'C_MKTSEGMENT' column of the 'CUSTOMER' table in the Bronze layer.
+          - The transformation to uppercase using 'UPPER' ensures data consistency for analysis and reporting purposes.
+          - Used for market segmentation analysis, targeted marketing campaigns, and understanding customer distribution across different market segments.
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fd3e9c5b-f95f-4a56-8c60-62615cfedf87
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
+            transform: UPPER("CUSTOMER"."C_MKTSEGMENT")
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: false
+        columnReference:
+          columnCounter: fa9fc5a9-7004-4a8f-bc85-4d51ff7b8d38
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
+        config: {}
+        dataType: VARCHAR(25)
+        description: |-
+          - This column represents the name of the customer, converted to uppercase.
+          - The source is the 'C_NAME' column from the 'CUSTOMER' table in the Bronze layer.
+          - The 'UPPER' transformation ensures consistency in text case for improved data quality and standardization.
+          - It is used for customer identification, personalization of services, and targeted communication.
+        name: C_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 03c4e7ab-ebf0-47b0-8a00-2f13688bd172
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
+            transform: UPPER("CUSTOMER"."C_NAME")
+      - appliedColumnTests:
+          hasNull: false
+          isDistinct: false
+        columnReference:
+          columnCounter: 7055f0fb-ff14-49ea-bc3f-e15acc1d61ba
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
+        config: {}
+        dataType: VARCHAR(15)
+        description: |-
+          - This column contains the phone number of the customer, converted to uppercase.
+          - It is sourced from the 'C_PHONE' column in the 'CUSTOMER' table from the Bronze layer.
+          - The transformation 'UPPER' ensures uniformity in the phone number format.
+          - It supports customer communication, targeted marketing, and customer service operations.
+        name: C_PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 64504257-3ad6-4920-8a94-ba7848ba22e0
+                stepCounter: 88d6ed88-7ce5-413a-84b8-38b72bc49d40
+            transform: UPPER("CUSTOMER"."C_PHONE")
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests:
+          hasNull: false
+          isDistinct: false
+        columnReference:
+          columnCounter: d8ae40e8-6d99-4ada-86f8-ebd7ea0e6f3d
+          stepCounter: e5eb2ccd-6541-4b12-abd7-5d445096c027
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: |-
+          - This column categorizes customers based on their account balance, classifying them as 'HIGH' or 'LOW'.
+          - It is derived from the 'C_ACCTBAL' column of the 'CUSTOMER' table in the Bronze layer.
+          - The transformation logic assigns 'HIGH' to customers with an account balance greater than 5000 and 'LOW' otherwise.
+          - Used for customer segmentation based on financial value, enabling targeted marketing and differentiated service strategies.
+        keyColumnType: None
+        name: CUSTOMER_CAT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: |-
+              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 5000 THEN 'HIGH'
+              ELSE 'LOW'
+              END
+        systemColumnType: None
     cteString: ""
-    description: ""
-    destinationName: ""
-    enabledColumnTestIDs: []
-    materializationOption: ""
+    enabledColumnTestIDs:
+      - hasNull
+      - isDistinct
     sourceMapping:
-      - aliases:
-          CUSTOMER: d3e68936-faa4-43df-9114-5383b9177662
-          NATION: 895d817e-1776-46b1-840f-77198294ae43
-          REGION: 6f4b9b53-3ca1-4f0f-b8db-c9c9439807c3
+      - aliases: {}
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: BRONZE
             nodeName: CUSTOMER
-          - locationName: BRONZE
-            nodeName: NATION
-          - locationName: BRONZE
-            nodeName: REGION
         join:
-          joinCondition: |-
-            FROM {{ ref('BRONZE', 'CUSTOMER') }} "CUSTOMER"
-            INNER JOIN {{ ref('BRONZE', 'NATION') }} "NATION"
-            ON "CUSTOMER"."C_NATION_ID" = "NATION"."N_NATION_ID"
-            INNER JOIN {{ ref('BRONZE', 'REGION') }} "REGION"
-            ON NATION."N_REGION_ID" = "REGION"."R_REGION_ID"
+          joinCondition: FROM {{ ref('BRONZE', 'CUSTOMER') }} "CUSTOMER"
         name: STG_CUSTOMER
         noLinkRefs: []
   name: STG_CUSTOMER
