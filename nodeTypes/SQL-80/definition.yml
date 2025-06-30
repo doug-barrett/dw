@@ -4,7 +4,7 @@ isDisabled: false
 metadata:
   defaultStorageLocation: null
   error: null
-  nodeMetadataSpec: |-
+  nodeMetadataSpec: |+
     capitalized: SQL
     short: SQL
     tagColor: gray
@@ -19,10 +19,18 @@ metadata:
         type: textBox 
         syntax: sql 
         isRequired: false    
-        default: "CREATE OR REPLACE TABLE {{ ref_no_link('STAGE', 'STG_CUSTOMER2') }} \n
-        AS SELECT * FROM {{ ref_no_link('STAGE', 'STG_CUSTOMER') }} \n
+        default: "CREATE OR REPLACE TABLE {{ ref_no_link('SILVER', 'STG_CUSTOMER') }} \n
+        AS SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} \n
       "
 
-     
+      - displayName: SQL Run Time 
+        attributeName: SQL_Run
+        type: textBox 
+        syntax: sql 
+        isRequired: false    
+        default: "INSERT INTO {{ ref_no_link('SILVER', 'STG_CUSTOMER') }} \n
+        SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} \n
+      "
+
 name: SQL
 type: NodeType

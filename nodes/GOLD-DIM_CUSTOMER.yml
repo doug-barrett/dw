@@ -13,7 +13,20 @@ operation:
   locationName: GOLD
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: false
+        description: ""
+        name: Test for row count
+        runOrder: After
+        templateString: "{{ test.expect_table_row_count_to_equal_other_table(\"{{this}}\", \"{{ref('SILVER','STG_CUSTOMER')}}\") }}"
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          select 1 
+          from {{this}}
+          WHERE C_ACCTBAL < 0 
     columns:
       - appliedColumnTests: {}
         columnReference:

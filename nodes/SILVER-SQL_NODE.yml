@@ -1,0 +1,46 @@
+fileVersion: 1
+id: bfd2ac6b-0bcb-4aa9-9954-a127df029eaa
+name: SQL_NODE
+operation:
+  config:
+    SQL_Deploy: |-
+      CREATE OR REPLACE TABLE {{ ref_no_link('SILVER', 'STG_CUSTOMER2') }} 
+       AS SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} 
+       
+    SQL_Run: |-
+      INSERT INTO {{ ref_no_link('SILVER', 'STG_CUSTOMER2') }} 
+       SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} 
+       
+       {{stage('SQL2')}}
+       DELETE FROM {{ ref_no_link('SILVER', 'STG_CUSTOMER2') }} 
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          CUSTOMER: d3e68936-faa4-43df-9114-5383b9177662
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: CUSTOMER
+        join:
+          joinCondition: |
+            {{ref('BRONZE','CUSTOMER')}}
+        name: SQL_NODE
+        noLinkRefs: []
+  name: SQL_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node
