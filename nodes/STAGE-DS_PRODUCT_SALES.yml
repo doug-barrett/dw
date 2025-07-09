@@ -1,0 +1,98 @@
+fileVersion: 1
+id: e8114414-a06f-4b02-92cb-e7f9d763a465
+name: DS_PRODUCT_SALES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6460db9e-0517-49b9-8a4e-5472558a9e9f
+          stepCounter: e8114414-a06f-4b02-92cb-e7f9d763a465
+        config: {}
+        dataType: NVARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: CATEGORYNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c6e00ed-9159-4b60-a01a-90141c6dde6c
+                stepCounter: 4470167e-bc00-41ce-977b-4ccbf0373d9a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4052349a-26cd-448c-ba0b-c33b0fa3c01a
+          stepCounter: e8114414-a06f-4b02-92cb-e7f9d763a465
+        config: {}
+        dataType: NVARCHAR(40)
+        defaultValue: ""
+        description: ""
+        isBusinessKey: true
+        name: PRODUCTNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d76cec8-d0df-4d54-be18-15af77f60254
+                stepCounter: 4470167e-bc00-41ce-977b-4ccbf0373d9a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1093723e-ad97-42bf-9f26-b42a29f9523a
+          stepCounter: e8114414-a06f-4b02-92cb-e7f9d763a465
+        config: {}
+        dataType: MONEY
+        defaultValue: ""
+        description: ""
+        name: PRODUCTSALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 510222f2-e2fe-4cc3-bc28-039b58a28cb2
+                stepCounter: 4470167e-bc00-41ce-977b-4ccbf0373d9a
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: aff7ee03-31f5-4162-bd89-710d5adf4ad0
+          stepCounter: e8114414-a06f-4b02-92cb-e7f9d763a465
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was updated in the data warehouse.
+        isSystemUpdateDate: true
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_PRODUCT_SALES: 4470167e-bc00-41ce-977b-4ccbf0373d9a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: LOAD_PRODUCT_SALES
+        join:
+          joinCondition: FROM {{ ref('STAGE','LOAD_PRODUCT_SALES') }} load_product_sales
+        name: DS_PRODUCT_SALES
+        noLinkRefs: []
+  name: DS_PRODUCT_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: persistentStage
+  type: sql
+  version: 1
+type: Node
