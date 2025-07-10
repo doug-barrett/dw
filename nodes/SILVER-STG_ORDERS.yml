@@ -72,7 +72,7 @@ operation:
           - columnReferences:
               - columnCounter: bc96174f-09d2-4163-94be-d1cf108f064b
                 stepCounter: ecd6ad41-c603-4172-9508-80dd38f666fc
-            transform: ""
+            transform: upper("ORDERS"."O_ORDERSTATUS")
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 501b34a0-c535-49fd-8e2b-0eeda651eaa4
@@ -149,14 +149,18 @@ operation:
     enabledColumnTestIDs: []
     materializationOption: ""
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          ORDERS: ecd6ad41-c603-4172-9508-80dd38f666fc
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: BRONZE
             nodeName: ORDERS
         join:
-          joinCondition: FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
+          joinCondition: |-
+            FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
+
+            WHERE 1 = 1
         name: STG_ORDERS
         noLinkRefs: []
   name: STG_ORDERS

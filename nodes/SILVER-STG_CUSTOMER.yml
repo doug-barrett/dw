@@ -15,7 +15,12 @@ operation:
   locationName: SILVER
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test rowcount
+        runOrder: After
+        templateString: "{{ test.expect_table_row_count_to_equal_other_table( \"{{ref('BRONZE', 'CUSTOMER')}}\") }} "
     columns:
       - appliedColumnTests: {}
         columnReference:
