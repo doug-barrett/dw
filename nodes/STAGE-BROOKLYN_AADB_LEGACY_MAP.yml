@@ -1,0 +1,125 @@
+fileVersion: 1
+id: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+name: BROOKLYN_AADB_LEGACY_MAP
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: AADB legacy mapping data filtered for active records
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 786bad74-7a22-4e5e-a61c-e7529b009f90
+          stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: BROOKLYNID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b4aba2e-746d-466e-a994-766880d1f92f
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7129c08-a38f-4b01-b68a-c57c8589fdfc
+          stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: BROOKLYNTABLENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 761e27cc-3b55-4d40-b481-aec97aa318f5
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e2f941a-5f21-4529-ab9a-bfaf531c7049
+          stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYDATABASENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 91bbb59e-6b26-4487-924e-9ed4ac4c157b
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d71c7c2-4db5-485a-b881-8537a5b5852c
+          stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYTABLENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 200de089-1a3f-4db3-a94e-78f3602dd96c
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 401ada99-f67d-42e5-ac58-76ebc0701665
+          stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b503ee23-db4c-436b-8162-2e57949a984c
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          BROOKLYN_ACTIVE_GROUPINGS: 411ad7ea-618b-4ef6-80a5-7c2d543e1e9d
+          ENTITY: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+          LEGACYMAP: fee153b1-48d1-43a8-a513-832c72f31433
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: ENTITY
+          - locationName: SRC_BROOKLYN
+            nodeName: LEGACYMAP
+          - locationName: STAGE
+            nodeName: BROOKLYN_ACTIVE_GROUPINGS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'ENTITY') }} "ENTITY"
+            JOIN {{ ref('SRC_BROOKLYN', 'LEGACYMAP') }} "LEGACYMAP" ON "ENTITY"."ENTITYID" = "LEGACYMAP"."BROOKLYNID"
+                AND "LEGACYMAP"."LEGACYDATABASENAME" = 'Aadb'
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_ACTIVE_GROUPINGS') }} "BROOKLYN_ACTIVE_GROUPINGS" ON "BROOKLYN_ACTIVE_GROUPINGS"."ENTITYID" = "ENTITY"."ENTITYID"
+            WHERE "ENTITY"."ENTITYTYPEID" IN (1, 2, 3, 4)
+                AND ("BROOKLYN_ACTIVE_GROUPINGS"."ENTITYID" IS NULL)
+        name: BROOKLYN_AADB_LEGACY_MAP
+        noLinkRefs: []
+  name: BROOKLYN_AADB_LEGACY_MAP
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

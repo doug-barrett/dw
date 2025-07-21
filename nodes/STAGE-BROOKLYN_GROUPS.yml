@@ -1,0 +1,134 @@
+fileVersion: 1
+id: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+name: BROOKLYN_GROUPS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Groups legacy mappings by key fields with aggregated counts and max IDs
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 041973bc-fe89-45d1-8305-47dd706d1684
+          stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: BROOKLYNTABLENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 761e27cc-3b55-4d40-b481-aec97aa318f5
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a5395994-1c6c-4df0-b1c6-4e47aa5e9e9b
+          stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYDATABASENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 91bbb59e-6b26-4487-924e-9ed4ac4c157b
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a41199e0-0db8-42d3-a966-ca4754340d1e
+          stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYTABLENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 200de089-1a3f-4db3-a94e-78f3602dd96c
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f244ed13-b8fe-4447-a269-56d17b5e2c05
+          stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b503ee23-db4c-436b-8162-2e57949a984c
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 037e8ba9-4a23-49a1-a883-2f9455f4170b
+          stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: MAXLEGACYMAPID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f0ebf786-e19a-4a9d-b057-28f743df64ef
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: MAX("LEGACYMAP"."LEGACYMAPID")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4df9ac6-a716-4d5f-a1b0-782a30b2ca64
+          stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a4df9ac6-a716-4d5f-a1b0-782a30b2ca64
+                stepCounter: 68074b6c-8449-49b8-8e07-ee7f90fffe49
+            transform: COUNT(*)
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          LEGACYMAP: fee153b1-48d1-43a8-a513-832c72f31433
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: LEGACYMAP
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'LEGACYMAP') }} "LEGACYMAP"
+            WHERE "LEGACYMAP"."BROOKLYNTABLENAME" IN ('Organization', 'Product', 'Fund')
+                AND "LEGACYMAP"."LEGACYDATABASENAME" IN ('Imis', 'Aadb')
+            GROUP BY "LEGACYMAP"."BROOKLYNTABLENAME"
+                , "LEGACYMAP"."LEGACYDATABASENAME"
+                , "LEGACYMAP"."LEGACYTABLENAME"
+                , "LEGACYMAP"."LEGACYID"
+        name: BROOKLYN_GROUPS
+        noLinkRefs: []
+  name: BROOKLYN_GROUPS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

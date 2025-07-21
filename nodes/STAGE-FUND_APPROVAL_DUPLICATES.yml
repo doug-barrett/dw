@@ -1,0 +1,60 @@
+fileVersion: 1
+id: aded25b6-431c-4978-ab7d-0c0486a642f5
+name: FUND_APPROVAL_DUPLICATES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Identifies duplicate fund approvals by fund ID
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e504a8d-8f97-459c-a2d7-31b8968d6bb4
+          stepCounter: aded25b6-431c-4978-ab7d-0c0486a642f5
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: FUNDID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bde80556-85c5-41e6-95a5-ced76d71a011
+                stepCounter: 88e5df63-3485-4ab1-addd-8da69da22c5a
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          FUNDAPPROVALS: 88e5df63-3485-4ab1-addd-8da69da22c5a
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_AADB
+            nodeName: FUNDAPPROVALS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_AADB', 'FUNDAPPROVALS') }} "FUNDAPPROVALS"
+            GROUP BY "FUNDAPPROVALS"."FUND_ID"
+            HAVING COUNT(*) > 1
+        name: FUND_APPROVAL_DUPLICATES
+        noLinkRefs: []
+  name: FUND_APPROVAL_DUPLICATES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

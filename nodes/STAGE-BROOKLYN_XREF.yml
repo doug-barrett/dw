@@ -1,0 +1,212 @@
+fileVersion: 1
+id: bf33168a-2063-4681-96e4-6d04176f8eac
+name: BROOKLYN_XREF
+operation:
+  config:
+    insertStrategy: UNION
+    postSQL: ""
+    preSQL: ""
+    selectDistinct: false
+    testsEnabled: false
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Cross-reference view combining Brooklyn entities with legacy system mappings
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 837cac04-bdae-4fda-a3db-83e3799b1b9e
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: BROOKLYN_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b4aba2e-746d-466e-a994-766880d1f92f
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dcab3528-0e7c-49eb-b4d3-372ae586c8ec
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: CAMBRIDGE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f01f0a4c-1440-4987-897b-df8d91579207
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: LOWER("ENTITY"."GUID")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8262440-aed8-4e45-a496-c6c88f29b023
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ENTITYTYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2b466fa3-56d1-47bf-b099-665f770984f4
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90e861f4-d0e6-4202-94bb-8a2c996b1ac4
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: ENTITY_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6ca6a09d-eed6-458b-8a62-6cc5fdecbf2b
+                stepCounter: ed37e9aa-9c5f-49c0-b924-60cb1eb494e5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 44720f26-44bb-41ae-a921-8d1dfb95635c
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: BROOKLYN_TABLE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b97acb5d-7882-41c6-ac61-2d2e122625e5
+                stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+            transform: IFNULL("BROOKLYN_IMIS_LEGACY_MAP"."BROOKLYNTABLENAME", "BROOKLYN_AADB_LEGACY_MAP"."BROOKLYNTABLENAME")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f1cc184a-f953-47d3-a820-d7dab51527be
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACY_DATABASE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 35012a73-1419-48d0-9947-2ecf29319a74
+                stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+            transform: IFNULL("BROOKLYN_IMIS_LEGACY_MAP"."LEGACYDATABASENAME", "BROOKLYN_AADB_LEGACY_MAP"."LEGACYDATABASENAME")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5b860886-c07f-49e1-b331-8cd18ab3bd37
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACY_TABLE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e4608fca-b39c-4e4e-8509-f8003cbb505b
+                stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+            transform: IFNULL("BROOKLYN_IMIS_LEGACY_MAP"."LEGACYTABLENAME", "BROOKLYN_AADB_LEGACY_MAP"."LEGACYTABLENAME")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9036d82b-bc87-4ba1-8479-6a95a05769a9
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACY_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 19231b46-7db4-472c-ba8b-d980d6725e99
+                stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+            transform: IFNULL("BROOKLYN_IMIS_LEGACY_MAP"."LEGACYID", "BROOKLYN_AADB_LEGACY_MAP"."LEGACYID")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cd370dfa-08a6-454f-895d-375af161341a
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: IMIS_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 19231b46-7db4-472c-ba8b-d980d6725e99
+                stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 60fbf621-1b84-4bf5-a831-47aa432caf8f
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: AADB_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 401ada99-f67d-42e5-ac58-76ebc0701665
+                stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cca825a2-6c41-4a9b-9bdd-2aa0e856d1d0
+          stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: AADB_TABLE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1d71c7c2-4db5-485a-b881-8537a5b5852c
+                stepCounter: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          BROOKLYN_AADB_LEGACY_MAP: 6f576bc7-45ea-48d1-adbc-5a8693ee2e8c
+          BROOKLYN_IMIS_LEGACY_MAP: 41568981-5144-4d62-90b3-2aa89cd7858b
+          ENTITY: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+          ENTITYTYPE: ed37e9aa-9c5f-49c0-b924-60cb1eb494e5
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: ENTITY
+          - locationName: SRC_BROOKLYN
+            nodeName: ENTITYTYPE
+          - locationName: STAGE
+            nodeName: BROOKLYN_AADB_LEGACY_MAP
+          - locationName: STAGE
+            nodeName: BROOKLYN_IMIS_LEGACY_MAP
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'ENTITY') }} "ENTITY"
+            JOIN {{ ref('SRC_BROOKLYN', 'ENTITYTYPE') }} "ENTITYTYPE" ON "ENTITY"."ENTITYTYPEID" = "ENTITYTYPE"."ENTITYTYPEID"
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_IMIS_LEGACY_MAP') }} "BROOKLYN_IMIS_LEGACY_MAP" ON "ENTITY"."ENTITYID" = "BROOKLYN_IMIS_LEGACY_MAP"."BROOKLYNID"
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_AADB_LEGACY_MAP') }} "BROOKLYN_AADB_LEGACY_MAP" ON "ENTITY"."ENTITYID" = "BROOKLYN_AADB_LEGACY_MAP"."BROOKLYNID"
+            WHERE "ENTITY"."ENTITYTYPEID" IN (1, 2, 3, 4)
+        name: BROOKLYN_XREF
+        noLinkRefs: []
+  name: BROOKLYN_XREF
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

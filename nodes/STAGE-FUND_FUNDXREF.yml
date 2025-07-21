@@ -1,0 +1,146 @@
+fileVersion: 1
+id: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+name: FUND_FUNDXREF
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Fund cross-reference combining Brooklyn funds with legacy system mappings
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9cfa82d2-754d-43ae-8a7b-6479ae127282
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c836ba30-ea8a-4ba1-b93c-1d76f2b8f459
+                stepCounter: 9e1952c4-17e3-46a4-8f18-034881e3f791
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 352c530b-427b-470c-ba62-8f9fbcd67e93
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: CAMBRIDGE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 352c530b-427b-470c-ba62-8f9fbcd67e93
+                stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+            transform: "\"FX\".\"CAMBRIDGE_ID\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2a258fcf-eeea-45db-95cf-e5663fcd2469
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: BROOKLYNID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c836ba30-ea8a-4ba1-b93c-1d76f2b8f459
+                stepCounter: 9e1952c4-17e3-46a4-8f18-034881e3f791
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 10c17aae-7580-4084-bc8f-fa540ef6aedd
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: IMIS_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 10c17aae-7580-4084-bc8f-fa540ef6aedd
+                stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+            transform: "\"FX\".\"IMIS_ID\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a8a9711-d023-4369-b61a-c97386c06d1f
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: AADB_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3a8a9711-d023-4369-b61a-c97386c06d1f
+                stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+            transform: "\"FX\".\"AADB_ID\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2b82d9b8-2362-48a5-8752-3e1b09e16a3e
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: AADB_TABLE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2b82d9b8-2362-48a5-8752-3e1b09e16a3e
+                stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+            transform: "\"FX\".\"AADB_TABLE_NAME\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8b079e5d-1268-4766-a5f6-ddd5b8d4dd9f
+          stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: PRODUCTCAMBRIDGEID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8b079e5d-1268-4766-a5f6-ddd5b8d4dd9f
+                stepCounter: bf157fa8-b4b7-49a1-98b2-8d8e31eb469e
+            transform: "\"PX\".\"CAMBRIDGE_ID\""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          FUND: 9e1952c4-17e3-46a4-8f18-034881e3f791
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: FUND
+          - locationName: STAGE
+            nodeName: BROOKLYN_XREF
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'FUND') }} "FUND"
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_XREF') }} "FX" ON "FUND"."FUNDID" = "FX"."BROOKLYN_ID" AND "FX"."ENTITYTYPE_ID" = 3
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_XREF') }} "PX" ON "FUND"."PRODUCTID" = "PX"."BROOKLYN_ID" AND "PX"."ENTITYTYPE_ID" = 2
+        name: FUND_FUNDXREF
+        noLinkRefs: []
+  name: FUND_FUNDXREF
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

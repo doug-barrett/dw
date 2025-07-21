@@ -1,0 +1,65 @@
+fileVersion: 1
+id: 767f35bf-c2c5-4abf-a325-9da20f1ee9b5
+name: BROOKLYN_DUPLICATES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Identifies duplicate entities in Brooklyn with multiple legacy mappings
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b148ad5c-7b38-4712-a6ab-cbc73db44e3e
+          stepCounter: 767f35bf-c2c5-4abf-a325-9da20f1ee9b5
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ENTITYID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b4aba2e-746d-466e-a994-766880d1f92f
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          ENTITY: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: ENTITY
+          - locationName: SRC_BROOKLYN
+            nodeName: LEGACYMAP
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'ENTITY') }} "ENTITY"
+            JOIN {{ ref('SRC_BROOKLYN', 'LEGACYMAP') }} "LEGACYMAP" ON "LEGACYMAP"."BROOKLYNID" = "ENTITY"."ENTITYID"
+            WHERE "ENTITY"."ENTITYTYPEID" IN (1, 2, 3, 4)
+                AND "LEGACYMAP"."LEGACYDATABASENAME" IN ('Imis', 'Aadb')
+            GROUP BY "ENTITY"."ENTITYID"
+            HAVING COUNT(*) > 1
+        name: BROOKLYN_DUPLICATES
+        noLinkRefs: []
+  name: BROOKLYN_DUPLICATES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

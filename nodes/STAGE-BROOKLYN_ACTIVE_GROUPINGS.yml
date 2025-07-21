@@ -1,0 +1,68 @@
+fileVersion: 1
+id: 411ad7ea-618b-4ef6-80a5-7c2d543e1e9d
+name: BROOKLYN_ACTIVE_GROUPINGS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Active groupings for duplicate entities
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04399c51-5d1f-4d31-9931-5263ab10ac01
+          stepCounter: 411ad7ea-618b-4ef6-80a5-7c2d543e1e9d
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ENTITYID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b4aba2e-746d-466e-a994-766880d1f92f
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          BROOKLYN_DUPLICATES: 767f35bf-c2c5-4abf-a325-9da20f1ee9b5
+          ENTITY: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: ENTITY
+          - locationName: SRC_BROOKLYN
+            nodeName: LEGACYMAP
+          - locationName: STAGE
+            nodeName: BROOKLYN_DUPLICATES
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'ENTITY') }} "ENTITY"
+            JOIN {{ ref('STAGE', 'BROOKLYN_DUPLICATES') }} "BROOKLYN_DUPLICATES" ON "BROOKLYN_DUPLICATES"."ENTITYID" = "ENTITY"."ENTITYID"
+            JOIN {{ ref('SRC_BROOKLYN', 'LEGACYMAP') }} "LEGACYMAP" ON "LEGACYMAP"."BROOKLYNID" = "ENTITY"."ENTITYID"
+            WHERE "ENTITY"."ENTITYTYPEID" IN (1, 2, 3, 4)
+                AND "LEGACYMAP"."LEGACYDATABASENAME" IN ('Imis', 'Aadb')
+            GROUP BY "ENTITY"."ENTITYID"
+        name: BROOKLYN_ACTIVE_GROUPINGS
+        noLinkRefs: []
+  name: BROOKLYN_ACTIVE_GROUPINGS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

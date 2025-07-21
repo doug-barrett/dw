@@ -1,0 +1,125 @@
+fileVersion: 1
+id: 41568981-5144-4d62-90b3-2aa89cd7858b
+name: BROOKLYN_IMIS_LEGACY_MAP
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: IMIS legacy mapping data filtered for active records
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b9d26795-9fa0-4376-9694-f2939504b5d3
+          stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: BROOKLYNID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4b4aba2e-746d-466e-a994-766880d1f92f
+                stepCounter: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b97acb5d-7882-41c6-ac61-2d2e122625e5
+          stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: BROOKLYNTABLENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 761e27cc-3b55-4d40-b481-aec97aa318f5
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 35012a73-1419-48d0-9947-2ecf29319a74
+          stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYDATABASENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 91bbb59e-6b26-4487-924e-9ed4ac4c157b
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e4608fca-b39c-4e4e-8509-f8003cbb505b
+          stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYTABLENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 200de089-1a3f-4db3-a94e-78f3602dd96c
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 19231b46-7db4-472c-ba8b-d980d6725e99
+          stepCounter: 41568981-5144-4d62-90b3-2aa89cd7858b
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: LEGACYID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b503ee23-db4c-436b-8162-2e57949a984c
+                stepCounter: fee153b1-48d1-43a8-a513-832c72f31433
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          BROOKLYN_ACTIVE_GROUPINGS: 411ad7ea-618b-4ef6-80a5-7c2d543e1e9d
+          ENTITY: 48c5e02c-8e69-47dc-8be4-a5c91f556141
+          LEGACYMAP: fee153b1-48d1-43a8-a513-832c72f31433
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: ENTITY
+          - locationName: SRC_BROOKLYN
+            nodeName: LEGACYMAP
+          - locationName: STAGE
+            nodeName: BROOKLYN_ACTIVE_GROUPINGS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_BROOKLYN', 'ENTITY') }} "ENTITY"
+            JOIN {{ ref('SRC_BROOKLYN', 'LEGACYMAP') }} "LEGACYMAP" ON "ENTITY"."ENTITYID" = "LEGACYMAP"."BROOKLYNID"
+                AND "LEGACYMAP"."LEGACYDATABASENAME" = 'Imis'
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_ACTIVE_GROUPINGS') }} "BROOKLYN_ACTIVE_GROUPINGS" ON "BROOKLYN_ACTIVE_GROUPINGS"."ENTITYID" = "ENTITY"."ENTITYID"
+            WHERE "ENTITY"."ENTITYTYPEID" IN (1, 2, 3, 4)
+                AND ("BROOKLYN_ACTIVE_GROUPINGS"."ENTITYID" IS NULL)
+        name: BROOKLYN_IMIS_LEGACY_MAP
+        noLinkRefs: []
+  name: BROOKLYN_IMIS_LEGACY_MAP
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

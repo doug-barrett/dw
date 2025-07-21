@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 14b3a278-706f-4784-9616-c47caef362a4
+name: FUND_IMIS_HEDGE_FUND_PRODUCTS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: IMIS hedge fund and fund of fund products with strategy codes
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0ea5c25f-2625-4e41-921f-083fb26b3d29
+          stepCounter: 14b3a278-706f-4784-9616-c47caef362a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: PRODUCTID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2e79fa06-04a8-4e03-8850-33a7c7b22dfd
+                stepCounter: 4343c98c-3780-426b-9fa0-09119de8f5ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f8a5c4d-dc24-46dc-99e1-a513831daf1a
+          stepCounter: 14b3a278-706f-4784-9616-c47caef362a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: STRATEGYCODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6c7471fa-0892-47c8-aff1-cba12dfde7e8
+                stepCounter: 4343c98c-3780-426b-9fa0-09119de8f5ed
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          PRODUCT_STRATEGY: 4343c98c-3780-426b-9fa0-09119de8f5ed
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_IMISDE
+            nodeName: PRODUCT_STRATEGY
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_IMISDE', 'PRODUCT_STRATEGY') }} "PRODUCT_STRATEGY"
+            WHERE "PRODUCT_STRATEGY"."STRATEGYCODE" IN (91, 227, 257, 258, 328)
+        name: FUND_IMIS_HEDGE_FUND_PRODUCTS
+        noLinkRefs: []
+  name: FUND_IMIS_HEDGE_FUND_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
