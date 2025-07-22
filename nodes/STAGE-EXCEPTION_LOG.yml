@@ -1,0 +1,144 @@
+fileVersion: 1
+id: a4b19909-22b6-412a-a503-e753528ccfca
+name: EXCEPTION_LOG
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: false
+  database: ""
+  deployEnabled: true
+  description: Comprehensive fund cross-reference view combining Brooklyn funds with legacy system data
+  isMultisource: true
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8da74700-d196-4cef-84df-376e912d3f00
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ENTITY_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bd8410f1-2130-4a84-9b44-af5fbe105c3b
+                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2fc46774-c8af-4b2c-b3d4-ad96b0b169f9
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: TABLE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: "'FUND'"
+        systemColumnType: None
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea5ff10e-6428-44c4-b212-c47adff22690
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: IDENTITYVAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5802676-0872-4cc3-8be7-47b755a9510b
+                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2b9d4ed0-5c64-4f55-97b0-f1a0473172f7
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: VARIANT
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: ROW_TEXT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: " TO_VARIANT(OBJECT_CONSTRUCT_KEEP_NULL(* EXCLUDING (SYSTEM_CREATE_TS)))"
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a18373d6-3047-4d0d-ac60-f0b2cbb188ea
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: ""
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: EXCEPTION_DESCRIPTION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+        systemColumnType: None
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e081ef21-73b4-4e64-aa08-dae99bf8ba85
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_TS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: FUND_XREF_INC
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'FUND_XREF_INC') }} "FUND_XREF_INC"
+        name: FUND_XREF
+        noLinkRefs: []
+  name: EXCEPTION_LOG
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
