@@ -1,0 +1,81 @@
+fileVersion: 1
+id: 16658480-aa89-4bdf-b0ff-f584f06bd727
+name: HUB_FUND
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Comprehensive fund cross-reference view combining Brooklyn funds with legacy system data
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 24d7653d-f694-4572-a77c-df3699ef0508
+          stepCounter: 16658480-aa89-4bdf-b0ff-f584f06bd727
+        config:
+          is_Hub_hk: true
+        dataType: VARCHAR
+        description: ""
+        name: FUND_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fefbe21e-7958-4b95-8b27-93f7793f20b8
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d69e3748-88ce-46ed-bfa8-f9ccea495350
+          stepCounter: 16658480-aa89-4bdf-b0ff-f584f06bd727
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7da4ca73-4c72-4065-b958-95bc223002a5
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4b907b99-67f1-4579-b199-3242bb33cf9e
+          stepCounter: 16658480-aa89-4bdf-b0ff-f584f06bd727
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 776d8c36-0762-44d6-80da-d2d68deb3732
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: DVSTG_FUND_XREF_INC
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_FUND_XREF_INC') }} "DVSTG_FUND_XREF_INC"
+        name: HUB_FUND
+        noLinkRefs: []
+  name: HUB_FUND
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node
