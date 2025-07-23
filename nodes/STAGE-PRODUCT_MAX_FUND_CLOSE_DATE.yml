@@ -1,0 +1,74 @@
+fileVersion: 1
+id: c48c58dd-4e37-4184-b279-2a25890866be
+name: PRODUCT_MAX_FUND_CLOSE_DATE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Maximum fund close date for final closings
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cba8b15a-41d5-4903-81d1-a6e89027d0dc
+          stepCounter: c48c58dd-4e37-4184-b279-2a25890866be
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: FUND_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f7f5643a-c696-4898-bb2c-acf2640d4fff
+                stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f78f8ae-edc7-491c-8d83-c620843394b3
+          stepCounter: c48c58dd-4e37-4184-b279-2a25890866be
+        config: {}
+        dataType: DATE
+        description: ""
+        name: MAX_CLOSE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f7c4c3c4-4c85-45b9-8da1-f6632ff27acd
+                stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+            transform: MAX("PRODUCT_FUNDS_TO_CLOSINGS"."CLOSE_DATE")
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          PRODUCT_FUNDS_TO_CLOSINGS: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: PRODUCT_FUNDS_TO_CLOSINGS
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'PRODUCT_FUNDS_TO_CLOSINGS') }} "PRODUCT_FUNDS_TO_CLOSINGS"
+            WHERE "PRODUCT_FUNDS_TO_CLOSINGS"."CLOSING_ID" = 4
+            GROUP BY "PRODUCT_FUNDS_TO_CLOSINGS"."FUND_ID"
+        name: PRODUCT_MAX_FUND_CLOSE_DATE
+        noLinkRefs: []
+  name: PRODUCT_MAX_FUND_CLOSE_DATE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

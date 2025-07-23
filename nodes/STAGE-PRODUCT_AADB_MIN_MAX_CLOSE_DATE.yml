@@ -1,0 +1,88 @@
+fileVersion: 1
+id: 69bf82d6-81d2-43f8-aeb8-7a4fb02aeb98
+name: PRODUCT_AADB_MIN_MAX_CLOSE_DATE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Min and max close dates by fund for AADB funds
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1647cb38-e05b-46e4-b8d1-67d9e642a4b7
+          stepCounter: 69bf82d6-81d2-43f8-aeb8-7a4fb02aeb98
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: FUND_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f7f5643a-c696-4898-bb2c-acf2640d4fff
+                stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cf4ddd3d-a0e6-438d-86a2-72c82655bd22
+          stepCounter: 69bf82d6-81d2-43f8-aeb8-7a4fb02aeb98
+        config: {}
+        dataType: DATE
+        description: ""
+        name: MIN_CLOSE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f7c4c3c4-4c85-45b9-8da1-f6632ff27acd
+                stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+            transform: MIN("PRODUCT_FUNDS_TO_CLOSINGS"."CLOSE_DATE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7f094e09-56b7-4d27-94e6-cbe5cd8b9c4d
+          stepCounter: 69bf82d6-81d2-43f8-aeb8-7a4fb02aeb98
+        config: {}
+        dataType: DATE
+        description: ""
+        name: MAX_CLOSE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f7c4c3c4-4c85-45b9-8da1-f6632ff27acd
+                stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+            transform: MAX("PRODUCT_FUNDS_TO_CLOSINGS"."CLOSE_DATE")
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          PRODUCT_FUNDS_TO_CLOSINGS: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: PRODUCT_FUNDS_TO_CLOSINGS
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'PRODUCT_FUNDS_TO_CLOSINGS') }} "PRODUCT_FUNDS_TO_CLOSINGS"
+            WHERE "PRODUCT_FUNDS_TO_CLOSINGS"."CLOSING_ID" IN (2,4)
+            GROUP BY "PRODUCT_FUNDS_TO_CLOSINGS"."FUND_ID"
+        name: PRODUCT_AADB_MIN_MAX_CLOSE_DATE
+        noLinkRefs: []
+  name: PRODUCT_AADB_MIN_MAX_CLOSE_DATE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

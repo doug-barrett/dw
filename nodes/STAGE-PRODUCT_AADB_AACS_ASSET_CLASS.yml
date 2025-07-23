@@ -1,0 +1,101 @@
+fileVersion: 1
+id: a090b6b6-ffb4-4c7a-af49-23b0af5b63a4
+name: PRODUCT_AADB_AACS_ASSET_CLASS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: AADB AACS asset class filtered for active change operations
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dca6bbd7-42e4-4062-8ca1-0a11312d7906
+          stepCounter: a090b6b6-ffb4-4c7a-af49-23b0af5b63a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ASSET_CLASS_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0fdb9a9c-a837-4946-be30-e3ef9f9f5ef7
+                stepCounter: 62ca3fee-badf-4309-b072-853ad3c3fad2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bf711197-e40e-4018-ae9a-fa2ea63f62b4
+          stepCounter: a090b6b6-ffb4-4c7a-af49-23b0af5b63a4
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: ASSET_CLASS_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b77efaa6-fd8e-428c-b51b-ecb8c6c17ca9
+                stepCounter: 62ca3fee-badf-4309-b072-853ad3c3fad2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 560aaa40-9e7e-4ff0-b071-ba8f625d3e2b
+          stepCounter: a090b6b6-ffb4-4c7a-af49-23b0af5b63a4
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: ASSET_CLASS_LNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 12f3b0fa-6a66-4be2-b901-b47c3a6ba6d6
+                stepCounter: 62ca3fee-badf-4309-b072-853ad3c3fad2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5178af22-a50e-4367-bb4d-415548c69f0a
+          stepCounter: a090b6b6-ffb4-4c7a-af49-23b0af5b63a4
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: HVR_CAPTURE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ef34fe17-818e-419b-877f-dd4270849f11
+                stepCounter: 62ca3fee-badf-4309-b072-853ad3c3fad2
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          AACS_ASSET_CLASS: 62ca3fee-badf-4309-b072-853ad3c3fad2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_AADB
+            nodeName: AACS_ASSET_CLASS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_AADB', 'AACS_ASSET_CLASS') }} "AACS_ASSET_CLASS"
+            WHERE "AACS_ASSET_CLASS"."HVR_CHANGE_OP" IN (0,1,2)
+        name: PRODUCT_AADB_AACS_ASSET_CLASS
+        noLinkRefs: []
+  name: PRODUCT_AADB_AACS_ASSET_CLASS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

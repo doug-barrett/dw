@@ -13,7 +13,7 @@ operation:
   description: Comprehensive fund cross-reference view combining Brooklyn funds with legacy system data
   isMultisource: false
   locationName: STAGE
-  materializationType: view
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
@@ -5184,8 +5184,6 @@ operation:
             FROM {{ ref('STAGE', 'FUND_XREF') }} "FUND_XREF"
             WHERE HVR_CHANGE_OP IN (0,1,2)
                 AND  
-            		/*(SELECT COUNT(*) FROM '' || :TARGET_DB || ''.'' || :TARGET_SCHEMA || ''.'' || :TARGET_TABLE || '') = 0
-            		OR */
             		HVR_CHANGE_TIME > DATEADD(HOUR, -{{parameters.INCREMENTAL_DV_PROCESSING_PERIOD}}, CURRENT_TIMESTAMP)
             		QUALIFY ROW_NUMBER() OVER (
             			PARTITION BY FUND_CAID

@@ -1,0 +1,115 @@
+fileVersion: 1
+id: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+name: PRODUCT_FUNDS_TO_CLOSINGS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Fund closings filtered for active change operations
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f7f5643a-c696-4898-bb2c-acf2640d4fff
+          stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: FUND_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 994559f2-b7f9-473e-8ccd-92df2a9555c2
+                stepCounter: e6335113-9a2c-45b3-9615-2bf7cf239031
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f66794a3-4ad0-442f-9329-0487147416f7
+          stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: CLOSING_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 04fb2da7-b8fd-42d4-80f2-8a623f4321c4
+                stepCounter: e6335113-9a2c-45b3-9615-2bf7cf239031
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f7c4c3c4-4c85-45b9-8da1-f6632ff27acd
+          stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        config: {}
+        dataType: DATE
+        description: ""
+        name: CLOSE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e36da28c-7512-4c1a-881f-a08fe180e7d1
+                stepCounter: e6335113-9a2c-45b3-9615-2bf7cf239031
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3fe3ac11-5053-4475-914b-c133629ba4f2
+          stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: CLOSING_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 204f4b03-0cb7-439a-aa4b-9fa91e3f55b8
+                stepCounter: e6335113-9a2c-45b3-9615-2bf7cf239031
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e1da93d-9e59-4955-b365-cef843690743
+          stepCounter: e4c6027d-c1b0-4f15-af77-2318d05a31a2
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        name: HVR_CAPTURE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0ac9418a-9df4-40ed-aa37-33f505c6140c
+                stepCounter: e6335113-9a2c-45b3-9615-2bf7cf239031
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          FUNDS_TO_CLOSINGS: e6335113-9a2c-45b3-9615-2bf7cf239031
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_AADB
+            nodeName: FUNDS_TO_CLOSINGS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SRC_AADB', 'FUNDS_TO_CLOSINGS') }} "FUNDS_TO_CLOSINGS"
+            WHERE "FUNDS_TO_CLOSINGS"."HVR_CHANGE_OP" IN (0,1,2)
+        name: PRODUCT_FUNDS_TO_CLOSINGS
+        noLinkRefs: []
+  name: PRODUCT_FUNDS_TO_CLOSINGS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

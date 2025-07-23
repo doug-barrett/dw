@@ -1,0 +1,160 @@
+fileVersion: 1
+id: b6423613-66b0-4948-88b9-f47388bf89a5
+name: PRODUCT_XREF_BASE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Base product cross-reference combining Brooklyn products with legacy mappings
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 376adee9-1c45-4cbc-bdde-c4068f31f4c3
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ID_VAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b08585a9-2f42-4ef7-a130-3d829f1a5adc
+                stepCounter: b26445d5-4dad-438d-af35-c33b84ebc39c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95ea73bb-f2a0-4196-b664-cc790c2ec171
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: CAMBRIDGE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dcab3528-0e7c-49eb-b4d3-372ae586c8ec
+                stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 635a127b-f3ed-4392-9653-e27cf115f2c7
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: BROOKLYN_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b08585a9-2f42-4ef7-a130-3d829f1a5adc
+                stepCounter: b26445d5-4dad-438d-af35-c33b84ebc39c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7aa0ed80-2b12-4149-86c2-2b5322467bcb
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: IMIS_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cd370dfa-08a6-454f-895d-375af161341a
+                stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f9076cdd-3981-4a04-96e8-aee96062f4a7
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: AADB_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 60fbf621-1b84-4bf5-a831-47aa432caf8f
+                stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c804338c-9c32-420b-8d18-d8ea533e0f1f
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: AADB_TABLE_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cca825a2-6c41-4a9b-9bdd-2aa0e856d1d0
+                stepCounter: bf33168a-2063-4681-96e4-6d04176f8eac
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 378782db-3d2d-4e55-9bbe-0013227daa29
+          stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: PRIOR_PRODUCT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c15fc587-129a-4541-9040-705909f6d1e3
+                stepCounter: 4c58ad03-2a78-467a-b366-eb325abd462a
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          BROOKLYN_XREF: bf33168a-2063-4681-96e4-6d04176f8eac
+          LEGACY_XREF: 4c58ad03-2a78-467a-b366-eb325abd462a
+          PRODUCT_BROOKLYN_PRODUCT: b26445d5-4dad-438d-af35-c33b84ebc39c
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: BROOKLYN_XREF
+          - locationName: STAGE
+            nodeName: LEGACY_XREF
+          - locationName: STAGE
+            nodeName: PRODUCT_AAIM_FUND
+          - locationName: STAGE
+            nodeName: PRODUCT_BROOKLYN_PRODUCT
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'PRODUCT_BROOKLYN_PRODUCT') }} "PRODUCT_BROOKLYN_PRODUCT"
+            LEFT JOIN {{ ref('STAGE', 'BROOKLYN_XREF') }} "BROOKLYN_XREF" 
+                ON "PRODUCT_BROOKLYN_PRODUCT"."PRODUCT_ID" = "BROOKLYN_XREF"."BROOKLYN_ID"
+                AND "BROOKLYN_XREF"."ENTITYTYPE_ID" = 2
+            LEFT JOIN {{ ref('STAGE', 'PRODUCT_AAIM_FUND') }} "PRODUCT_AAIM_FUND" 
+                ON "BROOKLYN_XREF"."AADB_ID" = "PRODUCT_AAIM_FUND"."FUND_ID"
+                AND "BROOKLYN_XREF"."AADB_TABLE_NAME" = 'Aaim_Fund'
+            LEFT JOIN {{ ref('STAGE', 'LEGACY_XREF') }} "LEGACY_XREF" 
+                ON "LEGACY_XREF"."BROOKLYN_TABLE_NAME" = 'Product'
+                AND "LEGACY_XREF"."LEGACY_TABLE_NAME" = 'Aaim_Fund'
+                AND "LEGACY_XREF"."LEGACY_ID" = CAST("PRODUCT_AAIM_FUND"."PRIOR_FUND_ID" AS VARCHAR)
+        name: PRODUCT_XREF_BASE
+        noLinkRefs: []
+  name: PRODUCT_XREF_BASE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

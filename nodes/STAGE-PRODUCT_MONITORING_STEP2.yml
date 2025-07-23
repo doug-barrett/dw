@@ -1,0 +1,73 @@
+fileVersion: 1
+id: f0274252-5a16-4ff7-8ab3-e51781f4825f
+name: PRODUCT_MONITORING_STEP2
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Second step of monitoring calculation with override logic
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e938cb2-ab7f-4965-acf2-fed1035895b6
+          stepCounter: f0274252-5a16-4ff7-8ab3-e51781f4825f
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: PRODUCT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7c0b4451-ebf9-4e8b-9b9e-8803ed4f416c
+                stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63415016-d5da-4986-8fad-c55240ba5d49
+          stepCounter: f0274252-5a16-4ff7-8ab3-e51781f4825f
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: MONITORING_OVERRIDE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8d26ca6a-dda1-46d5-a7da-226e4125e81c
+                stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+            transform: CASE WHEN "PRODUCT_MONITORING_STEP1"."MONITORING_OVERRIDE" IS NOT NULL THEN "PRODUCT_MONITORING_STEP1"."MONITORING_OVERRIDE" WHEN "PRODUCT_MONITORING_STEP1"."QUARTERLY_REVIEW_COUNT" = 0 AND "PRODUCT_MONITORING_STEP1"."COMMENTS_ALL_CHECKED" >= 3 AND "PRODUCT_MONITORING_STEP1"."CONSULTANT_COVERAGE" > 0 THEN '1' WHEN "PRODUCT_MONITORING_STEP1"."CONSULTANT_COVERAGE" > 0 AND CURRENT_TIMESTAMP() <= (SELECT DISTINCT "VALUE" FROM {{ ref('SRC_GOVERN', 'GOVCONFIG') }} WHERE "NAME" = 'MonitoringPeriodEndCurrent') THEN '2' WHEN "PRODUCT_MONITORING_STEP1"."RATING_CODE" IN (16, 26) THEN '3' ELSE '0' END
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          PRODUCT_MONITORING_STEP1: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: PRODUCT_MONITORING_STEP1
+          - locationName: STAGE
+            nodeName: SRC_GOVERN.GOVCONFIG
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'PRODUCT_MONITORING_STEP1') }} "PRODUCT_MONITORING_STEP1"
+        name: PRODUCT_MONITORING_STEP2
+        noLinkRefs: []
+  name: PRODUCT_MONITORING_STEP2
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

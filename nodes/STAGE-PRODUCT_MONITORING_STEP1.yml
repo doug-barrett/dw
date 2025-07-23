@@ -1,0 +1,135 @@
+fileVersion: 1
+id: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+name: PRODUCT_MONITORING_STEP1
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: First step of monitoring calculation with governance tracking data
+  isMultisource: false
+  locationName: STAGE
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7c0b4451-ebf9-4e8b-9b9e-8803ed4f416c
+          stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: PRODUCT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1953bb3d-54df-4101-8717-3418b54bd7bd
+                stepCounter: 943858e8-c44f-413d-9769-79de6fe3dfa4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8d26ca6a-dda1-46d5-a7da-226e4125e81c
+          stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: MONITORING_OVERRIDE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0d77ea5f-7e96-4a57-a021-c6ec5d7619ce
+                stepCounter: 943858e8-c44f-413d-9769-79de6fe3dfa4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1ef2d4b3-f6b0-4003-8f1a-ef044a6e29f1
+          stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: COMMENTS_ALL_CHECKED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 716f2850-c0cd-4666-9221-7f5d313d5174
+                stepCounter: 943858e8-c44f-413d-9769-79de6fe3dfa4
+            transform: "\"PRODUCT_GOVERNANCE_TRACKING\".\"ANNUAL_DISCUSSION_COUNT\" + \"PRODUCT_GOVERNANCE_TRACKING\".\"ANNUAL_COMPLIANCE_COUNT\" + \"PRODUCT_GOVERNANCE_TRACKING\".\"ANNUAL_SEC_COUNT\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3aa1b835-f0f7-4942-8e9c-c6087b4458ce
+          stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: QUARTERLY_REVIEW_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a45d5c81-81a2-4bc7-90f4-356d438f8e9f
+                stepCounter: 943858e8-c44f-413d-9769-79de6fe3dfa4
+            transform: NVL("PRODUCT_GOVERNANCE_TRACKING"."QUARTERLY_REVIEW_COUNT", 0)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 853d5fd4-60ad-4da1-a7b3-ae797000f672
+          stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: CONSULTANT_COVERAGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 853d5fd4-60ad-4da1-a7b3-ae797000f672
+                stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+            transform: CASE WHEN "CONSULTANT_COVERAGE"."PRODUCTKEY" IS NULL THEN 0 ELSE 1 END
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8fe12519-1e24-41a4-a5ed-4fc6ea0346da
+          stepCounter: 0b01d52b-85e3-4ecd-836b-2892b32c9925
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: RATING_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a7a1cc3b-1f15-4c6d-a10e-a84fc181b82e
+                stepCounter: 943858e8-c44f-413d-9769-79de6fe3dfa4
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          PRODUCT_GOVERNANCE_TRACKING: 943858e8-c44f-413d-9769-79de6fe3dfa4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_IMISDE
+            nodeName: FIRMPRODUCTCOVERAGE
+          - locationName: STAGE
+            nodeName: PRODUCT_GOVERNANCE_TRACKING
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'PRODUCT_GOVERNANCE_TRACKING') }} "PRODUCT_GOVERNANCE_TRACKING"
+            LEFT JOIN (
+                SELECT DISTINCT "PRODUCTKEY"
+                FROM {{ ref('SRC_IMISDE', 'FIRMPRODUCTCOVERAGE') }} "FIRMPRODUCTCOVERAGE"
+                WHERE "COVERAGETYPE_ID" = 8 AND "ENDDATE" IS NULL
+            ) "CONSULTANT_COVERAGE" ON "PRODUCT_GOVERNANCE_TRACKING"."PRODUCT_KEY" = "CONSULTANT_COVERAGE"."PRODUCTKEY"
+        name: PRODUCT_MONITORING_STEP1
+        noLinkRefs: []
+  name: PRODUCT_MONITORING_STEP1
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
