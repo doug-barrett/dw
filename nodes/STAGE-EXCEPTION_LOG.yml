@@ -17,20 +17,6 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 8da74700-d196-4cef-84df-376e912d3f00
-          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
-        config: {}
-        dataType: NUMBER
-        description: ""
-        name: ENTITY_HASH
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: bd8410f1-2130-4a84-9b44-af5fbe105c3b
-                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
-            transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
@@ -50,6 +36,8 @@ operation:
               - columnCounter: "0"
                 stepCounter: "0"
             transform: "'FUND'"
+          - columnReferences: []
+            transform: "'PRODUCT'"
         systemColumnType: None
       - appliedColumnTests: {}
         columnReference:
@@ -64,6 +52,28 @@ operation:
           - columnReferences:
               - columnCounter: a5802676-0872-4cc3-8be7-47b755a9510b
                 stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
+          - columnReferences:
+              - columnCounter: 16eca223-8dde-4455-86d1-421809784e7e
+                stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8da74700-d196-4cef-84df-376e912d3f00
+          stepCounter: a4b19909-22b6-412a-a503-e753528ccfca
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: ENTITY_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e767b064-033e-4c69-ad15-09e7e7e615d0
+                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
+          - columnReferences:
+              - columnCounter: 3e4925c4-c141-4e2a-baf4-9e3c6e378dde
+                stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
             transform: ""
       - acceptedValues:
           strictMatch: true
@@ -84,6 +94,10 @@ operation:
               - columnCounter: b52120e4-0f7b-41a1-9850-29dcedb5a715
                 stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
             transform: ""
+          - columnReferences:
+              - columnCounter: b4745b14-5551-48f1-b85b-08f18a050816
+                stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
+            transform: ""
         systemColumnType: None
       - acceptedValues:
           strictMatch: true
@@ -103,7 +117,9 @@ operation:
           - columnReferences:
               - columnCounter: "0"
                 stepCounter: "0"
-            transform: ""
+            transform: "''"
+          - columnReferences: []
+            transform: "''"
         systemColumnType: None
       - acceptedValues:
           strictMatch: true
@@ -122,18 +138,40 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
-      - aliases: {}
+      - aliases:
+          FUND_XREF_INC: 8d29d065-6eb1-45b9-ac52-fe139c90b499
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: STAGE
             nodeName: FUND_XREF_INC
         join:
-          joinCondition: FROM {{ ref('STAGE', 'FUND_XREF_INC') }} "FUND_XREF_INC"
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'FUND_XREF_INC') }} "FUND_XREF_INC"
+            WHERE FUND_CAID = 'NULL'
+            OR FUND_CAID IS NULL
+            OR LEN(FUND_CAID) < 16
         name: FUND_XREF
+        noLinkRefs: []
+      - aliases:
+          PRODUCT_XREF_INC: 22817a4f-3ebd-4afe-bbc8-32417a185e54
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: PRODUCT_XREF_INC
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'PRODUCT_XREF_INC') }} "PRODUCT_XREF_INC"
+            WHERE PRODUCT_CAID = 'NULL'
+            OR PRODUCT_CAID IS NULL
+            OR LEN(PRODUCT_CAID) < 16
+        name: PRODUCT_XREF
         noLinkRefs: []
   name: EXCEPTION_LOG
   overrideSQL: false

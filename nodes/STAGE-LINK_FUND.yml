@@ -1,0 +1,96 @@
+fileVersion: 1
+id: 8476d080-7478-4539-9a87-7b4ced70f474
+name: LINK_FUND
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Comprehensive fund cross-reference view combining Brooklyn funds with legacy system data
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 635103ea-845d-4144-b812-89911b920f3d
+          stepCounter: 8476d080-7478-4539-9a87-7b4ced70f474
+        config:
+          is_Link_hk: true
+        dataType: VARCHAR
+        description: ""
+        name: FUND_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fefbe21e-7958-4b95-8b27-93f7793f20b8
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d14fa4e8-74f0-44ea-a0e4-5d6c188bb26c
+          stepCounter: 8476d080-7478-4539-9a87-7b4ced70f474
+        config:
+          is_Link_hk: true
+        dataType: VARCHAR
+        description: ""
+        name: PRODUCT_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 57bb16b2-4730-48b2-9a7b-11c58ab12a56
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d894b47e-dbb7-408e-9b88-3b599ca57a55
+          stepCounter: 8476d080-7478-4539-9a87-7b4ced70f474
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7da4ca73-4c72-4065-b958-95bc223002a5
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d14b830-2052-4935-a942-20c505f76f6b
+          stepCounter: 8476d080-7478-4539-9a87-7b4ced70f474
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 776d8c36-0762-44d6-80da-d2d68deb3732
+                stepCounter: 815e0fc5-85d7-49b4-a4c0-3c8c6dff1099
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: DVSTG_FUND
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_FUND') }} "DVSTG_FUND"
+        name: LINK_FUND
+        noLinkRefs: []
+  name: LINK_FUND
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::7
+  type: sql
+  version: 1
+type: Node

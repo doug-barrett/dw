@@ -33,6 +33,20 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 58e4995f-973a-4553-9971-02f1e3d86e0c
+          stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: PRODUCT_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cdbaf850-068f-4853-b016-a0bd24965435
+                stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 2cdb77aa-4024-4e2c-a6b9-89a38de840cd
           stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
         config: {}
@@ -50,7 +64,7 @@ operation:
           columnCounter: 783ee148-f7ac-4e48-92ad-a81814e84f56
           stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: IMIS_ID
         nullable: true
@@ -64,7 +78,7 @@ operation:
           columnCounter: aef5faf4-6a5c-4e06-8437-90ee41e6b247
           stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: AADB_ID
         nullable: true
@@ -99,20 +113,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 4383af0c-398a-4bff-8172-ae01271eaff1
-                stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 58e4995f-973a-4553-9971-02f1e3d86e0c
-          stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
-        config: {}
-        dataType: VARCHAR
-        description: ""
-        name: PRODUCT_CAID
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: cdbaf850-068f-4853-b016-a0bd24965435
                 stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
             transform: ""
       - appliedColumnTests: {}
@@ -1086,7 +1086,7 @@ operation:
           columnCounter: b1b0e1fc-927c-4a69-879b-ad3a922202bd
           stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: HVR_CHANGE_SEQUENCE
         nullable: true
@@ -1171,6 +1171,20 @@ operation:
                 stepCounter: "0"
             transform: " HASH(OBJECT_CONSTRUCT_KEEP_NULL(* EXCLUDE (\"ROW_EFFECTIVE_DATE\",\"HVR_CHANGE_OP\",\"HVR_CHANGE_SEQUENCE\",\"HVR_CHANGE_TIME\",\"SOURCE_CD\",\"HVR_CAPTURE_TIME\")))"
         systemColumnType: None
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ceda24d-38ba-4031-ab14-633ed24d387f
+          stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
+        config: {}
+        dataType: VARIANT
+        description: ""
+        name: ROW_VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: OBJECT_CONSTRUCT_KEEP_NULL(* EXCLUDE ("ROW_EFFECTIVE_DATE","HVR_CHANGE_OP","HVR_CHANGE_SEQUENCE","HVR_CHANGE_TIME","SOURCE_CD","HVR_CAPTURE_TIME"))
       - acceptedValues:
           strictMatch: true
           values: []
@@ -1189,7 +1203,16 @@ operation:
           - columnReferences:
               - columnCounter: "0"
                 stepCounter: "0"
-            transform: "HASH(OBJECT_CONSTRUCT_KEEP_NULL(\"PRODUCT_CAID\",\"PRODUCT_NAME\",TO_VARCHAR(\"PRODUCT_ID\"),\"IMIS_ID\",\"AADB_ID\",\"ASSET_CLASS_ID\",TO_VARCHAR(\"INCEPTIONDATE\"),\"ACTIVE_STATUS\")) "
+            transform: |-
+              HASH(OBJECT_CONSTRUCT_KEEP_NULL(
+              'CAID', "PRODUCT_CAID",
+              'PRODUCT_ID',TO_VARCHAR("PRODUCT_ID"),
+              'IMIS_ID',"IMIS_ID",
+              'AADB_ID', "AADB_ID",
+              'ASSET_CLASS_ID', "ASSET_CLASS_ID",
+              'INCEPTION_DATE', TO_VARCHAR("INCEPTIONDATE"),
+              'ACTIVE_STATUS', "ACTIVE_STATUS"
+              )) 
         systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []

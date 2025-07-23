@@ -15,7 +15,17 @@ operation:
   locationName: STAGE
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: NULL Check
+        runOrder: After
+        templateString: |-
+          SELECT 1 
+          FROM {{this}}
+          WHERE PRODUCT_CAID = 'NULL'
+          OR PRODUCT_CAID IS NULL
+          OR LEN(PRODUCT_CAID) <> 16
     columns:
       - appliedColumnTests: {}
         columnReference:
@@ -29,6 +39,20 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 612cb869-719f-4d3a-8301-90cdd771dcfe
+                stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0de4bc95-19bc-470d-805c-09b6322966cb
+          stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: PRODUCT_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 58e4995f-973a-4553-9971-02f1e3d86e0c
                 stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
             transform: ""
       - appliedColumnTests: {}
@@ -50,7 +74,7 @@ operation:
           columnCounter: 2e19d327-2c33-4a9b-b5b7-105beb0cf555
           stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: IMIS_ID
         nullable: true
@@ -64,7 +88,7 @@ operation:
           columnCounter: 2b4704b7-b314-4b55-a927-c05301641a38
           stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: AADB_ID
         nullable: true
@@ -99,20 +123,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: d8a74d78-57e0-4f0d-b427-9c00326c0b06
-                stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: 0de4bc95-19bc-470d-805c-09b6322966cb
-          stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
-        config: {}
-        dataType: VARCHAR
-        description: ""
-        name: PRODUCT_CAID
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 58e4995f-973a-4553-9971-02f1e3d86e0c
                 stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
             transform: ""
       - appliedColumnTests: {}
@@ -1086,7 +1096,7 @@ operation:
           columnCounter: f94e4cc6-c67a-4552-974e-a7aaaf18b4b3
           stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: HVR_CHANGE_SEQUENCE
         nullable: true
@@ -1179,6 +1189,23 @@ operation:
               - columnCounter: 341e4fe5-352e-41dd-9f99-7ed54421ee38
                 stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
             transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b4745b14-5551-48f1-b85b-08f18a050816
+          stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
+        config: {}
+        dataType: VARIANT
+        description: ""
+        name: ROW_VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5ceda24d-38ba-4031-ab14-633ed24d387f
+                stepCounter: f5697bb7-efcd-46af-a865-2e7cfaf49a33
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -1194,10 +1221,12 @@ operation:
             FROM {{ ref('STAGE', 'PRODUCT_XREF') }} "PRODUCT_XREF"
             WHERE HVR_CHANGE_OP IN (0,1,2)
                 AND  
-            		HVR_CHANGE_TIME > DATEADD(HOUR, -{{parameters.INCREMENTAL_DV_PROCESSING_PERIOD}}, CURRENT_TIMESTAMP)
-            		QUALIFY ROW_NUMBER() OVER (
-            			PARTITION BY PRODUCT_ID
-            			ORDER BY HVR_CAPTURE_TIME DESC, HVR_CHANGE_SEQUENCE DESC) = 1
+            		(HVR_CHANGE_TIME > DATEADD(HOUR, -{{parameters.INCREMENTAL_DV_PROCESSING_PERIOD}}, CURRENT_TIMESTAMP)
+            		 OR 
+            		 UPPER('{{parameters.FULL_DV_PROCESSING}}') = 'TRUE')
+            QUALIFY ROW_NUMBER() OVER (
+            	PARTITION BY PRODUCT_ID
+            	ORDER BY HVR_CAPTURE_TIME DESC, HVR_CHANGE_SEQUENCE DESC) = 1
         name: PRODUCT_XREF_INC
         noLinkRefs: []
   name: PRODUCT_XREF_INC

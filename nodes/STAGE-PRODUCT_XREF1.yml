@@ -48,10 +48,24 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: cdbaf850-068f-4853-b016-a0bd24965435
+          stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: PRODUCT_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 95ea73bb-f2a0-4196-b664-cc790c2ec171
+                stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
+            transform: IFNULL("PX"."CAMBRIDGE_ID", 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 3c828b96-2eb2-4be8-a86f-09ac74a431e9
           stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: IMIS_ID
         nullable: true
@@ -65,7 +79,7 @@ operation:
           columnCounter: b31731e7-18bb-41d9-aec4-2e4571ddebf0
           stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
         config: {}
-        dataType: NUMBER
+        dataType: STRING
         description: ""
         name: AADB_ID
         nullable: true
@@ -102,20 +116,6 @@ operation:
               - columnCounter: 4383af0c-398a-4bff-8172-ae01271eaff1
                 stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
             transform: CASE WHEN "IMIS_AC"."ASSETCLASSCODE" IS NOT NULL THEN CONCAT('Imis-', "IMIS_AC"."ASSETCLASSCODE") WHEN "AAIM_IMIS_AC"."ASSETCLASSCODE" IS NOT NULL THEN CONCAT('Imis-', "AAIM_IMIS_AC"."ASSETCLASSCODE") WHEN "AACS_IMIS_AC"."ASSETCLASSCODE" IS NOT NULL THEN CONCAT('Imis-', "AACS_IMIS_AC"."ASSETCLASSCODE") WHEN "AAIM_AC"."ASSET_CLASS_ID" IS NOT NULL THEN CONCAT('Aadb-', "AAIM_AC"."ASSET_CLASS_ID") WHEN "AACS_AC"."ASSET_CLASS_ID" IS NOT NULL THEN CONCAT('Aadb-', "AACS_AC"."ASSET_CLASS_ID") ELSE NULL END
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: cdbaf850-068f-4853-b016-a0bd24965435
-          stepCounter: c3abd4ad-ef45-4744-9413-be006f4781f4
-        config: {}
-        dataType: VARCHAR
-        description: ""
-        name: PRODUCT_CAID
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 95ea73bb-f2a0-4196-b664-cc790c2ec171
-                stepCounter: b6423613-66b0-4948-88b9-f47388bf89a5
-            transform: IFNULL("PX"."CAMBRIDGE_ID", 'NULL')
       - appliedColumnTests: {}
         columnReference:
           columnCounter: d127f21b-249c-4e11-ae9a-d98dc2d470c5

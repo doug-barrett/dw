@@ -1,0 +1,81 @@
+fileVersion: 1
+id: d5034732-6a7f-4369-a4f2-ee0dc1583050
+name: HUB_PRODUCT
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Comprehensive product cross-reference view combining Brooklyn products with legacy system data
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 30442ef6-d37d-4f56-a184-5e8ef3f76237
+          stepCounter: d5034732-6a7f-4369-a4f2-ee0dc1583050
+        config:
+          is_Hub_hk: true
+        dataType: VARCHAR
+        description: ""
+        name: PRODUCT_CAID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9d5d39de-a559-428f-a035-1bc36a55def2
+                stepCounter: a907ccd5-7be0-4610-b1ea-cc514f37c8f3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f47cb6c1-ff54-441b-80db-371cd07cdb1b
+          stepCounter: d5034732-6a7f-4369-a4f2-ee0dc1583050
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7f83cde1-6eb5-43b5-8456-1520c1fbb8c7
+                stepCounter: a907ccd5-7be0-4610-b1ea-cc514f37c8f3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e115afa9-e4eb-4a25-9c90-20f51b0c80f7
+          stepCounter: d5034732-6a7f-4369-a4f2-ee0dc1583050
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 76bf9d2d-e423-402b-81d9-a336d7fcbd8e
+                stepCounter: a907ccd5-7be0-4610-b1ea-cc514f37c8f3
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: DVSTG_PRODUCT
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'DVSTG_PRODUCT') }} "DVSTG_PRODUCT"
+        name: HUB_PRODUCT
+        noLinkRefs: []
+  name: HUB_PRODUCT
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node

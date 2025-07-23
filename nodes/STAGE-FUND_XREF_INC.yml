@@ -15,7 +15,17 @@ operation:
   locationName: STAGE
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          SELECT 1 
+          FROM {{this}}
+          WHERE PRODUCT_CAID = 'NULL'
+          OR PRODUCT_CAID IS NULL
+          OR LEN(PRODUCT_CAID) <> 16
     columns:
       - appliedColumnTests: {}
         columnReference:
@@ -5180,14 +5190,16 @@ operation:
           - locationName: STAGE
             nodeName: FUND_XREF
         join:
-          joinCondition: |-
+          joinCondition: |
             FROM {{ ref('STAGE', 'FUND_XREF') }} "FUND_XREF"
             WHERE HVR_CHANGE_OP IN (0,1,2)
-                AND  
-            		HVR_CHANGE_TIME > DATEADD(HOUR, -{{parameters.INCREMENTAL_DV_PROCESSING_PERIOD}}, CURRENT_TIMESTAMP)
-            		QUALIFY ROW_NUMBER() OVER (
-            			PARTITION BY FUND_CAID
-            			ORDER BY HVR_CAPTURE_TIME DESC, HVR_CHANGE_SEQUENCE DESC) = 1
+            AND  
+            		(HVR_CHANGE_TIME > DATEADD(HOUR, -{{parameters.INCREMENTAL_DV_PROCESSING_PERIOD}}, CURRENT_TIMESTAMP)
+            		OR 
+            		UPPER('{{parameters.FULL_DV_PROCESSING}}') = 'TRUE')
+            QUALIFY ROW_NUMBER() OVER (
+            	PARTITION BY FUND_CAID
+            	ORDER BY HVR_CAPTURE_TIME DESC, HVR_CHANGE_SEQUENCE DESC) = 1
         name: FUND_XREF_INC
         noLinkRefs: []
   name: FUND_XREF_INC
