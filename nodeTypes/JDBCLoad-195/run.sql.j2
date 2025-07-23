@@ -1,0 +1,15 @@
+{% if config.truncateBefore %}
+	
+    {{ stage('Truncate Table') }}
+    TRUNCATE IF EXISTS {{ this }}
+
+{% endif %}
+
+
+{{ stage('Run Insert Function') }}
+INSERT INTO {{this}} (DATA, SYSTEM_LOAD_TIMESTAMP)
+SELECT DATA, CURRENT_TIMESTAMP FROM TABLE (DOUG_DB.PUBLIC.READ_JDBC(OBJECT_CONSTRUCT(
+    'driver', '{{config.jdbc_driver}}',
+    'url', '{{config.jdbc_url}}'),
+    '{{config.sql}}'
+))

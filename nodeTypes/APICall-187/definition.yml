@@ -1,0 +1,84 @@
+fileVersion: 1
+id: "187"
+isDisabled: true
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |
+    capitalized: API Call
+    short: API
+    plural: Excel Files
+    tagColor: 'orange'
+    config:
+    - groupName: Documentation
+      items:
+
+      - displayName: Documentation
+        attributeName: doc
+        synatx: sql
+        type: textBox
+        default: "
+    -- Create a Network Rule on Snowflake
+    CREATE OR REPLACE  NETWORK RULE COALESCE_API_RULE
+    MODE = EGRESS
+    TYPE = HOST_PORT
+    VALUE_LIST = ('APP.COALESCESOFTWARE.IO');
+
+    -- Create Integration to access Coalesce API
+    CREATE OR REPLACE EXTERNAL ACCESS INTEGRATION COALESCE_API_INTEGRATION
+    ALLOWED_NETWORK_RULES = (COALESCE_API_RULE)
+    ENABLED=TRUE;"
+
+    - groupName: Options
+      items:
+      - displayName: Snowflake EXTERNAL ACCESS INTEGRATION Name
+        attributeName: extIntegration
+        type: textBox
+        default: "COALESCE_API_INTEGRATION"
+        isRequired: true
+
+      - displayName: Method
+        attributeName: method
+        type: dropdownSelector
+        default: "get"
+        options:
+        - "get"
+        - "post"
+        - "put"
+        isRequired: true
+
+      - displayName: URI
+        attributeName: uri
+        type: textBox
+        default: 'https://app.coalescesoftware.io/api/v1/runs'
+        isRequired: true
+
+      - displayName: Headers
+        attributeName: headers
+        type: textBox
+        default: '{
+            "accept": "application/json",
+            "authorization": "Bearer "
+        }'
+        isRequired: false
+
+      - displayName: Payload
+        attributeName: payload
+        type: textBox
+        default: ''
+        isRequired: false
+
+    systemColumns:
+    - displayName: 'URI'
+      attributeName: uri
+      transform: ''
+      dataType: STRING
+      placement: beginning
+
+    - displayName: 'RESPONSE'
+      attributeName: value
+      transform: ''
+      dataType: VARIANT
+      placement: end
+name: API Call
+type: NodeType

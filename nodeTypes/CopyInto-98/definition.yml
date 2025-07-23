@@ -1,0 +1,191 @@
+fileVersion: 1
+id: "98"
+isDisabled: true
+metadata:
+  defaultStorageLocation: STAGE
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: Copy of Copy Into
+    short: 'COPY'
+    tagColor: '#6ca37b'
+    isDisabled: false
+    plural: Copy Into
+    config:
+    - groupName: Source Data
+      items:
+      - displayName: Stage Name
+        attributeName: stageName
+        type: textBox
+        default: 'DOUGS32'
+        isRequired: true
+
+      - displayName: File Name(s) (Optional - Use single quotes and commas)
+        attributeName: fileNames
+        type: textBox
+        isRequired: false
+
+      - displayName: File Pattern (Optional - Use single quotes)
+        attributeName: filePattern
+        type: textBox
+        isRequired: false
+
+    - groupName: File Format
+      items:
+      - displayName: File Format Definition
+        attributeName: fileFormatType
+        type: dropdownSelector
+        default: "File Format Name"
+        options:
+        - File Format Name
+        - File Format Values
+      - displayName: File Format Name
+        attributeName: fileFormatName
+        type: textBox
+        default: ""
+        isRequired: false
+        enableIf: "{% if config.fileFormatType == 'File Format Name' %} true {% else %} false {% endif %}"
+      - displayName: File Type
+        attributeName: fileType
+        type: dropdownSelector
+        default: CSV
+        options:
+        - "CSV"
+        - "PARQUET"
+        - "JSON"
+        - "AVRO"
+        - "ORC"
+        - "XML"
+        isRequired: false
+        enableIf: "{% if config.fileFormatType != 'File Format Name' %} true {% else %} false {% endif %}"
+      - displayName: Compression
+        attributeName: compression
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV','JSON')) %} true {% else %} false {% endif %}"
+        type: dropdownSelector
+        default: "AUTO"
+        options:
+        - "AUTO"
+        - "GZIP"
+        - "BZ2"
+        - "BROTLI"
+        - "ZSTD"
+        - "DEFLATE"
+        - "RAW_DEFLATE"
+        - "NONE"
+        isRequired: false
+      - displayName: Record delimiter
+        attributeName: recDelim
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\n"
+        isRequired: false
+      - displayName: Field delimiter
+        attributeName: fieldDelim
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: ","
+        isRequired: false
+      - displayName: Field optionally enclosed by
+        attributeName: fieldEnclosed
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\\042"
+        isRequired: false
+      - displayName: Number of header lines to skip
+        attributeName: skipHeader
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "1"
+        isRequired: false
+      - displayName: Skip blank lines
+        attributeName: skipBlankLines
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false
+      - displayName: Trim space
+        attributeName: trimSpace
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false
+    - groupName: Copy Options
+      items:
+      - displayName: Truncate Target Flag
+        attributeName: truncateTargetFlag
+        type: toggleButton
+        isRequired: true
+        default: false
+      - displayName: On Error Behavior
+        attributeName: onError
+        type: dropdownSelector
+        options:
+        - "CONTINUE"
+        - "SKIP_FILE"
+        - "SKIP_FILE_<num>"
+        - "SKIP_FILE_<num>%"
+        - "ABORT_STATEMENT"
+        isRequired: false
+      - displayName: Size Limit
+        attributeName: sizeLimit
+        type: textBox
+        isRequired: false
+      - displayName: Purge Behavior
+        attributeName: purgeBehavior
+        type: dropdownSelector
+        default: FALSE
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+      - displayName: Return Failed Only
+        attributeName: returnFailedOnly
+        type: dropdownSelector
+        default: FALSE
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+      - displayName: Match By Column Name
+        attributeName: matchByColumnName
+        type: dropdownSelector
+        default: NONE
+        options:
+        - "CASE_SENSITIVE"
+        - "CASE_INSENSITIVE"
+        - "NONE"
+        isRequired: false
+        enableIf: "{% if config.fileType in ('JSON','AVRO','ORC','PARQUET') %} true {% else %} false {% endif %}"
+      - displayName: Enforce Length
+        attributeName: enforceLength
+        type: dropdownSelector
+        default: TRUE
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+      - displayName: Truncate Columns
+        attributeName: truncateColumns
+        type: dropdownSelector
+        default: FALSE
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+      - displayName: Force
+        attributeName: forceLoad
+        type: dropdownSelector
+        default: FALSE
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+      - displayName: Load Uncertain Files
+        attributeName: loadUncertainFiles
+        type: dropdownSelector
+        default: FALSE
+        options:
+        - "TRUE"
+        - "FALSE"
+        isRequired: false
+name: Copy Into
+type: NodeType
