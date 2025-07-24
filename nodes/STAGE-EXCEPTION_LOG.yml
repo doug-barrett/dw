@@ -37,6 +37,8 @@ operation:
                 stepCounter: "0"
             transform: "'FUND'"
           - columnReferences: []
+            transform: "'FUND'"
+          - columnReferences: []
             transform: "'PRODUCT'"
         systemColumnType: None
       - appliedColumnTests: {}
@@ -49,6 +51,10 @@ operation:
         name: IDENTITYVAL
         nullable: true
         sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5802676-0872-4cc3-8be7-47b755a9510b
+                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
           - columnReferences:
               - columnCounter: a5802676-0872-4cc3-8be7-47b755a9510b
                 stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
@@ -67,6 +73,10 @@ operation:
         name: ENTITY_HASH
         nullable: true
         sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e767b064-033e-4c69-ad15-09e7e7e615d0
+                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
           - columnReferences:
               - columnCounter: e767b064-033e-4c69-ad15-09e7e7e615d0
                 stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
@@ -95,6 +105,10 @@ operation:
                 stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
             transform: ""
           - columnReferences:
+              - columnCounter: b52120e4-0f7b-41a1-9850-29dcedb5a715
+                stepCounter: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+            transform: ""
+          - columnReferences:
               - columnCounter: b4745b14-5551-48f1-b85b-08f18a050816
                 stepCounter: 22817a4f-3ebd-4afe-bbc8-32417a185e54
             transform: ""
@@ -117,9 +131,11 @@ operation:
           - columnReferences:
               - columnCounter: "0"
                 stepCounter: "0"
-            transform: "''"
+            transform: "'Dodgy key value'"
           - columnReferences: []
-            transform: "''"
+            transform: "'Duplicates'"
+          - columnReferences: []
+            transform: "'Dodgy key value'"
         systemColumnType: None
       - acceptedValues:
           strictMatch: true
@@ -140,6 +156,8 @@ operation:
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -156,7 +174,20 @@ operation:
             WHERE FUND_CAID = 'NULL'
             OR FUND_CAID IS NULL
             OR LEN(FUND_CAID) < 16
-        name: FUND_XREF
+        name: FUND_XREF_KEY
+        noLinkRefs: []
+      - aliases:
+          FUND_XREF_INC: 8d29d065-6eb1-45b9-ac52-fe139c90b499
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: FUND_XREF_INC
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'FUND_XREF_INC') }} "FUND_XREF_INC"
+            QUALIFY ROW_NUMBER() OVER (PARTITION BY FUND_CAID ORDER BY HVR_CHANGE_TIME DESC) > 1
+        name: FUND_XREF_DUP
         noLinkRefs: []
       - aliases:
           PRODUCT_XREF_INC: 22817a4f-3ebd-4afe-bbc8-32417a185e54
@@ -171,7 +202,7 @@ operation:
             WHERE PRODUCT_CAID = 'NULL'
             OR PRODUCT_CAID IS NULL
             OR LEN(PRODUCT_CAID) < 16
-        name: PRODUCT_XREF
+        name: PRODUCT_XREF_KEY
         noLinkRefs: []
   name: EXCEPTION_LOG
   overrideSQL: false
