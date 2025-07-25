@@ -3,11 +3,22 @@ id: 0b01d52b-85e3-4ecd-836b-2892b32c9925
 name: PRODUCT_MONITORING_STEP1
 operation:
   config:
+    clusterKey: false
+    downstreamOption: false
+    groupByAll: false
+    initialize: ON_CREATE
     insertStrategy: INSERT
+    lagSpecification:
+      items:
+        - lagPeriod: Minutes
+          lagValue: "1"
     postSQL: ""
     preSQL: ""
+    refresh_mode: AUTO
+    selectDistinct: false
     testsEnabled: true
     truncateBefore: true
+    warehouseName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: First step of monitoring calculation with governance tracking data
