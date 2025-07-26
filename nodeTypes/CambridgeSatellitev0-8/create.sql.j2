@@ -1,0 +1,27 @@
+{% set hub_table = node.name | replace("SATV0", "HUB") %}
+{% set hub_location = parameters.DV_STORAGE_LOCATION %}
+
+{{ stage('Create Satellite Table') }}
+
+
+CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
+(
+  {% for col in columns %}
+    "{{ col.name }}" {{ col.dataType }} 
+      {% if col.is_hk %} FOREIGN KEY REFERENCES {{ ref_no_link(hub_location, hub_table )}} ("{{ col.name }}" )
+      {% else  %}
+          {%- for i in config.fks.get('items') -%}
+            {%- if col.name == i.fk_col.name -%}
+              {%- set pk_table = i.pk_table -%}
+                FOREIGN KEY REFERENCES {{ ref_no_link(hub_location, i.pk_table )}} ("{{ col.name }}" )
+            {% endif %}
+          {% endfor %}
+      {% endif %}
+    {%- if not col.nullable %} NOT NULL
+      {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+    {% endif %}
+    {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+    {%- if not loop.last -%}, {% endif %}
+  {% endfor %}
+)
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}

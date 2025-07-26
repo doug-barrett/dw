@@ -1,5 +1,33 @@
 fileVersion: 1
 id: "1"
-macroString: ""
+macroString: |-
+  {% import "DV" as dvUtils with context %}
+
+  {%- set datavault4coalesce = namespace(
+
+      config = {
+      "ldts_alias": "LDTS",
+      "rsrc_alias": "RSRC", 
+      "ledts_alias": "LEDTS", 
+      "snapshot_trigger_column": "IS_ACTIVE",
+      "sdts_alias": "SDTS", 
+      "is_current_col_alias": "IS_CURRENT", 
+      "hashkey_input_case_sensitive": "FALSE", 
+      "hashdiff_input_case_sensitive": "TRUE",
+      "copy_rsrc_ldts_input_columns": "false",  
+      "beginning_of_all_times": "0001-01-01T00:00:01", 
+      "end_of_all_times": "8888-12-31T23:59:59",
+      "timestamp_format": "YYYY-MM-DDTHH24:MI:SS", 
+      "default_unknown_rsrc": "SYSTEM", 
+      "default_error_rsrc": "ERROR", 
+      "error_value__STRING": "'(error)'", 
+      "error_value_alt__STRING": "'e'", 
+      "unknown_value__STRING": "'(unknown)'",
+      "unknown_value_alt__STRING": "'u'",
+      "hash": "MD5", 
+      "hash_datatype": "BINARY"
+      }
+
+  ) -%}
 name: macro
 type: Macro
