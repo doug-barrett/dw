@@ -1,6 +1,10 @@
 {% set hub_table = node.name | replace("SATV0", "HUB") %}
 {% set hub_location = parameters.DV_STORAGE_LOCATION %}
-
+{% if config.fks | length > 0 %}
+  {% set fk_items = config.fks.get('items') %}
+{% else %}
+  {% set fk_items = [] %}
+{% endif %}
 {{ stage('Create Satellite Table') }}
 
 
@@ -10,7 +14,7 @@ CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }}
     "{{ col.name }}" {{ col.dataType }} 
       {% if col.is_hk %} FOREIGN KEY REFERENCES {{ ref_no_link(hub_location, hub_table )}} ("{{ col.name }}" )
       {% else  %}
-          {%- for i in config.fks.get('items') -%}
+          {%- for i in fk_items -%}
             {%- if col.name == i.fk_col.name -%}
               {%- set pk_table = i.pk_table -%}
                 FOREIGN KEY REFERENCES {{ ref_no_link(hub_location, i.pk_table )}} ("{{ col.name }}" )
