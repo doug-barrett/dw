@@ -29,5 +29,22 @@ macroString: |-
       }
 
   ) -%}
+
+  {%- macro ref_raw(location_name, node_name) -%}
+      {% raw %}{{ ref('{% endraw %}{{ location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
+  {%- endmacro -%}
+
+  {%- macro ref_no_link_raw(location_name, node_name) -%}
+      {% raw %}{{ ref_no_link('{% endraw %}{{ location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
+  {%- endmacro -%}
+
+  {%- macro ref_link_raw(location_name, node_name) -%}
+      {% raw %}{{ ref_link('{% endraw %}{{ location_name }}{% raw %}', '{% endraw %}{{ node_name }}{% raw %}') }}{% endraw %}
+  {%- endmacro -%}
+
+  {#-- Utility macro: outputs a SQL function to convert input string into a timestamp of dynamic format. --#}
+  {%- macro datavault4coalesce__string_to_timestamp(format, timestamp) -%}
+  TO_TIMESTAMP('{{ timestamp }}', '{{ format }}')
+  {%- endmacro -%}
 name: macro
 type: Macro
