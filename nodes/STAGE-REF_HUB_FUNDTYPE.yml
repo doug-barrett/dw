@@ -1,0 +1,150 @@
+fileVersion: 1
+id: ab43297d-2a74-485e-9b0d-71cca26b0633
+name: REF_HUB_FUNDTYPE
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6efbf612-0c1c-431c-b787-506c421adfa6
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config:
+          is_ref_key: true
+        dataType: NUMBER(38,0)
+        description: ""
+        name: FUNDTYPEID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0e4dcfb8-1e30-452f-b5d3-830a7027c2ff
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a76c1c3a-a3d7-456f-ba1d-4a3afd89144a
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: FUNDTYPENAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eb250707-ff97-4d5c-8871-4364135dec50
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 39b5fd4c-48a7-4550-95bd-1d1cca3ebcd6
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: VARCHAR(40)
+        description: ""
+        name: CREATED_BY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 15010ece-ff11-471d-98de-43a550c10518
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a32ab0a-2998-4498-b7f6-b4371ccdd4e3
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: TIMESTAMP_NTZ(0)
+        description: ""
+        name: HVR_CAPTURE_TIME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 41136180-731e-4b96-9fc5-856f92e04bba
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b597145d-263a-41db-9fa3-6f91b61cf063
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: HVR_CHANGE_OP
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 25c54700-a456-413c-a635-f7591fdf9c84
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e7548194-ce01-492e-9c12-a0e4ad8819f8
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: VARCHAR(46)
+        description: ""
+        name: HVR_CHANGE_SEQUENCE
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fbba44b9-f1d2-4676-b8af-c30398c608ed
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5330d8a8-07c9-4e85-a8b9-38b3eb82153d
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: TIMESTAMP_TZ(3)
+        description: ""
+        name: HVR_CHANGE_TIME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fce3eecc-c170-49c9-8b24-812c6a75d894
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8f99859-b891-44c7-a622-af4ba3e65feb
+          stepCounter: ab43297d-2a74-485e-9b0d-71cca26b0633
+        config: {}
+        dataType: VARCHAR(30)
+        description: ""
+        name: SOURCE_CD
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e911ae0e-e383-4082-bde0-9e4415629526
+                stepCounter: dcda1ff8-732b-4553-861d-64e5255d0e39
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SRC_BROOKLYN
+            nodeName: FUNDTYPE
+        join:
+          joinCondition: FROM {{ ref('SRC_BROOKLYN', 'FUNDTYPE') }} "FUNDTYPE"
+        name: REF_HUB_FUNDTYPE
+        noLinkRefs: []
+  name: REF_HUB_FUNDTYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: "9"
+  type: sql
+  version: 1
+type: Node
