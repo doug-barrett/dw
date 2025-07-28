@@ -47,20 +47,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 86e18f15-3d3e-4fef-aa10-99677c2feed4
-          stepCounter: 8fb33fb3-ec2a-48ae-af68-9e16612497c3
-        config: {}
-        dataType: NUMBER
-        description: ""
-        name: DIM_CUSTOMER_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 32cec659-6d26-48dd-a3a1-bd379ac7a3ba
-                stepCounter: 17f52bad-edfc-4b80-99bf-35806173033d
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 5dbaaee5-609d-4d4d-9bd0-eac11781a035
           stepCounter: 8fb33fb3-ec2a-48ae-af68-9e16612497c3
         config: {}
@@ -413,7 +399,6 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          DIM_CUSTOMER: 17f52bad-edfc-4b80-99bf-35806173033d
           DIM_PART: bc92e85d-a157-41b2-8121-3f5f79016c4e
           DIM_SUPPLIER: e3ac6e51-3eee-4671-b731-776f1850a4d2
           LINEITEM: d90f2fdf-7589-47cd-9c3f-aa1f68568bd2
@@ -426,8 +411,6 @@ operation:
           - locationName: BRONZE
             nodeName: ORDERS
           - locationName: GOLD
-            nodeName: DIM_CUSTOMER
-          - locationName: GOLD
             nodeName: DIM_PART
           - locationName: GOLD
             nodeName: DIM_SUPPLIER
@@ -436,8 +419,6 @@ operation:
             FROM {{ ref('BRONZE', 'LINEITEM') }} "LINEITEM"
             INNER JOIN {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
             ON "LINEITEM"."L_ORDER_ID" = "ORDERS"."O_ORDER_ID"
-            LEFT JOIN {{ ref('GOLD', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-            ON "ORDERS"."O_CUST_ID" = "DIM_CUSTOMER"."C_CUST_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_PART') }} "DIM_PART"
             ON "LINEITEM"."L_PART_ID" = "DIM_PART"."P_PART_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
