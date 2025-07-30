@@ -1,0 +1,118 @@
+fileVersion: 1
+id: d4630649-42c2-4a6c-ac39-375ac52349b9
+name: STG_CREATED_BEFORE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Opportunities created before their first valid date
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f6373f8a-233e-4495-9878-7f11bcd91fa8
+          stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f6373f8a-233e-4495-9878-7f11bcd91fa8
+                stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+            transform: "\"ID\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 72de0c79-db39-4412-8b66-3d2c18977d7c
+          stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+        config: {}
+        dataType: DATE
+        description: ""
+        name: CREATED_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 72de0c79-db39-4412-8b66-3d2c18977d7c
+                stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+            transform: DATE_TRUNC(DAY,"CREATED_DATE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03c7b334-3992-410a-859a-cfe34fdb4092
+          stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+        config: {}
+        dataType: DATE
+        description: ""
+        name: DAY_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 03c7b334-3992-410a-859a-cfe34fdb4092
+                stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+            transform: "\"DAY_DATE\""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bcf34d73-a6b8-4157-a60d-1c2e2af9ff10
+          stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+        config: {}
+        dataType: DATE
+        description: ""
+        name: MIN_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bcf34d73-a6b8-4157-a60d-1c2e2af9ff10
+                stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+            transform: DATE_TRUNC(DAY,MIN("DBT_VALID_FROM"))
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 96f1334d-acd5-4c36-bbdc-77260c4d5099
+          stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+        config: {}
+        dataType: DATE
+        description: ""
+        name: MAX_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 96f1334d-acd5-4c36-bbdc-77260c4d5099
+                stepCounter: d4630649-42c2-4a6c-ac39-375ac52349b9
+            transform: DATE_TRUNC(DAY,MAX("DBT_VALID_FROM"))
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          STG_EXPANDED_DAYS: 77888b25-868e-4bf1-a7e3-89361ec3a98f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_EXPANDED_DAYS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'STG_EXPANDED_DAYS') }} "STG_EXPANDED_DAYS"
+            GROUP BY "ID", "CREATED_DATE", "DAY_DATE"
+            HAVING DATE_TRUNC(DAY,"CREATED_DATE") < DATE_TRUNC(DAY,MIN("DBT_VALID_FROM"))
+                AND ("DAY_DATE" NOT BETWEEN DATE_TRUNC(DAY,MIN("DBT_VALID_FROM")) AND DATE_TRUNC(DAY,MAX("DBT_VALID_FROM")))
+                AND "DAY_DATE" < DATE_TRUNC(DAY,MAX("DBT_VALID_FROM"))
+        name: STG_EXPANDED_DAYS1
+        noLinkRefs: []
+  name: STG_CREATED_BEFORE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
