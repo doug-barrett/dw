@@ -1,0 +1,131 @@
+fileVersion: 1
+id: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+name: AGG_ORDERS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DW
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b09f164a-2156-471b-a101-caa3212f2d2d
+          stepCounter: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar year. Format YYYY
+        name: ORDER_CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5366897-3a9c-4634-a461-e6f6f5ac6933
+                stepCounter: 5e391ea3-683f-4455-9277-30d0605bbb7d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5fab2079-410a-490f-9fb6-2f22e1216345
+          stepCounter: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+        config: {}
+        dataType: VARCHAR(50)
+        defaultValue: ""
+        description: This is the customers head office address country
+        name: COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d964bc30-b2ea-4e08-baf6-256c9ec5aac7
+                stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 176ab5b6-ac4d-4c55-9f97-981016d703c6
+          stepCounter: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: This is the internal order id
+        isBusinessKey: true
+        name: ORDER_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 20bb0542-b084-4756-ba92-e872b78c762a
+                stepCounter: 9599642c-8efc-4cae-9634-5430151859d5
+            transform: count(1)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 681b3030-3bb9-492d-baf4-50f60185e941
+          stepCounter: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+        config: {}
+        dataType: MONEY
+        defaultValue: ""
+        description: The order freight costs
+        name: FREIGHT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9365c4ab-07ff-4330-9704-324717f809b0
+                stepCounter: 9599642c-8efc-4cae-9634-5430151859d5
+            transform: sum(fact_orders.freight)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 771dfaf9-83a5-4b6b-89f3-0e71788a08d0
+          stepCounter: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was created in the data warehouse.
+        isSystemCreateDate: true
+        name: DSS_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c1746d33-9076-43a2-8123-90f360daeff2
+          stepCounter: a7f25fdf-c6e7-492b-ae6b-031feed0e2e7
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was updated in the data warehouse.
+        isSystemUpdateDate: true
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_ORDER_DATE: 5e391ea3-683f-4455-9277-30d0605bbb7d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DW
+            nodeName: DIM_CUSTOMERS
+          - locationName: DW
+            nodeName: DIM_ORDER_DATE
+          - locationName: DW
+            nodeName: FACT_ORDERS
+        join:
+          joinCondition: FROM {{ ref('DW','DIM_ORDER_DATE') }}
+        name: AGG_ORDERS
+        noLinkRefs: []
+  name: AGG_ORDERS
+  overrideSQL: false
+  schema: ""
+  sqlType: Fact
+  type: sql
+  version: 1
+type: Node

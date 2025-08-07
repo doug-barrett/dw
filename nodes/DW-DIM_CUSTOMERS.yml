@@ -1,0 +1,291 @@
+fileVersion: 1
+id: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+name: DIM_CUSTOMERS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: DW
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cccbe990-90b1-4292-a021-5673e6a05203
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: INTEGER IDENTITY(1,1)
+        defaultValue: ""
+        description: Generated artificial key
+        isSurrogateKey: true
+        name: DIM_CUSTOMERS_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 97090546-6187-4590-9bfd-805e538201fb
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: NCHAR(5)
+        defaultValue: ""
+        description: ""
+        isBusinessKey: true
+        name: CUSTOMERID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e8c39715-933f-4e47-8f42-39a45063b576
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c66a6c28-e59c-4515-8ea5-b7f15936c76a
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: This is the customers registered name
+        name: COMPANYNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a4bf44b3-fb5a-4c57-8d15-3fad5041cf4d
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.companyname, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 99de7488-969c-4f6a-9294-c946ff0dd730
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: CONTACTNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ad039d78-bdef-442b-a968-8692e124f11c
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.contactname, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9091aa51-c33e-4048-9e28-bae7614d1c6d
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: CONTACTTITLE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ab2e7554-0b86-4812-a38d-16e49614e78b
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.contacttitle, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b0b46e6-c782-4976-92b7-48bc79ea9b6a
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7f022358-b80a-47d0-9a17-014b6c10882e
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.address, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ff39483-1690-4166-82c4-963e46e2203a
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: ADDRESS_LINE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 01333b2e-33ff-4f1f-b179-a5a513017d44
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.address_line, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 191e1b9c-d6a3-4722-ad95-57bb3d85c67d
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: This is the customers head office address city
+        name: CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e6e2d340-23ed-4c27-a2fb-3aa0aef18890
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.city, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6cb44d80-b156-4130-9a50-03e61b51f742
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: REGION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 121e3364-c103-45fd-b5c4-c2a415018947
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.region, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8d51fc4-2b3c-4c0d-bda1-120506d59c1c
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: REGION2
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 85f6eea4-dd3b-4138-bb22-1e3a2f8cf7b2
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.region2, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ff1a631f-80b1-4f92-a1e8-b8044c615ab5
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: POSTALCODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 29a333a6-0e37-4160-a262-e8491d900c54
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.postalcode, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d964bc30-b2ea-4e08-baf6-256c9ec5aac7
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: This is the customers head office address country
+        name: COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5687cd67-3c3c-4e86-b0d5-8614f9993661
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.country, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b7c5f8c-4e38-436d-a736-3f098463e1f1
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: ""
+        name: PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ddad93d1-70c8-4284-a596-60807519025f
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ISNULL(stage_dim_customers.phone, 'NULL')
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71d4e949-02fd-4454-94c0-9bc3890d106c
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: VARCHAR(255)
+        defaultValue: ""
+        description: Record source.
+        name: DSS_RECORD_SOURCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c06e9ee0-4ee5-4625-af9d-f74353e59104
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1d93e746-6570-42f5-aa80-59fdba9deea6
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Load date.
+        name: DSS_LOAD_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de71b7de-3e8f-4063-925d-b9fbc12342e4
+                stepCounter: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6fafb7c1-f1e4-49c3-aa59-452a5e1d8eaf
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was created in the data warehouse.
+        isSystemCreateDate: true
+        name: DSS_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8ee5edb4-f3c9-455c-8e74-25711d6bdb63
+          stepCounter: 03d8a272-3fcb-4812-918c-05d9bf9e4a2c
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was updated in the data warehouse.
+        isSystemUpdateDate: true
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STAGE_DIM_CUSTOMERS: 37ba9d72-2240-479f-9331-dfbfdadb4e61
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STAGE_DIM_CUSTOMERS
+        join:
+          joinCondition: FROM {{ ref('STAGE','STAGE_DIM_CUSTOMERS') }} stage_dim_customers
+        name: DIM_CUSTOMERS
+        noLinkRefs: []
+  name: DIM_CUSTOMERS
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node
