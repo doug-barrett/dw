@@ -36,6 +36,17 @@ macroString: |
       TO_NUMBER(TO_CHAR({{ column }}, 'YYYYMMDD'))
   {%- endmacro %}
 
+  {#-- replacer #}
+  {#-- used for column renames eg {{ replacer(column.name) }} #}
+
+  {%- macro replacer(col_name) -%}
+      {% set ns = namespace(col=col_name) %}
+      {% for p in parameters.replace %}
+          {% set ns.col = ns.col | replace(p.long,  p.short) %}
+      {% endfor %}
+      {{ ns.col }}
+  {%- endmacro %}
+
 
   {#-- ************************************************************************************************* #}
   {#-- Testing templates #}
