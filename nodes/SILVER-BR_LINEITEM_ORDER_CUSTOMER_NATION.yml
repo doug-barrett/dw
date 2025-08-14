@@ -287,13 +287,12 @@ operation:
           - locationName: SILVER
             nodeName: LINK_ORDER_CUSTOMER
         join:
-          joinCondition: |+
+          joinCondition: |
             FROM {{ ref('SILVER', 'LINK_LINEITEM') }} "LINK_LINEITEM"
             INNER JOIN {{ ref('SILVER', 'LINK_ORDER_CUSTOMER') }} "LINK_ORDER_CUSTOMER"
             ON "LINK_LINEITEM"."H_ORDER_KEY" = "LINK_ORDER_CUSTOMER"."H_ORDER_KEY"
             INNER JOIN {{ ref('SILVER', 'LINK_CUSTOMER_NATION') }} "LINK_CUSTOMER_NATION"
             ON "LINK_ORDER_CUSTOMER"."H_CUSTOMER_KEY" = "LINK_CUSTOMER_NATION"."H_CUSTOMER_KEY"
-
         name: BR_LINEITEM_ORDER_CUSTOMER_NATION
         noLinkRefs: []
   name: BR_LINEITEM_ORDER_CUSTOMER_NATION
