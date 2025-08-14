@@ -3,9 +3,27 @@ id: 5fd801d6-08cf-4614-b486-897092d0b3bd
 name: FCT_LINEITEM_ORDER
 operation:
   config:
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: e0cb5335-96ec-4db4-b17d-c21eae83b393
+            stepCounter: 5fd801d6-08cf-4614-b486-897092d0b3bd
+    clusterKeyExpressions: false
+    downstreamOption: false
+    groupByAll: false
+    initialize: ON_CREATE
+    insertStrategy: UNION
+    lagSpecification:
+      items:
+        - lagPeriod: Minutes
+          lagValue: 60
     postSQL: ""
     preSQL: ""
+    refresh_mode: AUTO
+    selectDistinct: true
     testsEnabled: true
+    warehouseName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
