@@ -1,0 +1,112 @@
+fileVersion: 1
+id: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+name: NATION_RANK
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Sales data with nation rankings by supplier
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ce2640d-9050-467e-a885-a35f309b47a3
+          stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9c89d0a-51a1-41c0-a6af-804c103586f1
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4e5946e6-70fa-4078-8b45-79a09309bc16
+          stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 40e09232-3dd3-4fb7-ba97-b5d24a6846ca
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a3e774af-57d3-403b-86d8-927bc4983712
+          stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bca3ee57-9c19-474e-9231-84c86785129e
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9ce78f7e-25c6-4885-84b4-87d3d71f577a
+          stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: NATION_RANK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9c89d0a-51a1-41c0-a6af-804c103586f1
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ROW_NUMBER() OVER (PARTITION BY "SALES_BASE"."SUPPKEY" ORDER BY "SALES_BASE"."SALES_AMT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a7998414-75d5-41b7-84d7-0202e4c01e5d
+          stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: NATION_RANK_REV
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9c89d0a-51a1-41c0-a6af-804c103586f1
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ROW_NUMBER() OVER (PARTITION BY "SALES_BASE"."SUPPKEY" ORDER BY "SALES_BASE"."SALES_AMT" DESC)
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: SALES_BASE
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'SALES_BASE') }} "SALES_BASE"
+        name: NATION_RANK
+        noLinkRefs: []
+  name: NATION_RANK
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

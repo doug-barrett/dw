@@ -1,0 +1,81 @@
+fileVersion: 1
+id: 33d940be-3e92-4bdf-95a6-cfe036a38591
+name: STG_SALES_ERROR
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Base sales data with supplier, nation and sales amount
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bd418304-a771-4f49-a90c-392da87ed062
+          stepCounter: 33d940be-3e92-4bdf-95a6-cfe036a38591
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9c89d0a-51a1-41c0-a6af-804c103586f1
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fbd4cf5c-179b-42fc-a1c1-b6e82d1995a4
+          stepCounter: 33d940be-3e92-4bdf-95a6-cfe036a38591
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 40e09232-3dd3-4fb7-ba97-b5d24a6846ca
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 471c3e25-65d1-4f65-b177-2e9726a3a23b
+          stepCounter: 33d940be-3e92-4bdf-95a6-cfe036a38591
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bca3ee57-9c19-474e-9231-84c86785129e
+                stepCounter: b700d487-9d15-4a17-9677-d4b5ef3a75c0
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: SALES_BASE
+        join:
+          joinCondition: FROM {{ ref('STAGE', 'SALES_BASE') }} "SALES_BASE"
+        name: STG_SALES_ERROR
+        noLinkRefs: []
+  name: STG_SALES_ERROR
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,88 @@
+fileVersion: 1
+id: 390af40f-9c9a-4e6a-add3-b665e819b875
+name: BOTTOM_NATION_SALES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Bottom 10 nation sales by supplier
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8625ff95-caf0-4d08-b2d9-636063243047
+          stepCounter: 390af40f-9c9a-4e6a-add3-b665e819b875
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5ce2640d-9050-467e-a885-a35f309b47a3
+                stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49bd961e-7700-4b4d-ab7a-d35d41623943
+          stepCounter: 390af40f-9c9a-4e6a-add3-b665e819b875
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3e774af-57d3-403b-86d8-927bc4983712
+                stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+            transform: SUM("NATION_RANK"."SALES_AMT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9257d6ec-f9a9-4434-abad-f0e837fc322f
+          stepCounter: 390af40f-9c9a-4e6a-add3-b665e819b875
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: BOTTOM_NATIONS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4e5946e6-70fa-4078-8b45-79a09309bc16
+                stepCounter: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+            transform: LISTAGG("NATION_RANK"."NATION", ',') WITHIN GROUP (ORDER BY "NATION_RANK"."NATION_RANK")
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          NATION_RANK: 144dee61-f3dd-4284-9858-7a161eb3ddf2
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: NATION_RANK
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'NATION_RANK') }} "NATION_RANK"
+            WHERE "NATION_RANK"."NATION_RANK_REV" <= 10
+            GROUP BY "SUPPKEY"
+        name: STG_NATION_RANK
+        noLinkRefs: []
+  name: BOTTOM_NATION_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
