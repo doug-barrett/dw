@@ -473,8 +473,11 @@ operation:
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."O_ORDER_ID" = "DIM_ORDERS"."O_ORDER_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_PART') }} "DIM_PART"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."L_PART_ID" = "DIM_PART"."P_PART_ID"
+            WHERE "SATV0_LINEITEM"."LDTS" > (SELECT NVL(MAX("LDTS"), '1900-01-01') FROM {{ ref_no_link('GOLD', 'FCT_LINEITEM_ORDER') }}) 
         name: STG_FCT_LINEITEM_ORDER
-        noLinkRefs: []
+        noLinkRefs:
+          - locationName: GOLD
+            nodeName: FCT_LINEITEM_ORDER
   name: STG_FCT_LINEITEM_ORDER
   overrideSQL: false
   schema: ""
