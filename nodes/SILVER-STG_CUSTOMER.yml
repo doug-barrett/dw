@@ -21,6 +21,14 @@ operation:
         name: Test rowcount
         runOrder: After
         templateString: "{{ test.expect_table_row_count_to_equal_other_table( \"{{ref('BRONZE', 'CUSTOMER')}}\") }} "
+      - continueOnFailure: false
+        description: ""
+        name: Test
+        runOrder: After
+        templateString: |-
+          SELECT 1
+          FROM {{this}}
+          WHERE C_NAME IS NULL 
     columns:
       - appliedColumnTests: {}
         columnReference:
