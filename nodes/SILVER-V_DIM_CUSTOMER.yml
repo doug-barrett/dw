@@ -213,7 +213,7 @@ operation:
           - locationName: SILVER
             nodeName: SATV1_CUSTOMER_LROC
         join:
-          joinCondition: |
+          joinCondition: |-
             FROM {{ ref('SILVER', 'PIT_CUSTOMER') }} "PIT_CUSTOMER"
             INNER JOIN {{ ref('SILVER', 'SATV1_CUSTOMER_HROC') }} "SATV1_CUSTOMER_HROC"
             ON "PIT_CUSTOMER"."H_CUSTOMER_KEY" = "SATV1_CUSTOMER_HROC"."H_CUSTOMER_KEY"
@@ -221,9 +221,6 @@ operation:
             INNER JOIN {{ ref('SILVER', 'SATV1_CUSTOMER_LROC') }} "SATV1_CUSTOMER_LROC"
             ON "PIT_CUSTOMER"."H_CUSTOMER_KEY" = "SATV1_CUSTOMER_LROC"."H_CUSTOMER_KEY"
             AND "PIT_CUSTOMER"."SATV1_CUSTOMER_LROC_LDTS" = "SATV1_CUSTOMER_LROC"."LDTS"
-
-            QUALIFY   
-                LAG("SATV1_CUSTOMER_HROC".C_MKTSEGMENT, 1, 0) OVER (PARTITION BY "PIT_CUSTOMER"."C_CUST_ID" ORDER BY "PIT_CUSTOMER"."SDTS") <> SATV1_CUSTOMER_HROC.C_MKTSEGMENT
         name: V_DIM_CUSTOMER
         noLinkRefs: []
   name: V_DIM_CUSTOMER
