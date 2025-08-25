@@ -1,0 +1,235 @@
+fileVersion: 1
+id: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+name: DIM_SHIP_DATE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Role playing dimension over generated date dimension"
+  isMultisource: false
+  locationName: DW
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a822dd9-5b79-41e3-b2db-ce0eeae5b942
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Generated key for the date dimension. Nominal format is YYYYMMDD, but DD equal to 0 and greater than 31 permited for special date handling.
+        isSurrogateKey: true
+        name: DIM_SHIP_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f84ee6b6-f52d-4bef-8994-e53bfe4649ce
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9608f717-2bcf-42c1-914d-e66ab7f6608f
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The calendar date for this row.
+        isBusinessKey: true
+        name: SHIPPEDDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 52eb9b23-d244-485d-83b8-fd3a2ef8664c
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a42692c-32ba-412f-b190-8d31020963bf
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: VARCHAR(3)
+        defaultValue: ""
+        description: 'The day in the week. Format DDD. Example: mon, tue, wed.'
+        name: SHIP_CAL_DAY_IN_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d2ad1edd-5e2d-4d8b-aeeb-1d1771990bd2
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6fd32ae1-e19a-4e9b-918a-4013569e3c7d
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day number in the week. 1-7 where Sunday is day 1.
+        name: SHIP_CAL_DAY_IN_WEEK_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 126a38b9-4594-4860-97f0-654e8a5379fd
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f4921cd0-6fc2-45f6-a731-104255c60a03
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the month 1-31.
+        name: SHIP_CAL_DAY_IN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9508a53b-9f05-4f9b-a9aa-0253ede25729
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0acc4621-7ec6-4e07-85af-f14dc1b803b5
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the year 1-366.
+        name: SHIP_CAL_DAY_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 34c25216-a75e-481b-a4cf-bf567202e0a9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b71776ff-3080-421d-94b7-2132164474a8
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The week in the year 0-53.
+        name: SHIP_CAL_WEEK_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 56f0bb8e-bf9a-413d-b5f6-fbb2730beb02
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94c0992a-6095-4902-8f92-6b208e8ff9d1
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar month number 1-12.
+        name: SHIP_CAL_MONTH_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2ab881f5-1429-4bd3-b2f3-a2ea7de00d5e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 983472fb-a2fd-48e7-aeed-5a03cd148a4a
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'The calendar month representation. Format YYYYMM. Example: 200206.'
+        name: SHIP_CAL_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d6776007-53cc-48ce-a449-9454fc0b68d9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e999e71c-5132-46cb-8ef8-1b3768d98835
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: VARCHAR(7)
+        defaultValue: ""
+        description: 'The calendar month name. Format MON. Examples: jan, feb, mar.'
+        name: SHIP_CAL_MONTH_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9cac28f5-ae54-4121-aaf0-210a073723c4
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: da4711c6-fa33-4ec8-a5f3-cc917ed7bec4
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter number 1-4.
+        name: SHIP_CAL_QUARTER_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a741d22c-55aa-409d-a85e-15e1bee6ad8d
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77355322-c844-4fee-81aa-82fa4b13c857
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter representation. Format YYYYQQ. Example 200204.
+        name: SHIP_CAL_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7020a3ab-bf19-4b89-bb21-0ca3c2ede146
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8bf5d0c1-e99a-482c-bb93-770eaf64925e
+          stepCounter: dbad0f96-d2ae-4d27-9cc0-d2ca538a88f5
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar year. Format YYYY
+        name: SHIP_CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 13341de0-d714-489d-9003-8338455aaf2e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_DATE: c648228c-4d71-4129-931c-63bc088671cb
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DW
+            nodeName: DIM_DATE
+        join:
+          joinCondition: FROM {{ ref('DW','DIM_DATE') }}
+        name: DIM_SHIP_DATE
+        noLinkRefs: []
+  name: DIM_SHIP_DATE
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

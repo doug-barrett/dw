@@ -1,0 +1,235 @@
+fileVersion: 1
+id: b0867951-4975-4d46-b84e-3354fa6a47df
+name: DIM_ORDER_DATE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Role playing dimension over generated date dimension"
+  isMultisource: false
+  locationName: DW
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d07c38fd-2c3a-4682-a181-4ea6fc3d5fa6
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Generated key for the date dimension. Nominal format is YYYYMMDD, but DD equal to 0 and greater than 31 permited for special date handling.
+        isSurrogateKey: true
+        name: DIM_ORDER_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f84ee6b6-f52d-4bef-8994-e53bfe4649ce
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1f3f1df-2394-4148-b0f4-1bd53db2a14c
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The calendar date for this row.
+        isBusinessKey: true
+        name: ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 52eb9b23-d244-485d-83b8-fd3a2ef8664c
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: efff38f0-f135-4d06-8542-84d9592db989
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: VARCHAR(3)
+        defaultValue: ""
+        description: 'The day in the week. Format DDD. Example: mon, tue, wed.'
+        name: ORDER_CAL_DAY_IN_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d2ad1edd-5e2d-4d8b-aeeb-1d1771990bd2
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 300a4a6f-c028-45bf-ba08-c3c3137427fc
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day number in the week. 1-7 where Sunday is day 1.
+        name: ORDER_CAL_DAY_IN_WEEK_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 126a38b9-4594-4860-97f0-654e8a5379fd
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95975c64-94c3-4983-8d5a-2d6d68e7595e
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the month 1-31.
+        name: ORDER_CAL_DAY_IN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9508a53b-9f05-4f9b-a9aa-0253ede25729
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f3b43a46-9883-4ab8-9119-11b7e14a54f0
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the year 1-366.
+        name: ORDER_CAL_DAY_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 34c25216-a75e-481b-a4cf-bf567202e0a9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6758b8aa-89de-491b-aa64-84c8cff4ce03
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The week in the year 0-53.
+        name: ORDER_CAL_WEEK_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 56f0bb8e-bf9a-413d-b5f6-fbb2730beb02
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a0170691-8e38-4c6a-9a3a-db70191d6563
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar month number 1-12.
+        name: ORDER_CAL_MONTH_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2ab881f5-1429-4bd3-b2f3-a2ea7de00d5e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 22dcc913-f367-48ec-9b1f-78f776d0c5a4
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'The calendar month representation. Format YYYYMM. Example: 200206.'
+        name: ORDER_CAL_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d6776007-53cc-48ce-a449-9454fc0b68d9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1e9a3b72-bf72-4c40-be93-90e626bef406
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: VARCHAR(7)
+        defaultValue: ""
+        description: 'The calendar month name. Format MON. Examples: jan, feb, mar.'
+        name: ORDER_CAL_MONTH_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9cac28f5-ae54-4121-aaf0-210a073723c4
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9661a456-2cfc-48d6-b7f1-f3667ff10368
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter number 1-4.
+        name: ORDER_CAL_QUARTER_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a741d22c-55aa-409d-a85e-15e1bee6ad8d
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 43c0884a-6713-47d1-9fa2-5fa2db5f3383
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter representation. Format YYYYQQ. Example 200204.
+        name: ORDER_CAL_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7020a3ab-bf19-4b89-bb21-0ca3c2ede146
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32a43030-cc1c-40ac-beea-462ef56acd17
+          stepCounter: b0867951-4975-4d46-b84e-3354fa6a47df
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar year. Format YYYY
+        name: ORDER_CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 13341de0-d714-489d-9003-8338455aaf2e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_DATE: c648228c-4d71-4129-931c-63bc088671cb
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DW
+            nodeName: DIM_DATE
+        join:
+          joinCondition: FROM {{ ref('DW','DIM_DATE') }}
+        name: DIM_ORDER_DATE
+        noLinkRefs: []
+  name: DIM_ORDER_DATE
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

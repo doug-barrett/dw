@@ -1,0 +1,804 @@
+fileVersion: 1
+id: c648228c-4d71-4129-931c-63bc088671cb
+name: DIM_DATE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Date dimension, generated."
+  isMultisource: false
+  locationName: DW
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f84ee6b6-f52d-4bef-8994-e53bfe4649ce
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Generated key for the date dimension. Nominal format is YYYYMMDD, but DD equal to 0 and greater than 31 permited for special date handling.
+        isSurrogateKey: true
+        name: DIM_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f84ee6b6-f52d-4bef-8994-e53bfe4649ce
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 52eb9b23-d244-485d-83b8-fd3a2ef8664c
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The calendar date for this row.
+        isBusinessKey: true
+        name: CALENDAR_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 52eb9b23-d244-485d-83b8-fd3a2ef8664c
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d2ad1edd-5e2d-4d8b-aeeb-1d1771990bd2
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(3)
+        defaultValue: ""
+        description: 'The day in the week. Format DDD. Example: mon, tue, wed.'
+        name: CAL_DAY_IN_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d2ad1edd-5e2d-4d8b-aeeb-1d1771990bd2
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 126a38b9-4594-4860-97f0-654e8a5379fd
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day number in the week. 1-7 where Sunday is day 1.
+        name: CAL_DAY_IN_WEEK_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 126a38b9-4594-4860-97f0-654e8a5379fd
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9508a53b-9f05-4f9b-a9aa-0253ede25729
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the month 1-31.
+        name: CAL_DAY_IN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9508a53b-9f05-4f9b-a9aa-0253ede25729
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 34c25216-a75e-481b-a4cf-bf567202e0a9
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the year 1-366.
+        name: CAL_DAY_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 34c25216-a75e-481b-a4cf-bf567202e0a9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 56f0bb8e-bf9a-413d-b5f6-fbb2730beb02
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The week in the year 0-53.
+        name: CAL_WEEK_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 56f0bb8e-bf9a-413d-b5f6-fbb2730beb02
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2ab881f5-1429-4bd3-b2f3-a2ea7de00d5e
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar month number 1-12.
+        name: CAL_MONTH_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2ab881f5-1429-4bd3-b2f3-a2ea7de00d5e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d6776007-53cc-48ce-a449-9454fc0b68d9
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'The calendar month representation. Format YYYYMM. Example: 200206.'
+        name: CAL_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d6776007-53cc-48ce-a449-9454fc0b68d9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9cac28f5-ae54-4121-aaf0-210a073723c4
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(7)
+        defaultValue: ""
+        description: 'The calendar month name. Format MON. Examples: jan, feb, mar.'
+        name: CAL_MONTH_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9cac28f5-ae54-4121-aaf0-210a073723c4
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a741d22c-55aa-409d-a85e-15e1bee6ad8d
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter number 1-4.
+        name: CAL_QUARTER_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a741d22c-55aa-409d-a85e-15e1bee6ad8d
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7020a3ab-bf19-4b89-bb21-0ca3c2ede146
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter representation. Format YYYYQQ. Example 200204.
+        name: CAL_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7020a3ab-bf19-4b89-bb21-0ca3c2ede146
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 13341de0-d714-489d-9003-8338455aaf2e
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar year. Format YYYY
+        name: CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 13341de0-d714-489d-9003-8338455aaf2e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 14c14861-94b9-4b89-98de-39f0ac3f51c4
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The financial date. Same as calendar date.
+        name: FINANCIAL_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 14c14861-94b9-4b89-98de-39f0ac3f51c4
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: de492a2c-f1ec-4ed7-904a-dff2303b8d5f
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(3)
+        defaultValue: ""
+        description: 'The financial day in the week. Format DDD. Example: mon,tue,wed.'
+        name: FIN_DAY_IN_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de492a2c-f1ec-4ed7-904a-dff2303b8d5f
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82377163-950f-40b8-8b04-c2fa2ec27971
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Day number in the current financial week.
+        name: FIN_DAY_IN_WEEK_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 82377163-950f-40b8-8b04-c2fa2ec27971
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b03d14df-3d74-4f2c-b457-f43362141578
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Financial day in the month. Normally the same as calendar day in the month, unless the financial period starts mid calendar month.
+        name: FIN_DAY_IN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b03d14df-3d74-4f2c-b457-f43362141578
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85604251-e23a-4478-a58f-5bd70991b93b
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Financial day in the year. Number of days since the start of the financial year.
+        name: FIN_DAY_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 85604251-e23a-4478-a58f-5bd70991b93b
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a01c877d-3400-4d7e-8b47-ac7c52b2c807
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'Financial week in the financial month. '
+        name: FIN_WEEK_IN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a01c877d-3400-4d7e-8b47-ac7c52b2c807
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 28e659f8-996e-47f5-a8ba-952e64aae24a
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Financial week in the financial year. Number of weeks since the start of the financial year
+        name: FIN_WEEK_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 28e659f8-996e-47f5-a8ba-952e64aae24a
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8af52c15-5c21-4d0b-8ee6-722a9e993f95
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'Financial month number. Format MM. Examples: 1,2,3.'
+        name: FIN_MONTH_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8af52c15-5c21-4d0b-8ee6-722a9e993f95
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fefe0be7-1df3-4190-8a4f-b7938969d562
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'Financial month representation. Fromat YYYYMM. Examples: 200101, 200102.'
+        name: FIN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fefe0be7-1df3-4190-8a4f-b7938969d562
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a35db042-a860-4c4d-a96f-bbbbc171560e
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(7)
+        defaultValue: ""
+        description: 'Financial month. Format MON. Examples: jan, feb, mar.'
+        name: FIN_MONTH_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a35db042-a860-4c4d-a96f-bbbbc171560e
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e74aefff-162a-410a-ad10-2b25fd63558f
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(20)
+        defaultValue: ""
+        description: 'Financial period. Format (YYYY-MM) MON-YYYY. Example: (2001-02) Feb-2002.'
+        name: FIN_PERIOD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e74aefff-162a-410a-ad10-2b25fd63558f
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fa3a8ee1-a157-4a9a-b7cc-c406bdb6520a
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Financial quarter number (1-4).
+        name: FIN_QUARTER_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fa3a8ee1-a157-4a9a-b7cc-c406bdb6520a
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 55ee7530-525f-4c4d-8985-001689d9d5bc
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'Financial quarter representation. Format YYYYQQ. Example: 198901.'
+        name: FIN_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 55ee7530-525f-4c4d-8985-001689d9d5bc
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 863a3576-be7d-4c1a-9033-51d7dc582fe5
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Financial year. Format YYYY.
+        name: FIN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 863a3576-be7d-4c1a-9033-51d7dc582fe5
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ff2634e3-4dda-40a0-ac2d-a6bf24bfafb6
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current day. Normally set to the last day information was updated in the data warehouse.
+        name: CURRENT_CAL_DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff2634e3-4dda-40a0-ac2d-a6bf24bfafb6
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a056dcf2-f83b-4864-9b21-cf2731ad1ffe
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current week. Set as per current_cal_day.
+        name: CURRENT_CAL_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a056dcf2-f83b-4864-9b21-cf2731ad1ffe
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b75bce6a-f3db-4161-88be-7f17ac7ed085
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current month. Set as per current_cal_day.
+        name: CURRENT_CAL_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b75bce6a-f3db-4161-88be-7f17ac7ed085
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f2acbcc-deda-40f2-a9c9-0397f9167014
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current year. Set as per current_cal_day.
+        name: CURRENT_CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8f2acbcc-deda-40f2-a9c9-0397f9167014
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: efe02732-2238-48d1-b0c7-425e184f54a9
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days in the current month to date. Set as per current_cal_day.
+        name: CURRENT_CAL_MTD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: efe02732-2238-48d1-b0c7-425e184f54a9
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 278a0600-7f5d-4d6d-9528-d6eafcc9cc4d
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days in the current year to date. Set as per current_cal_day.
+        name: CURRENT_CAL_YTD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 278a0600-7f5d-4d6d-9528-d6eafcc9cc4d
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c89067bd-f1ba-426c-9d77-d5bed3c3f77f
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days that constitute a full year counting back from the current day. Set as per current_cal_day.
+        name: MOVING_CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c89067bd-f1ba-426c-9d77-d5bed3c3f77f
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e1090fa-a1bf-4521-b5c9-bc129486c0ad
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current financial day. Normally set to the last financial day information was updated in the data warehouse.
+        name: CURRENT_FIN_DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5e1090fa-a1bf-4521-b5c9-bc129486c0ad
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b9d0b08-90f3-44ee-acc5-af9b3042d7b7
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current financial week. Set as per current_fin_day.
+        name: CURRENT_FIN_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9b9d0b08-90f3-44ee-acc5-af9b3042d7b7
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5df6ea0c-3240-4616-8956-5c08c6ed2a67
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current financial month. Set as per current_fin_day.
+        name: CURRENT_FIN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5df6ea0c-3240-4616-8956-5c08c6ed2a67
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4974c394-a9c6-4d33-8530-1b7b255dfe62
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current financial quarter. Set as per current_fin_day.
+        name: CURRENT_FIN_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4974c394-a9c6-4d33-8530-1b7b255dfe62
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d051b3c8-ff12-4b04-877b-5f72aa4c4154
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate the current financial year. Set as per current_fin_day.
+        name: CURRENT_FIN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d051b3c8-ff12-4b04-877b-5f72aa4c4154
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8cc94542-37c9-49c9-8581-fd4bee875755
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days in the current financial month to date. Set as per current_fin_day.
+        name: CURRENT_FIN_MTD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8cc94542-37c9-49c9-8581-fd4bee875755
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3d4f69bf-d300-4b92-82dc-b3323660e619
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days in the current financial year to date. Set as per current_fin_day.
+        name: CURRENT_FIN_YTD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d4f69bf-d300-4b92-82dc-b3323660e619
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 86330fce-039d-4158-850b-c7b776e3a4f6
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days that constitute a quarter counting back from the current financial day. Set as per current_fin_day.
+        name: MOVING_FIN_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 86330fce-039d-4158-850b-c7b776e3a4f6
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8b995813-db7f-4a3d-8914-f9249d15d390
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(8)
+        defaultValue: ""
+        description: Flag to indicate days that constitute a financial year counting back from the current financial day. Set as per current_fin_day.
+        name: MOVING_FIN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8b995813-db7f-4a3d-8914-f9249d15d390
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2c0d8f88-b8d3-4fd0-99f6-4d509cd1bada
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: Flag to indicate if a week day Y=week day N=week end.
+        name: WEEK_DAY_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2c0d8f88-b8d3-4fd0-99f6-4d509cd1bada
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f59d5caa-8837-47ea-8a20-83975074b48d
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: Flag to indicate a week end day. Y=week end, N=week day.
+        name: WEEK_END_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f59d5caa-8837-47ea-8a20-83975074b48d
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5160ab63-ec77-4f4a-b840-d0a835623b5b
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: Flag to indicate that the day in question is a holiday. Y=holiday, N=normal.
+        name: HOLIDAY_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5160ab63-ec77-4f4a-b840-d0a835623b5b
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1ff96816-9ad9-4a44-856f-73e26d498b08
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(64)
+        defaultValue: ""
+        description: Description of the holiday when a holiday.
+        name: HOLIDAY_DESC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1ff96816-9ad9-4a44-856f-73e26d498b08
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f7b651f-cf68-4d66-b795-41167e501a31
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: VARCHAR(1)
+        defaultValue: ""
+        description: Flag to indicate a trading day. Y=trading, N=non trading.
+        name: TRADING_DAY_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8f7b651f-cf68-4d66-b795-41167e501a31
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a5a5dfe4-ccb5-4385-8e7d-b9fdee5fceb5
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Number of trading days in this calendar month.
+        name: TRADING_DAYS_IN_MTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5a5dfe4-ccb5-4385-8e7d-b9fdee5fceb5
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c8f51a56-b314-4c10-a31f-2037118b1fc5
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Number of trading days in the month so far.
+        name: TRADING_DAYS_SO_FAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c8f51a56-b314-4c10-a31f-2037118b1fc5
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6c70cb7a-fd92-431c-a1cd-b86679059d28
+          stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date/time that this record was updated in the data warehouse
+        isSystemUpdateDate: true
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6c70cb7a-fd92-431c-a1cd-b86679059d28
+                stepCounter: c648228c-4d71-4129-931c-63bc088671cb
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_DATE: c648228c-4d71-4129-931c-63bc088671cb
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: FROM {{ ref_no_link('DW','DIM_DATE') }}
+        name: DIM_DATE
+        noLinkRefs: []
+  name: DIM_DATE
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

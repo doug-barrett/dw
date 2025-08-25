@@ -1,0 +1,83 @@
+fileVersion: 1
+id: 7a7a4433-663d-449e-bc80-f3f4ebddc48a
+name: DS_PRODUCT_CATEGORIES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f963f1e-23fa-4e78-8b61-355e26d9caaa
+          stepCounter: 7a7a4433-663d-449e-bc80-f3f4ebddc48a
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: ""
+        isBusinessKey: true
+        name: CATEGORYID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 49c3ff17-40bc-4056-a770-ae8af0f6fed4
+                stepCounter: 71bb71c1-95ec-4f1e-a4dd-a171d1bce092
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fe728517-501d-4db1-95ba-59558f7fb4f1
+          stepCounter: 7a7a4433-663d-449e-bc80-f3f4ebddc48a
+        config: {}
+        dataType: NVARCHAR(15)
+        defaultValue: ""
+        description: The product marketing category
+        name: CATEGORYNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f693257f-8aef-4ce4-a416-5b2d29ede3ae
+                stepCounter: 71bb71c1-95ec-4f1e-a4dd-a171d1bce092
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03e271d1-5550-4095-a42b-3d9e8a3dbde6
+          stepCounter: 7a7a4433-663d-449e-bc80-f3f4ebddc48a
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was updated in the data warehouse.
+        isSystemUpdateDate: true
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_PRODUCT_CATEGORIES: 71bb71c1-95ec-4f1e-a4dd-a171d1bce092
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: LOAD_PRODUCT_CATEGORIES
+        join:
+          joinCondition: FROM {{ ref('STAGE','LOAD_PRODUCT_CATEGORIES') }} load_product_categories
+        name: DS_PRODUCT_CATEGORIES
+        noLinkRefs: []
+  name: DS_PRODUCT_CATEGORIES
+  overrideSQL: false
+  schema: ""
+  sqlType: persistentStage
+  type: sql
+  version: 1
+type: Node
