@@ -1,0 +1,378 @@
+fileVersion: 1
+id: a3f44462-9473-4cbe-8e97-256e8257db14
+name: STAGE_ORDERS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bfe06c8a-8d2a-4aba-8460-2437979118b6
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: This is the internal order id
+        name: ORDERID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6913ef8-3dfc-43a5-9385-1cca1457ac11
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b39a1a5-7ba2-4325-a443-9aa53cc814e4
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: stage_orders.load_orders.employeeid=dim_employees.employeeid
+        name: DIM_EMPLOYEES_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5738057f-022f-4ab0-867d-877b1ec24494
+                stepCounter: 471a5776-c867-4b6c-92bb-2b86ce8dac64
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fc9a90f4-c452-44ef-80d7-0773850df031
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: stage_orders.load_orders.customerid=dim_customers.customerid
+        name: DIM_CUSTOMERS_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a669d86b-67aa-46a0-8aff-b3ba63daee57
+                stepCounter: 07bf5c1c-d27c-40b3-9bfa-082bc9e90f5b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4c15ce35-be22-48f3-a4a5-3b01eaad203c
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: stage_orders.load_orders.orderdate=dim_order_date.orderdate
+        name: DIM_ORDER_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3b642ba0-b845-4c61-88be-8047b707185f
+                stepCounter: 7cc59ab7-a2b6-4d04-896f-5c43199b4a32
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f65f2b14-8aff-44a1-903e-9d8aa360dd28
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: stage_orders.load_orders.requireddate=dim_require_date.requireddate
+        name: DIM_REQUIRE_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6f3ee7c1-30df-4c02-a2bb-aff5ea859df0
+                stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e378efa2-0bed-4308-94ee-04fd5c382ec9
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: stage_orders.load_orders.shippeddate=dim_ship_date.shippeddate
+        name: DIM_SHIP_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 98fa340a-7db5-47e3-b70b-894c5ac6eda9
+                stepCounter: 829e6a04-f18d-4df7-858a-a4dd6bc701bd
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c72b306f-026e-421c-aa10-f609555298ff
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NCHAR(5)
+        defaultValue: ""
+        description: The internal customerid associated with the order
+        name: CUSTOMERID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 73606c4d-741b-4cee-a333-128a8b964398
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a2cc914-a533-46df-9399-1d74d8475f0f
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: The internal Employee id associated with the order
+        name: EMPLOYEEID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 86a898f7-75f0-44b6-a62c-646bc48752c6
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 53aab273-c58a-473a-81a8-87e2e818af53
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The data the order was entered into the system
+        name: ORDERDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 859bbe4b-701c-4f12-b832-b5bb09414e35
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 03101e06-8f5e-4bc0-97b2-ae75855574cb
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The date that the order is required for delivery by the customer
+        name: REQUIREDDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: aa97ddab-27df-4fc1-ac25-6d2c0ff29ee7
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bfddf901-b520-4c03-94a7-dce452a49eb3
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The date that the order was shipped from our factory
+        name: SHIPPEDDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6a403dc3-f8c3-4ad9-94b3-2bccedf5e575
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7cc6ddba-6bc1-4722-838a-cb05ea36a0d2
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: INT
+        defaultValue: ""
+        description: Shipper internal id
+        name: SHIPPERID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dd5d752c-f1b9-47a8-96ef-689cebd82eb4
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ec585187-7a9b-428d-87f9-181175c4b47d
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: MONEY
+        defaultValue: ""
+        description: The order freight costs
+        name: FREIGHT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1eb709ae-5dcf-413a-ac1a-866b36f58c26
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4907e59f-446a-436d-a5cc-3c1d63c7222a
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NVARCHAR(40)
+        defaultValue: ""
+        description: ""
+        name: SHIPNAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 619e6628-544e-4495-8a80-897548210723
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9cd619ff-ac9f-4049-8d07-00696411ff74
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NVARCHAR(60)
+        defaultValue: ""
+        description: ""
+        name: SHIPADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e2bf2883-6a37-4bf6-9d3c-a31246659639
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a2be85cd-20e6-4132-a772-8153b92adfbc
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NVARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: SHIPCITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 51a84fef-0516-47f8-ae6e-da59b11473df
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 828dd2bc-59c9-4c62-84dd-f122f1b7e5e9
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NVARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: SHIPREGION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 341f3a22-deb9-4a67-942c-6e118aa6e94c
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 02401c47-3a55-4b0d-96ba-3ae8cdc6c8fb
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NVARCHAR(10)
+        defaultValue: ""
+        description: ""
+        name: SHIPPOSTALCODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 48f8afeb-5a8b-4562-add7-ca42ab66f0a7
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: daacfe8a-7872-4a24-b0db-6b1294c582a9
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: NVARCHAR(15)
+        defaultValue: ""
+        description: ""
+        name: SHIPCOUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 692965ea-577a-4858-8bd4-5597c8126cc4
+                stepCounter: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dcbec67e-7253-47f2-9715-fd7c1cdb50a6
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was created in the data warehouse.
+        isSystemCreateDate: true
+        name: DSS_CREATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2888c91-d704-4265-bb2b-ba38e44ee5df
+          stepCounter: a3f44462-9473-4cbe-8e97-256e8257db14
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: Date and time the row was updated in the data warehouse.
+        isSystemUpdateDate: true
+        name: DSS_UPDATE_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOAD_ORDERS: ca7d7925-27ab-4ebd-b020-293a2e9d74ec
+          DIM_EMPLOYEES: 471a5776-c867-4b6c-92bb-2b86ce8dac64
+          DIM_CUSTOMERS: 07bf5c1c-d27c-40b3-9bfa-082bc9e90f5b
+          DIM_ORDER_DATE: 7cc59ab7-a2b6-4d04-896f-5c43199b4a32
+          DIM_REQUIRE_DATE: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+          DIM_SHIP_DATE: 829e6a04-f18d-4df7-858a-a4dd6bc701bd
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DW
+            nodeName: DIM_CUSTOMERS
+          - locationName: DW
+            nodeName: DIM_EMPLOYEES
+          - locationName: DW
+            nodeName: DIM_ORDER_DATE
+          - locationName: DW
+            nodeName: DIM_REQUIRE_DATE
+          - locationName: DW
+            nodeName: DIM_SHIP_DATE
+          - locationName: STAGE
+            nodeName: LOAD_ORDERS
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE','LOAD_ORDERS') }} load_orders
+              LEFT JOIN {{ ref('DW','DIM_EMPLOYEES') }} dim_employees
+                ON load_orders.employeeid = dim_employees.employeeid
+              LEFT JOIN {{ ref('DW','DIM_CUSTOMERS') }} dim_customers
+                ON load_orders.customerid = dim_customers.customerid
+              LEFT JOIN {{ ref('DW','DIM_ORDER_DATE') }} dim_order_date
+                ON load_orders.orderdate = dim_order_date.orderdate
+              LEFT JOIN {{ ref('DW','DIM_REQUIRE_DATE') }} dim_require_date
+                ON load_orders.requireddate = dim_require_date.requireddate
+              LEFT JOIN {{ ref('DW','DIM_SHIP_DATE') }} dim_ship_date
+                ON load_orders.shippeddate = dim_ship_date.shippeddate
+        name: STAGE_ORDERS
+        noLinkRefs: []
+  name: STAGE_ORDERS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

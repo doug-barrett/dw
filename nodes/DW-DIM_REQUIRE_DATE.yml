@@ -1,0 +1,235 @@
+fileVersion: 1
+id: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+name: DIM_REQUIRE_DATE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Role playing dimension over generated date dimension"
+  isMultisource: false
+  locationName: DW
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f3ee7c1-30df-4c02-a2bb-aff5ea859df0
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: Generated key for the date dimension. Nominal format is YYYYMMDD, but DD equal to 0 and greater than 31 permited for special date handling.
+        isSurrogateKey: true
+        name: DIM_REQUIRE_DATE_KEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d9e772d0-18cf-4cba-9d6e-f0226ca3eba8
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94936a4a-2b42-4104-a09d-e519dc1f2550
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: DATETIME
+        defaultValue: ""
+        description: The calendar date for this row.
+        isBusinessKey: true
+        name: REQUIREDDATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d7c8ece6-12ed-4c65-aa44-8d81ef9d1ed8
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b3a702d3-36b4-46d1-a9cd-29d2cad3d822
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: VARCHAR(3)
+        defaultValue: ""
+        description: 'The day in the week. Format DDD. Example: mon, tue, wed.'
+        name: REQUIRE_CAL_DAY_IN_WEEK
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 56092406-0077-4f65-9138-ce2e3e38bccf
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c46cdbf4-70f2-40e2-9e1e-554051b2f92e
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day number in the week. 1-7 where Sunday is day 1.
+        name: REQUIRE_CAL_DAY_IN_WEEK_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 91e0fa5f-3326-4b97-924b-e435d240e77a
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f691b614-47f8-4999-bc5a-9d5891ed41ff
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the month 1-31.
+        name: REQUIRE_CAL_DAY_IN_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a8ce724d-5146-4269-a64e-e2995db52ec4
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cadf04b3-e3fd-452b-bf1b-acf9cb836256
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The day in the year 1-366.
+        name: REQUIRE_CAL_DAY_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3992a72-f81b-4660-96e3-e7fcf6ccbfc5
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0ee8144c-94c5-44b3-9081-7aac730e6ec6
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The week in the year 0-53.
+        name: REQUIRE_CAL_WEEK_IN_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38a33d65-1214-4d0d-b47b-506d8e6167ec
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5b0646a8-eb1e-4945-a99d-6c13e8cd1f04
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar month number 1-12.
+        name: REQUIRE_CAL_MONTH_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a6bcf4b4-69bc-4c1a-9f04-e5e6156de359
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ace36d6d-34e2-4e4d-a1b8-13e24134b868
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: 'The calendar month representation. Format YYYYMM. Example: 200206.'
+        name: REQUIRE_CAL_MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f06b153a-1105-46ad-8e48-21d94f234fbb
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5bb4d616-e300-4816-94e8-67c8746db512
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: VARCHAR(7)
+        defaultValue: ""
+        description: 'The calendar month name. Format MON. Examples: jan, feb, mar.'
+        name: REQUIRE_CAL_MONTH_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 625b0067-0303-45c4-a802-9493992452c3
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16d31fbc-a2aa-415e-98f3-d2cdf940c082
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter number 1-4.
+        name: REQUIRE_CAL_QUARTER_NO
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2ef1d996-2a0b-4e9d-9e74-5c5667baf728
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 13eaf202-c32b-4cbe-ac41-8ae87b1db047
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar quarter representation. Format YYYYQQ. Example 200204.
+        name: REQUIRE_CAL_QUARTER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2fe4c4ae-0cf2-45bd-b750-ca913278fdc4
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8bf0a33-cea2-4b09-997d-6b69150f190d
+          stepCounter: e6232cc4-2414-44b1-bcfe-ab4d286296a3
+        config: {}
+        dataType: INTEGER
+        defaultValue: ""
+        description: The calendar year. Format YYYY
+        name: REQUIRE_CAL_YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1d5234f5-1771-4caa-aa41-3f40b6f36a44
+                stepCounter: b478afbc-4083-40bf-87d7-d9e9794a0101
+            transform: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_DATE: b478afbc-4083-40bf-87d7-d9e9794a0101
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: DW
+            nodeName: DIM_DATE
+        join:
+          joinCondition: FROM {{ ref('DW','DIM_DATE') }}
+        name: DIM_REQUIRE_DATE
+        noLinkRefs: []
+  name: DIM_REQUIRE_DATE
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node
