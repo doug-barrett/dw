@@ -243,8 +243,8 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('BRONZE', 'CUSTOMER') }} "CUSTOMER"
-            INNER JOIN {{ ref('BRONZE', 'NATION') }} "NATION"
-            ON "CUSTOMER"."C_NATION_ID" = "NATION"."N_NATION_ID"
+             INNER JOIN {{ ref('BRONZE', 'NATION') }} "NATION"
+              ON "CUSTOMER"."C_NATION_ID" = "NATION"."N_NATION_ID"
             INNER JOIN {{ ref('BRONZE', 'REGION') }} "REGION"
             ON NATION."N_REGION_ID" = "REGION"."R_REGION_ID"
         name: STG_CUSTOMER
