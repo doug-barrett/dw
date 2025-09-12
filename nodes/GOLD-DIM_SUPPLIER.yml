@@ -1,5 +1,5 @@
 fileVersion: 1
-id: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+id: 1e3c105e-e9f3-491c-869f-858a90cffe51
 name: DIM_SUPPLIER
 operation:
   config:
@@ -20,12 +20,16 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 260d56d5-6631-46e1-9502-0fe68955c4be
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: 3e0da4f3-f21e-4c71-8fe2-ae323786f51b
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated surrogate key for the dimension table DIM_SUPPLIER.
+          - It uniquely identifies each supplier record in the data warehouse.
+          - As a surrogate key, it has no direct source but is essential for efficient data retrieval and joins with fact tables.
+          - It is used in downstream processes such as reporting and analysis to track supplier-related metrics.
         isSurrogateKey: true
         name: DIM_SUPPLIER_KEY
         nullable: true
@@ -34,116 +38,186 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 05214e73-a5ec-4a73-8106-5bdb1b94176b
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: d07cd6f3-1973-4071-8b03-3ad08c265d91
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: VARCHAR(25)
-        description: ""
+        description: |-
+          - This column represents the name of the supplier.
+          - It is sourced from the S_NAME column in the STG_SUPPLIER stage table.
+          - The data type is VARCHAR(25), allowing for supplier names up to 25 characters.
+          - This attribute is used in reports and dashboards to identify and analyze supplier performance.
         name: S_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1feca80a-b738-437a-b7e0-5768f66a5b65
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: 5d5937d5-7c3f-4174-ad14-7257ebb0b92a
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f4d418e8-961c-428c-a83b-0e2510eb7c07
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: fb85ab35-5afd-4bb4-810d-9ac47e78d4f3
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column represents the ID of the nation to which the supplier belongs.
+          - It is sourced from the S_NATION_ID column in the STG_SUPPLIER stage table.
+          - The data type is NUMBER(38,0).
+          - This is used in downstream processes to understand the geographical distribution of suppliers and analyze regional performance.
         name: S_NATION_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b01a5654-1ec2-441d-8b9f-c9acd17689f4
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: 1994a608-a3fc-42bf-aefc-33deecb3e53d
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: bba629c3-c068-462c-bd2c-ab45f15cd2b8
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: eaca438e-9639-499e-a849-492ecf228fe1
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: NUMBER(38,0)
-        description: ""
+        description: |-
+          - This column represents the unique identifier for a supplier.
+          - It is sourced from the S_SUPP_ID column in the STG_SUPPLIER stage table.
+          - This column serves as the business key for the supplier dimension.
+          - It is essential for identifying specific suppliers across different systems and is used in various reporting and analytical processes.
         isBusinessKey: true
         name: S_SUPP_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: f08f8cd5-903f-43df-9006-7cb974547adb
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: d555fa33-228d-49cc-b0ec-c3178547398a
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0de03545-4c9d-47ac-9778-ac7ea2237c65
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: a99a67de-aeff-4919-aa12-7347f3e2bb4d
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: NUMBER(12,2)
-        description: ""
-        isChangeTracking: true
+        description: |-
+          - This column represents the account balance of the supplier.
+          - It is sourced from the S_ACCTBAL column in the STG_SUPPLIER stage table.
+          - The data type is NUMBER(12,2), indicating a numeric value with 12 digits and 2 decimal places.
+          - This attribute is used in financial analysis and reporting to assess the financial health of suppliers.
         name: S_ACCTBAL
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 62aea487-b78f-4ffc-82af-086eeb377f8f
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: 9a9a08b2-5981-46ae-a943-96fec3cd25f4
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: ec4f9a7b-f4f6-4fe5-88dd-42d7700361fd
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: c4c6d475-ab99-49c3-aef9-815043ae2f31
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: VARCHAR(40)
-        description: ""
+        description: |-
+          - This column represents the address of the supplier.
+          - It is sourced from the S_ADDRESS column in the STG_SUPPLIER stage table.
+          - The data type is VARCHAR(40), allowing for addresses up to 40 characters.
+          - It is used in geographical analysis and logistics planning to understand supplier locations and optimize supply chains.
         name: S_ADDRESS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: d1e783b1-fd93-4497-b4e6-a318dbe0fe63
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: baecdaf4-39a2-40bc-82d4-7bfe8d5e8197
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9089c462-f130-49c1-a378-ca8a5a4e738e
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: ede81f35-2afb-42e3-8b53-356d9206505b
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: VARCHAR(101)
-        description: ""
+        description: |-
+          - This column contains descriptive comments about the supplier.
+          - It is sourced from the S_COMMENT column in the STG_SUPPLIER stage table.
+          - The data type is VARCHAR(101), allowing for comments up to 101 characters.
+          - This column is tracked for changes, and may be used to monitor changes in supplier relationships.
         isChangeTracking: true
         name: S_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 1a3c7516-f2a8-416f-9f96-404988e0670b
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: e08fecdd-272d-42e9-96ed-dd8854f7ae0c
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 725a6ed6-c721-4ecc-90fa-9280ecacac66
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: 02ecf4cb-fd3b-48b6-b92d-fe11ce28fc91
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: VARCHAR(15)
-        description: ""
+        description: |-
+          - This column represents the phone number of the supplier.
+          - It is sourced from the S_PHONE column in the STG_SUPPLIER stage table.
+          - The data type is VARCHAR(15), allowing for phone numbers up to 15 characters.
+          - This attribute is used for communication and contact purposes and is essential for operational activities related to suppliers.
         name: S_PHONE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: cd86fe9d-6c26-4197-957d-5ec6289aafaf
-                stepCounter: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+              - columnCounter: 3cbb1950-df33-48a6-ba38-72f787e1b685
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 75daa127-d725-4281-a13a-f8023b287191
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
+        config: {}
+        dataType: STRING
+        description: |-
+          - This column represents the category of the supplier.
+          - It is sourced from the S_CATEGORY column in the STG_SUPPLIER stage table.
+          - The data type is STRING.
+          - This column is tracked for changes, and is used in supplier segmentation and analysis to categorize suppliers based on their business type.
+        isChangeTracking: true
+        name: S_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38e54b4e-14e9-449a-b388-a171ae11fdb1
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 40f13b93-8a05-43b9-8f63-67e63fe89255
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
+        config: {}
+        dataType: VARCHAR(25)
+        description: |-
+          - This column represents the nation of the supplier.
+          - It is sourced from the NATION column in the STG_SUPPLIER stage table.
+          - The data type is VARCHAR(25).
+          - It provides information about the supplier's geographical location.
+          - This column is tracked for changes, and any changes in this column are tracked for historical analysis.
+        isChangeTracking: true
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b8e78d71-db9e-4976-a3b7-4eb1b64c1dd9
+                stepCounter: 35b27673-35b1-435c-87fa-9c7d11dfee83
             transform: ""
       - acceptedValues:
           strictMatch: true
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: bbf48a94-95ac-49e4-9a56-7d144b50a0f7
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: dd666e6e-9b61-4d8b-b287-b5a9ba30418d
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: NUMBER
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated version number for each record in the table.
+          - It is automatically incremented each time a record is updated, thus maintaining a history of changes.
+          - The column does not have a source column and is generated by the system.
+          - It's used for tracking changes and auditing purposes.
         isSystemVersion: true
         name: SYSTEM_VERSION
         nullable: true
@@ -155,12 +229,16 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: e30ca317-c3b8-45aa-b712-f73f0a294e1b
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: a99cb573-8643-4008-91ff-bb7ffa8a5dfd
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: VARCHAR
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated flag indicating whether a record is the most current version.
+          -  If set to 'Y', the record is the latest version; otherwise, it is an older version.
+          - The column does not have a source column and is generated by the system.
+          - It's used for tracking changes and auditing purposes.
         isSystemCurrentFlag: true
         name: SYSTEM_CURRENT_FLAG
         nullable: true
@@ -172,12 +250,16 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: bbf03b08-36ef-4dd7-b89a-f3789d46e409
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: 989fb048-c32b-4b02-a276-e962289d7757
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated timestamp indicating the start date and time when the record became valid.
+          - It is populated using the CURRENT_TIMESTAMP function.
+          - The column does not have a source column and is generated by the system.
+          - This is essential for tracking data changes over time and performing temporal analysis.
         isSystemStartDate: true
         name: SYSTEM_START_DATE
         nullable: true
@@ -189,12 +271,16 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 9641792e-2a49-4ce9-8f77-6c16c0cac306
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: 2e5bbdaa-b782-48cc-8789-fe108eaad6a8
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated timestamp indicating the end date and time when the record is no longer valid.
+          - It is defaulted to '2999-12-31 00:00:00' for current records and updated with the actual end date when a record is superseded.
+          - The column does not have a source column and is generated by the system.
+          - This is essential for tracking data changes over time and performing temporal analysis.
         isSystemEndDate: true
         name: SYSTEM_END_DATE
         nullable: true
@@ -206,12 +292,16 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 31b0b19b-d5b2-4dee-9506-a50485e3fed0
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: bfd0a4cc-1633-42ed-83bc-05a7d04713f5
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated timestamp indicating when the record was initially created.
+          - It is populated using the CURRENT_TIMESTAMP function.
+          - The column does not have a source column and is generated by the system.
+          - It's useful for auditing and tracking the origin of data records.
         isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
         nullable: true
@@ -223,12 +313,16 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 9e9c5c94-b055-488c-89a9-d7090acd17b2
-          stepCounter: bfc05dc7-bb96-4a64-8b39-fde07de951ea
+          columnCounter: 23e50ebc-79d8-4c2d-a566-aa3621d62ade
+          stepCounter: 1e3c105e-e9f3-491c-869f-858a90cffe51
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: |-
+          - This column is a system-generated timestamp indicating the last time the record was updated.
+          - It is populated using the CURRENT_TIMESTAMP function.
+          - The column does not have a source column and is generated by the system.
+          - It's useful for auditing and tracking the most recent changes to data records.
         isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
         nullable: true
@@ -239,7 +333,7 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          STG_SUPPLIER: 5107a72c-2929-4b25-82b9-ec4aafa2d326
+          STG_SUPPLIER: 35b27673-35b1-435c-87fa-9c7d11dfee83
         customSQL:
           customSQL: ""
         dependencies:
