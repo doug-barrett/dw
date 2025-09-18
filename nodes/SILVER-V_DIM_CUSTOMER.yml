@@ -196,6 +196,29 @@ operation:
               - columnCounter: 11aade46-971e-4b95-90b2-ebca9a1b242a
                 stepCounter: d5f4ab15-3cda-4442-9202-21a06eac7b43
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc719f51-6609-4cc0-a4be-defabd1b9b56
+          stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: C_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: |-
+              CASE WHEN "SATV1_CUSTOMER_HROC"."C_ACCTBAL" > 5000 THEN 'HIGH VALUE '
+              ELSE 'LOW VALUE '
+              END || "SATV1_CUSTOMER_LROC"."C_COMMENT"
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
