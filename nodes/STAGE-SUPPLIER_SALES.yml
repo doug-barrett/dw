@@ -1,0 +1,73 @@
+fileVersion: 1
+id: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+name: SUPPLIER_SALES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Total sales amount by supplier
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 998ea1f4-5fb2-4390-9b3b-3c84020d4dd7
+          stepCounter: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7f045733-8485-4433-8776-6dc2f83f4625
+                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7d29110c-d9f1-48c2-a520-81ccdfe06488
+          stepCounter: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e3511671-7632-46db-88aa-206d903da43f
+                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+            transform: SUM(SALES_BASE.SALES_AMT)
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          SALES_BASE: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: SALES_BASE
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'SALES_BASE') }} SALES_BASE
+            GROUP BY SUPPKEY
+        name: STG_SALES_BASE
+        noLinkRefs: []
+  name: SUPPLIER_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

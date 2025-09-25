@@ -1,0 +1,101 @@
+fileVersion: 1
+id: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+name: SALES_BASE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Base sales data by supplier and nation
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7f045733-8485-4433-8776-6dc2f83f4625
+          stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 81183115-b2a8-4fbd-8656-1255cb569966
+                stepCounter: 66414f06-6134-424e-9b48-523a148930fd
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2893da8d-c7ea-44ab-839a-3ba7e9854e54
+          stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 105e55a3-3242-4933-82e4-02e867585f0d
+                stepCounter: dd98aa06-fe84-43e1-a5e0-aff723bb375e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3511671-7632-46db-88aa-206d903da43f
+          stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SALES_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a701707e-c89d-48fe-84e8-d550d93338a4
+                stepCounter: 66414f06-6134-424e-9b48-523a148930fd
+            transform: SUM(((LINEITEM.L_EXTENDEDPRICE * LINEITEM.L_QUANTITY) * (1 - LINEITEM.L_DISCOUNT)))
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          LINEITEM: 66414f06-6134-424e-9b48-523a148930fd
+          NATION: dd98aa06-fe84-43e1-a5e0-aff723bb375e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE
+            nodeName: CUSTOMER
+          - locationName: SOURCE
+            nodeName: LINEITEM
+          - locationName: SOURCE
+            nodeName: NATION
+          - locationName: SOURCE
+            nodeName: ORDERS
+          - locationName: STAGE
+            nodeName: SALES_YEAR
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE', 'LINEITEM') }} LINEITEM
+            JOIN {{ ref('SOURCE', 'ORDERS') }} ORDERS ON LINEITEM.L_ORDERKEY = ORDERS.O_ORDERKEY
+            JOIN {{ ref('SOURCE', 'CUSTOMER') }} CUSTOMER ON ORDERS.O_CUSTKEY = CUSTOMER.C_CUSTKEY
+            JOIN {{ ref('SOURCE', 'NATION') }} NATION ON CUSTOMER.C_NATIONKEY = NATION.N_NATIONKEY
+            WHERE ORDERS.O_ORDERSTATUS = 'F'
+              AND YEAR(ORDERS.O_ORDERDATE) IN (SELECT YR FROM {{ ref('STAGE', 'SALES_YEAR') }})
+            GROUP BY LINEITEM.L_SUPPKEY, NATION.N_NAME
+        name: SALES_BASE
+        noLinkRefs: []
+  name: SALES_BASE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

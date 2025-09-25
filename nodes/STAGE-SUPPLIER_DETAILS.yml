@@ -1,0 +1,88 @@
+fileVersion: 1
+id: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+name: SUPPLIER_DETAILS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Supplier details with nation information
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 908f28f3-4b68-4a4f-a2c1-4e9e1debc49a
+          stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 908f28f3-4b68-4a4f-a2c1-4e9e1debc49a
+                stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+            transform: S.S_SUPPKEY
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8d705cc0-2876-488c-939d-9591ca04d66f
+          stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SUPP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8d705cc0-2876-488c-939d-9591ca04d66f
+                stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+            transform: S.S_NAME || ' (' || N.N_NAME || ')'
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9f7e9cf8-5d76-4341-9330-392375356d0f
+          stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9f7e9cf8-5d76-4341-9330-392375356d0f
+                stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+            transform: N.N_NAME
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE
+            nodeName: NATION
+          - locationName: SOURCE
+            nodeName: SUPPLIER
+        join:
+          joinCondition: |-
+            FROM {{ ref('SOURCE', 'SUPPLIER') }} S
+            JOIN {{ ref('SOURCE', 'NATION') }} N ON S.S_NATIONKEY = N.N_NATIONKEY
+        name: STG_NODE
+        noLinkRefs: []
+  name: SUPPLIER_DETAILS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

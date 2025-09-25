@@ -1,0 +1,173 @@
+fileVersion: 1
+id: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+name: STG_FINAL
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Final supplier sales analysis with nation breakdowns
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 08a83d13-c385-4af8-b6b0-e26ec09e173d
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 908f28f3-4b68-4a4f-a2c1-4e9e1debc49a
+                stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 657535d7-26ea-4f23-90ce-2463c23c5d8c
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: SUPP_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8d705cc0-2876-488c-939d-9591ca04d66f
+                stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c0bdd1bb-891c-4e48-af70-092e49195514
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: NATION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9f7e9cf8-5d76-4341-9330-392375356d0f
+                stepCounter: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71be32bc-6306-4e40-8d03-2bd66e11f6ef
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TOTAL_SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7d29110c-d9f1-48c2-a520-81ccdfe06488
+                stepCounter: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 894936b3-a555-4be6-a7a0-0cd5deea363c
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TOP_SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f59a2673-4221-4774-8fca-71f6a6914127
+                stepCounter: ba545293-b2d4-4700-a6c0-29e8e3bff10d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9acbb542-f737-4dd0-abaa-0ca6c54cd4fb
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: MID_SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f8a8ba4d-cd1b-4f92-bed7-55334fd962d8
+                stepCounter: 713e2ad6-24cb-4641-a56f-8aa1779a16c5
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ccf6ea4-dd0f-4c65-bfc8-a2efb28ad240
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: BOTTOM_SALES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ed5c23e3-d31a-49ab-adee-350bc540bafc
+                stepCounter: 070db919-2701-462b-9144-3132d276e4ef
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 16000d45-abfd-4b71-8503-c7a95412effa
+          stepCounter: b3a5a69c-ec69-4cc2-9134-5dfd916528a4
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: TOP_NATIONS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 60850f75-051d-41a2-8f5e-38c55a48dd93
+                stepCounter: ba545293-b2d4-4700-a6c0-29e8e3bff10d
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          BOTTOM_NATION_SALES: 070db919-2701-462b-9144-3132d276e4ef
+          MID_NATION_SALES: 713e2ad6-24cb-4641-a56f-8aa1779a16c5
+          SUPPLIER_DETAILS: 699cbc65-0b89-4bcc-8552-ec6d7ce981a0
+          SUPPLIER_SALES: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+          TOP_NATION_SALES: ba545293-b2d4-4700-a6c0-29e8e3bff10d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: BOTTOM_NATION_SALES
+          - locationName: STAGE
+            nodeName: MID_NATION_SALES
+          - locationName: STAGE
+            nodeName: SUPPLIER_DETAILS
+          - locationName: STAGE
+            nodeName: SUPPLIER_SALES
+          - locationName: STAGE
+            nodeName: TOP_NATION_SALES
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'SUPPLIER_DETAILS') }} SUPPLIER_DETAILS
+            JOIN {{ ref('STAGE', 'SUPPLIER_SALES') }} SUPPLIER_SALES ON SUPPLIER_DETAILS.SUPPKEY = SUPPLIER_SALES.SUPPKEY
+            JOIN {{ ref('STAGE', 'TOP_NATION_SALES') }} TOP_NATION_SALES ON SUPPLIER_DETAILS.SUPPKEY = TOP_NATION_SALES.SUPPKEY
+            JOIN {{ ref('STAGE', 'MID_NATION_SALES') }} MID_NATION_SALES ON SUPPLIER_DETAILS.SUPPKEY = MID_NATION_SALES.SUPPKEY
+            JOIN {{ ref('STAGE', 'BOTTOM_NATION_SALES') }} BOTTOM_NATION_SALES ON SUPPLIER_DETAILS.SUPPKEY = BOTTOM_NATION_SALES.SUPPKEY
+            ORDER BY SUPPLIER_DETAILS.SUPPKEY
+        name: STG_FINAL
+        noLinkRefs: []
+  name: STG_FINAL
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
