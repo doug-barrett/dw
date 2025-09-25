@@ -1,0 +1,456 @@
+fileVersion: 1
+id: 72f26043-57fe-4ec4-8d18-e141091579a0
+name: DIM_CUSTOMER
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: This Node creates the DIM_CUSTOMER table and merges data from the V_DIM_CUSTOMER view in the DEV_DV_SILVER schema into the DIM_CUSTOMER table in the DEV_DV_GOLD schema.
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7254594f-9bfc-4495-9758-a805ddd2b4f0
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: |-
+          This column is a system-generated surrogate key for the customer dimension table.
+          - It uniquely identifies each customer record within the data warehouse.
+          - It does not have a source column; its values are automatically generated during the data loading process.
+          - This key is crucial for efficiently joining the customer dimension with fact tables in downstream reporting and analytics, improving query performance.
+          - It enables tracking customer-related metrics and KPIs.
+        isSurrogateKey: true
+        name: DIM_CUSTOMER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90936cfd-3824-4bcf-8316-e4603d217e0e
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: |-
+          This column represents the unique identifier for a customer.
+          - It is sourced from the 'C_CUST_ID' column in the 'V_DIM_CUSTOMER' view.
+          - It serves as a primary identifier for customer records, and the existing description is 'This is the blah'.
+          - This identifier is essential for linking customer information across different systems and is used in various customer-centric reports and analyses.
+        name: C_CUST_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3325ea69-f1b5-4c32-8cd1-ffcd2c4fe290
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3045183a-5fe6-49ed-ba2b-51eb42b04572
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: TIMESTAMP
+        description: |-
+          This column captures the timestamp indicating when a record was created or updated.
+          - It is derived from the 'SDTS' column of the 'V_DIM_CUSTOMER' view.
+          - The timestamp is useful for tracking data changes over time and maintaining data lineage.
+          - It can be used in audits to verify the accuracy and timeliness of customer data and identify trends in customer behavior.
+        name: SDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a5364002-adab-4f69-8f66-d02c1d6787bc
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7793f915-a3aa-4efe-9eb4-aee907a1a504
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: NUMBER(12,2)
+        description: |
+          This column represents the account balance of a customer.
+          - It is sourced from the 'C_ACCTBAL' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is NUMBER(12,2), indicating a numeric value with 12 digits and 2 decimal places.
+        name: C_ACCTBAL
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 57a71c29-3c87-4822-84cc-ab03089f6fe1
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb7aeafb-22b2-4c39-8281-e48cd7fec586
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: VARCHAR(10)
+        description: |-
+          This column categorizes customers based on their market segment.
+          - It is sourced from the 'C_MKTSEGMENT' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is VARCHAR(10), allowing for a string of up to 10 characters.
+          - This segmentation is valuable for targeted marketing campaigns, sales strategies, and understanding customer demographics.
+          - Analyzing market segments helps in tailoring products and services to specific customer groups.
+        name: C_MKTSEGMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1e41e1d6-ca2b-4274-8e41-0f49d4f809d2
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eddb1ac2-f0d0-4af1-bc8d-e4c5a7a9c0e7
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: NUMBER(38,0)
+        description: |-
+          This column represents the nation key associated with a customer.
+          - It is sourced from the 'C_NATIONKEY' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is NUMBER(38,0), indicating a numeric identifier for the nation.
+          - This key is used to join customer data with nation-specific information, enabling geographic analysis of customer behavior and sales performance.
+          - It facilitates international reporting and helps in understanding regional customer trends.
+        name: C_NATIONKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b0f4c5bd-d703-44a7-934a-b89f5ff0cfa5
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 95975535-dca7-40bc-bf01-b923a7161482
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: VARCHAR(25)
+        description: |-
+          This column stores the name of the customer.
+          - It is sourced from the 'C_NAME' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is VARCHAR(25), allowing for a string of up to 25 characters.
+          - This name is used for customer identification, personalization, and communication purposes.
+          - It is essential for building customer relationships and providing tailored services.
+        name: C_NAME
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 21ad4578-b76b-4eee-b6d4-b018e8eaee11
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7821a89d-a2fd-4342-9d11-9bebfb0c55e1
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: VARCHAR(40)
+        description: |-
+          This column stores the address of the customer.
+          - It is sourced from the 'C_ADDRESS' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is VARCHAR(40), allowing for a string of up to 40 characters.
+          - This address is used for shipping, billing, and geographic analysis of customer distribution.
+          - Accurate address information is crucial for efficient logistics and targeted marketing.
+        name: C_ADDRESS
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 65fa2c1c-4ddb-42e7-9f6c-6db1dbb351c4
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7dcd2e2a-abb6-4dbc-bf58-1f5e60b0779e
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: VARCHAR(117)
+        description: |-
+          This column contains comments or notes about the customer.
+          - It is sourced from the 'C_COMMENT' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is VARCHAR(117), allowing for a string of up to 117 characters.
+          - These comments can provide additional context or specific details about the customer's preferences, issues, or interactions.
+          - This free-text information is valuable for customer service, sales, and personalized marketing efforts.
+        name: C_COMMENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 311e286f-8fdd-4cc0-a1d5-54f2b7e66b6c
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: facdeac7-462a-4109-95f1-1de68e5d8351
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: STRING
+        description: |-
+          This column represents the category associated with a customer, sourced from the 'C_CATEGORY' column in the 'V_DIM_CUSTOMER' view.
+          - It categorizes customers into predefined groups, aiding in targeted marketing and personalized services.
+          - This categorization assists in understanding customer preferences and behaviors.
+          - Facilitates the analysis of customer segmentation, supporting better business strategies.
+          - Enables businesses to tailor their approach to different customer groups.
+        name: C_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dc719f51-6609-4cc0-a4be-defabd1b9b56
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a0653bc3-53ee-4910-bd15-67d3d4536143
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: STRING
+        description: |-
+          This column represents the category associated with a customer, sourced from the 'C_CATEGORY' column in the 'V_DIM_CUSTOMER' view.
+          - It categorizes customers into predefined groups, aiding in targeted marketing and personalized services.
+          - This categorization assists in understanding customer preferences and behaviors.
+          - Facilitates the analysis of customer segmentation, supporting better business strategies.
+          - Enables businesses to tailor their approach to different customer groups.
+        name: C_CATEGORY1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dc719f51-6609-4cc0-a4be-defabd1b9b56
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1ba27b32-40f9-4f00-a2cf-a3481a6bdb61
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: STRING
+        description: |-
+          This column represents the hash key for the customer, likely used for data integration or auditing.
+          - It is sourced from the 'H_CUSTOMER_KEY' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is STRING, which stores alphanumeric characters.
+          - Hash keys are useful for tracking changes to customer data over time and ensuring data consistency across systems.
+          - It can be used in change data capture (CDC) processes to identify updated records efficiently.
+        name: H_CUSTOMER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f422b0c4-2c51-473e-9d8b-f204614b5276
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 837cc989-a993-433b-98cf-41410e91fd76
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: STRING
+        description: |-
+          This column represents the business key for the customer dimension.
+          - It is sourced from the 'D_CUSTOMER_KEY' column in the 'V_DIM_CUSTOMER' view.
+          - It serves as a natural key to identify customer records, which is essential for linking data between systems.
+          - Being a business key, it maintains referential integrity and ensures data accuracy across various data stores.
+          - This key is crucial for creating customer-centric reports and analyses.
+        isBusinessKey: true
+        name: D_CUSTOMER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 365d67a0-6542-4630-bf43-e167b12e5459
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82a244b4-d77b-4e30-9e67-6397bb6b8644
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: DATETIME
+        description: |-
+          This column indicates the Load Date Timestamp (LDTS) for when the data first arrived in the Data Warehouse.
+          - It is sourced from the 'SATV1_CUSTOMER_HROC_LDTS' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is DATETIME, capturing both date and time.
+          - As the existing description states, this timestamp is critical for data lineage and auditing purposes.
+          - It helps track when customer data was initially loaded, supporting historical analysis and data governance.
+        name: SATV1_CUSTOMER_HROC_LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fb9f5beb-9d24-4180-9f6b-13dcfa11c017
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bc8a560f-99ed-499f-b5d9-dc3d806defad
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: TIMESTAMP
+        description: |-
+          This column indicates the Load Date Timestamp (LDTS) for when the data first arrived in the Data Warehouse.
+          - It is sourced from the 'SATV1_CUSTOMER_LROC_LDTS' column in the 'V_DIM_CUSTOMER' view.
+          - The data type is TIMESTAMP, capturing both date and time.
+          - As the existing description states, this timestamp is critical for data lineage and auditing purposes.
+          - It helps track when customer data was initially loaded, supporting historical analysis and data governance.
+        name: SATV1_CUSTOMER_LROC_LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ab2703a3-ca0a-429b-8ae5-ebea57c06be3
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bc2c32e4-82c2-4210-98a3-5604e750ad3f
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: |-
+          This column is a system-generated version number for each record in the customer dimension.
+          - It is automatically generated and incremented with each update to a customer record.
+          - It does not have a source column; its values are automatically generated during the data loading process.
+          - This version number is used to track changes and maintain a history of customer data.
+          - It supports auditing and allows for point-in-time analysis.
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 94f9e469-ca7b-4d73-a604-fa09c59f0c3b
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: |-
+          This column is a system-generated flag indicating whether a record is the most current version.
+          - It is automatically set to 'Y' for the current record and 'N' for historical records.
+          - It does not have a source column; its values are automatically generated during the data loading process.
+          - This flag simplifies querying for the latest customer information and improves reporting efficiency.
+          - It supports temporal data analysis and ensures users access the most up-to-date data.
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ccf9892-a4de-4c59-80be-a25dc7ced298
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: |-
+          This column is a system-generated timestamp indicating when a record became the current version.
+          - It is populated with the current timestamp when a new record is inserted or an existing record is updated.
+          - It does not have a source column; its value is derived using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+          - This timestamp supports temporal data analysis, allowing users to track when customer data became valid.
+          - It is crucial for audit trails and historical reporting.
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: aacef95a-51ee-4449-8a9f-615a9d1bf6a4
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: |-
+          This column is a system-generated timestamp indicating when a record is no longer the current version.
+          - It is populated with a future timestamp ('2999-12-31 00:00:00') for the current record and updated with the timestamp of the new record for historical versions.
+          - It does not have a source column; its value is derived using the SQL transformation 'CAST('2999-12-31 00:00:00' AS TIMESTAMP)'.
+          - This timestamp supports temporal data analysis, enabling users to track when customer data expired.
+          - It is essential for maintaining a history of customer data and performing time-series analysis.
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5036aa5d-e516-44b0-b6ff-4aac81df8954
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: |-
+          This column is a system-generated timestamp indicating when a record was created.
+          - It is automatically populated with the current timestamp when a new record is inserted.
+          - It does not have a source column; its value is derived using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+          - This timestamp is crucial for auditing and tracking the creation of customer data.
+          - It supports data governance and provides insights into data loading processes.
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5ba8b7c0-02fd-43a3-a198-81ca7236da77
+          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: |-
+          This column is a system-generated timestamp indicating when a record was last updated.
+          - It is automatically populated with the current timestamp when an existing record is modified.
+          - It does not have a source column; its value is derived using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
+          - This timestamp is essential for auditing and tracking changes to customer data.
+          - It supports data governance and provides insights into data modification processes.
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          V_DIM_CUSTOMER: b8066f95-d0f8-410c-803d-59aa9c4fef91
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: V_DIM_CUSTOMER
+        join:
+          joinCondition: |
+            FROM {{ ref('SILVER', 'V_DIM_CUSTOMER') }} "V_DIM_CUSTOMER"
+        name: DIM_CUSTOMER
+        noLinkRefs: []
+  name: DIM_CUSTOMER
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node
