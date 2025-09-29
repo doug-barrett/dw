@@ -10,6 +10,7 @@ on:
   
 env:
   COA_VERSION: latest # Versions released on NPM here: https://www.npmjs.com/package/@coalescesoftware/coa
+  SF_PRIVATE_KEY: ${{ secrets.SF_PRIVATE_KEY }}
   
 jobs:
   build:
@@ -22,7 +23,7 @@ jobs:
         node-version: 22.19.0
     
     # Fetch coa config secret from GitHub Actions secret repository, then write coa config to a temporary file
-    - run: echo '${{ secrets.SF_PRIVATE_KEY }}' >> SF_KEY
+    - run: echo "$SF_PRIVATE_KEY" > SF_KEY
     - run: pwd
     - run: cat SF_KEY
     - run: echo '${{ secrets.COA_CONFIG }}' >> COA_CONFIG
