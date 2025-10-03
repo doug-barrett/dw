@@ -9,57 +9,30 @@ on:
   workflow_dispatch:
   
 env:
-  NODE_VERSION: '22.19.0'
-  COA_CLI_VERSION: '7.24.3'
-
-  # --- Parameters ---
-  PLATFORM_KIND: Snowflake
-  SNOWFLAKE_AUTH_TYPE: 'KeyPair'
-  SNOWFLAKE_USERNAME: SUPPORT_SVC_USER
-  SNOWFLAKE_ROLE: DATA_ENGINEER
-  SNOWFLAKE_WAREHOUSE: TRANSFORM
-  ENVIRONMENT_ID: 7
-  DOMAIN: https://app.coalescesoftware.io
-  # ------------------
-
+  COA_VERSION: latest # Versions released on NPM here: https://www.npmjs.com/package/@coalescesoftware/coa  
 jobs:
-  job:
+  deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
-    environment: production
-
+    
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22.19.0
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      
-      - name: Write Snowflake Key to file
-        run: |
-          umask 077
-          printf '%s' "${{ secrets.SNOWFLAKE_KEY }}" > key.pem
+    - name: Write Snowflake Key to file
+      run: |
+        umask 077
+        printf '%s' "${{ secrets.SF_PRIVATE_KEY }}" > key.pem
+        
+    - name: Write Coa Config 
+      run: echo '${{ secrets.COA_CONFIG }}' >> COA_CONFIG
+    
+    - name: Install Coalesce CLI tool
+      run: npm list | grep "@coalescesoftware/coa@${{ env.COA_VERSION }}" || npm install @coalescesoftware/coa@${{ env.COA_VERSION }}
 
-      - name: Set COA_ARGS
-        shell: bash
-        run: |
-          {
-            echo "COA_ARGS<<EOF"
-            printf -- "--platformKind %s " "${{ env.PLATFORM_KIND }}"
-            printf -- "--snowflakeUsername %s " "${{ env.SNOWFLAKE_USERNAME }}"
-            printf -- "--snowflakeAuthType %s " "${{ env.SNOWFLAKE_AUTH_TYPE }}"
-            printf -- "--snowflakeKeyPairKey %s " "./key.pem"
-            printf -- "--snowflakeRole %s " "${{ env.SNOWFLAKE_ROLE }}"
-            printf -- "--snowflakeWarehouse %s " "${{ env.SNOWFLAKE_WAREHOUSE }}"
-            printf -- "--environmentID %s " "${{ env.ENVIRONMENT_ID }}"
-            printf -- "--domain %s " "${{ env.DOMAIN }}"
-            printf -- "--token %q " "${{ secrets.COALESCE_TOKEN }}"
-            echo
-            echo "EOF"
-          } >> "$GITHUB_ENV"
-          
-      - name: Print COA version
-        run: npx -y @coalescesoftware/coa@${{ env.COA_CLI_VERSION }} --version
+    - name: Print version number
+      run: npx coa --version
 
-      # Execute coa CLI, starting coa refresh
-      - run: npx coa refresh --config COA_CONFIG
+    - name: Run Job
+      run: npx coa refresh --config COA_CONFIG
