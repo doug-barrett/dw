@@ -21,13 +21,19 @@ jobs:
     - name: Write Snowflake Key to file
       run: |
         umask 077
-        printf '%s' "${{ secrets.SNOWFLAKE_KEY }}" > key.pem
+        printf '%s' "${{ secrets.SF_PRIVATE_KEY }}" > key.pem
         
     - name: Write Coa Config 
       run: echo '${{ secrets.COA_CONFIG }}' >> COA_CONFIG
     
     - name: Install Coalesce CLI tool
       run: npm list | grep "@coalescesoftware/coa@${{ env.COA_VERSION }}" || npm install @coalescesoftware/coa@${{ env.COA_VERSION }}
+
+    - name: Print path
+      run: pwd
+
+    - name: Print files
+      run: ls
 
     - name: Print version number
       run: npx coa --version
