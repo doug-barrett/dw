@@ -21,7 +21,7 @@ operation:
         name: Test rowcount
         runOrder: After
         templateString: "{{ test.expect_table_row_count_to_equal_other_table( \"{{ref('BRONZE', 'CUSTOMER')}}\") }} "
-      - continueOnFailure: false
+      - continueOnFailure: true
         description: ""
         name: Test
         runOrder: After
@@ -116,6 +116,20 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: eeb57b4c-fe7b-49df-9cc8-fd3ab3a5290c
+          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
+        config: {}
+        dataType: STRING
+        description: ""
+        name: C_NATION_EVEN_ODD
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6f546d84-8b7f-4596-9558-9936c06b7239
+                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
+            transform: "{{ even_odd('\"CUSTOMER\".\"C_NATION_ID\"') }}"
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 2ac4646f-6e27-4b35-9cf6-6890cd4a529f
           stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
         config: {}
@@ -185,23 +199,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: bed74568-4a8f-46ea-a59f-6931538d8681
-                stepCounter: d3e68936-faa4-43df-9114-5383b9177662
-            transform: ""
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: c95fdc73-3bc9-46ee-9bed-4dc4dfb360b5
-          stepCounter: 4d118ebd-6376-499c-8e5d-c39934fae97d
-        config: {}
-        dataType: VARCHAR(15)
-        description: ""
-        name: C_PHONE1
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 3f036714-3f95-4efe-811d-557d65fc5425
                 stepCounter: d3e68936-faa4-43df-9114-5383b9177662
             transform: ""
       - acceptedValues:
