@@ -75,6 +75,20 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
+          columnCounter: 7a1b4e15-753c-42fb-8f35-b6908de24063
+          stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: DIM_SUPPLIER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7743e62d-be2f-4342-93f0-0bc0ccdcee09
+                stepCounter: 97a8278a-079f-45ac-9342-97064bb78652
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
           columnCounter: 0511e6ac-d4e5-463a-b622-6f8f7a525dc2
           stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
         config: {}
@@ -318,6 +332,7 @@ operation:
           DIM_CUSTOMER: 14c69838-7e05-40bc-beda-b4058dc1abf5
           DIM_ORDERS: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
           DIM_PART: d190b733-41a6-4531-8795-c02eefe9165d
+          DIM_SUPPLIER: 97a8278a-079f-45ac-9342-97064bb78652
           STG_ORDERS_LINEITEM: 995996a9-d3ab-4d9f-b50c-01d6774475df
         customSQL:
           customSQL: ""
@@ -328,6 +343,8 @@ operation:
             nodeName: DIM_ORDERS
           - locationName: GOLD
             nodeName: DIM_PART
+          - locationName: GOLD
+            nodeName: DIM_SUPPLIER
           - locationName: SILVER
             nodeName: STG_ORDERS_LINEITEM
         join:
@@ -339,6 +356,8 @@ operation:
             ON "STG_ORDERS_LINEITEM"."L_PART_ID"= "DIM_PART"."P_PART_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_ORDERS') }} "DIM_ORDERS"
             ON "STG_ORDERS_LINEITEM"."L_ORDER_ID" = "DIM_ORDERS"."O_ORDER_ID"
+            LEFT JOIN {{ ref('GOLD', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
+            ON "STG_ORDERS_LINEITEM"."L_SUPP_ID" = "DIM_SUPPLIER"."S_SUPP_ID"
         name: STG_ORDERS_LINEITEM_KEYS
         noLinkRefs: []
   name: STG_ORDERS_LINEITEM_KEYS
