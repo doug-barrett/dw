@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 12d21b41-fb3e-42d2-a83b-6a5d04f45a14
+id: 1824626e-ebe6-46cb-ae73-79682099b514
 name: SALES_YEAR
 operation:
   config:
@@ -10,7 +10,7 @@ operation:
     truncateBefore: true
   database: ""
   deployEnabled: true
-  description: Top 5 years by order date
+  description: Top 5 most recent sales years
   isMultisource: false
   locationName: STAGE
   materializationType: table
@@ -19,8 +19,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 401f8867-d492-43a1-9be5-dfa0f595fd8b
-          stepCounter: 12d21b41-fb3e-42d2-a83b-6a5d04f45a14
+          columnCounter: 83d7842e-5690-431f-94eb-3b121d974267
+          stepCounter: 1824626e-ebe6-46cb-ae73-79682099b514
         config: {}
         dataType: NUMBER
         description: ""
@@ -47,10 +47,10 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('SOURCE', 'ORDERS') }} ORDERS
-            GROUP BY YEAR(O_ORDERDATE)
-            ORDER BY YEAR(O_ORDERDATE) DESC
+            GROUP BY YEAR(ORDERS.O_ORDERDATE)
+            ORDER BY YEAR(ORDERS.O_ORDERDATE) DESC
             LIMIT 5
-        name: STG_NODE
+        name: STG_ORDERS
         noLinkRefs: []
   name: SALES_YEAR
   overrideSQL: false

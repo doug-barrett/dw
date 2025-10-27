@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 713e2ad6-24cb-4641-a56f-8aa1779a16c5
+id: 2808f089-8e70-4ce6-ac43-138cfd5bba65
 name: MID_NATION_SALES
 operation:
   config:
@@ -19,8 +19,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 237537f5-c636-470b-8731-c07142835f1e
-          stepCounter: 713e2ad6-24cb-4641-a56f-8aa1779a16c5
+          columnCounter: fd906ffb-a838-4f1e-8213-8bc9eee2175c
+          stepCounter: 2808f089-8e70-4ce6-ac43-138cfd5bba65
         config: {}
         dataType: NUMBER
         description: ""
@@ -28,13 +28,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 115dcd3b-7106-4995-821f-a352a112c194
-                stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+              - columnCounter: bc5163ee-31de-4e33-9e15-1a2bbc9e1cc6
+                stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f8a8ba4d-cd1b-4f92-bed7-55334fd962d8
-          stepCounter: 713e2ad6-24cb-4641-a56f-8aa1779a16c5
+          columnCounter: b5fc2cc2-9272-404f-800c-c4297e25f51a
+          stepCounter: 2808f089-8e70-4ce6-ac43-138cfd5bba65
         config: {}
         dataType: NUMBER
         description: ""
@@ -42,13 +42,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 8ae5b133-8b74-4f30-94a2-eb3a9b718c24
-                stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+              - columnCounter: 7eff51d8-9a41-4a84-bb78-fcaee65f1e7e
+                stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
             transform: SUM(NATION_RANK.SALES_AMT)
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a373907a-ed32-4bb4-9c3b-c2f4ad787808
-          stepCounter: 713e2ad6-24cb-4641-a56f-8aa1779a16c5
+          columnCounter: 2db4db0b-e620-4d4e-bf65-47a175f14203
+          stepCounter: 2808f089-8e70-4ce6-ac43-138cfd5bba65
         config: {}
         dataType: VARCHAR
         description: ""
@@ -56,8 +56,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: d22a7ed0-93d3-435a-8e4b-f6918a95492c
-                stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+              - columnCounter: 3d14631a-d83f-4643-9b81-44d74ab305ab
+                stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
             transform: LISTAGG(NATION_RANK.NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK.NATION_RANK)
     cteString: ""
     description: ""
@@ -66,7 +66,7 @@ operation:
     materializationOption: ""
     sourceMapping:
       - aliases:
-          NATION_RANK: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+          NATION_RANK: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
         customSQL:
           customSQL: ""
         dependencies:
@@ -75,9 +75,9 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('STAGE', 'NATION_RANK') }} NATION_RANK
-            WHERE NATION_RANK > 10 AND NATION_RANK_REV > 10
-            GROUP BY SUPPKEY
-        name: STG_NATION_RANK
+            WHERE NATION_RANK.NATION_RANK > 10 AND NATION_RANK.NATION_RANK_REV > 10
+            GROUP BY NATION_RANK.SUPPKEY
+        name: STG_NATION_RANK1
         noLinkRefs: []
   name: MID_NATION_SALES
   overrideSQL: false

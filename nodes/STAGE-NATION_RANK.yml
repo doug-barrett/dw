@@ -1,5 +1,5 @@
 fileVersion: 1
-id: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+id: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
 name: NATION_RANK
 operation:
   config:
@@ -10,7 +10,7 @@ operation:
     truncateBefore: true
   database: ""
   deployEnabled: true
-  description: Sales data with nation rankings by supplier
+  description: Nation rankings by sales for each supplier
   isMultisource: false
   locationName: STAGE
   materializationType: table
@@ -19,8 +19,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 115dcd3b-7106-4995-821f-a352a112c194
-          stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+          columnCounter: bc5163ee-31de-4e33-9e15-1a2bbc9e1cc6
+          stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
         config: {}
         dataType: NUMBER
         description: ""
@@ -28,13 +28,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 7f045733-8485-4433-8776-6dc2f83f4625
-                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+              - columnCounter: e38da25d-f614-454f-b30b-d9c3990370f4
+                stepCounter: c87fa04a-5594-4faf-aa0d-8f369a906751
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: d22a7ed0-93d3-435a-8e4b-f6918a95492c
-          stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+          columnCounter: 3d14631a-d83f-4643-9b81-44d74ab305ab
+          stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
         config: {}
         dataType: VARCHAR
         description: ""
@@ -42,13 +42,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2893da8d-c7ea-44ab-839a-3ba7e9854e54
-                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+              - columnCounter: 8566adad-ad9d-49e3-8aae-8c616a2a0b52
+                stepCounter: c87fa04a-5594-4faf-aa0d-8f369a906751
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8ae5b133-8b74-4f30-94a2-eb3a9b718c24
-          stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+          columnCounter: 7eff51d8-9a41-4a84-bb78-fcaee65f1e7e
+          stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
         config: {}
         dataType: NUMBER
         description: ""
@@ -56,13 +56,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e3511671-7632-46db-88aa-206d903da43f
-                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+              - columnCounter: e65e94c4-539b-4874-b105-261265c73b1a
+                stepCounter: c87fa04a-5594-4faf-aa0d-8f369a906751
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: af097b82-39d3-4c17-a49f-4b3e4390659c
-          stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+          columnCounter: 35cdf297-29b0-4e9e-be3f-d57ba90f228f
+          stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
         config: {}
         dataType: NUMBER
         description: ""
@@ -70,13 +70,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: af097b82-39d3-4c17-a49f-4b3e4390659c
-                stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+              - columnCounter: 35cdf297-29b0-4e9e-be3f-d57ba90f228f
+                stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
             transform: ROW_NUMBER() OVER (PARTITION BY SALES_BASE.SUPPKEY ORDER BY SALES_BASE.SALES_AMT)
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a157f401-1924-40b7-a472-64608e332816
-          stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+          columnCounter: e467e72e-f85d-401e-97df-507a151c254b
+          stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
         config: {}
         dataType: NUMBER
         description: ""
@@ -84,8 +84,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a157f401-1924-40b7-a472-64608e332816
-                stepCounter: f8bf99bf-6096-4c64-a79e-a88f3c248bce
+              - columnCounter: e467e72e-f85d-401e-97df-507a151c254b
+                stepCounter: 71d5f398-da6a-4be3-b00e-a65a2d05cdba
             transform: ROW_NUMBER() OVER (PARTITION BY SALES_BASE.SUPPKEY ORDER BY SALES_BASE.SALES_AMT DESC)
     cteString: ""
     description: ""
@@ -94,7 +94,7 @@ operation:
     materializationOption: ""
     sourceMapping:
       - aliases:
-          SALES_BASE: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+          SALES_BASE: c87fa04a-5594-4faf-aa0d-8f369a906751
         customSQL:
           customSQL: ""
         dependencies:
@@ -102,7 +102,7 @@ operation:
             nodeName: SALES_BASE
         join:
           joinCondition: FROM {{ ref('STAGE', 'SALES_BASE') }} SALES_BASE
-        name: STG_SALES_BASE1
+        name: STG_SALES_BASE
         noLinkRefs: []
   name: NATION_RANK
   overrideSQL: false

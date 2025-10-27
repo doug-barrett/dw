@@ -1,5 +1,5 @@
 fileVersion: 1
-id: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+id: 87ffe49d-f432-4fd6-9093-ef2faf8d2eb0
 name: SUPPLIER_SALES
 operation:
   config:
@@ -10,7 +10,7 @@ operation:
     truncateBefore: true
   database: ""
   deployEnabled: true
-  description: Total sales amount by supplier
+  description: Total sales by supplier
   isMultisource: false
   locationName: STAGE
   materializationType: table
@@ -19,8 +19,8 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 998ea1f4-5fb2-4390-9b3b-3c84020d4dd7
-          stepCounter: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+          columnCounter: b7242af8-825c-452d-9d66-99d376302992
+          stepCounter: 87ffe49d-f432-4fd6-9093-ef2faf8d2eb0
         config: {}
         dataType: NUMBER
         description: ""
@@ -28,13 +28,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 7f045733-8485-4433-8776-6dc2f83f4625
-                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+              - columnCounter: e38da25d-f614-454f-b30b-d9c3990370f4
+                stepCounter: c87fa04a-5594-4faf-aa0d-8f369a906751
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7d29110c-d9f1-48c2-a520-81ccdfe06488
-          stepCounter: fdef0cf7-cf88-443a-9f7c-80b56b83f017
+          columnCounter: e93c2c71-3795-44b2-b6be-9f8c93cbc045
+          stepCounter: 87ffe49d-f432-4fd6-9093-ef2faf8d2eb0
         config: {}
         dataType: NUMBER
         description: ""
@@ -42,8 +42,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: e3511671-7632-46db-88aa-206d903da43f
-                stepCounter: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+              - columnCounter: e65e94c4-539b-4874-b105-261265c73b1a
+                stepCounter: c87fa04a-5594-4faf-aa0d-8f369a906751
             transform: SUM(SALES_BASE.SALES_AMT)
     cteString: ""
     description: ""
@@ -52,7 +52,7 @@ operation:
     materializationOption: ""
     sourceMapping:
       - aliases:
-          SALES_BASE: bb3a8652-cb8a-47dd-8dca-d2597eaeb163
+          SALES_BASE: c87fa04a-5594-4faf-aa0d-8f369a906751
         customSQL:
           customSQL: ""
         dependencies:
@@ -61,8 +61,8 @@ operation:
         join:
           joinCondition: |-
             FROM {{ ref('STAGE', 'SALES_BASE') }} SALES_BASE
-            GROUP BY SUPPKEY
-        name: STG_SALES_BASE
+            GROUP BY SALES_BASE.SUPPKEY
+        name: STG_LINEITEM_ORDERS_CUSTOMER_NATION_ORDERS1
         noLinkRefs: []
   name: SUPPLIER_SALES
   overrideSQL: false
