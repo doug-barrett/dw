@@ -1,15 +1,17 @@
 fileVersion: 1
-id: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
-name: HUB_CUSTOMER
+id: ee9e9db5-7f7d-4ba0-a718-16b550671600
+name: EFF_SATV0_CUSTOMER
 operation:
   config:
+    disable_hwm: false
     postSQL: ""
     preSQL: ""
-    testsEnabled: false
+    source_is_single_batch: true
+    testsEnabled: true
   database: ""
   deployEnabled: true
   description: Customer data as defined by TPC-H
-  isMultisource: true
+  isMultisource: false
   locationName: SILVER
   materializationType: table
   metadata:
@@ -17,13 +19,26 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a3509298-9c57-4086-b739-2bb0ed023594
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
+          columnCounter: 69f4c34e-49fa-4e53-8674-2b4956eeaf6d
+          stepCounter: ee9e9db5-7f7d-4ba0-a718-16b550671600
         config:
-          is_Hub_hk: true
+          tracked_hashkey: true
         dataType: STRING
         description: ""
-        hashDetails: null
+        name: L_CUSTOMER_NATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca8f0731-df40-4d46-9ab5-e22035a4c399
+                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cfba1459-2a1f-4c6c-bf49-6f17e88c5eb8
+          stepCounter: ee9e9db5-7f7d-4ba0-a718-16b550671600
+        config: {}
+        dataType: STRING
+        description: ""
         name: H_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
@@ -31,37 +46,13 @@ operation:
               - columnCounter: 4e4fae30-5521-46c8-90c7-cc15f1ebaed6
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
-          - columnReferences:
-              - columnCounter: a396d052-4df6-4430-af73-ee2243b51780
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 82f36fd8-1c37-454c-9d87-e8a64b86b743
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
+          columnCounter: e0d87ba7-5a1e-47d7-aced-225d75aad151
+          stepCounter: ee9e9db5-7f7d-4ba0-a718-16b550671600
         config: {}
-        dataType: NUMBER(38,0)
-        description: ""
-        hashDetails: null
-        name: C_CUST_ID
-        nullable: false
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f82226f3-cf92-4091-95ae-f470d2be0eca
-                stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
-            transform: ""
-          - columnReferences:
-              - columnCounter: 95bbf67c-5b01-49ab-bd16-e05cffce5ba5
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: ec43265d-0ad7-41c2-ae60-9e1ca3cdaf74
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
-        config: {}
-        dataType: TIMESTAMP
+        dataType: DATETIME
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
-        hashDetails: null
         name: LDTS
         nullable: true
         sourceColumnReferences:
@@ -69,18 +60,13 @@ operation:
               - columnCounter: 7312d6a3-7c9c-4ee3-99cd-93b61233b9b5
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
-          - columnReferences:
-              - columnCounter: 77face16-3ba1-4339-86ed-806760c8f7f6
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
-            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0369cb10-0014-4c56-b98a-a6a0838e50b9
-          stepCounter: b1fb6c5e-a3ae-4384-a5ae-9e9b6126da54
+          columnCounter: a3547279-6f72-49bb-b74e-8493854af0d6
+          stepCounter: ee9e9db5-7f7d-4ba0-a718-16b550671600
         config: {}
         dataType: STRING
         description: The Record Source (RSRC) describes the source of this data.
-        hashDetails: null
         name: RSRC
         nullable: true
         sourceColumnReferences:
@@ -88,10 +74,24 @@ operation:
               - columnCounter: 3eed9b39-1588-4a51-a1fb-7f560ac416f4
                 stepCounter: 66d3852e-76f1-4208-9900-a9f9d3f34b49
             transform: ""
-          - columnReferences:
-              - columnCounter: 6bf6c00a-f52f-428a-a186-7eea03dd12ca
-                stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b57d3e7e-08f2-4297-8068-4768f560564d
+          stepCounter: ee9e9db5-7f7d-4ba0-a718-16b550671600
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_active: true
+        name: IS_ACTIVE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
             transform: ""
+    cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
@@ -103,23 +103,12 @@ operation:
             nodeName: DVSTG_CUSTOMER
         join:
           joinCondition: FROM {{ ref('SILVER', 'DVSTG_CUSTOMER') }} "DVSTG_CUSTOMER"
-        name: CUSTOMERS
+        name: EFF_SATV0_CUSTOMER
         noLinkRefs: []
-      - aliases:
-          DVSTG_ORDERS: 7a08c091-19a8-4c09-86e7-097c53324a19
-        customSQL:
-          customSQL: ""
-        dependencies:
-          - locationName: SILVER
-            nodeName: DVSTG_ORDERS
-        join:
-          joinCondition: FROM {{ ref('SILVER', 'DVSTG_ORDERS') }} "DVSTG_ORDERS"
-        name: ORDERS
-        noLinkRefs: []
-  name: HUB_CUSTOMER
+  name: EFF_SATV0_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: DV3:::6
+  sqlType: "404"
   type: sql
   version: 1
 type: Node
