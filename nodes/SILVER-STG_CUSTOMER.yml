@@ -157,6 +157,29 @@ operation:
               - columnCounter: 3f036714-3f95-4efe-811d-557d65fc5425
                 stepCounter: d3e68936-faa4-43df-9114-5383b9177662
             transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 80da2502-a156-4974-8972-906651f58251
+          stepCounter: f722dceb-b061-4310-a4ce-1a65c9d4b61c
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        keyColumnType: None
+        name: CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: |-
+              CASE WHEN "CUSTOMER"."C_ACCTBAL" > 5000 THEN 'HIGH'
+              ELSE 'LOW'
+              END || ' - ' || "NATION"."N_NAME" || ' - ' || "REGION"."R_NAME"
+        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

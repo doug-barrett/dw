@@ -75,20 +75,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7a1b4e15-753c-42fb-8f35-b6908de24063
-          stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
-        config: {}
-        dataType: NUMBER
-        description: ""
-        name: DIM_SUPPLIER_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 7743e62d-be2f-4342-93f0-0bc0ccdcee09
-                stepCounter: 97a8278a-079f-45ac-9342-97064bb78652
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 0511e6ac-d4e5-463a-b622-6f8f7a525dc2
           stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
         config: {}
@@ -325,6 +311,69 @@ operation:
               - columnCounter: cb5f6453-26cf-445f-a991-0856c1c09d01
                 stepCounter: 995996a9-d3ab-4d9f-b50c-01d6774475df
             transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: adaa970e-b18b-4f63-907d-b54cdf243c25
+          stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
+        config: {}
+        dataType: VARCHAR
+        description: |
+          This column stores the name of the customer.
+          - It is sourced from the 'C_NAME' column of the 'STG_CUSTOMER' staging table.
+          - This column is used in reports and customer profiling to understand customer demographics and segmentation.
+          - The values in this column are as they appear in the source system, with no transformations applied.
+        name: C_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8792f268-eb6e-452f-88fd-eb9c4bca6082
+                stepCounter: 14c69838-7e05-40bc-beda-b4058dc1abf5
+            transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 093daaa6-03c1-4198-9fcf-4d0d3976437e
+          stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
+        config: {}
+        dataType: VARCHAR
+        description: |
+          This column stores the address of the customer.
+          - It is sourced from the 'C_ADDRESS' column in the 'STG_CUSTOMER' staging table.
+          - This address information can be used for geographical analysis, marketing campaigns, and delivery logistics.
+          - The values in this column are directly loaded from the source, without any transformations.
+        name: C_ADDRESS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff2030ca-41ea-4595-b4ce-a4f8e353346a
+                stepCounter: 14c69838-7e05-40bc-beda-b4058dc1abf5
+            transform: ""
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5618a5c4-6be2-4be5-aed8-16008cc9dfa3
+          stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
+        config: {}
+        dataType: VARCHAR
+        description: |
+          This column stores the phone number of the customer.
+          - It is sourced from the 'C_PHONE' column in the 'STG_CUSTOMER' staging table.
+          - This phone number is used for contacting customers, marketing campaigns, and customer support activities.
+          - The values in this column are directly from the source, without transformations applied.
+        name: C_PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f1f556ed-c404-46d7-8f48-e0da040f16fb
+                stepCounter: 14c69838-7e05-40bc-beda-b4058dc1abf5
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -332,7 +381,6 @@ operation:
           DIM_CUSTOMER: 14c69838-7e05-40bc-beda-b4058dc1abf5
           DIM_ORDERS: 6e52beeb-fa9c-4a1f-8b22-2b520c32c708
           DIM_PART: d190b733-41a6-4531-8795-c02eefe9165d
-          DIM_SUPPLIER: 97a8278a-079f-45ac-9342-97064bb78652
           STG_ORDERS_LINEITEM: 995996a9-d3ab-4d9f-b50c-01d6774475df
         customSQL:
           customSQL: ""
@@ -343,12 +391,10 @@ operation:
             nodeName: DIM_ORDERS
           - locationName: GOLD
             nodeName: DIM_PART
-          - locationName: GOLD
-            nodeName: DIM_SUPPLIER
           - locationName: SILVER
             nodeName: STG_ORDERS_LINEITEM
         join:
-          joinCondition: |-
+          joinCondition: |
             FROM {{ ref('SILVER', 'STG_ORDERS_LINEITEM') }} "STG_ORDERS_LINEITEM"
             LEFT JOIN {{ ref('GOLD', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
             ON "STG_ORDERS_LINEITEM"."O_CUST_ID" = "DIM_CUSTOMER"."C_CUST_ID"
@@ -356,8 +402,6 @@ operation:
             ON "STG_ORDERS_LINEITEM"."L_PART_ID"= "DIM_PART"."P_PART_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_ORDERS') }} "DIM_ORDERS"
             ON "STG_ORDERS_LINEITEM"."L_ORDER_ID" = "DIM_ORDERS"."O_ORDER_ID"
-            LEFT JOIN {{ ref('GOLD', 'DIM_SUPPLIER') }} "DIM_SUPPLIER"
-            ON "STG_ORDERS_LINEITEM"."L_SUPP_ID" = "DIM_SUPPLIER"."S_SUPP_ID"
         name: STG_ORDERS_LINEITEM_KEYS
         noLinkRefs: []
   name: STG_ORDERS_LINEITEM_KEYS
