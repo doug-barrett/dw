@@ -14,7 +14,7 @@ operation:
     postSQL: ""
     preSQL: ""
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     truncateBefore: false
   database: ""
   deployEnabled: true
@@ -23,7 +23,12 @@ operation:
   locationName: GOLD
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test - Customer RI
+        runOrder: After
+        templateString: " {{ test_ref_integrity(\"O_CUST_ID\", \"C_CUST_ID\",\"{{ref('GOLD','DIM_CUSTOMER')}}\") }}"
     columns:
       - appliedColumnTests: {}
         columnReference:
@@ -374,7 +379,7 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: bff380ee-eccd-4969-82e6-36d77650a70a
+          columnCounter: cd91c175-6ce9-41dd-a2b8-82d81ae63fc9
           stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
         config: {}
         dataType: VARCHAR
@@ -387,7 +392,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 343b7832-20d9-4442-a26d-91fafd1d050e
+              - columnCounter: adaa970e-b18b-4f63-907d-b54cdf243c25
                 stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
             transform: ""
       - acceptedValues:
@@ -395,20 +400,20 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8a9af2b1-7ca9-4167-a80d-dc604a2b09e7
+          columnCounter: 2ee97275-d1aa-4b88-99d1-8f8b711d89b9
           stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
         config: {}
-        dataType: VARCHAR(25)
+        dataType: VARCHAR
         description: |
-          This column represents the region of the customer.
-          - It is sourced from the 'REGION' column in the 'STG_CUSTOMER' staging table.
-          - This information is used for geographical analysis, reporting, and regional performance tracking.
-          - The values in this column are loaded directly from the source, without transformations.
-        name: REGION1
+          This column stores the address of the customer.
+          - It is sourced from the 'C_ADDRESS' column in the 'STG_CUSTOMER' staging table.
+          - This address information can be used for geographical analysis, marketing campaigns, and delivery logistics.
+          - The values in this column are directly loaded from the source, without any transformations.
+        name: C_ADDRESS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 45e5e910-5f31-4b11-a5c3-408b8b043bb2
+              - columnCounter: 093daaa6-03c1-4198-9fcf-4d0d3976437e
                 stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
             transform: ""
       - acceptedValues:
@@ -416,7 +421,7 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3b4f1d60-8096-4bc0-a99a-7f1abdeb2fc7
+          columnCounter: aa2eb607-288e-4213-91c6-171cf8bc6394
           stepCounter: bc647ec9-0618-4da8-8aaf-455ad9523b6c
         config: {}
         dataType: VARCHAR
@@ -429,7 +434,7 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a6ebdab4-221f-43db-816c-9f216d033055
+              - columnCounter: 5618a5c4-6be2-4be5-aed8-16008cc9dfa3
                 stepCounter: 0b833395-f5f7-4e49-83e6-1fd0019b3333
             transform: ""
     cteString: ""
@@ -448,7 +453,7 @@ operation:
   name: FCT_ORDERS_LINEITEM
   overrideSQL: false
   schema: ""
-  sqlType: Base:::205
+  sqlType: Fact
   type: sql
   version: 1
 type: Node
