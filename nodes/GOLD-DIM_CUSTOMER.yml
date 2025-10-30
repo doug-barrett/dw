@@ -14,7 +14,17 @@ operation:
   locationName: GOLD
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test - rowcount
+        runOrder: After
+        templateString: "{{ test.expect_table_row_count_to_equal_other_table(\"{{ref('BRONZE', 'CUSTOMER')}}\")}}"
+      - continueOnFailure: true
+        description: ""
+        name: Test - Test data
+        runOrder: After
+        templateString: "{{ test.expect_column_values_to_not_match_like_pattern( \"C_NAME\", \"%TEST%\", filterCondition = None) }}"
     columns:
       - appliedColumnTests: {}
         columnReference:

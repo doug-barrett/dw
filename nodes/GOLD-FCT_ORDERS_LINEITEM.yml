@@ -14,7 +14,7 @@ operation:
     postSQL: ""
     preSQL: ""
     selectDistinct: false
-    testsEnabled: false
+    testsEnabled: true
     truncateBefore: false
   database: ""
   deployEnabled: true
@@ -23,7 +23,12 @@ operation:
   locationName: GOLD
   materializationType: table
   metadata:
-    appliedNodeTests: []
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: ""
+        name: Test - Customer RI
+        runOrder: After
+        templateString: " {{ test_ref_integrity(\"O_CUST_ID\", \"C_CUST_ID\",\"{{ref('GOLD','DIM_CUSTOMER')}}\") }}"
     columns:
       - appliedColumnTests: {}
         columnReference:
