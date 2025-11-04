@@ -1,0 +1,24 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : External Table == #}
+{# == Node Type Description    : This node creates an external table to load  data from a set of one or more files in a specified external stages.Also external table can be refreshed via a job == #}
+
+
+{% if config.autoRefresh == false %}
+
+{{ stage('Refresh External table') }}
+ALTER EXTERNAL TABLE IF EXISTS {{ ref_no_link(node.location.name, node.name) }} REFRESH
+
+{% else %}
+
+{{ stage('Autorefresh Enabled - Nothing to do.') }}
+   
+    select 1 = 0
+	
+{% endif %}

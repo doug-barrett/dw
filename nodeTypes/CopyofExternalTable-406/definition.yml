@@ -1,0 +1,323 @@
+fileVersion: 1
+id: "406"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Copy of External Table
+    short: 'EXT'
+    tagColor: '#C39BD3'
+    isDisabled: false
+    plural: External Tables
+
+    deployStrategy: advanced
+    isColumnResyncEnabled: true
+
+    config:
+    - groupName: General Options
+      items:
+      
+      - displayName: InferSchema
+        attributeName: inferschema
+        type: toggleButton
+        default: false
+      
+      - type: toggleButton
+        displayName: Partition by 
+        attributeName: partclause
+        default: false
+        enableIf: "{% if config.inferschema %} false {% else %} true {% endif %}"
+      
+      - type: label
+        displayName: A partition column must evaluate as an expression that parses the path and/or filename information in the METADATA$FILENAME
+        enableIf: "{% if (config.partclause) %} true {% else %} false {% endif %}"
+
+      - type: textBox
+        displayName: Partition by Expression(Ex:split_part(metadata$filename,'/',2))
+        attributeName: cpartexpression
+        default: ""
+        isRequired: false
+        enableIf: "{% if (config.partclause) %} true {% else %} false {% endif %}"
+
+    - groupName: File Location
+      items:
+
+      - displayName: Coalesce Storage Location of Stage
+        attributeName: stageStorageLocationName
+        type: textBox
+        default: 'Enter Storage Location name'
+        isRequired: true
+
+      - displayName: Stage Name
+        attributeName: stageName
+        type: textBox
+        default: 'stage_name/folder/'
+        isRequired: true
+
+      - displayName: File Name(s) (Ex:a.csv,b.csv )
+        attributeName: fileNames
+        type: textBox
+        enableIf: "{% if config.inferschema %} true {% else %} false {% endif %}"
+        isRequired: false
+
+      - displayName: File Pattern
+        attributeName: filePattern
+        type: textBox
+        enableIf: "{% if config.inferschema %} false {% else %} true {% endif %}"
+        default: ".*[.]json"
+
+
+    - groupName: File Format Options
+      items:
+      - displayName: File Format Definition
+        attributeName: fileFormatType
+        type: dropdownSelector
+        default: "File Format Name"
+        options:
+        - File Format Name
+        - File Format Values    
+
+      - displayName: Coalesce Storage Location of File Format 
+        attributeName: fileFormatLoc
+        type: textBox
+        default: ""
+        enableIf: "{% if config.fileFormatType == 'File Format Name'%} true {% else %} false {% endif %}"  
+
+      - displayName: File Format Name
+        attributeName: fileFormatName
+        type: textBox
+        default: ""
+        enableIf: "{% if config.fileFormatType == 'File Format Name' %} true {% else %} false {% endif %}"
+       
+      - displayName: Parse header
+        attributeName: parsehdr1
+        enableIf: "{% if  config.inferschema == true and config.fileType in ('CSV') and config.fileFormatType == 'File Format Name'   %} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false  
+
+      - displayName: File Type
+        attributeName: fileType
+        type: dropdownSelector
+        default: CSV
+        options:
+        - "CSV"
+        - "PARQUET"
+        - "JSON"
+        - "AVRO"
+        - "ORC"
+        - "XML"
+        isRequired: false
+
+      - displayName: Compression
+        attributeName: compression
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType not in ('ORC')) %} true {% else %} false {% endif %}"
+        type: dropdownSelector
+        options:
+        - "AUTO"
+        - "GZIP"
+        - "BZ2"
+        - "BROTLI"
+        - "ZSTD"
+        - "DEFLATE"
+        - "RAW_DEFLATE"
+        - "NONE"
+        isRequired: false
+        
+
+      - displayName: Record delimiter
+        attributeName: recDelim
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\n"
+        isRequired: false
+
+      - displayName: Field delimiter
+        attributeName: fieldDelim
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV'))%} true {% else %} false {% endif %}"
+        default: ","
+        isRequired: false
+
+      - displayName: Field optionally enclosed by
+        attributeName: fieldEnclosed
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\\042"
+        isRequired: false
+
+      - displayName: Number of header lines to skip
+        attributeName: skipHeader
+        type: textBox
+        enableIf: "{% if config.fileFormatType != 'File Format Name' and config.fileType in ('CSV') and config.inferschema == false %} true {% else %} false {% endif %}"
+        default: "1"
+        isRequired: false
+
+      - displayName: Parse header
+        attributeName: parsehdr
+        enableIf: "{% if  config.inferschema == true and config.fileType in ('CSV') and config.fileFormatType != 'File Format Name'   %} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false   
+
+      - displayName: Encoding
+        attributeName: encoding
+        type: dropdownSelector
+        default: "UTF8"
+        options:
+        - "BIG5"
+        - "UTF8"
+        - "EUCJP"
+        - "EUCKR"
+        - "GB18030"
+        - "IBM420"
+        - "IBM424"
+        - "IBM949"
+        - "ISO2022CN"
+        - "ISO2022JP"
+        - "ISO2022KR"
+        - "ISO88591"
+        - "ISO88592"
+        - "ISO88595"
+        - "ISO88596"
+        - "ISO88597"
+        - "ISO88598"
+        - "ISO88599"
+        - "ISO885915"
+        - "KOI8R"
+        - "SHIFTJIS"
+        - "UTF16"
+        - "UTF16BE"
+        - "UTF16LE"
+        - "UTF32"
+        - "UTF32BE"
+        - "UTF32LE"
+        - "WINDOWS874"
+        - "WINDOWS949"
+        - "WINDOWS1250"
+        - "WINDOWS1251"
+        - "WINDOWS1252"
+        - "WINDOWS1253"
+        - "WINDOWS1254"
+        - "WINDOWS1255"
+        - "WINDOWS1256"
+        isRequired: false
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+      
+      - displayName: Escape optionally enclosed by
+        attributeName: escapeenclosed
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        default: "\\134"
+        isRequired: false  
+
+      - displayName: Strip Outer Array
+        attributeName: stripouterarray
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('JSON') )  %} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false   
+      
+      - displayName: Trim space
+        attributeName: trimSpace
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV','ORC'))%} true {% else %} false {% endif %}"
+        type: toggleButton
+        isRequired: false
+
+      - displayName: Replace invalid characters
+        attributeName: replaceinvalidcharacters
+        enableIf: "{% if (config.fileFormatType != 'File Format Name')%} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false    
+
+      - displayName: Skip blank lines
+        attributeName: skipBlankLines
+        enableIf: "{% if config.fileFormatType != 'File Format Name' and config.fileType in ('CSV') and config.inferschema == false %} true {% else %} false {% endif %}"
+        type: toggleButton
+        isRequired: false
+
+      - displayName: Nulls for empty field
+        attributeName: emptyfield
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV'))%} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false    
+       
+      - displayName: Multiple lines
+        attributeName: mulline
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV') )  %} true {% else %} false {% endif %}"
+        type: toggleButton
+        default: true
+        isRequired: false   
+
+      - displayName: Replace values with NULL
+        attributeName: nullchar
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')and config.inferschema == false) %} true {% else %} false {% endif %}"
+        default: ('\N')
+        isRequired: false  
+
+      - displayName: Escape enclosed/unenclosed values
+        attributeName: escapeval
+        type: textBox
+        enableIf: "{% if (config.fileFormatType != 'File Format Name' and config.fileType in ('CSV')) %} true {% else %} false {% endif %}"
+        isRequired: false 
+
+    - groupName: Additional Options
+      items:
+      - displayName: Auto Refresh
+        attributeName: autoRefresh
+        type: toggleButton
+        default: false
+        isRequired: false
+
+      - displayName: Cloud Provider
+        attributeName: cloudProvider
+        type: dropdownSelector
+        default: "AWS"
+        options:
+        - "AWS"
+        - "Azure"
+        - "GCP"
+        enableIf: "{{ config.autoRefresh }}"
+
+      - displayName: AWS SNS Topic
+        attributeName: snsTopic
+        type: textBox
+        enableIf: "{% if config.autoRefresh == true and config.cloudProvider == 'AWS' %} true {% else %} false {% endif %}"
+        default: "arn:aws:sns:us-east-1:121674918127:prod-emea-s3-notification"
+        isRequired: false
+
+      - displayName: Integration
+        attributeName: integration
+        type: textBox
+        isRequired: false
+        enableIf: "{% if config.autoRefresh == true and config.cloudProvider != 'AWS' %} true {% else %} false {% endif %}"
+
+    - groupName: Hidden config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: table
+        options:
+        - table
+        isRequired: true
+
+    systemColumns:
+
+    - displayName: 'VALUE'
+      attributeName: 'VALUE'
+      transform: ''
+      dataType: VARIANT
+      placement: beginning
+
+    - displayName: FILENAME
+      transform: 'METADATA$FILENAME'
+      dataType: STRING
+      placement: end
+      attributeName: sysFlNm
+name: Copy of External Table
+type: NodeType

@@ -1,0 +1,308 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : External Table == #}
+{# == Node Type Description    : This node creates an external table to load  data from a set of one or more files in a specified external stages == #}
+{#Release date:20241025  Version:1.1.4 Released By:AS  Description: Unified Storage and file format inputs #}
+{#Release date:20241213  Version:1.1.8 Released By:AS  Description: InferSchema option,Re-Sync button enabled and partition by clause added #}
+
+
+{% if desiredState == undefined %}
+
+  {{ stage('Drop External Table') }}
+  DROP EXTERNAL TABLE {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+{% elif currentState == undefined or (currentState != undefined and desiredState != currentState )%} 
+
+#External Stage locations
+
+{% set stageStorageLocationName = desiredState.config.stageStorageLocationName %}
+{% set dbStage = desiredState.storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='database') | first %}
+{% set schStage = desiredState.storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='schema') | first %}
+{% set ns = namespace(counter=1) %}
+
+ 
+           {%if desiredState.config.inferschema == true %}
+					       {% set srcSchName = desiredState.node.location.name %}
+                           {% set db = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[0]%}
+                           {% set sch = ref_no_link(desiredState.node.location.name, desiredState.node.name).split('.')[1]%}
+
+                           {% set stageStorageLocationName = desiredState.config.stageStorageLocationName %}
+                           {% set dbStage =  ref_no_link(desiredState.config.stageStorageLocationName, desiredState.node.name).split('.')[0] %}
+                           {% set schStage =  ref_no_link(desiredState.config.stageStorageLocationName, desiredState.node.name).split('.')[1]%}
+
+                            # File format locations
+                         {%-if desiredState.config.fileFormatType == 'File Format Name'-%}
+                           {% set fileFormatLocationName = desiredState.config.fileFormatLoc %}
+                           {% set dbff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='database') | first %}
+                           {% set schff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='schema') | first %}
+                        {%else%}
+                            {% set fileFormatLocationName = desiredState.node.location.name %}
+                           {% set dbff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='database') | first %}
+                           {% set schff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='schema') | first %}
+                        {%endif%}
+                 
+                          # File format sql
+                         {%-if desiredState.config.fileFormatType == 'File Format Values'-%}
+                            {%set fileformatsql = "'CREATE OR REPLACE TEMPORARY FILE FORMAT " +"\""+dbff+"\".\""+schff+"\".\"TEMP_"+desiredState.config.fileType+"_"+desiredState.node.name+"\""%}
+
+                            {%set fileformatsql = fileformatsql + "\n"+ "TYPE" + " =''"+ desiredState.config.fileType+"''"%}
+                            {% if desiredState.config.compression != "" %}
+                                {%set fileformatsql = fileformatsql + "\n"+ "COMPRESSION"+ "=''"+ desiredState.config.compression+"''"%}
+                            {%endif%}		 
+                            {% if desiredState.config.recDelim and desiredState.config.fileType in ('CSV')%}
+                               {%set fileformatsql = fileformatsql + "\n"+ "RECORD_DELIMITER"+ "=''"+ desiredState.config.recDelim+"''"%}
+                            {%endif%}
+                            {% if desiredState.config.fieldDelim and desiredState.config.fileType in ('CSV')%}
+                                {%set fileformatsql = fileformatsql + "\n"+ "FIELD_DELIMITER"+ "=''"+ desiredState.config.fieldDelim+"''"%}
+                            {%endif%}
+                            {% if desiredState.config.fieldEnclosed and desiredState.config.fileType in ('CSV')%}
+                                {%set fileformatsql = fileformatsql + "\n"+ "FIELD_OPTIONALLY_ENCLOSED_BY"+ "=''"+ desiredState.config.fieldEnclosed+"''"%}
+                            {%endif%}
+                            {% if desiredState.config.parsehdr and  desiredState.config.fileType in ('CSV')%}
+                              {%set fileformatsql = fileformatsql + "\n"+ "PARSE_HEADER" + "="+ "TRUE"+""%}
+                            {%endif%}
+                            {% if (desiredState.config.encoding != "" and desiredState.config.encoding is not none)and  desiredState.config.fileType in ('CSV') %}
+                                {%set fileformatsql = fileformatsql + "\n"+ "ENCODING"+ "=''"+ desiredState.config.encoding+"''"%}
+                            {%endif%}
+                            {% if desiredState.config.replaceinvalidcharacters%}
+                                 {%set fileformatsql = fileformatsql + "\n"+ "REPLACE_INVALID_CHARACTERS" + "="+ "TRUE" +""%}
+                            {%endif%}
+                            {% if desiredState.config.stripouterarray == true and desiredState.config.fileType in ('JSON')%}
+                              {%set fileformatsql = fileformatsql + "\n"+ "STRIP_OUTER_ARRAY" + "="+ "TRUE" +""%}
+                            {%endif%}
+                            {%if  desiredState.config.usevectscan == true and  desiredState.config.fileType in ('PARQUET')%}
+                              {%set fileformatsql = fileformatsql + "\n"+ "USE_VECTORIZED_SCANNER" + "="+ "TRUE" +""%}
+                            {%endif%}
+                            {% if desiredState.config.emptyfield and  desiredState.config.fileType in ('CSV')%}
+                              {%set fileformatsql = fileformatsql + "\n"+ "EMPTY_FIELD_AS_NULL" + "="+ "TRUE"+""%}
+                            {%endif%}
+                            {% if (desiredState.config.escapeenclosed != "" and desiredState.config.escapeenclosed is not none)  and  desiredState.config.fileType in ('CSV')%}
+                              {%set fileformatsql = fileformatsql + "\n"+ "ESCAPE_UNENCLOSED_FIELD" + "=''\\"+ desiredState.config.escapeenclosed+"''"%}
+                            {%endif%}
+                            {% if desiredState.config.mulline and  desiredState.config.fileType in ('CSV')%}
+                              {%set fileformatsql = fileformatsql + "\n"+ "MULTI_LINE" + "="+ "TRUE"+""%}
+                            {%endif%}
+                            {%set fileformatsql =  fileformatsql + "\n"+ "'" %}
+                          {%endif%}   
+                           
+                        {#Subfolder path #}
+                        {%set subf = ""%}
+                        {% set subfolder_value = desiredState.config.subfolder | default('') %}
+                        {%if desiredState.config.subfolder == "" %}
+                            {%set subf = "" %}
+                        {%elif desiredState.config.subfolder == None%}
+                            {%set subf = "" %}
+                        {%else%}
+                          {%set subf = "/"+ subfolder_value %}
+                        {%endif%}
+
+                           {%- if ","  in desiredState.config.fileNames %} 
+                               {% set formatted_variable = desiredState.config.fileNames.split(',') | map('string') | join("'',''") %}
+                               {% set final_variable = "''" + formatted_variable + "''" %}
+                               {% set fileNameSQL = " "+"FILES =>"+""+final_variable + "," %} 
+                           {%- elif  desiredState.config.fileNames  -%}
+                               {% set fileNameSQL = " "+"FILES =>"+"''"+desiredState.config.fileNames+"''," %}
+                           {% endif %}
+                    
+        {{ stage('Create inferred external table') }}
+
+           -- Anonymous stored procedure block
+              DECLARE
+           -- Variables
+              col_name VARCHAR;
+              col_type VARCHAR;
+              create_sql VARCHAR;
+              final_sql VARCHAR;
+              alter_sql VARCHAR;
+            {%if (desiredState.config.fileFormatType == 'File Format Name' and desiredState.config.fileType == 'CSV' )-%}
+              file_format_options VARIANT;            
+            {%-endif%}
+  
+                   
+            -- Create statement for inferring structure
+                res RESULTSET;
+             {%if desiredState.config.fileFormatType == 'File Format Values' or (desiredState.config.fileFormatType == 'File Format Name' and desiredState.config.fileType == 'CSV' )-%}
+                 select_statement := 'CREATE OR REPLACE EXTERNAL TABLE {{db}}.{{sch}}."{{desiredState.node.name}}"
+                       USING TEMPLATE (SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*))
+                      FROM TABLE(
+                        INFER_SCHEMA(
+                          LOCATION=>''@{{ dbStage }}.{{ schStage }}.{{ desiredState.config.stageName }}{{subf}}'',
+                          {{fileNameSQL }}
+                          FILE_FORMAT=>''"{{ dbff }}"."{{ schff }}"."TEMP_{{ desiredState.config.fileType}}_{{desiredState.node.name}}"''
+                        )
+                      ))LOCATION=@{{ dbStage }}.{{ schStage }}.{{ desiredState.config.stageName }}
+                      FILE_FORMAT="{{ dbff }}"."{{ schff }}"."TEMP_{{ desiredState.config.fileType}}_{{desiredState.node.name}}"
+                      AUTO_REFRESH=false';
+              {%else%}
+                    select_statement := 'CREATE OR REPLACE EXTERNAL TABLE {{db}}.{{sch}}."{{desiredState.node.name}}"
+                       USING TEMPLATE (SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*))
+                      FROM TABLE(
+                        INFER_SCHEMA(
+                          LOCATION=>''@{{ dbStage }}.{{ schStage }}.{{ desiredState.config.stageName }}{{subf}}'',
+                          {{fileNameSQL }}
+                          FILE_FORMAT=>''"{{ dbff }}"."{{ schff }}"."{{ desiredState.config.fileFormatName}}"''
+                        )
+                      ))LOCATION=@{{ dbStage }}.{{ schStage }}.{{ desiredState.config.stageName }}
+                      FILE_FORMAT={{ dbff }}.{{ schff }}.{{desiredState.config.fileFormatName}}
+                      AUTO_REFRESH=false';
+              {%endif%}
+  
+            BEGIN
+
+            {%if desiredState.config.fileFormatType == 'File Format Name' and desiredState.config.fileType == 'CSV'%}
+             
+             -- Step 1: Run DESCRIBE to set LAST_QUERY_ID()
+             EXECUTE IMMEDIATE 'DESCRIBE FILE FORMAT "{{dbff}}"."{{schff}}"."{{desiredState.config.fileFormatName}}"';
+
+
+            -- Step 2: Form file format JSON string 
+            SELECT PARSE_JSON(
+               '{' || LISTAGG(
+                 '"' || "property" || '": "' || "property_value" || '"',
+                 ', '
+                ) || '}'
+               ) INTO file_format_options
+            FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()));
+
+
+              --Create temporary file format for inferring table structure 
+              EXECUTE IMMEDIATE 'CREATE OR REPLACE TEMPORARY FILE FORMAT "{{dbff}}"."{{schff}}"."TEMP_{{ desiredState.config.fileType}}_{{desiredState.node.name}}"
+              TYPE =''CSV''
+              RECORD_DELIMITER=''' || file_format_options:RECORD_DELIMITER || '''
+              FIELD_DELIMITER=''' || file_format_options:FIELD_DELIMITER || '''                                    
+			        FIELD_OPTIONALLY_ENCLOSED_BY='''||file_format_options:FIELD_OPTIONALLY_ENCLOSED_BY || '''
+			        BINARY_FORMAT =''' || file_format_options:BINARY_FORMAT || '''
+              COMPRESSION = ''' || file_format_options:COMPRESSION || '''
+              ENCODING = ''' || file_format_options:ENCODING || '''
+			        PARSE_HEADER = {{desiredState.config.parsehdr1}}
+              REPLACE_INVALID_CHARACTERS = TRUE
+              ERROR_ON_COLUMN_COUNT_MISMATCH=FALSE
+              ESCAPE = ''\\' || file_format_options:ESCAPE || '''
+              ESCAPE_UNENCLOSED_FIELD = ''\\' || file_format_options:ESCAPE_UNENCLOSED_FIELD || ''' 
+              TRIM_SPACE = '|| file_format_options:TRIM_SPACE ||'
+              EMPTY_FIELD_AS_NULL = '|| file_format_options:EMPTY_FIELD_AS_NULL ||'
+              SKIP_BYTE_ORDER_MARK = '|| file_format_options:SKIP_BYTE_ORDER_MARK ||'
+              MULTI_LINE = TRUE'
+              ;
+
+            {%endif-%}
+          
+            {%if desiredState.config.fileFormatType == 'File Format Values'-%}
+                      -- Create temporary file format
+                       EXECUTE IMMEDIATE {{fileformatsql}};
+            {%- endif %}
+              
+              
+              EXECUTE IMMEDIATE :select_statement ;
+	
+	         
+
+            -- Add metadata columns
+                      -- Column: FILENAME
+                      alter_sql := '
+                      ALTER TABLE {{db}}.{{sch}}."{{desiredState.node.name}}"
+                      ADD COLUMN FILENAME STRING AS METADATA$FILENAME';
+
+                      EXECUTE IMMEDIATE :alter_sql;
+
+            {%if desiredState.config.fileFormatType == 'File Format Values' or (desiredState.config.fileFormatType == 'File Format Name' and desiredState.config.fileType == 'CSV' )-%}
+                -- Drop the temporary file format
+               EXECUTE IMMEDIATE 'DROP FILE FORMAT IF EXISTS "{{ dbff }}"."{{ schff }}"."TEMP_{{ desiredState.config.fileType}}_{{desiredState.node.name}}"';
+            {%endif%}
+
+
+            -- Return a success message
+              RETURN '{{desiredState.node.name}} table created successfully.';
+            END;
+					  				  
+	    	{%else%}
+			
+{{ stage('Create External Table') }}
+
+ {# File format locations #}
+
+{%-if desiredState.config.fileFormatType == 'File Format Name'-%}
+   {% set fileFormatLocationName = desiredState.config.fileFormatLoc %}
+   {% set dbff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='database') | first %}
+   {% set schff = desiredState.storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='schema') | first %}
+{%endif%}
+
+ CREATE OR REPLACE EXTERNAL TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+
+
+    {% for col in desiredState.sources[0].columns if (col.name | upper != "VALUE" ) %}
+      {% if loop.first %}({% endif %} 
+      {%if (col.name != "FILENAME") and (col.name != "FILE_ROW_NUMBER") and (col.name !="FILE_LAST_MODIFIED") and (col.name != "SCAN_TIME") and (col.name != "LOAD_TIMESTAMP") and col.transform == ""%}
+          {% if desiredState.config.fileType == "CSV" %}
+		       "{{ col.name }}" {{ col.dataType }} AS (value:c{{ loop.index }}::{{ col.dataType }})
+           {%else%}
+           "{{ col.name }}" {{ col.dataType }} AS (value:{{ col.name }}::{{ col.dataType }})
+          {%endif%}
+		  {%elif col.name == "FILENAME" and desiredState.config.cpartexpression !="" and desiredState.config.partclause == true%}
+		      "{{ col.name }}" {{ col.dataType }} AS METADATA$FILENAME,
+          "PART_EXP" {{ col.dataType }} AS {{desiredState.config.cpartexpression}}
+      {%elif col.name == "FILENAME"  %}
+		      "{{ col.name }}" {{ col.dataType }} AS METADATA$FILENAME
+      {%elif col.name == "FILE_ROW_NUMBER" %}
+           "{{ col.name }}" {{ col.dataType }} AS METADATA$FILE_ROW_NUMBER
+      {%elif col.name =="FILE_LAST_MODIFIED"%} 
+           "{{col.name}}" {{ col.dataType }} AS METADATA$FILE_LAST_MODIFIED   
+      {%elif col.name =="SCAN_TIME"%} 
+           "{{col.name}}" {{ col.dataType }} AS METADATA$START_SCAN_TIME     
+      {%elif col.name =="LOAD_TIMESTAMP"%} 
+           "{{col.name}}" {{ col.dataType }} AS current_timestamp()
+      {%elif col.transform !=""%}
+	          "{{ col.name }}" {{col.dataType}} AS {{ get_source_transform(col) }} 		  
+      {%endif%}
+      {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+      {%- if not loop.last -%}, {% else %}){% endif %}
+    {% endfor %}
+  {%if desiredState.config.partclause == true%}
+       partition by ("PART_EXP")
+  {%endif%}
+  location = @{{ dbStage }}.{{ schStage }}.{{ desiredState.config.stageName }}
+  {% if desiredState.config.filePattern %}
+  pattern='{{ desiredState.config.filePattern }}'
+  {%endif%}
+  
+  {%- if desiredState.config.fileFormatType == 'File Format Name' %}
+          FILE_FORMAT = (FORMAT_NAME = '{{ dbff }}.{{ schff }}.{{ desiredState.config.fileFormatName}}')
+  {%else%}
+  file_format = (type = {{ desiredState.config.fileType }}
+  {% if desiredState.config.compression != "" and desiredState.config.fileType != "ORC"%} compression = '{{desiredState.config.compression}}' {%endif%}	
+  {% if desiredState.config.fileType == "CSV" %}
+    {% if desiredState.config.recDelim != "" and desiredState.config.recDelim is not none %}record_delimiter = '{{ desiredState.config.recDelim }}'{% endif %}
+    {% if desiredState.config.fieldDelim != null %}field_delimiter = '{{ desiredState.config.fieldDelim }}'{% endif %}
+    {% if desiredState.config.fieldEnclosed != null %}field_optionally_enclosed_by = '{{ desiredState.config.fieldEnclosed }}'{% endif %}
+    {% if desiredState.config.skipHeader != null %}skip_header = {{ desiredState.config.skipHeader }}{% endif %}
+    {% if desiredState.config.skipBlankLines %}skip_blank_lines = {{ desiredState.config.skipBlankLines }}{% endif %}
+    {% if desiredState.config.encoding != "" and desiredState.config.encoding is not none%}encoding ='{{desiredState.config.encoding}}'{%endif%}
+  {%endif%}
+  {% if desiredState.config.fileType == "JSON" %}
+    {% if desiredState.config.stripouterarray == true %}
+      strip_outer_array = {{desiredState.config.stripouterarray}}
+    {%endif%}
+  {%endif%}
+  {% if desiredState.config.trimSpace and  desiredState.config.fileType in('CSV','ORC') %}trim_space = {{ desiredState.config.trimSpace }}{% endif %}
+  {% if desiredState.config.replaceinvalidcharacters  %}
+      replace_invalid_characters= {{desiredState.config.replaceinvalidcharacters}}
+  {%endif%})
+  {% endif %}
+  auto_refresh = {{ desiredState.config.autoRefresh }}
+
+  {% if desiredState.config.autoRefresh and desiredState.config.cloudProvider == 'AWS' and  desiredState.config.snsTopic !=""%}
+  aws_sns_topic = '{{ desiredState.config.snsTopic }}'{% endif %}
+
+    {% if desiredState.config.autoRefresh and desiredState.config.cloudProvider != 'AWS' and  desiredState.config.snsTopic !=""%}
+  integration = '{{ desiredState.config.integration }}'{% endif %}
+  
+  {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description |escape }}'{% endif %}
+
+{%endif%}
+{%endif%}
