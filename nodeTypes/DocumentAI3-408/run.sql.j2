@@ -1,0 +1,39 @@
+{% if config.truncateBefore %}
+	
+			{{ stage('Truncate Table') }}
+			TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+	
+{% endif %}
+
+
+{{ stage('Insert into Target Table') }}
+{%- set source = sources[0] %}
+INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+  (
+    {% for col in columns %}
+      "{{ col.name }}"
+      {%- if not loop.last -%},{% endif %}
+    {% endfor %}
+  )
+	
+
+SELECT 
+    {%- for col in source.columns %}
+        {%- if col.extractedData %}
+             "{{ dbExtractionQuery }}"."{{ schExtractionQuery }}"."{{ extractionQueryName }}"!PREDICT(
+              GET_PRESIGNED_URL(@"{{ dbStage }}"."{{ schStage }}".{{ config.stageName }}, RELATIVE_PATH), {{ extractionQueryVersion }})
+        {%- else %}
+              {{ get_source_transform(col) }} AS "{{ col.name }}"
+        {%- endif %}
+      {%- if not loop.last -%}, {% endif %}
+    {%- endfor %}
+FROM {{ fullyQualifiedStreamName }}
+    {% set ret_clause = cortex.get_clause( sources[0].join ).lstrip()%}
+            {% if subf != "" %} {{subf}}
+		{% if ret_clause|trim !='' %}
+			     {{ret_clause}}
+			  {% endif %}
+			  {%- else -%}
+			  {% set join_clause = ret_clause | replace("AND ", "WHERE ", 1) if ret_clause.startswith("AND ") else ret_clause %}
+			  {{join_clause}}
+			   {% endif %}

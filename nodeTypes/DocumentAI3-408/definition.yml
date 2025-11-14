@@ -1,0 +1,115 @@
+fileVersion: 1
+id: "408"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Copy of Document AI Stage
+    short: 'DOC'
+    tagColor: '#bd6db7'
+    isDisabled: false
+    plural: Doc AI
+
+    config:
+    - groupName: General Options
+      items:
+
+      - type: materializationSelector
+        default: table
+        options:
+        - table
+        isRequired: true 
+        enableIf: "false"
+      
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: false
+
+    - groupName: Source Data
+      items:
+
+      - displayName: Coalesce Storage Location of Stage
+        attributeName: stageStorageLocationName
+        type: textBox
+        default: ''
+        isRequired: true
+
+      - displayName: Stage Name
+        attributeName: stageName
+        type: textBox
+        default: ''
+        isRequired: true
+
+      - displayName: Path or subfolder 
+        attributeName: subfolder
+        type: textBox
+        default: 'Enter folder name in stage if applicable-folder/subfolder'
+        isRequired: false
+
+        
+    - groupName: DocumentAI model build
+      items:
+
+      - displayName: Coalesce Storage Location of DocumentAI model 
+        attributeName: extractionQueryStorageLocationName
+        type: textBox
+        default: 'Enter Storage Location name'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: DocumentAI model Name
+        attributeName: extractionQueryName
+        type: textBox
+        default: 'Enter DocumentAI model name'
+        enableIf: "true"
+        isRequired: true
+
+      - displayName: DocumentAI model build Version
+        attributeName: extractionQueryVersion
+        type: textBox
+        default: 'Enter  DocumentAI model build version'
+        enableIf: "true"
+        isRequired: true
+
+
+       
+    systemColumns:
+    - displayName: FILENAME
+      transform: "REGEXP_SUBSTR(RELATIVE_PATH, '[^/]+$')"
+      dataType: STRING
+      placement: beginning
+      attributeName: fileName
+
+    - displayName: FILE_URL
+      transform: 'FILE_URL'
+      dataType: STRING
+      placement: beginning
+      attributeName: presignedURL
+
+    - displayName: FILE_LAST_MODIFIED
+      transform: 'TO_TIMESTAMP_NTZ(LAST_MODIFIED)'
+      dataType: TIMESTAMP_NTZ
+      placement: beginning
+      attributeName: fileLastModified
+
+    - displayName: SIZE
+      transform: 'SIZE'
+      dataType: NUMBER
+      placement: beginning
+      attributeName: size
+
+    - displayName: EXTRACTED_DATA
+      transform: ''
+      dataType: VARIANT
+      placement: beginning
+      attributeName: extractedData
+
+    - displayName: DATA_EXTRACT_TIMESTAMP
+      transform: 'CURRENT_TIMESTAMP::TIMESTAMP_NTZ'
+      dataType: TIMESTAMP_NTZ
+      placement: beginning
+      attributeName: fileLastModified
+name: Document AI3
+type: NodeType
