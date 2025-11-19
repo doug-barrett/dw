@@ -56,8 +56,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 73820c11-ae3f-4668-b923-b8557ed2fa61
-                stepCounter: ecd6ad41-c603-4172-9508-80dd38f666fc
+              - columnCounter: fe8783e2-b123-4f2a-9716-a8e81317776a
+                stepCounter: d0c8b119-80d4-4c54-92cd-cc39a385769a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -70,8 +70,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: c34abce8-5494-4cfc-96df-7c1c99c71802
-                stepCounter: ecd6ad41-c603-4172-9508-80dd38f666fc
+              - columnCounter: a74dfe24-242b-4fbf-89e7-6d8091875d96
+                stepCounter: d0c8b119-80d4-4c54-92cd-cc39a385769a
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -276,26 +276,22 @@ operation:
     materializationOption: ""
     sourceMapping:
       - aliases:
+          INC_ORDERS: d0c8b119-80d4-4c54-92cd-cc39a385769a
           LINEITEM: baa43202-c152-497c-9448-13933ecd0df5
-          ORDERS: ecd6ad41-c603-4172-9508-80dd38f666fc
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: BRONZE
             nodeName: LINEITEM
-          - locationName: BRONZE
-            nodeName: ORDERS
+          - locationName: SILVER
+            nodeName: INC_ORDERS
         join:
           joinCondition: |-
             FROM {{ ref('BRONZE', 'LINEITEM') }} "LINEITEM"
-            INNER JOIN {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
-            ON "LINEITEM"."L_ORDER_ID" = "ORDERS"."O_ORDER_ID"
-
-            WHERE "ORDERS"."O_ORDERDATE" > (SELECT NVL(MAX("O_ORDERDATE"), '1900-01-01') FROM {{ ref_no_link('GOLD', 'FCT_ORDERS_LINEITEM') }}) 
+            INNER JOIN {{ ref('SILVER', 'INC_ORDERS') }} "INC_ORDERS"
+            ON "LINEITEM"."L_ORDER_ID" = "INC_ORDERS"."O_ORDER_ID"
         name: STG_ORDERS_LINEITEM
-        noLinkRefs:
-          - locationName: GOLD
-            nodeName: FCT_ORDERS_LINEITEM
+        noLinkRefs: []
   name: STG_ORDERS_LINEITEM
   overrideSQL: false
   schema: ""
