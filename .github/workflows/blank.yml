@@ -13,25 +13,30 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: 22.19.0
 
-     # Fetch config secret from GitHub Actions secret repository, then write coa config to a temporary file
-    - run: echo '${{ secrets.COA_CONFIG }}' >> COA_CONFIG
+    - name: Write Snowflake Key to file
+      run: |
+        umask 077
+        printf '%s' "${{ secrets.SF_PRIVATE_KEY }}" > key.pem
+        
+    - name: Write Coa Config 
+      run: echo '${{ secrets.COA_CONFIG }}' >> COA_CONFIG
     
-    # Install Coalesce CLI tool, if not installed already
-    - run: npm list | grep "@coalescesoftware/coa@${{ env.COA_VERSION }}" || npm install @coalescesoftware/coa@${{ env.COA_VERSION }}
+    - name: Install Coalesce CLI tool
+      run: npm list | grep "@coalescesoftware/coa@${{ env.COA_VERSION }}" || npm install @coalescesoftware/coa@${{ env.COA_VERSION }}
 
-    # Print version number
-    - run: npx coa --version
+    - name: Print version number
+      run: npx coa --version
 
-    # Create Deployment Plan
-    - run: npx coa plan --config COA_CONFIG --out ./coa-plan --debug
+    - name: Create Deployment Plan
+      run: npx coa plan --config COA_CONFIG --out ./coa-plan --debug
 
-    # Deploy Plan
-    - run: npx coa deploy --config COA_CONFIG --plan ./coa-plan --debug
+    - name: Deploy Plan
+      run: npx coa deploy --config COA_CONFIG --plan ./coa-plan --debug
 
-    # Run Job
-    - run: npx coa refresh --config COA_CONFIG
+    - name: Run Job
+      run: npx coa refresh --config COA_CONFIG
