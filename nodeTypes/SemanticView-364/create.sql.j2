@@ -42,21 +42,22 @@ RELATIONSHIPS (
 
 FACTS (
     {%- for col in source.columns if col.sourceColumns[0].node.nodeType == "Fact" and col.transform | trim == "" and not col.name.startswith(sys_pre) and not col.name.endswith(dim_key) %}
-        {{ get_source_transform(col) }} AS  "{{ col.name }}" {%- if col.syn | length > 0 %} WITH SYNONYMS = ( {{ col.syn }} ) {%- endif %}{%- if not loop.last -%}, {% endif %}
+        {{ get_source_transform(col) }} AS  "{{ col.name }}" {%- if col.syn | length > 0 %} WITH SYNONYMS = ( {{ col.syn }} ) {%- endif %}
+        {%- if col.description | length > 0 %} COMMENT = '{{ col.description | escape }}'{% endif %}{%- if not loop.last -%}, {% endif %}
     {%- endfor %}
 )
 
 DIMENSIONS (
     {%- for col in source.columns if col.sourceColumns[0].node.nodeType == "Dimension" and not col.name.startswith(sys_pre) and not col.name.endswith(dim_key) %}
-        {{ get_source_transform(col) }} AS  "{{ col.name }}"  {%- if col.syn | length > 0 %} WITH SYNONYMS = ( {{ col.syn }} ) {%- endif %}{%- if not loop.last -%}, {% endif %}
+        {{ get_source_transform(col) }} AS  "{{ col.name }}"  {%- if col.syn | length > 0 %} WITH SYNONYMS = ( {{ col.syn }} ) {%- endif %}
+        {%- if col.description | length > 0 %} COMMENT = '{{ col.description | escape }}'{% endif %}{%- if not loop.last -%}, {% endif %}
     {%- endfor %}
 )
 
 METRICS (
     {%- for col in source.columns if col.sourceColumns[0].node.nodeType == "Fact" and col.transform | trim != "" and not col.name.startswith(sys_pre) and not col.name.endswith(dim_key) and col.name not in ns.fct_bk %}
-        "{{col.sourceColumns[0].node.name}}"."{{ col.name }}" AS {{ get_source_transform(col) }} {%- if col.syn | length > 0 %} WITH SYNONYMS = ( {{ col.syn }} ) {%- endif %}{%- if not loop.last -%}, {% endif %}
+        "{{col.sourceColumns[0].node.name}}"."{{ col.name }}" AS {{ get_source_transform(col) }} {%- if col.syn | length > 0 %} WITH SYNONYMS = ( {{ col.syn }} ) {%- endif %}{%- if col.description | length > 0 %} COMMENT = '{{ col.description | escape }}'{% endif %}{%- if not loop.last -%}, {% endif %}
     {%- endfor %}
   )
-
-{%- endif %}
-
+{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+{% endif %}
