@@ -1,0 +1,68 @@
+fileVersion: 1
+id: 75d7672e-fb2b-4403-9280-9f16c1a3a460
+name: STG_test
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 167d9171-230e-4935-b1c9-323dbd4b8c38
+          stepCounter: 75d7672e-fb2b-4403-9280-9f16c1a3a460
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: COL_I
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a10960b9-b7f8-478c-ae3a-1ed2a6b8f18c
+                stepCounter: 724981f2-a7c1-40d2-95a2-fa573be61100
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5dbf1764-c696-4d37-8dd4-a4d1eb4d1cc0
+          stepCounter: 75d7672e-fb2b-4403-9280-9f16c1a3a460
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COL_S
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0878e2e3-b6ec-4579-8b9f-0cdda1628f9e
+                stepCounter: 724981f2-a7c1-40d2-95a2-fa573be61100
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          test: 724981f2-a7c1-40d2-95a2-fa573be61100
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: test
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'test') }} "test"
+        name: STG_test
+        noLinkRefs: []
+  name: STG_test
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
