@@ -1,6 +1,6 @@
 fileVersion: 1
 id: cfa316bf-b356-4955-a374-7f6f65aa9fb1
-name: V_ORDERS_LINEITEM_ORDERS_CUSTOMER
+name: V_ORDERS_FLATTENED
 operation:
   config:
     insertStrategy: UNION
@@ -597,9 +597,9 @@ operation:
             ON "FCT_ORDERS_LINEITEM"."DIM_ORDERS_KEY" = "DIM_ORDERS"."DIM_ORDERS_KEY"
             LEFT JOIN {{ ref('GOLD', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
             ON "FCT_ORDERS_LINEITEM"."DIM_CUSTOMER_KEY" = "DIM_CUSTOMER"."DIM_CUSTOMER_KEY"
-        name: V_ORDERS_LINEITEM_ORDERS_CUSTOMER
+        name: V_ORDERS_FLATTENED
         noLinkRefs: []
-  name: V_ORDERS_LINEITEM_ORDERS_CUSTOMER
+  name: V_ORDERS_FLATTENED
   overrideSQL: false
   schema: ""
   sqlType: View
