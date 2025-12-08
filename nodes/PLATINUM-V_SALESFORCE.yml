@@ -1,0 +1,67 @@
+fileVersion: 1
+id: eae451f3-80a6-44e8-a4d0-ae028f96de9b
+name: V_SALESFORCE
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: PLATINUM
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7de7e450-66bd-4fab-acd1-cf7698931084
+          stepCounter: eae451f3-80a6-44e8-a4d0-ae028f96de9b
+        config: {}
+        dataType: VARIANT
+        description: ""
+        name: VALUE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f82300a8-4f0b-410d-a97e-e4cdc200ec47
+                stepCounter: 7344a581-cad0-4191-964f-67c29e79ab4b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ab7f69bb-2d5c-4376-956d-375a9361c201
+          stepCounter: eae451f3-80a6-44e8-a4d0-ae028f96de9b
+        config: {}
+        dataType: STRING
+        description: ""
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0aebe3a2-ddb8-46b0-ac54-c8700188182c
+                stepCounter: 7344a581-cad0-4191-964f-67c29e79ab4b
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          EXT_SALESFORCE: 7344a581-cad0-4191-964f-67c29e79ab4b
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: EXT_SALESFORCE
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'EXT_SALESFORCE') }} "EXT_SALESFORCE"
+            WHERE "FILENAME" LIKE '%Campaign.json'
+        name: V_SALESFORCE
+        noLinkRefs: []
+  name: V_SALESFORCE
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
