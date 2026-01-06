@@ -186,7 +186,7 @@ operation:
         defaultValue: ""
         description: ""
         hashDetails:
-          hashAlgorithm: SHA256
+          hashAlgorithm: MD5
         hashedColumns:
           - columnCounter: 26bce2dc-c52f-4f22-83e3-1a43f408d6bc
             stepCounter: 7a08c091-19a8-4c09-86e7-097c53324a19
@@ -277,9 +277,13 @@ operation:
           - locationName: BRONZE
             nodeName: ORDERS
         join:
-          joinCondition: FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
+          joinCondition: |-
+            FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
+            WHERE "O_ORDERDATE" > ( SELECT MAX("O_ORDERDATE") FROM {{ ref_no_link('SILVER', 'SATV0_ORDERS') }} )
         name: DVSTG_ORDERS
-        noLinkRefs: []
+        noLinkRefs:
+          - locationName: SILVER
+            nodeName: SATV0_ORDERS
   name: DVSTG_ORDERS
   overrideSQL: false
   schema: ""

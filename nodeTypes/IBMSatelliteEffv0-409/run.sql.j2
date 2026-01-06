@@ -1,0 +1,89 @@
+{% if config.preSQL %}
+  {{ stage('Pre-SQL') }}
+  {{ config.preSQL }}
+{% endif %}
+
+{% for test in node.tests if config.testsEnabled %}
+  {% if test.runOrder == 'Before' %}
+    {{ test_stage(test.name, test.continueOnFailure) }}
+    {{ test.templateString }}
+  {% endif %}
+{% endfor %}
+
+{{ stage('Insert New Rows') }}
+
+{%- set hashkey_column = get_value_by_column_attribute("is_hk") -%}
+{%- set drv_column = get_value_by_column_attribute("is_hd") -%}
+{%- set source = sources[0] %}
+
+INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+
+(
+  {% for col in source.columns %}
+    "{{ col.name }}"{{ "," if not loop.last }}
+  {% endfor %}
+)
+
+-- new rows
+
+SELECT 
+			{% for col in source.columns if not col.is_active %}
+        src."{{ col.name }}",
+			{% endfor %}
+        TRUE IS_ACTIVE
+FROM (SELECT * {{ source.join }} ) src
+LEFT JOIN {{this}} tgt 
+  ON 
+      	{% for col in source.columns if col.name in (hashkey_column)%}
+          src."{{ col.name }}" = tgt."{{ col.name }}"
+          {%- if not loop.last -%} AND {% endif %}
+        {% endfor %}
+WHERE {% for col in source.columns if col.name in (hashkey_column)%}
+        tgt."{{ col.name }}" IS NULL
+  				{%- if not loop.last -%} AND {% endif %}
+			{% endfor %}
+
+-- inactive rows
+UNION
+SELECT 
+			{% for col in source.columns if not col.is_active %}
+        tgt."{{ col.name }}",
+			{% endfor %}
+        FALSE IS_ACTIVE
+FROM (SELECT * {{ source.join }} ) src
+LEFT JOIN (
+        SELECT * 
+        FROM {{this}} 
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY 
+          {% for col in source.columns if col.is_hd %}
+            "{{ col.name }}" {%- if not loop.last -%}, {% endif %}
+			    {% endfor %} ORDER BY LDTS DESC) = 1
+      )tgt 
+  ON 
+      	{% for col in source.columns if col.is_hd %}
+          src."{{ col.name }}" = tgt."{{ col.name }}" {%- if not loop.last -%} AND {% endif %}
+			  {% endfor %}
+        AND 
+        {% for col in source.columns if col.name in (hashkey_column)%}
+          src."{{ col.name }}" <> tgt."{{ col.name }}"
+          {%- if not loop.last -%} AND {% endif %}
+        {% endfor %}
+WHERE tgt.IS_ACTIVE
+
+
+{% if config.testsEnabled %}
+  {% for test in node.tests %}
+    {% if test.runOrder == 'After' %}
+      {{ test_stage(test.name, test.continueOnFailure) }}
+      {{ test.templateString }}
+        {% endif %}
+  {% endfor %}
+
+  {% for column in columns %}
+    {% for test in column.tests %}
+      {{ test_stage(column.name + ": " + test.name) }}
+      {{ test.templateString }}
+    {% endfor %}
+  {% endfor %}
+{% endif %}
+

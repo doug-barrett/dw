@@ -1,0 +1,94 @@
+{% for test in node.tests if config.testsEnabled %}
+        {% if test.runOrder == 'Before' %}
+            {{ test_stage(test.name, test.continueOnFailure) }}
+            {{ test.templateString }}
+        {% endif %}
+    {% endfor %}
+
+{% if node.materializationType == 'table' %}
+	{% if config.preSQL %}
+		{{ stage('Pre-SQL') }}
+		{{ config.preSQL }}
+	{% endif %}
+	
+
+
+    {% if config.truncateBefore %}
+
+        {{ stage('Truncate Stage Table') }}
+        TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+
+    {% endif %}
+
+
+    {% set source = sources[0] %}
+    {{ stage('Insert Stage Table') }}
+    INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+    (
+        {% for col in source.columns %}
+            "{{ col.name }}"
+            {%- if not loop.last -%},{% endif %}
+        {% endfor %}
+    )
+
+    WITH 
+
+    {# All columns  that are not hash columns #}
+
+    regular_columns AS (
+
+    {% set source = sources[0] %}
+    SELECT
+    {% for col in source.columns %}
+        {% if not col.hashDetails %}
+            {{ get_source_transform(col) }} AS "{{ col.name }}"
+            {%- if not loop.last -%}, {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {{ source.join }}
+
+    ),
+
+    all_columns AS (
+        
+    {%- set multi_active_key = [] -%}
+    {%- set main_hashkey_col = namespace(hk_col='') -%}
+    SELECT
+    {% for col in source.columns %}
+        {#- Print DV hash calculations -#}
+        {% if col.hashDetails %}
+            {{ DV.datavault4coalesce__hash(columns=col.hashDetails.columns, is_hashdiff=col.is_hd,datatype=col.dataType, algo=DV.datavault4coalesce.config.hash, multi_active_key=multi_active_key, main_hashkey_col=main_hashkey_col.hk_col) }} AS "{{ col.name }}"
+        {#- Print other table columns -#}
+        {% else %}
+            "{{ col.name }}"
+        {% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+
+    FROM regular_columns
+    )
+    SELECT * FROM all_columns
+
+	
+	{% if config.postSQL %}
+		{{ stage('Post-SQL') }}
+		{{ config.postSQL }}
+	{% endif %}
+{% endif %}
+
+{% if config.testsEnabled %}
+	{% for test in node.tests %}
+		{% if test.runOrder == 'After' %}
+			{{ test_stage(test.name, test.continueOnFailure) }}
+			{{ test.templateString }}
+        {% endif %}
+	{% endfor %}
+
+	{% for column in columns %}
+		{% for test in column.tests %}
+			{{ test_stage(column.name + ": " + test.name) }}
+			{{ test.templateString }}
+		{% endfor %}
+	{% endfor %}
+{% endif %}

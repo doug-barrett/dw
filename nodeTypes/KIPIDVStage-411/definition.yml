@@ -1,0 +1,39 @@
+fileVersion: 1
+id: "411"
+isDisabled: true
+metadata:
+  defaultStorageLocation: SILVER
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: DV Stage View
+    short: DVSTG
+    tagColor: '#C4C4C4'
+    isDisabled: true
+    plural: Views
+
+    config:
+      - groupName: Options
+        items: 
+        - type: materializationSelector
+          options:
+            - view
+          default: view
+          isRequired: true
+          enableIf: "false"
+
+
+    systemColumns:
+    - displayName: "LDTS"
+      transform: SYSDATE()
+      dataType: TIMESTAMP
+      placement: end
+      attributeName: is_system_ldts    
+      description: "The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse."
+    - displayName: "RSRC"
+      transform: "{{record_source()}}"
+      dataType: STRING
+      placement: end
+      attributeName: is_system_rsrc    
+      description: "The Record Source (RSRC) describes the source of this data."
+name: "KIPI: DV Stage"
+type: NodeType
