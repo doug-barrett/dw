@@ -1,0 +1,84 @@
+fileVersion: 1
+id: 75e54c14-6942-4e88-9ee2-99bd04398838
+name: STG_FINAL_MID_NATION_SALES
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Middle tier nation sales by supplier
+  isMultisource: false
+  locationName: STAGE
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019b99b5-2897-7363-9bc2-63e8fbbd1e75
+          stepCounter: 75e54c14-6942-4e88-9ee2-99bd04398838
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isBusinessKey: true
+        name: SUPPKEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: NATION_RANK.SUPPKEY
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019b99b5-2897-7363-9bc2-64c05672cd3c
+          stepCounter: 75e54c14-6942-4e88-9ee2-99bd04398838
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isBusinessKey: false
+        name: SALES_AMT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: SUM(NATION_RANK.SALES_AMT)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019b99b5-2897-7363-9bc2-6904ac64539c
+          stepCounter: 75e54c14-6942-4e88-9ee2-99bd04398838
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isBusinessKey: false
+        name: MID_NATIONS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: LISTAGG(NATION_RANK.NATION, ',') WITHIN GROUP (ORDER BY NATION_RANK.NATION_RANK)
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: STAGE
+            nodeName: STG_FINAL_NATION_RANK
+        join:
+          joinCondition: |-
+            FROM {{ ref('STAGE', 'STG_FINAL_NATION_RANK') }} NATION_RANK
+            WHERE NATION_RANK.NATION_RANK > 10 AND NATION_RANK.NATION_RANK_REV > 10
+            GROUP BY NATION_RANK.SUPPKEY
+        name: STG_NODE
+        noLinkRefs: []
+  name: STG_FINAL_MID_NATION_SALES
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
