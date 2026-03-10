@@ -81,6 +81,26 @@ operation:
               - columnCounter: 99412713-1a7c-4c2d-987d-4d8c2372a1f5
                 stepCounter: 85add773-6e7a-441e-abea-169587cfe1bf
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85ebcd89-3174-462f-a948-9578cab6f385
+          stepCounter: ad01af62-b9f8-4cb3-9f36-68a3c754a7c3
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: S_ACCTBAL_CATEGORY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 99412713-1a7c-4c2d-987d-4d8c2372a1f5
+                stepCounter: 85add773-6e7a-441e-abea-169587cfe1bf
+            transform: >-
+              CASE
+                WHEN SUPPLIER.S_ACCTBAL < 0 THEN 'Overdrawn'
+                WHEN SUPPLIER.S_ACCTBAL < 2500 THEN 'Low'
+                WHEN SUPPLIER.S_ACCTBAL < 7500 THEN 'Medium'
+                ELSE 'High'
+              END
       - appliedColumnTests:
           hasNull: false
           isDistinct: false
