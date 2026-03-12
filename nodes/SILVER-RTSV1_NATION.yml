@@ -1,0 +1,118 @@
+fileVersion: 1
+id: 81639d94-b7c0-48d4-b382-cc7c8210a38c
+name: RTSV1_NATION
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc25c89f-ac1d-4306-9d1f-b2b68eec937a
+          stepCounter: 81639d94-b7c0-48d4-b382-cc7c8210a38c
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: ""
+        name: H_NATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e45a15a7-00a3-4135-8124-3f4130519a91
+                stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f5826e44-eda9-47ec-940c-f6aefb64ea17
+          stepCounter: 81639d94-b7c0-48d4-b382-cc7c8210a38c
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9a340c50-d2de-498a-8ea0-c889763ce70f
+                stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6605ec45-7785-4d43-af37-0a9323ab44e0
+          stepCounter: 81639d94-b7c0-48d4-b382-cc7c8210a38c
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 99bab117-da5c-4716-99fe-fe2f8da1d4aa
+                stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b97e2f91-909e-41cf-94fa-95e1c51d1eb8
+          stepCounter: 81639d94-b7c0-48d4-b382-cc7c8210a38c
+        config: {}
+        dataType: STRING
+        description: The Stage (STG) references the exact source of this data, specific for record tracking.
+        name: STG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0338ae1d-3107-4980-b6dc-6c60f3730656
+                stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb643574-8893-4f24-bee0-364712baefe6
+          stepCounter: 81639d94-b7c0-48d4-b382-cc7c8210a38c
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_system_active_col: true
+        name: IS_ACTIVE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              CASE 
+                WHEN 
+                  LDTS = MAX(LDTS)
+                  OVER (PARTITION BY STG ) 
+                THEN TRUE 
+                ELSE FALSE 
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          RTS_NATION: 82a3bb32-9ad4-429a-8153-f6033aa29929
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: RTS_NATION
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'RTS_NATION') }} "RTS_NATION"
+        name: RTSV1_NATION
+        noLinkRefs: []
+  name: RTSV1_NATION
+  overrideSQL: false
+  schema: ""
+  sqlType: "424"
+  type: sql
+  version: 1
+type: Node

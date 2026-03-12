@@ -51,22 +51,39 @@ operation:
               - columnCounter: ce105793-ae20-48fe-b061-4b16298bab29
                 stepCounter: 6790a0e1-9547-4203-92fe-475f46368f74
             transform: ""
-      - appliedColumnTests:
-          hasNull: false
-          isDistinct: false
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7766ad5b-f77f-4047-9edf-405b76cf4044
+          columnCounter: c7d7be54-8e73-47f7-a42e-ede6aff1159e
           stepCounter: f1d37a51-281d-4ca8-a6ef-2bebbbbef2ce
         config: {}
-        dataType: NUMBER
-        description: ""
-        name: DIM_CUSTOMER_KEY
+        dataType: STRING
+        description: |-
+          This column represents the business key for the customer dimension.
+          - It is sourced from the 'D_CUSTOMER_KEY' column in the 'V_DIM_CUSTOMER' view.
+          - It serves as a natural key to identify customer records, which is essential for linking data between systems.
+          - Being a business key, it maintains referential integrity and ensures data accuracy across various data stores.
+          - This key is crucial for creating customer-centric reports and analyses.
+        name: D_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 7254594f-9bfc-4495-9758-a805ddd2b4f0
+              - columnCounter: 837cc989-a993-433b-98cf-41410e91fd76
                 stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-            transform: ""
+            transform: |-
+              CAST(
+                      SHA1(
+                        NVL(
+                          CAST(
+                            "BR_LINEITEM_ORDER_CUSTOMER_NATION"."H_CUSTOMER_KEY" AS VARCHAR
+                          ),
+                          'null'
+                        ) || '||' || NVL(
+                          CAST(
+                            "SATV0_LINEITEM"."L_SHIPDATE" AS VARCHAR
+                          ),
+                          'null'
+                        )
+                      ) AS STRING)
       - appliedColumnTests: {}
         columnReference:
           columnCounter: bc66cdbe-97ef-489e-9901-365ac3dbd85f
@@ -445,15 +462,12 @@ operation:
     sourceMapping:
       - aliases:
           BR_LINEITEM_ORDER_CUSTOMER_NATION: 6790a0e1-9547-4203-92fe-475f46368f74
-          DIM_CUSTOMER: 72f26043-57fe-4ec4-8d18-e141091579a0
           DIM_ORDERS: 96950e17-c55c-4721-9742-47a102b9eda2
           DIM_PART: 27f979a8-811f-4728-817d-34c6df5af25c
           SATV0_LINEITEM: 0379c375-e8f3-4bb2-955b-b1ea9afa7e51
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: GOLD
-            nodeName: DIM_CUSTOMER
           - locationName: GOLD
             nodeName: DIM_ORDERS
           - locationName: GOLD
@@ -463,12 +477,10 @@ operation:
           - locationName: SILVER
             nodeName: SATV0_LINEITEM
         join:
-          joinCondition: |-
+          joinCondition: |
             FROM {{ ref('SILVER', 'BR_LINEITEM_ORDER_CUSTOMER_NATION') }} "BR_LINEITEM_ORDER_CUSTOMER_NATION"
             INNER JOIN {{ ref('SILVER', 'SATV0_LINEITEM') }} "SATV0_LINEITEM"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."H_LINEITEM_KEY" = "SATV0_LINEITEM"."H_LINEITEM_KEY"
-            LEFT JOIN {{ ref('GOLD', 'DIM_CUSTOMER') }} "DIM_CUSTOMER"
-            ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."C_CUST_ID" = "DIM_CUSTOMER"."C_CUST_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_ORDERS') }} "DIM_ORDERS"
             ON "BR_LINEITEM_ORDER_CUSTOMER_NATION"."O_ORDER_ID" = "DIM_ORDERS"."O_ORDER_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_PART') }} "DIM_PART"

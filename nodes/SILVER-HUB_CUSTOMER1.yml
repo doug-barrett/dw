@@ -1,6 +1,6 @@
 fileVersion: 1
-id: fb12bc01-2575-4716-949c-53ed2608f157
-name: HUB_SUPPLIER
+id: 0b578b60-0674-411e-8788-844c3e02f86c
+name: HUB_CUSTOMER1
 operation:
   config:
     disable_hwm: true
@@ -9,7 +9,7 @@ operation:
     testsEnabled: true
   database: ""
   deployEnabled: true
-  description: ""
+  description: Customer data as defined by TPC-H
   isMultisource: false
   locationName: SILVER
   materializationType: table
@@ -18,37 +18,37 @@ operation:
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9465b03f-7291-4b8e-a7b7-96dad4aaa200
-          stepCounter: fb12bc01-2575-4716-949c-53ed2608f157
+          columnCounter: a06a51a6-bda9-4992-83f3-049e22db91e3
+          stepCounter: 0b578b60-0674-411e-8788-844c3e02f86c
         config:
           is_Hub_hk: true
         dataType: STRING
         description: ""
-        name: H_SUPPLIER_KEY
+        name: H_CUST_KEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b07f9143-e3ed-4a25-b2cb-70c4449771e9
-                stepCounter: d5e94e2c-0ded-42c2-a40c-0aff3da44738
+              - columnCounter: 220f2c89-1353-4116-8d73-7f84c1c4a688
+                stepCounter: d16643ad-74cb-4d5d-a862-64946ab8da21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 8c4f9970-3410-4ad8-90c5-5263d93d8c16
-          stepCounter: fb12bc01-2575-4716-949c-53ed2608f157
+          columnCounter: ede697b1-bafe-41de-9fb4-fdea4d79cce2
+          stepCounter: 0b578b60-0674-411e-8788-844c3e02f86c
         config: {}
         dataType: NUMBER(38,0)
         description: ""
-        name: S_SUPP_ID
+        name: C_CUST_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: b58f03ff-49b0-4b79-ac95-1e9f03568604
-                stepCounter: d5e94e2c-0ded-42c2-a40c-0aff3da44738
+              - columnCounter: fadba576-2cbe-4cc6-a90d-c87653f249d4
+                stepCounter: d16643ad-74cb-4d5d-a862-64946ab8da21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 60700ebd-062a-4156-b0ee-eae91a632b5e
-          stepCounter: fb12bc01-2575-4716-949c-53ed2608f157
+          columnCounter: 1cb5c2c3-37b4-4f36-91a4-778fd39a3722
+          stepCounter: 0b578b60-0674-411e-8788-844c3e02f86c
         config: {}
         dataType: TIMESTAMP
         description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
@@ -56,13 +56,13 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 3064e23d-4bd6-4d87-b087-93d6b1b75efd
-                stepCounter: d5e94e2c-0ded-42c2-a40c-0aff3da44738
+              - columnCounter: 79f2ee9a-340a-422b-ad6a-5ef4bcbaaaf1
+                stepCounter: d16643ad-74cb-4d5d-a862-64946ab8da21
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: f378c6db-acdc-4c50-a6f1-a5bc882b556d
-          stepCounter: fb12bc01-2575-4716-949c-53ed2608f157
+          columnCounter: 0c10b9b6-ef75-48d9-ab55-6c6e06513949
+          stepCounter: 0b578b60-0674-411e-8788-844c3e02f86c
         config: {}
         dataType: STRING
         description: The Record Source (RSRC) describes the source of this data.
@@ -70,24 +70,24 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 5bd8b239-9fcb-4c5b-ac43-b66d6a67441c
-                stepCounter: d5e94e2c-0ded-42c2-a40c-0aff3da44738
+              - columnCounter: 7bd3a90b-b5cc-4538-8a09-0a3e7f3cbac6
+                stepCounter: d16643ad-74cb-4d5d-a862-64946ab8da21
             transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          DVSTG_SUPPLIER: d5e94e2c-0ded-42c2-a40c-0aff3da44738
+          DVSTG_CUSTOMER1: d16643ad-74cb-4d5d-a862-64946ab8da21
         customSQL:
           customSQL: ""
         dependencies:
           - locationName: SILVER
-            nodeName: DVSTG_SUPPLIER
+            nodeName: DVSTG_CUSTOMER1
         join:
-          joinCondition: FROM {{ ref('SILVER', 'DVSTG_SUPPLIER') }} "DVSTG_SUPPLIER"
-        name: HUB_SUPPLIER
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_CUSTOMER1') }} "DVSTG_CUSTOMER1"
+        name: HUB_CUSTOMER1
         noLinkRefs: []
-  name: HUB_SUPPLIER
+  name: HUB_CUSTOMER1
   overrideSQL: false
   schema: ""
   sqlType: DV3:::6

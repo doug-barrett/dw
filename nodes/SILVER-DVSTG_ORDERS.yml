@@ -277,13 +277,9 @@ operation:
           - locationName: BRONZE
             nodeName: ORDERS
         join:
-          joinCondition: |-
-            FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
-            WHERE "O_ORDERDATE" > ( SELECT MAX("O_ORDERDATE") FROM {{ ref_no_link('SILVER', 'SATV0_ORDERS') }} )
+          joinCondition: FROM {{ ref('BRONZE', 'ORDERS') }} "ORDERS"
         name: DVSTG_ORDERS
-        noLinkRefs:
-          - locationName: SILVER
-            nodeName: SATV0_ORDERS
+        noLinkRefs: []
   name: DVSTG_ORDERS
   overrideSQL: false
   schema: ""

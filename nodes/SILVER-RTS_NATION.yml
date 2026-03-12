@@ -1,0 +1,104 @@
+fileVersion: 1
+id: 82a3bb32-9ad4-429a-8153-f6033aa29929
+name: RTS_NATION
+operation:
+  config:
+    is_hk:
+      columnCounter: e45a15a7-00a3-4135-8124-3f4130519a91
+      stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e45a15a7-00a3-4135-8124-3f4130519a91
+          stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+        config: {}
+        dataType: STRING
+        description: ""
+        name: H_NATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ef124559-7901-4f02-93da-147f32ab3299
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a340c50-d2de-498a-8ea0-c889763ce70f
+          stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+        config: {}
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3858095-40a4-412a-b67f-b4cf17860f1a
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 99bab117-da5c-4716-99fe-fe2f8da1d4aa
+          stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+        config: {}
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 954a5cbd-8f35-4eae-af24-46424acb15cb
+                stepCounter: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0338ae1d-3107-4980-b6dc-6c60f3730656
+          stepCounter: 82a3bb32-9ad4-429a-8153-f6033aa29929
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: The Stage (STG) references the exact source of this data, specific for record tracking.
+        is_stg: true
+        name: STG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "'{{ sources[0].dependencies[0].node.location.name }}.{{ sources[0].dependencies[0].node.name }}'"
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_NATION: 83bfca62-43ae-4558-b1fd-d1b7b6d187ed
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_NATION
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'DVSTG_NATION') }} "DVSTG_NATION"
+            WHERE "DVSTG_NATION"."LDTS" > 
+            (SELECT COALESCE(MAX("LDTS"),TO_TIMESTAMP('0001-01-01T00:00:01', 'YYYY-MM-DDTHH24:MI:SS'))
+            FROM {{ ref_no_link(node.location.name, node.name) }}
+            WHERE "LDTS" != TO_TIMESTAMP('8888-12-31T23:59:59', 'YYYY-MM-DDTHH24:MI:SS'))
+        name: RTS_NATION
+        noLinkRefs: []
+  name: RTS_NATION
+  overrideSQL: false
+  schema: ""
+  sqlType: DV3:::27
+  type: sql
+  version: 1
+type: Node

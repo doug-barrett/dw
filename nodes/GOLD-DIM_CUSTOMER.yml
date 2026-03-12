@@ -15,27 +15,25 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7254594f-9bfc-4495-9758-a805ddd2b4f0
+          columnCounter: 837cc989-a993-433b-98cf-41410e91fd76
           stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
         config: {}
-        dataType: NUMBER
-        defaultValue: ""
+        dataType: STRING
         description: |-
-          This column is a system-generated surrogate key for the customer dimension table.
-          - It uniquely identifies each customer record within the data warehouse.
-          - It does not have a source column; its values are automatically generated during the data loading process.
-          - This key is crucial for efficiently joining the customer dimension with fact tables in downstream reporting and analytics, improving query performance.
-          - It enables tracking customer-related metrics and KPIs.
-        isSurrogateKey: true
-        name: DIM_CUSTOMER_KEY
+          This column represents the business key for the customer dimension.
+          - It is sourced from the 'D_CUSTOMER_KEY' column in the 'V_DIM_CUSTOMER' view.
+          - It serves as a natural key to identify customer records, which is essential for linking data between systems.
+          - Being a business key, it maintains referential integrity and ensures data accuracy across various data stores.
+          - This key is crucial for creating customer-centric reports and analyses.
+        isBusinessKey: true
+        name: D_CUSTOMER_KEY
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
+          - columnReferences:
+              - columnCounter: 365d67a0-6542-4630-bf43-e167b12e5459
+                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -244,26 +242,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 837cc989-a993-433b-98cf-41410e91fd76
-          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-        config: {}
-        dataType: STRING
-        description: |-
-          This column represents the business key for the customer dimension.
-          - It is sourced from the 'D_CUSTOMER_KEY' column in the 'V_DIM_CUSTOMER' view.
-          - It serves as a natural key to identify customer records, which is essential for linking data between systems.
-          - Being a business key, it maintains referential integrity and ensures data accuracy across various data stores.
-          - This key is crucial for creating customer-centric reports and analyses.
-        isBusinessKey: true
-        name: D_CUSTOMER_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 365d67a0-6542-4630-bf43-e167b12e5459
-                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 82a244b4-d77b-4e30-9e67-6397bb6b8644
           stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
         config: {}
@@ -300,94 +278,6 @@ operation:
               - columnCounter: ab2703a3-ca0a-429b-8ae5-ebea57c06be3
                 stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: bc2c32e4-82c2-4210-98a3-5604e750ad3f
-          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-        config: {}
-        dataType: NUMBER
-        defaultValue: ""
-        description: |-
-          This column is a system-generated version number for each record in the customer dimension.
-          - It is automatically generated and incremented with each update to a customer record.
-          - It does not have a source column; its values are automatically generated during the data loading process.
-          - This version number is used to track changes and maintain a history of customer data.
-          - It supports auditing and allows for point-in-time analysis.
-        isSystemVersion: true
-        name: SYSTEM_VERSION
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 94f9e469-ca7b-4d73-a604-fa09c59f0c3b
-          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-        config: {}
-        dataType: VARCHAR
-        defaultValue: ""
-        description: |-
-          This column is a system-generated flag indicating whether a record is the most current version.
-          - It is automatically set to 'Y' for the current record and 'N' for historical records.
-          - It does not have a source column; its values are automatically generated during the data loading process.
-          - This flag simplifies querying for the latest customer information and improves reporting efficiency.
-          - It supports temporal data analysis and ensures users access the most up-to-date data.
-        isSystemCurrentFlag: true
-        name: SYSTEM_CURRENT_FLAG
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: 7ccf9892-a4de-4c59-80be-a25dc7ced298
-          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: |-
-          This column is a system-generated timestamp indicating when a record became the current version.
-          - It is populated with the current timestamp when a new record is inserted or an existing record is updated.
-          - It does not have a source column; its value is derived using the SQL transformation 'CAST(CURRENT_TIMESTAMP AS TIMESTAMP)'.
-          - This timestamp supports temporal data analysis, allowing users to track when customer data became valid.
-          - It is crucial for audit trails and historical reporting.
-        isSystemStartDate: true
-        name: SYSTEM_START_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: aacef95a-51ee-4449-8a9f-615a9d1bf6a4
-          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-        config: {}
-        dataType: TIMESTAMP
-        defaultValue: ""
-        description: |-
-          This column is a system-generated timestamp indicating when a record is no longer the current version.
-          - It is populated with a future timestamp ('2999-12-31 00:00:00') for the current record and updated with the timestamp of the new record for historical versions.
-          - It does not have a source column; its value is derived using the SQL transformation 'CAST('2999-12-31 00:00:00' AS TIMESTAMP)'.
-          - This timestamp supports temporal data analysis, enabling users to track when customer data expired.
-          - It is essential for maintaining a history of customer data and performing time-series analysis.
-        isSystemEndDate: true
-        name: SYSTEM_END_DATE
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
       - acceptedValues:
           strictMatch: true
           values: []
@@ -432,23 +322,6 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: af7872ef-86b6-4875-925b-97d125190c42
-          stepCounter: 72f26043-57fe-4ec4-8d18-e141091579a0
-        config: {}
-        dataType: STRING
-        description: ""
-        name: FULL_ADDRESS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: f60ddd69-1344-4298-a0c9-b8d1d289dc5d
-                stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
-            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

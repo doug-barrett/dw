@@ -4,7 +4,10 @@ name: V_DIM_CUSTOMER
 operation:
   config:
     insertStrategy: UNION
-    selectDistinct: false
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
@@ -219,26 +222,6 @@ operation:
               ELSE 'LOW VALUE '
               END || "SATV1_CUSTOMER_LROC"."C_COMMENT"
         systemColumnType: None
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
-        columnReference:
-          columnCounter: f60ddd69-1344-4298-a0c9-b8d1d289dc5d
-          stepCounter: b8066f95-d0f8-410c-803d-59aa9c4fef91
-        config: {}
-        dataType: STRING
-        defaultValue: ""
-        description: ""
-        keyColumnType: None
-        name: FULL_ADDRESS
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: "\"SATV1_CUSTOMER_LROC\".\"C_ADDRESS\"||\"SATV1_CUSTOMER_HROC\".\"C_MKTSEGMENT\""
-        systemColumnType: None
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -269,7 +252,7 @@ operation:
   name: V_DIM_CUSTOMER
   overrideSQL: false
   schema: ""
-  sqlType: View
+  sqlType: Stage
   type: sql
   version: 1
 type: Node

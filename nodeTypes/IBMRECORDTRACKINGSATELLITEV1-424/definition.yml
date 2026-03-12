@@ -1,0 +1,56 @@
+fileVersion: 1
+id: "424"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: 'IBM: RECORD TRACKING SATELLITE V1'
+    short: 'RTSV1'
+    plural: 'IBM: RECORD TRACKING SATELLITES V1'
+    tagColor: '#FFAC1C'
+
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        isRequired: true
+        enableIf: 'true'
+        default: view
+        options:
+        - view
+
+    - groupName: Pre/Post SQL
+      items:
+      - displayName: Pre-SQL
+        attributeName: preSQL
+        type: textBox
+        isRequired: false
+
+      - displayName: Post-SQL
+        attributeName: postSQL
+        type: textBox
+        isRequired: false
+
+    - groupName: Data Vault
+      items:
+      - displayName: Hashkey Column
+        type: columnSelector
+        attributeName: is_Hub_hk
+        isRequired: true    
+
+    systemColumns:
+    - displayName: "IS_ACTIVE"
+      transform: |-
+        CASE 
+          WHEN 
+            LDTS = MAX(LDTS)
+            OVER (PARTITION BY STG ) 
+          THEN TRUE 
+          ELSE FALSE 
+        END
+      dataType: BOOLEAN
+      placement: end
+      attributeName: is_system_active_col
+name: "IBM: RECORD TRACKING SATELLITE V1"
+type: NodeType
