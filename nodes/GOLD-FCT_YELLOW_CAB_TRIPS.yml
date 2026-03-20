@@ -1,0 +1,574 @@
+fileVersion: 1
+id: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+name: FCT_YELLOW_CAB_TRIPS
+operation:
+  config:
+    postSQL: ""
+    preSQL: DELETE FROM {{this}} WHERE TO_DATE(PICKUP_DATETIME) IN (SELECT DISTINCT TO_DATE(PICKUP_DATETIME) FROM {{ref('SILVER', 'STG_YELLOW_CAB_TRIPS1')}})
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Taxi ride information for Yellow Cabs in New York.  Provided by New York City (NYC) Taxi & Limousine Commission (TLC)..
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests:
+          hasNull: true
+        columnReference:
+          columnCounter: b74aaa03-e54c-4945-932c-c687081354db
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Numeric identifier for the vendor. Sourced directly from the original dataset without transformations. Used in vendor performance analysis and cost optimization reports. Links trips to specific taxi companies. Enables the calculation of key performance indicators, such as average trip cost per vendor. Foreign key potentially linking to a vendor dimension table, if available. Useful in understanding market share and vendor efficiency.
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2d114298-a304-4911-baf2-d026e77b26ed
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 746f7b8b-2e44-4a73-a478-951fbe3a1789
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: VARCHAR(33)
+        description: Name of the vendor. Extracted directly from the source data without modification. Used for identifying the vendor associated with each taxi trip. Appears in summary reports for operational overviews. Enables grouping and filtering of data by vendor name. Useful for quickly identifying the service provider. Supports analysis of customer satisfaction and service quality across different vendors. No transformations applied.
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8d1f1cdc-1b6f-44e1-a4ae-ac716fe631f5
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 90c87f19-64f0-462f-865c-e2fe10c2238a
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Numeric identifier for the payment type used in the taxi trip. Sourced directly from the original dataset. Used in financial analysis to understand payment method trends. Enables the calculation of revenue distribution across different payment types. Foreign key to a payment type dimension table. Aids in fraud detection by identifying unusual payment patterns. No transformations applied.
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 052a8a3c-61c1-4d95-8f42-5fd86a7a1cb1
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 0d244fb3-ac98-42b7-8b4f-1b36d82052e6
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: VARCHAR(14)
+        description: Categorical description of the payment type used for the taxi trip. Sourced directly from the original dataset. Used in customer behavior analysis to understand payment preferences. Enables filtering and grouping of data by payment type. Supports marketing efforts by identifying popular payment methods. Aids in financial reconciliation processes. No transformations applied.
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 172559f7-b4a3-457d-bd46-34af8c4ed445
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 90a17320-c15f-42eb-b344-938e38fa2b30
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Numeric identifier for the rate code applied to the taxi trip. Sourced directly from the original dataset. Used in pricing analysis to understand the impact of different rate codes on revenue. Enables the calculation of average fare per rate code. Foreign key to a rate code dimension table. Aids in understanding pricing strategy effectiveness. No transformations applied.
+        name: RATE_CODE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bef9511b-0659-48be-9230-b1165d2df8a4
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 6b8210de-4136-46d6-a691-6dff8b4b8b7e
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: VARCHAR(21)
+        description: Categorical description of the rate code applied to the taxi trip. Sourced directly from the original dataset. Used in pricing analysis to understand the impact of different rate codes on revenue. Enables filtering and grouping of data by rate code. Supports marketing efforts by identifying popular rate plans. Aids in understanding pricing strategy effectiveness. No transformations applied.
+        name: RATE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 22099dd0-74e9-489c-9d7e-d3e8068b4cea
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: true
+        columnReference:
+          columnCounter: 31bbd3a7-9cc6-4379-a855-f59d0ef2883a
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: TIMESTAMP_TZ(9)
+        description: Timestamp indicating when the taxi trip began. Sourced directly from the original dataset. Used in time series analysis to understand trip patterns over time. Enables the calculation of peak hours and days for taxi demand. Supports resource allocation and dispatch optimization. Aids in understanding the impact of events on taxi demand. No transformations applied.
+        name: PICKUP_DATETIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca50170a-ea3c-4885-9793-6a5e42e6d52a
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: true
+        columnReference:
+          columnCounter: 01abaeef-4882-4024-98f1-e3a7364b13fc
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: TIMESTAMP_TZ(9)
+        description: Timestamp indicating when the taxi trip ended. Sourced directly from the original dataset. Used in time series analysis to understand trip duration patterns. Enables the calculation of average trip time. Supports traffic analysis and route optimization. Aids in understanding the impact of events on trip duration. No transformations applied.
+        name: DROPOFF_DATETIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 72a378c1-471e-410a-b9bb-a1c74bc0f36a
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: true
+        columnReference:
+          columnCounter: d645f29e-364c-408e-885a-f7c5f16f92ca
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Numeric identifier for the pickup location of the taxi trip. Sourced directly from the original dataset. Used in spatial analysis to understand popular pickup locations. Enables the calculation of trip density per location. Foreign key to a location dimension table. Supports geographic targeting for marketing campaigns. Aids in understanding the impact of location on trip demand. No transformations applied.
+        name: PU_LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 59ec8da9-dcb2-4c04-86b9-5794364bf834
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 6d2b6962-19d9-46c5-beb2-cda297feebe6
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Borough where the taxi trip originated. Sourced directly from the original dataset. Used in geographic analysis to understand trip patterns by borough. Enables the calculation of trip volume per borough. Supports resource allocation and dispatch optimization. Aids in understanding the impact of borough on trip demand. No transformations applied.
+        name: PU_BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3624033e-6873-403f-b433-efb48893246c
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 8e5329c0-d1bd-482b-9714-699f50a2dfe9
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Numeric identifier for the drop-off location of the taxi trip. Sourced directly from the original dataset. Used in spatial analysis to understand popular drop-off locations. Enables the calculation of trip density per location. Foreign key to a location dimension table. Supports geographic targeting for marketing campaigns. Aids in understanding the impact of location on trip demand. No transformations applied.
+        name: DO_LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 66c71455-2047-4180-9b44-2b54bf60db33
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 4ab8baeb-91a2-41ec-9877-8218e7574244
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Borough where the taxi trip terminated. Sourced directly from the original dataset. Used in geographic analysis to understand trip patterns by borough. Enables the calculation of trip volume per borough. Supports resource allocation and dispatch optimization. Aids in understanding the impact of borough on trip demand. No transformations applied.
+        name: DO_BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca8e1379-5c5d-43b6-9b06-f6f5f121e76e
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: c2d40082-31ba-4afc-a32c-50ba2c2792c4
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the payment type dimension. Links fact table records to specific payment methods. Used in reports analyzing payment type distribution and revenue per payment type. Foreign key referencing the payment type dimension table. Simplifies querying and improves performance. Maps directly from the payment_type_key column in the source data without transformation.
+        name: DIM_PAYMENT_TYPE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 27bd2124-c8a8-4897-83f9-94b1373d116f
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: b0f190a2-4435-444f-bfc2-f33be0a40b5f
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the rate code dimension. Connects fact data to specific rate structures. Enables analysis of trip costs by rate type. Foreign key to the rate code dimension table. Sourced directly from the rate_code_key column. Used in financial reporting to break down revenue by rate code. Aids in identifying the most profitable rate codes.
+        name: DIM_RATE_CODE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 91e8c58c-4ece-4c15-9984-c3e5c56ea865
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: f13e5119-6e94-4b3d-b18a-99a1cf716aca
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the vendor dimension. Links fact records to the vendor who provided the trip. Used in vendor performance analysis and payment reconciliation. Foreign key to the vendor dimension table. Maps directly from the vendor_key column in the source data. Allows for detailed reporting on vendor-specific metrics. Essential for understanding vendor contributions.
+        name: DIM_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1bb72a0c-e5f4-4455-a55e-64303728116c
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 5c9a5bd9-f9c3-4c09-a583-3e96d5a736a1
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the pickup location dimension. Links fact records to specific pickup locations. Used in geographic analysis of trip origins. Foreign key to the pickup location dimension table. Maps directly from the pickup_location_key column in the source data. Enables spatial analysis of trip demand. Facilitates location-based service optimization.
+        name: DIM_PICKUP_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 228d081f-e624-403e-abd4-3b83418f47ef
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: a69b1090-db5e-46fd-8698-a87fc8617009
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the dropoff location dimension. Links fact records to specific dropoff locations. Used in geographic analysis of trip destinations. Foreign key to the dropoff location dimension table. Maps directly from the dropoff_location_key column in the source data. Enables spatial analysis of trip patterns. Supports location-based marketing initiatives.
+        name: DIM_DROPOFF_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cc6c5717-efd0-4dfc-894f-a897e08d6424
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 78391b4d-adee-434e-93ad-8113ce018af7
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Distance of the trip in miles. Used in calculating per-mile revenue and fuel efficiency metrics. Sourced directly from the trip_distance column. No transformations applied. Included in reports on average trip distance by region and time of day. Helps in understanding travel patterns and optimizing resource allocation. Supports fare calculation analysis.
+        name: TRIP_DISTANCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4bb4fe75-dd0f-4962-af2a-72a5ee8ad310
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 6ab4670f-1f2c-439f-bfca-fc19ab0f787d
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER(38,0)
+        description: Duration of the trip in minutes. Used in calculating hourly revenue and driver utilization metrics. Sourced directly from the trip_duration_minutes column. Calculated from difference in PICKUP_DATETIME and DROPOFF_DATETIME
+        name: TRIP_DURATION_MINUTES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 823eb578-c5f3-4ebc-a3bb-199fa4f11a71
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 3d2e3398-bec2-4d8e-b27f-5d83d52cc600
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Average speed of the trip in miles per hour. Used in performance analysis and identifying traffic patterns. Sourced directly from the trip_avg_speed column. Calculated from TRIP DISTANCE divided by TRIP DURATION
+        name: TRIP_AVG_SPEED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 522590b9-5d20-413a-a5d4-83732685e983
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: bf6fba74-b4fe-4d85-a76d-827f38e296e2
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: STRING
+        description: Categorization of the pickup time into time of day segments (e.g., morning, afternoon, evening, night). Used in analyzing trip demand by time of day. Sourced directly from the pickup_time_of_day column. Categorization based on CASE statement in staging area
+        name: PICKUP_TIME_OF_DAY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b530b5b1-2a02-40fd-a4cf-075b81bdaabe
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 78494c0d-558d-49cd-8ac4-e1c8a254b3c3
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Fee charged for trips originating from or destined to the airport. Used in revenue analysis and understanding airport-related costs. Sourced directly from the airport_fee column. No transformations applied. Included in reports on airport trip revenue. Helps in understanding airport traffic and optimizing airport services. Supports airport contract negotiations.
+        name: AIRPORT_FEE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b72b091b-31ee-45e1-b22b-334f5e84871d
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 2e6b643a-6161-4bc5-a139-c7f5e17eae58
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Fee charged for trips passing through the central business district (CBD) during peak hours. Used in revenue analysis and understanding congestion-related costs. Sourced directly from the cbd_congestion_fee column. No transformations applied. Included in reports on CBD trip revenue. Helps in understanding congestion impact and optimizing pricing strategies.
+        name: CBD_CONGESTION_FEE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 12eb043d-7f65-4b7c-a390-81e6ea1c1629
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: d7990a52-382d-4472-8268-0ff7cb6e14b3
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Surcharge applied to trips during periods of high congestion. Used in revenue analysis and understanding congestion-related costs. Sourced directly from the congestion_surcharge column. No transformations applied. Included in reports on congestion surcharge revenue. Helps in understanding congestion impact and optimizing pricing strategies. Supports dynamic pricing models.
+        name: CONGESTION_SURCHARGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e959a6bc-4396-452e-b380-7feccf4a5cf4
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 8d5e865b-d7c7-4ff5-a8ef-9e6a1a5dc850
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Miscellaneous extra charges associated with the taxi trip. Sourced directly from the source system without transformations. Included in financial reports to provide a detailed breakdown of trip costs. Used in calculating total revenue and identifying potential areas for fee optimization. Helps in understanding the composition of charges beyond the base fare.
+        name: EXTRA
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a0cd9da0-b917-438d-ae44-de9376f9ef4f
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 66c4c17f-a73a-4720-b89b-dda7ab2ba9da
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Base fare for the taxi trip, before any additional charges. Pulled directly from source data without modification. Used in calculating overall revenue and average trip cost. Essential for financial analysis and reporting. Provides a baseline for understanding the cost of taxi services before surcharges and tips are added.
+        name: FARE_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cb099114-7b6d-4eca-b72d-2fef4ef705dc
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 8c4197fe-eac8-4326-936f-ce15b059b2cf
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Surcharge to support improvements to the transportation system. Directly sourced from source system. Included in total cost calculations and fare analysis. Helps in understanding the impact of surcharges on overall trip expenses. Used in reports detailing revenue allocation and funding for infrastructure projects.
+        name: IMPROVEMENT_SURCHARGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 75404fc2-6144-4fa6-9139-e48b53506e2f
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 0572cb74-48c4-45c7-8ce0-6bac98af4a58
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Tax levied by the Metropolitan Transportation Authority (MTA). Sourced directly from source system without transformations. Used in financial reporting to show tax contributions from taxi trips. Essential for compliance and revenue tracking. Helps in understanding the tax component of the total trip cost and its contribution to public funds.
+        name: MTA_TAX
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e5968961-9aad-4da1-b28e-f01493f0a9e6
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 5d660aa8-0988-4c06-9f6a-3f72757c157c
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Number of passengers in the taxi trip. Directly sourced from source system. Used in ridership analysis and demand forecasting. Helps in understanding passenger load patterns and optimizing resource allocation. Included in reports detailing average passengers per trip and peak travel times. Useful for planning and service adjustments.
+        name: PASSENGER_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3607063d-9e7a-4882-8d59-4d951d2a4c95
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: ec4e70e0-3b19-4e83-86c6-9885b24b32ae
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Indicates if the trip record was stored in the vehicle before sending to the vendor. Sourced directly from source system. Used for identifying potential data transmission issues. Included in data quality assessments and system performance monitoring. Helps in understanding data flow and identifying potential delays in reporting. Provides insights into data reliability.
+        name: STORE_AND_FWD_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9de1a404-17c7-4a40-bb6a-6a126d5b8ac2
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 08db2915-c8c6-4c70-97eb-a29ef320c5e7
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Amount of tip given by the passenger. Sourced directly from source system without transformations. Used in driver compensation analysis and customer satisfaction metrics. Included in reports detailing average tip amounts and tipping patterns. Helps in understanding customer behavior and service quality. Provides insights into income distribution.
+        name: TIP_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6c742bf0-75e3-491c-a5c3-3b9b476c096a
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 70af8ea3-938f-467b-9c31-1f66fd902a3c
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Total amount of tolls paid during the trip. Sourced directly from source system without transformations. Used in cost analysis and route optimization. Included in reports detailing toll expenses and preferred routes. Helps in understanding the impact of tolls on overall trip costs. Provides insights into travel patterns and infrastructure usage.
+        name: TOLLS_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5bdce4e4-c3ce-4563-b634-e83d0412de5a
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 5c3bbb30-f349-489a-8e2c-edacca2774d0
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: FLOAT
+        description: Total cost of the trip, including fare, taxes, and tips. Sourced directly from source system without transformations. Used in financial reporting and customer billing. Essential for revenue tracking and profitability analysis. Helps in understanding the overall cost of taxi services. Provides a comprehensive view of trip expenses.
+        name: TOTAL_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 37f8ef64-5d71-477c-9b0b-74f5d871a946
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 8a10dbbd-aab1-43cf-9feb-3c7b45dd0303
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: Timestamp representing when the record was created in the data warehouse. System-generated using the current timestamp. Used for auditing and tracking data lineage. Essential for understanding data freshness and identifying potential data quality issues. Helps in monitoring data ingestion processes and ensuring data integrity. Not sourced from an external system.
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests:
+          hasNull: false
+        columnReference:
+          columnCounter: 95be16e7-50f1-47da-a379-3e18cec0c823
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: Timestamp representing the last time the record was updated in the data warehouse. System-generated using the current timestamp. Used for auditing and tracking data changes. Essential for understanding data modification history and identifying potential data discrepancies. Helps in monitoring data updates and ensuring data accuracy. Not sourced from an external system.
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs:
+      - hasNull
+    sourceMapping:
+      - aliases:
+          STG_YELLOW_CAB_TRIPS1: 6384942e-b835-4067-aa2d-114d3ad0a58f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_YELLOW_CAB_TRIPS1
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'STG_YELLOW_CAB_TRIPS1') }} "STG_YELLOW_CAB_TRIPS1"
+            WHERE TO_DATE("PICKUP_DATETIME") NOT IN (SELECT DISTINCT TO_DATE("PICKUP_DATETIME") FROM {{this}})
+        name: FCT_YELLOW_CAB_TRIPS
+        noLinkRefs:
+          - locationName: GOLD
+            nodeName: FCT_YELLOW_CAB_TRIPS
+  name: FCT_YELLOW_CAB_TRIPS
+  overrideSQL: false
+  schema: ""
+  sqlType: Fact
+  type: sql
+  version: 1
+type: Node

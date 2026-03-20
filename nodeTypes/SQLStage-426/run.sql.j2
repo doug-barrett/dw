@@ -1,5 +1,4 @@
-
-    {% for test in node.tests if config.testsEnabled %}
+{% for test in node.tests if config.testsEnabled %}
         {% if test.runOrder == 'Before' %}
             {{ test_stage(test.name, test.continueOnFailure) }}
             {{ test.templateString }}
@@ -47,7 +46,7 @@
 					{% endfor %}
 				)
 			{% endif %}
-	
+			{{source.cteString}}
 			SELECT
 			{% for col in source.columns %}
                 {{ get_source_transform(col) }} AS "{{ col.name }}"

@@ -1,0 +1,228 @@
+fileVersion: 1
+id: 71a23170-60d6-4664-9108-7052a7a4919a
+name: DIM_LOCATION
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Locations at Borough and Zone detail around NYC used to identify Pickup and Dropoff locations.  Reference data provided by New York City (NYC) Taxi & Limousine Commission (TLC)
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: eb31941c-5bfd-417d-a170-954afbf42e19
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: Surrogate key for the location dimension. Uniquely identifies each location record. Used as the primary key for the dimension. Enables efficient joins with fact tables like Trip and Payment. Supports location-based reporting and analysis. System-generated during the data warehousing process. Not sourced from any specific source column. Integer value with no inherent business meaning beyond identification. Increments automatically with each new location.
+        isSurrogateKey: true
+        name: DIM_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 96e4dc4e-f2af-4316-be5d-7f1aa045c30b
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: NUMBER(3,0)
+        description: Business key for the location dimension. Identifies each location record. Sourced from LOCATION_ID column in the source data. Used to track location-specific metrics in reports. Helps in identifying unique location. Integer value. No transformations applied. Used for auditing and data reconciliation. Part of the composite key along with other attributes. Enables tracking of changes to location attributes over time.
+        isBusinessKey: true
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2c589608-1a37-49e6-8b90-53c0c0ab5156
+                stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 295055ba-3f58-45f7-90c6-678d0366b626
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Borough in which the location is situated. Sourced from the BOROUGH column in the source data. Used in location-based analytics and reporting. Helps in understanding the distribution of activity across different boroughs. String value. No transformations applied. Enables filtering and grouping of data by borough. Part of the location's descriptive information. Essential for geographic segmentation and analysis.
+        name: BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbbd6d53-f995-4710-99e7-2ba1ad15933d
+                stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85cdf3f5-cb44-4f6d-a05b-a9b237d6475e
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Zone within the borough where the location is situated. Sourced from the ZONE column in the source data. Used in location-based analytics and reporting. Helps in understanding the distribution of activity across different zones. String value. No transformations applied. Enables filtering and grouping of data by zone. Part of the location's descriptive information. Essential for geographic segmentation and analysis.
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 80543009-4bc8-47f5-85e9-1a631b432d58
+                stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 58e8712f-b707-476a-a5a5-bef86fc6a190
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Service zone associated with the location. Sourced from the SERVICE_ZONE column in the source data. Used in location-based analytics and reporting. Helps in understanding the distribution of activity across different service zones. String value. No transformations applied. Enables filtering and grouping of data by service zone. Part of the location's descriptive information. Essential for operational analysis.
+        name: SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d326ec5e-570c-4fba-95b1-a625f8ea1447
+                stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2db0e238-71ef-464c-b04a-e0e80625c282
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Name of the source file from which the location data was loaded. Sourced from the FILENAME column in the source data. Used for auditing and data lineage purposes. Helps in tracking the origin of the data. String value. No transformations applied. Enables identification of the specific file that contributed to a location record. Useful for troubleshooting and data quality monitoring. Supports data governance efforts.
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0bc98113-19d1-4586-9418-77ffb20d065f
+                stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6229aa0a-6056-4280-8268-38da87f8f2bf
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: NUMBER
+        defaultValue: ""
+        description: Version number of the location record. System-generated column. Used for tracking changes to location attributes over time. Integer value. Increments automatically with each update to a location record. Enables historical analysis and auditing of data changes. Supports temporal data warehousing. Not sourced from any specific source column. Essential for maintaining data integrity and consistency. Facilitates point-in-time reporting.
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ab3b4ca-4524-446b-982a-3840f81e819c
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: VARCHAR
+        defaultValue: ""
+        description: Flag indicating whether the location record is the most current version. System-generated column. Used for identifying the active location record. String value ('Y' or 'N'). Enables efficient querying of current location data. Supports real-time reporting and analysis. Not sourced from any specific source column. Essential for maintaining data accuracy and relevance. Simplifies data retrieval for current state analysis.
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 43ee85b2-cdd3-47b9-84a0-d45db66ee876
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: Timestamp indicating the start date and time when the location record became active. System-generated column. Used for tracking the effective date of location attributes. Timestamp value. Derived using the CURRENT_TIMESTAMP function. Enables historical analysis and auditing of data changes. Supports temporal data warehousing. Not sourced from any specific source column. Essential for maintaining data integrity and consistency.
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7c1e9705-6c62-44bd-b569-b7e181173b14
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: Timestamp indicating the end date and time when the location record became inactive. System-generated column. Used for tracking the expiration date of location attributes. Timestamp value. Defaults to '2999-12-31 00:00:00' for current records. Enables historical analysis and auditing of data changes. Supports temporal data warehousing. Not sourced from any specific source column. Essential for maintaining data integrity.
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b10f1b2b-cb6c-477c-8cf0-f9678354bde4
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: Timestamp indicating the date and time when the location record was created. System-generated column. Used for auditing and data lineage purposes. Timestamp value. Derived using the CURRENT_TIMESTAMP function. Enables tracking of the creation time of location records. Not sourced from any specific source column. Essential for maintaining data integrity and consistency. Facilitates data governance efforts and troubleshooting.
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a7f1365-a54a-40c4-ba95-7f9e0ef3097a
+          stepCounter: 71a23170-60d6-4664-9108-7052a7a4919a
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: Timestamp indicating the date and time when the location record was last updated. System-generated column. Used for auditing and data lineage purposes. Timestamp value. Derived using the CURRENT_TIMESTAMP function. Enables tracking of the last modification time of location records. Not sourced from any specific source column. Essential for maintaining data integrity and consistency. Facilitates data governance efforts.
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STG_LOCATION: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_LOCATION
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'STG_LOCATION') }} "STG_LOCATION"
+        name: DIM_LOCATION
+        noLinkRefs: []
+  name: DIM_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node
