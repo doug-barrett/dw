@@ -4,7 +4,7 @@ name: FCT_YELLOW_CAB_TRIPS
 operation:
   config:
     postSQL: ""
-    preSQL: DELETE FROM {{this}} WHERE TO_DATE(PICKUP_DATETIME) IN (SELECT DISTINCT TO_DATE(PICKUP_DATETIME) FROM {{ref('SILVER', 'STG_YELLOW_CAB_TRIPS1')}})
+    preSQL: ""
     testsEnabled: true
   database: ""
   deployEnabled: true
@@ -15,6 +15,24 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8820ee33-b5c8-47e3-ace7-a612734382b9
+          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        config: {}
+        dataType: NUMBER(18,0)
+        description: ""
+        isBusinessKey: true
+        name: TRIP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 684ec560-05af-46e1-ac5f-53900cd1440e
+                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+            transform: ""
       - appliedColumnTests:
           hasNull: true
         columnReference:
@@ -223,21 +241,6 @@ operation:
         sourceColumnReferences:
           - columnReferences:
               - columnCounter: 91e8c58c-4ece-4c15-9984-c3e5c56ea865
-                stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
-            transform: ""
-      - appliedColumnTests:
-          hasNull: false
-        columnReference:
-          columnCounter: f13e5119-6e94-4b3d-b18a-99a1cf716aca
-          stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
-        config: {}
-        dataType: NUMBER
-        description: Surrogate key for the vendor dimension. Links fact records to the vendor who provided the trip. Used in vendor performance analysis and payment reconciliation. Foreign key to the vendor dimension table. Maps directly from the vendor_key column in the source data. Allows for detailed reporting on vendor-specific metrics. Essential for understanding vendor contributions.
-        name: DIM_VENDOR_KEY
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 1bb72a0c-e5f4-4455-a55e-64303728116c
                 stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
             transform: ""
       - appliedColumnTests:

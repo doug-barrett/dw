@@ -17,6 +17,23 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
+      - acceptedValues:
+          strictMatch: false
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 063efa2c-436e-4728-8051-67ad963c8aa6
+          stepCounter: cd9ff3ed-0ebc-4865-86a3-186bb19aebc0
+        config: {}
+        dataType: NUMBER(18,0)
+        description: ""
+        name: TRIP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 15152274-3506-4c19-a423-4b74411b577f
+                stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 7fed750d-b089-436a-9565-069a055341fe
@@ -30,6 +47,20 @@ operation:
           - columnReferences:
               - columnCounter: 3b109247-c404-4caa-8e81-4485c0c5925d
                 stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d9db483e-35ff-4f89-a02c-3eeea87fc078
+          stepCounter: cd9ff3ed-0ebc-4865-86a3-186bb19aebc0
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 23beff59-b385-4e35-bbff-7901e8ff469d
+                stepCounter: 5d93f0a0-1f08-46ef-9321-9db74249fd81
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -371,15 +402,20 @@ operation:
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          YELLOW_CAB_TRIPS: 9bc9b861-892f-4826-bc53-7dbdbb1cc2db
+          VENDOR: 5d93f0a0-1f08-46ef-9321-9db74249fd81
+          YELLOW_CAB_TRIPS: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
         customSQL:
           customSQL: ""
         dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR
           - locationName: BRONZE
             nodeName: YELLOW_CAB_TRIPS
         join:
           joinCondition: |
             FROM {{ ref('BRONZE', 'YELLOW_CAB_TRIPS') }} "YELLOW_CAB_TRIPS"
+            JOIN {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
+            ON "YELLOW_CAB_TRIPS"."VENDOR_ID" = "VENDOR"."VENDOR_ID"
             WHERE TO_DATE("PICKUP_DATETIME") BETWEEN CURRENT_DATE - {{parameters.process_days}} AND CURRENT_DATE
         name: STG_YELLOW_CAB_TRIPS
         noLinkRefs: []
