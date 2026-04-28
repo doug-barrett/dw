@@ -1,0 +1,41 @@
+fileVersion: 1
+id: 53e4b1bb-be61-4ab2-9a96-c1572fce297e
+name: SQL_NODE_TEST
+operation:
+  config:
+    SQL_Deploy: |-
+      CREATE OR REPLACE TABLE {{ this }}
+       AS SELECT 0 SKEY, 'TEST' SVALUE 
+       
+    SQL_Run: |-
+      INSERT INTO {{ this }} 
+      SELECT 1, 'TOST' 
+       
+    runCreate: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: SQL_NODE_TEST
+        noLinkRefs: []
+  name: SQL_NODE_TEST
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node

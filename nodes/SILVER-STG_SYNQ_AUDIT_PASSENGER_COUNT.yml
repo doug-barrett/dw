@@ -1,0 +1,126 @@
+fileVersion: 1
+id: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+name: STG_SYNQ_AUDIT_PASSENGER_COUNT
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a00f3167-fbdc-4b7f-a34d-9845c520c96e
+          stepCounter: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: INTEGRATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 092088aa-fd96-4c47-bccd-cee2666d8b1e
+                stepCounter: fa70522e-0796-4d53-bf95-4fe94b370854
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ddbd156f-778a-43ce-b530-a6641dfb7d6f
+          stepCounter: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SQL_TEST_PATH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6de7aa59-b548-4d60-b46b-8d152b195b0c
+                stepCounter: fa70522e-0796-4d53-bf95-4fe94b370854
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 807ff44c-8ba3-4191-afe0-4c069e614df4
+          stepCounter: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: EXECUTION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 55f24666-47fb-49b0-a36f-39a1301554f5
+                stepCounter: fa70522e-0796-4d53-bf95-4fe94b370854
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c62053b-c2a5-4de8-ae43-1a4bb7320442
+          stepCounter: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ROWS_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fb9d8f07-b73b-4342-9962-b24ca988b7b1
+                stepCounter: fa70522e-0796-4d53-bf95-4fe94b370854
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d29da3e1-b3d8-4f8b-9f40-af5216b6e180
+          stepCounter: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+        config: {}
+        dataType: VARIANT
+        description: ""
+        name: RESULT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 404c41e2-cb9c-452a-9d5b-4d9025948ac4
+                stepCounter: fa70522e-0796-4d53-bf95-4fe94b370854
+            transform: PARSE_JSON("SYNQ_AUDIT"."RESULT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc31809b-bc45-4e8f-89b2-b9faf6d41b20
+          stepCounter: d7f26534-a0bf-4306-bcb9-ecc68c56f426
+        config: {}
+        dataType: TIMESTAMP_NTZ(9)
+        description: ""
+        name: CREATED_AT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 75bcb9ed-a6dc-4044-8df4-13a8bffa5b02
+                stepCounter: fa70522e-0796-4d53-bf95-4fe94b370854
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SYNQ_AUDIT: fa70522e-0796-4d53-bf95-4fe94b370854
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SYNQ_AUDIT
+            nodeName: SYNQ_AUDIT
+        join:
+          joinCondition: |-
+            FROM {{ ref('SYNQ_AUDIT', 'SYNQ_AUDIT') }} "SYNQ_AUDIT"
+            WHERE EXECUTION_ID = 'e5c1dc31-5338-4138-af94-cad9d9a002f7'
+        name: STG_SYNQ_AUDIT_PASSENGER_COUNT
+        noLinkRefs: []
+  name: STG_SYNQ_AUDIT_PASSENGER_COUNT
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

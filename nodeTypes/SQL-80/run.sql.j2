@@ -4,7 +4,8 @@
 
     {{ config.SQL_Run }}
 
-    {{ stage('Completed') }}
-
-    CREATE OR REPLACE VIEW {{this}} AS SELECT 'Completed' STATE
+    {% if config.runCreate %}
+       {{ stage('Completed') }}
+        CREATE OR REPLACE VIEW {{this}} AS SELECT 'Completed' STATE
+    {% endif %}
 {% endif %}
