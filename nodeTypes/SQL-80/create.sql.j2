@@ -6,7 +6,13 @@
 {% else %}
     {% set source = sources[0] %}
     
-    CREATE OR REPLACE VIEW {{ this }}
+    CREATE OR REPLACE
+    {% if node.materializationType == 'table' %}
+        TABLE
+    {% else %}
+        VIEW 
+    {% endif %}
+    {{ this }}
     AS  SELECT 
         {% for col in source.columns %}
              {{ get_source_transform(col) }} as {{ col.name }}{%- if not loop.last -%}, {% endif %}

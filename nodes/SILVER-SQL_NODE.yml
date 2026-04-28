@@ -1,0 +1,79 @@
+fileVersion: 1
+id: 999eb9a6-f70a-4ecf-9091-e280e364cc29
+name: SQL_NODE
+operation:
+  config:
+    SQL_Deploy: |-
+      CREATE OR REPLACE TABLE {{ this }} 
+       AS SELECT 1 as SKEY, 'TEST'::STRING AS SCODE
+       
+    SQL_Run: |-
+      INSERT INTO {{ this }} 
+      SELECT 2 as SKEY, 'T0ST'::STRING AS SCODE
+       
+    runCreate: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3babd85f-2776-4137-8a51-2428c7d2b072
+          stepCounter: 999eb9a6-f70a-4ecf-9091-e280e364cc29
+        config: {}
+        dataType: NUMBER(1,0)
+        defaultValue: ""
+        description: ""
+        name: SKEY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 64e3b58f-f8f7-4d34-be17-3c0a51a07d6b
+          stepCounter: 999eb9a6-f70a-4ecf-9091-e280e364cc29
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: SCODE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: SQL_NODE
+        noLinkRefs: []
+  name: SQL_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node
