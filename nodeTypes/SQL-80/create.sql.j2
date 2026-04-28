@@ -1,7 +1,16 @@
+{{ stage('Create SQL') }}
 {% if config.SQL_Deploy | length > 0 %}
         
-    {{ stage('Run Deploy SQL') }}
-
     {{ config.SQL_Deploy }}
+
+{% else %}
+    {% set source = sources[0] %}
+    
+    CREATE OR REPLACE VIEW {{ this }}
+    AS  SELECT 
+        {% for col in source.columns %}
+             {{ get_source_transform(col) }} as {{ col.name }}
+        {% endfor %}
+
 
 {% endif %}

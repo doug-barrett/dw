@@ -1,0 +1,54 @@
+fileVersion: 1
+id: 369edec4-fe22-4535-bd08-7ab9aae52372
+name: SQL_NODE1
+operation:
+  config:
+    SQL_Deploy: ""
+    SQL_Run: |-
+      SELECT * FROM {{ ref_no_link('BRONZE', 'LOCATION') }} 
+       
+    runCreate: false
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dc8ce16c-fad2-465a-99ab-33291d61728d
+          stepCounter: 369edec4-fe22-4535-bd08-7ab9aae52372
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        name: TSTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CURRENT_TIMESTAMP()
+        sysTS: true
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: SQL_NODE1
+        noLinkRefs: []
+  name: SQL_NODE1
+  overrideSQL: false
+  schema: ""
+  sqlType: "80"
+  type: sql
+  version: 1
+type: Node
