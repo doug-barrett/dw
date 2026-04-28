@@ -9,7 +9,7 @@
     CREATE OR REPLACE VIEW {{ this }}
     AS  SELECT 
         {% for col in source.columns %}
-             {{ get_source_transform(col) }} as {{ col.name }}
+             {{ get_source_transform(col) }} as {{ col.name }}{%- if not loop.last -%}, {% endif %}
         {% endfor %}
 
 

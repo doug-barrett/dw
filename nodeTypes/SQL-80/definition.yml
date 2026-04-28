@@ -12,6 +12,17 @@ metadata:
     isColumnResyncEnabled: true
 
     config: 
+
+    - groupName: Hidden config
+      enableIf: "false"
+      items:
+      - displayName: Type
+        type: materializationSelector
+        default: view
+        options:
+        - view
+        isRequired: false
+
     - groupName: Options 
       items: 
 
@@ -33,10 +44,6 @@ metadata:
         SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} \n
       "
 
-      - displayName: Run Create
-        attributeName: runCreate
-        type: toggleButton
-        default: true
 
     systemColumns:
 
