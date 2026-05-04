@@ -1,0 +1,59 @@
+{% set ns = namespace(total=0, names="") %}
+{% set ns.materialization = "table" %}
+{% set ns.truncateBefore = "true" %}
+
+{% for c in config %}
+    {% if c == "materialization" %}
+        {% set ns.materalization = config[c].parameters[0] %}
+    {% endif %}
+	{% if c == "truncateBefore" %}
+        {% set ns.truncateBefore = config[c].parameters[0] %}
+    {% endif %}
+{% endfor %}
+
+{% if ns.materialization == 'table' %}
+
+	{% for c in config if c.startswith("pre_test") %}
+		{{ test_stage(c, config[c].parameters[1]) }}
+		{{ config[c].parameters[0] }}
+	{% endfor %}
+
+	{% for c in config if c.startswith("pre_sql") %}
+		{{ stage(c) }}
+		{{ config[c].parameters[0] }}
+	{% endfor %}
+
+	{% if ns.truncateBefore == "true" %}
+		{{ stage('Truncate Stage Table') }}
+		TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+	{% endif %}
+
+	{% set source = sources[0] %}
+	{{ stage('Insert ' + source.name | string ) }}
+	INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+	(
+		{% for col in source.columns %}
+			"{{ col.name }}"
+			{%- if not loop.last -%},{% endif %}
+		{% endfor %}
+	)
+	SELECT
+	{% for col in source.columns %}
+		{{ get_source_transform(col) }} AS "{{ col.name }}"
+		{%- if not loop.last -%}, {% endif %}
+	{% endfor %}
+	{{ source.join }}
+
+	{% for c in config if c.startswith("post_test") %}
+		{{ test_stage(c, config[c].parameters[1]) }}
+		{{ config[c].parameters[0] }}
+	{% endfor %}
+
+	{% for c in config if c.startswith("post_sql") %}
+		{{ stage(c) }}
+		{{ config[c].parameters[0] }}
+	{% endfor %}
+
+{% endif %}
+
+
