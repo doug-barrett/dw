@@ -111,6 +111,34 @@ operation:
               - columnCounter: 792c622d-4e17-422a-b377-fe1c835a7177
                 stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
             transform: CURRENT_QUERY_TAG()
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1a58cd99-42e1-4ef7-ba98-bac8caa1b269
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COALESCE_RUN_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 792c622d-4e17-422a-b377-fe1c835a7177
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: PARSE_JSON(CURRENT_QUERY_TAG()):"coalesce"."runID"::STRING
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e86429f7-41dd-4aa3-8d5a-e3864aab360d
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COALESCE_RUN_JOB_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 792c622d-4e17-422a-b377-fe1c835a7177
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: PARSE_JSON(CURRENT_QUERY_TAG()):"coalesce"."jobName"::STRING
     cteString: ""
     enabledColumnTestIDs:
       - hasNull
