@@ -398,6 +398,34 @@ operation:
               - columnCounter: d835b035-9351-4936-bc51-28684e268c9d
                 stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
             transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d7404e08-6527-4205-a793-f948f8a92766
+          stepCounter: cd9ff3ed-0ebc-4865-86a3-186bb19aebc0
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: COALESCE_RUN_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d835b035-9351-4936-bc51-28684e268c9d
+                stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+            transform: PARSE_JSON(CURRENT_QUERY_TAG()):"coalesce"."runID"::NUMBER
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a5acce10-a430-4239-971d-ae4dd74c5af0
+          stepCounter: cd9ff3ed-0ebc-4865-86a3-186bb19aebc0
+        config: {}
+        dataType: STRING
+        description: ""
+        name: COALESCE_JOB_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d835b035-9351-4936-bc51-28684e268c9d
+                stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+            transform: PARSE_JSON(CURRENT_QUERY_TAG()):"coalesce"."jobName"::STRING
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
