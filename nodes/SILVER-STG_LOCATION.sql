@@ -1,9 +1,0 @@
-@id("3c3e827c-a6c6-498d-bd2c-522c5cb1a99b")
-@nodeType("446")
-SELECT
-     "LOCATION_ID" AS "LOCATION_ID",
-     "BOROUGH" AS "BOROUGH",
-     "ZONE" AS "ZONE",
-     "SERVICE_ZONE" AS "SERVICE_ZONE",
-     "FILENAME" AS "FILENAME"
-FROM {{ ref('BRONZE', 'LOCATION') }} "LOCATION"
