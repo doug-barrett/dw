@@ -1,0 +1,6 @@
+@id("d9bb7b04-d6ab-4921-a932-540712e12838")
+@nodeType("446")
+SELECT
+     "VENDOR_ID" AS "VENDOR_ID",
+     "VENDOR_NAME" AS "VENDOR_NAME"
+FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
