@@ -1,0 +1,96 @@
+fileVersion: 1
+id: e88a0e09-ad80-45bb-8633-87a85e26887e
+name: STG_VENDOR_DETAILS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 144c284e-a311-47ce-9a00-b26071eaebfd
+          stepCounter: e88a0e09-ad80-45bb-8633-87a85e26887e
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cbd46967-0b0c-4320-8ec5-2b86be374fcb
+                stepCounter: 66b81d70-b685-4aae-b979-bbbb0c18fe08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: dbbc4e9b-1596-485c-8be8-0488873d317b
+          stepCounter: e88a0e09-ad80-45bb-8633-87a85e26887e
+        config: {}
+        dataType: OBJECT
+        description: ""
+        name: HQ_ADDRESS_DETAILS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 85b02b64-c82d-4716-84a8-213ebf678a8c
+                stepCounter: 66b81d70-b685-4aae-b979-bbbb0c18fe08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cb8b48bf-a36d-4de8-aec9-da8ad4174da4
+          stepCounter: e88a0e09-ad80-45bb-8633-87a85e26887e
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 93a9bac4-15ff-4b73-a791-2640d69c9d80
+                stepCounter: 66b81d70-b685-4aae-b979-bbbb0c18fe08
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6ea56ef5-31df-4769-b0c2-0fdcfc8d597c
+          stepCounter: e88a0e09-ad80-45bb-8633-87a85e26887e
+        config: {}
+        dataType: NUMBER(3,0)
+        description: ""
+        name: DRIVERS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 099262c9-5435-4b07-bafa-1e0abcd66c35
+                stepCounter: 66b81d70-b685-4aae-b979-bbbb0c18fe08
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          VENDOR_DETAILS: 66b81d70-b685-4aae-b979-bbbb0c18fe08
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR_DETAILS
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'VENDOR_DETAILS') }} "VENDOR_DETAILS"
+        name: STG_VENDOR_DETAILS
+        noLinkRefs: []
+  name: STG_VENDOR_DETAILS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

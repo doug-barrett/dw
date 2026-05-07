@@ -1,0 +1,68 @@
+fileVersion: 1
+id: ea96dcab-a834-4320-a91e-ec32c243680c
+name: STG_PAYMENT_TYPE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c59cae8a-0fb4-42ed-9d8b-61ef0d2b4ed2
+          stepCounter: ea96dcab-a834-4320-a91e-ec32c243680c
+        config: {}
+        dataType: NUMBER(1,0)
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c740d455-d53c-4f85-8f1d-20313c2a0cc3
+                stepCounter: b228ba27-542e-4a26-a539-401516572427
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 48062edb-5bee-4ba9-b461-c0e633fa805d
+          stepCounter: ea96dcab-a834-4320-a91e-ec32c243680c
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 71f783f6-a3ba-40a2-81fc-2ea30012946d
+                stepCounter: b228ba27-542e-4a26-a539-401516572427
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PAYMENT_TYPE: b228ba27-542e-4a26-a539-401516572427
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} "PAYMENT_TYPE"
+        name: STG_PAYMENT_TYPE
+        noLinkRefs: []
+  name: STG_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
