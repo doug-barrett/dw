@@ -1,0 +1,52 @@
+{% set source = sources[0] %}
+{% set stageStorageLocationName = config.stageStorageLocationName %}
+{% set dbStage = storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='database') | first %}
+{% set schStage = storageLocations | selectattr('name', 'equalto', stageStorageLocationName) | map(attribute='schema') | first %}
+{% set fileFormatLocationName = config.fileFormatLoc %}
+{% set dbff = storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='database') | first %}
+{% set schff = storageLocations | selectattr('name', 'equalto',fileFormatLocationName) | map(attribute='schema') | first %}
+
+{% if config.fetchBefore %}
+      {{ stage('GIT Fetch') }}
+      ALTER GIT REPOSITORY {{ dbStage }}.{{ schStage }}.{{ config.stageName }} FETCH
+{% endif %}
+
+{% if config.truncateBefore %}
+      {{ stage('Truncate Stage Table') }}
+      TRUNCATE IF EXISTS {{ this }}
+{% endif %}
+
+{{ stage('Insert data') }}
+    INSERT INTO {{ this }}
+    (
+      {% for col in source.columns %}
+        "{{ col.name }}"
+        {%- if not loop.last -%},{% endif %}
+      {% endfor %}
+    )
+    SELECT
+    {% for col in source.columns %}
+        {{ get_source_transform(col) }} AS "{{ col.name }}"
+      {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+    FROM ( 
+        SELECT 
+            METADATA$FILENAME ||'-'||TO_CHAR(METADATA$FILE_ROW_NUMBER) KEY,
+            $1 C1, 
+            $2 C2, 
+            $3 C3, 
+            $4 C4, 
+            $5 C5, 
+            $6 C6, 
+            $7 C7, 
+            $8 C8, 
+            $9 C9, 
+            $10 C10, 
+            $11 C11, 
+            $12 C12,
+            METADATA$FILENAME,
+            METADATA$FILE_ROW_NUMBER
+        FROM @{{ dbStage }}.{{ schStage }}.{{ config.stageName }}/branches/{{ config.branchName }}/{{ config.folderName}}
+        (FILE_FORMAT => '{{ dbff }}.{{ schff }}.{{ config.fileFormatName}}')
+    )
+ 

@@ -1,0 +1,12 @@
+{% set source = sources[0] %}
+
+{{ stage('Create  Table') }}
+
+ CREATE OR REPLACE TABLE {{ this }}
+ (
+    {% for col in source.columns  %}
+          "{{ col.name }}" {{ col.dataType }} 
+      {%- if col.description | length > 0 %} COMMENT '{{ col.description }}'{% endif %}
+      {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+ )
