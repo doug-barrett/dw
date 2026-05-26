@@ -1,0 +1,177 @@
+fileVersion: 1
+id: 54dff9d2-8922-4649-8050-de6b96598945
+name: V_YELLOW_CAB_VENDOR_OPS1
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ""
+  deployEnabled: true
+  description: Summarization of Trip data to provide Operational metrics at Vendor and Month level....
+  isMultisource: false
+  locationName: PLATINUM
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: efe83008-ef16-427b-902f-ba4ad3029d08
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: FLOAT
+        description: Unique identifier for the vendor. Part of the composite key with YEAR and MONTH. Used for identifying specific vendors in reports. Sourced directly from the input data without transformations. Key component in vendor performance analysis and payment tracking. Enables detailed views of vendor-specific metrics. Essential for accurate vendor-level reporting and analytics. Foreign key to the Vendor dimension table.
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3968be31-aad9-4de2-a782-bbf1e451ed7f
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6cd182c3-ed4d-4b64-a00c-0ce3cb90d6d1
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: VARCHAR(33)
+        description: Name of the vendor. Provides a descriptive label for the vendor ID. Used in reports and dashboards for easy identification. Sourced directly from the input data without transformations. Aids in the interpretation of vendor-related metrics. Supports user-friendly data presentation. Facilitates quick recognition of vendors in various analyses. Consistent naming conventions are applied for standardization.
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d80ad50c-93ab-4d3d-9ac0-205892900646
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 12b1306e-0779-4002-b2e4-817b5d861e06
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: NUMBER
+        description: The year of the trip data. Part of the composite key with VENDOR_ID and MONTH. Used for time-based analysis and reporting. Sourced directly from the input data without transformations. Enables year-over-year comparisons of trip metrics. Essential for trend analysis and forecasting. Supports the creation of annual performance summaries. Integral for tracking changes in vendor activity over time.
+        name: YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: de295f69-987d-49b2-8018-791c83079da0
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b9c0a255-c1da-4da5-a74f-d6847c623c98
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: NUMBER
+        description: The month of the trip data. Part of the composite key with VENDOR_ID and YEAR. Used for monthly performance tracking and reporting. Sourced directly from the input data without transformations. Allows for granular analysis of trip metrics. Supports the creation of monthly performance reports. Facilitates timely monitoring of vendor activity. Integral for identifying seasonal trends in trip data.
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 132a1c72-467c-4c7b-9556-95643d6d86e4
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b98ec250-3f45-4f0c-b824-00d639061c8b
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: NUMBER
+        description: Total number of trips. Aggregated from the source data. Used in performance analysis and reporting. Sourced directly from the input data without transformations. Provides a key measure of vendor activity. Supports the calculation of trip-related metrics. Essential for understanding the volume of trips. Used in various dashboards to monitor vendor performance. Basis for calculating average trip distance.
+        name: TRIP_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 719d528e-f866-47ee-838f-5b00185e026d
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6360a940-99ca-4ac0-8611-e0671f6487a1
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: NUMBER
+        description: Total distance of all trips. Aggregated from the source data. Used in performance analysis and reporting. Sourced directly from the input data without transformations. Provides a key measure of vendor activity. Supports the calculation of trip-related metrics. Essential for understanding the volume of trips. Used in various dashboards to monitor vendor performance. Basis for calculating average trip distance.
+        name: TRIP_DISTANCE_TOTAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 108f0c4c-fc9b-4558-b0b1-bfa908596f9d
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: af7b15e7-c91b-4671-84e4-5f75ce918cf1
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: NUMBER(12,2)
+        description: Average distance per trip. Calculated by dividing TRIP_DISTANCE_TOTAL by TRIP_COUNT. Used in performance analysis and reporting. Provides a normalized measure of trip distance. Supports the comparison of trip distances across vendors. Essential for understanding the efficiency of trips. Used in various dashboards to monitor vendor performance. Aids in identifying outliers in trip distances.
+        name: TRIP_DISTANCE_AVG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 11eafcf7-cee2-40f8-b344-78a8d42cea35
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4c32ae7-84d3-4ec5-aab8-1413124bb0b0
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: NUMBER
+        description: Total duration of all trips in minutes. Aggregated from the source data. Used in performance analysis and reporting. Sourced directly from the input data without transformations. Provides a key measure of vendor activity. Supports the calculation of trip-related metrics. Essential for understanding the volume of trips. Used in various dashboards to monitor vendor performance. Basis for calculating average trip duration.
+        name: TRIP_DURATION_MINUTES_TOTAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7829a9cb-1797-4bc1-8c5d-8642b9653ea6
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a35d9f37-0dce-4226-8c2a-b9f0ee53cb2b
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: TIMESTAMP
+        description: Timestamp of when the record was created in the data warehouse. Automatically generated by the system. Used for auditing and data lineage purposes. Indicates when the data was initially loaded. Supports tracking the freshness of the data. Essential for debugging and troubleshooting data issues. Facilitates the identification of data loading patterns. Not sourced from any external system.
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e463220c-a9c9-4d74-846b-66ad9067b9fa
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 738b99ec-1180-43ea-ae37-c28fe5695cc4
+          stepCounter: 54dff9d2-8922-4649-8050-de6b96598945
+        config: {}
+        dataType: TIMESTAMP
+        description: Timestamp of when the record was last updated in the data warehouse. Automatically generated by the system. Used for auditing and data lineage purposes. Indicates when the data was last modified. Supports tracking changes to the data. Essential for debugging and troubleshooting data issues. Facilitates the identification of data update patterns. Not sourced from any external system.
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a85006d0-9dda-4f5a-b7af-0d9e26153c11
+                stepCounter: 64653b92-24fb-4a34-af02-69ed953bd8a1
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          V_YELLOW_CAB_VENDOR_OPS: 64653b92-24fb-4a34-af02-69ed953bd8a1
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: PLATINUM
+            nodeName: V_YELLOW_CAB_VENDOR_OPS
+        join:
+          joinCondition: FROM {{ ref('PLATINUM', 'V_YELLOW_CAB_VENDOR_OPS') }} "V_YELLOW_CAB_VENDOR_OPS"
+        name: V_YELLOW_CAB_VENDOR_OPS1
+        noLinkRefs: []
+  name: V_YELLOW_CAB_VENDOR_OPS1
+  overrideSQL: false
+  schema: ""
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
