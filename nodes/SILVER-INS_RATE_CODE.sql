@@ -1,6 +1,0 @@
-@id("1e17dc2c-7e32-4f9a-97a3-5668777c5298")
-@nodeType("NodesV2:::6fda2820-4404-4b60-bad3-cf0edd7dab92")
-SELECT
-     "RATE_CODE_ID" AS "RATE_CODE_ID",
-     "RATE_CODE" AS "RATE_CODE"
-FROM {{ ref('BRONZE', 'RATE_CODE') }} "RATE_CODE"
