@@ -10,7 +10,12 @@ does not permit copying or modification for any other purpose.
 {#---------------------------------------------------------------------------------------------#}
 
 {# == To run data quality tests before data insertion == #}
-{{ run_tests('Before') }}
+{% for test in node.tests if config.testsEnabled is defined and config.testsEnabled %}
+    {% if test.runOrder == 'Before' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
 
 {%- if node.materializationType | lower == 'table' %}
 
@@ -22,8 +27,8 @@ does not permit copying or modification for any other purpose.
         {%- endfor %}
     {%- endif %}
 
-	{# == Truncate data before data insertion  == #}
-    {%- if config.truncateBefore %}
+  {# == Truncate data before data insertion  == #}
+    {%- if config.truncateBefore is not defined or config.truncateBefore %}
         {{ stage('Truncate ' + node.materializationType) }}
         TRUNCATE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
     {%- endif %}
@@ -65,4 +70,9 @@ does not permit copying or modification for any other purpose.
 {%- endif %}
 
 {# == To run data quality tests after data insertion == #}
-{{ run_tests('After') }}
+{% for test in node.tests if config.testsEnabled is defined and config.testsEnabled %}
+    {% if test.runOrder == 'After' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
