@@ -11,9 +11,10 @@ does not permit copying or modification for any other purpose.
 
 {%- if node.materializationType | lower == 'table' %}
 
-    {# Drop view if exists before creating table #}
-    {{ stage('Drop View If Exists') }}
-    DROP VIEW IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
+    {# Drop any existing object before creating table #}
+    {{ stage('Drop Existing Object') }}
+    DROP VIEW IF EXISTS {{ ref_no_link(node.location.name, node.name) }};
+    DROP TABLE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
 
     {# CreateSQL for Table #}
     {{ stage('Create ' + node.materializationType ) }}
@@ -36,8 +37,9 @@ does not permit copying or modification for any other purpose.
 
 {%- elif node.materializationType | lower == 'view' %}
 
-    {# Drop table if exists before creating view #}
-    {{ stage('Drop Table If Exists') }}
+    {# Drop any existing object before creating view #}
+    {{ stage('Drop Existing Object') }}
+    DROP VIEW IF EXISTS {{ ref_no_link(node.location.name, node.name) }};
     DROP TABLE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
 
     {# CreateSQL for View #}
