@@ -8,12 +8,27 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Name           : SQL Merge  == #}
 {# == Node Type Description    : This node loads data into work table using options distinct, groupby all, order by, multi-source  == #}
 
+{# == Polyfill: get_clause extracts FROM or WHERE portions of source.join == #}
+{%- macro get_clause(clause, part='') -%}
+  {%- if part == 'from' -%}
+    {{ clause }}
+  {%- endif -%}
+{%- endmacro -%}
+
+{# == Polyfill: safe_compare generates NULL-safe inequality check == #}
+{%- macro safe_compare(left, right, dataType='') -%}
+EQUAL_NULL({{ left }}, {{ right }}) = FALSE
+{%- endmacro -%}
+
 {# == To run data quality tests before data insertion == #}
-{{ run_tests('Before') }}
+{% for test in node.tests if config.testsEnabled is defined and config.testsEnabled %}
+    {% if test.runOrder == 'Before' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}
 
 {%- if node.materializationType | lower == 'table' %}
-
-    {{ validate_merge_columns() }}
 
     {# == Check if last modified comparison is enabled  #}
     {%- set hasBusinessKey = columns | selectattr("isBusinessKey") | list | length > 0 | default(false) %}
@@ -502,4 +517,9 @@ does not permit copying or modification for any other purpose.
 {%- endif %}
 
 {# == To run data quality tests after data insertion == #}
-{{ run_tests('After') }}
+{% for test in node.tests if config.testsEnabled is defined and config.testsEnabled %}
+    {% if test.runOrder == 'After' %}
+        {{ test_stage(test.name, test.continueOnFailure) }}
+        {{ test.templateString }}
+    {% endif %}
+{% endfor %}

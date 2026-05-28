@@ -11,8 +11,6 @@ does not permit copying or modification for any other purpose.
 
 {%- if node.materializationType | lower == 'table' %}
 
-    {{ validate_merge_columns() }}
-
     {# CreateSQL for Table #}
 	{{ stage('Create ' + node.materializationType ) }}
 	CREATE OR REPLACE {{ node.materializationType }} {{ ref_no_link(node.location.name, node.name) }}

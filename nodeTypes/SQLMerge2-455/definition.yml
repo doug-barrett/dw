@@ -11,5 +11,31 @@ metadata:
     plural: SQL Merges
 
     enableCTESupport: true
+
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        default: table
+        options:
+        - table
+        - view
+        isRequired: true
+      - type: businessKeyColumns
+        isRequired: true
+      - type: changeTrackingColumns
+        isRequired: false
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: false
+      - displayName: Select Distinct
+        attributeName: selectDistinct
+        type: toggleButton
+        default: false
+      - displayName: Group By All
+        attributeName: groupByAll
+        type: toggleButton
+        default: false
 name: SQL Merge 2
 type: NodeType
