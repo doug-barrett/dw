@@ -11,11 +11,6 @@ does not permit copying or modification for any other purpose.
 
 {%- if node.materializationType | lower == 'table' %}
 
-    {# Drop any existing object before creating table #}
-    {{ stage('Drop Existing Object') }}
-    DROP VIEW IF EXISTS {{ ref_no_link(node.location.name, node.name) }};
-    DROP TABLE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
-
     {# CreateSQL for Table #}
     {{ stage('Create ' + node.materializationType ) }}
   CREATE OR REPLACE {{ node.materializationType }} {{ ref_no_link(node.location.name, node.name) }}
@@ -36,11 +31,6 @@ does not permit copying or modification for any other purpose.
 	{%- if node.description | length > 0 %} COMMENT = '{{ node.description | escape }}' {%- endif %}
 
 {%- elif node.materializationType | lower == 'view' %}
-
-    {# Drop any existing object before creating view #}
-    {{ stage('Drop Existing Object') }}
-    DROP VIEW IF EXISTS {{ ref_no_link(node.location.name, node.name) }};
-    DROP TABLE IF EXISTS {{ ref_no_link(node.location.name, node.name) }}
 
     {# CreateSQL for View #}
     {{ stage('Create ' + node.materializationType ) }}
