@@ -1,0 +1,11 @@
+{{ stage('Create Table') }}
+CREATE OR REPLACE TABLE {{ ref_no_link(node.location.name, node.name) }} AS
+{% for source in sources %}
+SELECT
+{% for col in source.columns %}
+    {{ get_source_transform(col) }} AS "{{ col.name }}"
+    {%- if not loop.last -%}, {% endif %}
+{% endfor %}
+{{ source.join }}
+WHERE 1=0
+{% endfor %}
