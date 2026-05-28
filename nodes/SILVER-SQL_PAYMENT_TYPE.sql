@@ -1,5 +1,6 @@
 @id("silver-sql-payment-type-001")
-@nodeType("457")
+@nodeType("456")
+@materializationType("view")
 SELECT
   PAYMENT_TYPE_ID,
   PAYMENT_TYPE
