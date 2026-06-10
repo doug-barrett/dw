@@ -79,8 +79,8 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: d9db483e-35ff-4f89-a02c-3eeea87fc078
-                stepCounter: cd9ff3ed-0ebc-4865-86a3-186bb19aebc0
+              - columnCounter: b70293b6-8c8a-4055-848e-86328d88a14a
+                stepCounter: 48c1927a-a6f4-4dd5-bed8-aa0bfa782c48
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -221,6 +221,20 @@ operation:
           - columnReferences:
               - columnCounter: 8686a3ab-3481-43e0-ab07-8b41f80bd16b
                 stepCounter: 7599cd4f-c8c0-4128-b5dc-524c401d4426
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 500bf43b-0517-4d4d-a2c5-1514b844f369
+          stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: DIM_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cc6483c5-3a94-43e5-be3b-361e5555f0f0
+                stepCounter: 48c1927a-a6f4-4dd5-bed8-aa0bfa782c48
             transform: ""
       - appliedColumnTests: {}
         columnReference:
@@ -558,7 +572,8 @@ operation:
     sourceMapping:
       - aliases:
           DIM_PAYMENT_TYPE: fd95686e-fedb-4743-8a8c-704e0aed5da0
-          DIM_RATE_CODE: e219d141-aeb0-4944-8599-f34cc250ab37
+          DIM_RATE_CODE: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          DIM_VENDOR: 48c1927a-a6f4-4dd5-bed8-aa0bfa782c48
           DROPOFF_LOCATION: 7599cd4f-c8c0-4128-b5dc-524c401d4426
           PICKUP_LOCATION: 01434221-f013-4743-845b-c28708f52b66
           STG_YELLOW_CAB_TRIPS: cd9ff3ed-0ebc-4865-86a3-186bb19aebc0
@@ -569,6 +584,8 @@ operation:
             nodeName: DIM_PAYMENT_TYPE
           - locationName: GOLD
             nodeName: DIM_RATE_CODE
+          - locationName: GOLD
+            nodeName: DIM_VENDOR
           - locationName: SILVER
             nodeName: DROPOFF_LOCATION
           - locationName: SILVER
@@ -576,16 +593,19 @@ operation:
           - locationName: SILVER
             nodeName: STG_YELLOW_CAB_TRIPS
         join:
-          joinCondition: |-
+          joinCondition: |
 
             FROM {{ ref('SILVER', 'STG_YELLOW_CAB_TRIPS') }} "STG_YELLOW_CAB_TRIPS"
+
+            LEFT JOIN {{ ref('GOLD', 'DIM_VENDOR') }} "DIM_VENDOR"
+            ON "STG_YELLOW_CAB_TRIPS"."VENDOR_ID" = "DIM_VENDOR"."VENDOR_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_PAYMENT_TYPE') }} "DIM_PAYMENT_TYPE"
             ON "STG_YELLOW_CAB_TRIPS"."PAYMENT_TYPE_ID" = "DIM_PAYMENT_TYPE"."PAYMENT_TYPE_ID"
             LEFT JOIN {{ ref('GOLD', 'DIM_RATE_CODE') }} "DIM_RATE_CODE"
             ON "STG_YELLOW_CAB_TRIPS"."RATE_CODE_ID" = "DIM_RATE_CODE"."RATE_CODE_ID"
-            INNER JOIN {{ ref('SILVER', 'PICKUP_LOCATION') }} "PICKUP_LOCATION"
+            LEFT JOIN {{ ref('SILVER', 'PICKUP_LOCATION') }} "PICKUP_LOCATION"
             ON "STG_YELLOW_CAB_TRIPS"."PU_LOCATION_ID" = "PICKUP_LOCATION"."LOCATION_ID"
-            INNER JOIN {{ ref('SILVER', 'DROPOFF_LOCATION') }} "DROPOFF_LOCATION"
+            LEFT JOIN {{ ref('SILVER', 'DROPOFF_LOCATION') }} "DROPOFF_LOCATION"
             ON "STG_YELLOW_CAB_TRIPS"."DO_LOCATION_ID" = "DROPOFF_LOCATION"."LOCATION_ID"
         name: STG_YELLOW_CAB_TRIPS1
         noLinkRefs: []

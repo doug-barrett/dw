@@ -1,0 +1,401 @@
+fileVersion: 1
+id: d598c466-3eae-4038-9667-fb3b9389d564
+name: SMV_YELLOW_CAB_TRIPS
+operation:
+  config:
+    DimConfig:
+      items:
+        - dimAlias: PAYMENT_TYPE
+          dimCol:
+            columnCounter: 792b5db0-b0b9-4da7-a8b4-31fdce1522af
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+          dimComment: ""
+          dimSynonym: PAYMENT_TYPES
+          dimTransform: ""
+        - dimAlias: RATE_CODE
+          dimCol:
+            columnCounter: 82fb1337-d395-4fad-97bf-ee129229b1f9
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+          dimComment: ""
+          dimSynonym: RATE_CODES
+          dimTransform: ""
+    deriveCol: false
+    dimToggle: true
+    factDetConfig:
+      items:
+        - factAlias: ""
+          factCol:
+            columnCounter: 7cecec37-feb3-4403-9f40-99baad934a77
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+          factComment: ""
+          factSynonym: ""
+          factTranform: |+
+
+    factToggle: false
+    foreignKeyConfig:
+      items:
+        - foreignKey:
+            columnCounter: 4c229616-8bc5-4691-be09-8eae1bbbdbf9
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+          refAlias: TRIP_PAYMENT_TYPE
+          refTable: PAY_TYPE
+        - foreignKey:
+            columnCounter: a84446cd-ea49-4eca-a4c0-0012bad30dbb
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+          refAlias: TRIP_RATE_CODE
+          refTable: RATE_CODE
+    foreignToggle: true
+    metricConfig:
+      items:
+        - metricAlias: CAB_TRIPS.TRIP_DISTANCE
+          metricCol:
+            columnCounter: 67c4a3d7-b9cb-4327-bd3b-589a23239d62
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+          metricComment: ""
+          metricSynonym: TRIP_DISTANCES
+          metricTransform: COUNT
+          metricTransformExprn: TRIP_DISTANCE
+    metricToggle: true
+    primaryKeyConfig:
+      items:
+        - primAlias: CAB_TRIPS
+          primComment: ""
+          primSynonym: CAB_TRIPSS
+          primaryKey:
+            columnCounter: 7cecec37-feb3-4403-9f40-99baad934a77
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        - primAlias: PAY_TYPE
+          primComment: ""
+          primSynonym: PAY_TYPES
+          primaryKey:
+            columnCounter: 61b70587-a8e2-4ae8-a868-54f912d34b07
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        - primAlias: RATE_CODE
+          primComment: ""
+          primSynonym: RATE_CODES
+          primaryKey:
+            columnCounter: 9fccd256-ace2-4428-a335-f99c0d86df3d
+            stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+    semanticMaterialization: semantic view
+    tableOnlyToggle: false
+  database: ""
+  deployEnabled: true
+  description: Taxi ride information for Yellow Cabs in New York.  Provided by New York City (NYC) Taxi & Limousine Commission (TLC)..
+  isMultisource: false
+  locationName: SILVER
+  materializationType: semantic view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7cecec37-feb3-4403-9f40-99baad934a77
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: NUMBER(18,0)
+        description: ""
+        name: TRIP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8820ee33-b5c8-47e3-ace7-a612734382b9
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67c4a3d7-b9cb-4327-bd3b-589a23239d62
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Distance of the trip in miles. Used in calculating per-mile revenue and fuel efficiency metrics. Sourced directly from the trip_distance column. No transformations applied. Included in reports on average trip distance by region and time of day. Helps in understanding travel patterns and optimizing resource allocation. Supports fare calculation analysis.
+        name: TRIP_DISTANCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 78391b4d-adee-434e-93ad-8113ce018af7
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 63ecd422-e7e0-49e4-a730-cd4ab2502e3a
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: NUMBER(38,0)
+        description: Duration of the trip in minutes. Used in calculating hourly revenue and driver utilization metrics. Sourced directly from the trip_duration_minutes column. Calculated from difference in PICKUP_DATETIME and DROPOFF_DATETIME
+        name: TRIP_DURATION_MINUTES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6ab4670f-1f2c-439f-bfca-fc19ab0f787d
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2214563f-a475-46c7-b1ea-744bf23a30d5
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Average speed of the trip in miles per hour. Used in performance analysis and identifying traffic patterns. Sourced directly from the trip_avg_speed column. Calculated from TRIP DISTANCE divided by TRIP DURATION
+        name: TRIP_AVG_SPEED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d2e3398-bec2-4d8e-b27f-5d83d52cc600
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 21142f64-bb99-4460-a3be-6a6665e716ad
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Fee charged for trips originating from or destined to the airport. Used in revenue analysis and understanding airport-related costs. Sourced directly from the airport_fee column. No transformations applied. Included in reports on airport trip revenue. Helps in understanding airport traffic and optimizing airport services. Supports airport contract negotiations.
+        name: AIRPORT_FEE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 78494c0d-558d-49cd-8ac4-e1c8a254b3c3
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 06a3f414-7338-4c59-a824-17306b97d9a8
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Fee charged for trips passing through the central business district (CBD) during peak hours. Used in revenue analysis and understanding congestion-related costs. Sourced directly from the cbd_congestion_fee column. No transformations applied. Included in reports on CBD trip revenue. Helps in understanding congestion impact and optimizing pricing strategies.
+        name: CBD_CONGESTION_FEE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2e6b643a-6161-4bc5-a139-c7f5e17eae58
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 53b75c7f-0da2-436d-8c37-007c192e3d77
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Surcharge applied to trips during periods of high congestion. Used in revenue analysis and understanding congestion-related costs. Sourced directly from the congestion_surcharge column. No transformations applied. Included in reports on congestion surcharge revenue. Helps in understanding congestion impact and optimizing pricing strategies. Supports dynamic pricing models.
+        name: CONGESTION_SURCHARGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d7990a52-382d-4472-8268-0ff7cb6e14b3
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea1cd775-aaee-4646-bd39-35fc0bcda7f5
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Base fare for the taxi trip, before any additional charges. Pulled directly from source data without modification. Used in calculating overall revenue and average trip cost. Essential for financial analysis and reporting. Provides a baseline for understanding the cost of taxi services before surcharges and tips are added.
+        name: FARE_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 66c4c17f-a73a-4720-b89b-dda7ab2ba9da
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 176e1252-17e1-432f-b733-26a8e0e30250
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Surcharge to support improvements to the transportation system. Directly sourced from source system. Included in total cost calculations and fare analysis. Helps in understanding the impact of surcharges on overall trip expenses. Used in reports detailing revenue allocation and funding for infrastructure projects.
+        name: IMPROVEMENT_SURCHARGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8c4197fe-eac8-4326-936f-ce15b059b2cf
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5a1c1aab-a11c-47d1-b37a-6177b1a22da1
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Tax levied by the Metropolitan Transportation Authority (MTA). Sourced directly from source system without transformations. Used in financial reporting to show tax contributions from taxi trips. Essential for compliance and revenue tracking. Helps in understanding the tax component of the total trip cost and its contribution to public funds.
+        name: MTA_TAX
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0572cb74-48c4-45c7-8ce0-6bac98af4a58
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 81392bb0-b3cc-4d19-9a05-60ca1165ae4e
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Number of passengers in the taxi trip. Directly sourced from source system. Used in ridership analysis and demand forecasting. Helps in understanding passenger load patterns and optimizing resource allocation. Included in reports detailing average passengers per trip and peak travel times. Useful for planning and service adjustments.
+        name: PASSENGER_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5d660aa8-0988-4c06-9f6a-3f72757c157c
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3db6be2f-a2ee-497d-8ffc-52f6c5a31a2f
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Amount of tip given by the passenger. Sourced directly from source system without transformations. Used in driver compensation analysis and customer satisfaction metrics. Included in reports detailing average tip amounts and tipping patterns. Helps in understanding customer behavior and service quality. Provides insights into income distribution.
+        name: TIP_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 08db2915-c8c6-4c70-97eb-a29ef320c5e7
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8657bab1-a22c-41c3-bbd3-9cd4fb3df3bd
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Total amount of tolls paid during the trip. Sourced directly from source system without transformations. Used in cost analysis and route optimization. Included in reports detailing toll expenses and preferred routes. Helps in understanding the impact of tolls on overall trip costs. Provides insights into travel patterns and infrastructure usage.
+        name: TOLLS_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 70af8ea3-938f-467b-9c31-1f66fd902a3c
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4174b5fe-c333-4968-bd76-6bdf5c87bc83
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: FLOAT
+        description: Total cost of the trip, including fare, taxes, and tips. Sourced directly from source system without transformations. Used in financial reporting and customer billing. Essential for revenue tracking and profitability analysis. Helps in understanding the overall cost of taxi services. Provides a comprehensive view of trip expenses.
+        name: TOTAL_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5c3bbb30-f349-489a-8e2c-edacca2774d0
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4c229616-8bc5-4691-be09-8eae1bbbdbf9
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the payment type dimension. Links fact table records to specific payment methods. Used in reports analyzing payment type distribution and revenue per payment type. Foreign key referencing the payment type dimension table. Simplifies querying and improves performance. Maps directly from the payment_type_key column in the source data without transformation.
+        name: DIM_PAYMENT_TYPE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c2d40082-31ba-4afc-a32c-50ba2c2792c4
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a84446cd-ea49-4eca-a4c0-0012bad30dbb
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for the rate code dimension. Connects fact data to specific rate structures. Enables analysis of trip costs by rate type. Foreign key to the rate code dimension table. Sourced directly from the rate_code_key column. Used in financial reporting to break down revenue by rate code. Aids in identifying the most profitable rate codes.
+        name: DIM_RATE_CODE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b0f190a2-4435-444f-bfc2-f33be0a40b5f
+                stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 61b70587-a8e2-4ae8-a868-54f912d34b07
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: NUMBER
+        description: Surrogate key for Payment Type dimension. Uniquely identifies each payment type record. Used as a foreign key in the FactPayment table to link payments to their respective payment types. Enables efficient querying and reporting on payment data. System-generated during the data warehousing process. Not sourced from any source system. Integer value automatically incremented for each new payment type.
+        name: DIM_PAYMENT_TYPE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f8852a42-3918-46b2-a96a-a7b51c58510e
+                stepCounter: fd95686e-fedb-4743-8a8c-704e0aed5da0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 792b5db0-b0b9-4da7-a8b4-31fdce1522af
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: VARCHAR(14)
+        description: Describes the payment method used. Sourced directly from the source system's Payment_Type table. Examples include 'Credit Card', 'Debit Card', or 'Cash'. Used in payment method analysis reports. Aids in understanding customer payment behavior. No transformations applied. Provides a user-friendly description of the payment type. Essential for business users to interpret payment data accurately.
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 694e8888-0194-43f2-9703-32d7427c54b7
+                stepCounter: fd95686e-fedb-4743-8a8c-704e0aed5da0
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9fccd256-ace2-4428-a335-f99c0d86df3d
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: DIM_RATE_CODE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7742cdae-5a1c-4bda-a569-e20f269a970e
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82fb1337-d395-4fad-97bf-ee129229b1f9
+          stepCounter: d598c466-3eae-4038-9667-fb3b9389d564
+        config: {}
+        dataType: VARCHAR(21)
+        description: ""
+        name: RATE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 60d98e1a-8522-46d6-b292-f54a6926335d
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DIM_PAYMENT_TYPE: fd95686e-fedb-4743-8a8c-704e0aed5da0
+          FCT_YELLOW_CAB_TRIPS: 1071b060-08d3-4a37-b76b-3b47c74b61ed
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: GOLD
+            nodeName: DIM_PAYMENT_TYPE
+          - locationName: GOLD
+            nodeName: DIM_RATE_CODE
+          - locationName: GOLD
+            nodeName: FCT_YELLOW_CAB_TRIPS
+        join:
+          joinCondition: |-
+
+            FROM {{ ref('GOLD', 'FCT_YELLOW_CAB_TRIPS') }} "FCT_YELLOW_CAB_TRIPS"
+            LEFT JOIN {{ ref('GOLD', 'DIM_PAYMENT_TYPE') }} "DIM_PAYMENT_TYPE"
+            ON "FCT_YELLOW_CAB_TRIPS"./*COLUMN*/ = "DIM_PAYMENT_TYPE"."PAYMENT_TYPE_ID"
+            LEFT JOIN {{ ref('GOLD', 'DIM_RATE_CODE') }} "DIM_RATE_CODE"
+            ON "FCT_YELLOW_CAB_TRIPS"./*COLUMN*/ = "DIM_RATE_CODE"."RATE_CODE_ID"
+        name: SMV_YELLOW_CAB_TRIPS
+        noLinkRefs: []
+  name: SMV_YELLOW_CAB_TRIPS
+  overrideSQL: false
+  schema: ""
+  sqlType: SV:::632
+  type: sql
+  version: 1
+type: Node
