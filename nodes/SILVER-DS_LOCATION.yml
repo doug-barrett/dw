@@ -1,0 +1,129 @@
+fileVersion: 1
+id: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+name: DS_LOCATION
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 331dcc28-163e-4006-9402-b82040739391
+          stepCounter: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+        config: {}
+        dataType: NUMBER(3,0)
+        description: ""
+        isBusinessKey: true
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 979b70db-4f94-44e7-a1e1-a7edc78fbb05
+                stepCounter: f2b8ace1-8bb4-40ba-834e-67a74eb55afb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ed97c588-149e-4d68-bcbe-aeaa91b06a9c
+          stepCounter: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 120175f7-8470-414b-98d1-5cb3661199a2
+                stepCounter: f2b8ace1-8bb4-40ba-834e-67a74eb55afb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8b009a64-bd71-4cd4-bfc3-566dbe66cce9
+          stepCounter: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 04d3cf16-a331-47b7-9213-aefe5b7e3ca9
+                stepCounter: f2b8ace1-8bb4-40ba-834e-67a74eb55afb
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eeede11b-614b-4247-b3ed-6b8af6bcd07a
+          stepCounter: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8ddda3f7-8859-468a-9b04-3c5a02b7feff
+                stepCounter: f2b8ace1-8bb4-40ba-834e-67a74eb55afb
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 42cefb3a-5bf5-4f9f-9273-4707f4f57907
+          stepCounter: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 122db670-ada9-4bf8-8985-7e46809a2b8c
+          stepCounter: e14df2ba-8b1d-423d-b0c2-ab451eba9217
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOCATION: f2b8ace1-8bb4-40ba-834e-67a74eb55afb
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: LOCATION
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'LOCATION') }} "LOCATION"
+        name: DS_LOCATION
+        noLinkRefs: []
+  name: DS_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: "53"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,101 @@
+fileVersion: 1
+id: 9dfcf391-0bb5-4819-9e63-aabf5c16ccf4
+name: DS_VENDOR
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c7da75fb-580d-4e6e-916b-2ab6968a9176
+          stepCounter: 9dfcf391-0bb5-4819-9e63-aabf5c16ccf4
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        isBusinessKey: true
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dad8622d-b7ac-4eb4-a7df-8dbd209317c7
+                stepCounter: 6988ce17-b486-4b56-949b-e8789986d5af
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 15b61152-df6d-45b8-ac9a-bcc1366730b2
+          stepCounter: 9dfcf391-0bb5-4819-9e63-aabf5c16ccf4
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7cbaa1f2-502c-4de4-97e4-4a8e51048dcf
+                stepCounter: 6988ce17-b486-4b56-949b-e8789986d5af
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d4aa42b7-a3f2-4798-9df2-9f0981d3dc69
+          stepCounter: 9dfcf391-0bb5-4819-9e63-aabf5c16ccf4
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3d46da9-f8d8-446e-bf57-ccf4e777c3f2
+          stepCounter: 9dfcf391-0bb5-4819-9e63-aabf5c16ccf4
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          VENDOR: 6988ce17-b486-4b56-949b-e8789986d5af
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
+        name: DS_VENDOR
+        noLinkRefs: []
+  name: DS_VENDOR
+  overrideSQL: false
+  schema: ""
+  sqlType: "53"
+  type: sql
+  version: 1
+type: Node

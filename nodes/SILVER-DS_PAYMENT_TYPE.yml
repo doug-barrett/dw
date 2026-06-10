@@ -1,0 +1,101 @@
+fileVersion: 1
+id: cb94ef5f-eefc-43cc-ade1-14d5c8b3f2b0
+name: DS_PAYMENT_TYPE
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 02a839ca-ed92-43bb-a51e-ae309e9387ad
+          stepCounter: cb94ef5f-eefc-43cc-ade1-14d5c8b3f2b0
+        config: {}
+        dataType: NUMBER(1,0)
+        description: ""
+        isBusinessKey: true
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 605c86e5-ed08-4a50-9e2b-672d877122b7
+                stepCounter: 7d8fbce4-e6dc-4df1-aaa0-d47c2e1fe28d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 303c4510-1d66-4da6-b770-1b6ea1da6d09
+          stepCounter: cb94ef5f-eefc-43cc-ade1-14d5c8b3f2b0
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2176cb79-9e15-4c00-a9e0-90f1b28d9803
+                stepCounter: 7d8fbce4-e6dc-4df1-aaa0-d47c2e1fe28d
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7667d366-3ee3-4c4a-a3f8-2d5fb6584519
+          stepCounter: cb94ef5f-eefc-43cc-ade1-14d5c8b3f2b0
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c503e76a-b710-40a1-ba22-e9dcb2f98490
+          stepCounter: cb94ef5f-eefc-43cc-ade1-14d5c8b3f2b0
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PAYMENT_TYPE: 7d8fbce4-e6dc-4df1-aaa0-d47c2e1fe28d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} "PAYMENT_TYPE"
+        name: DS_PAYMENT_TYPE
+        noLinkRefs: []
+  name: DS_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: "53"
+  type: sql
+  version: 1
+type: Node
