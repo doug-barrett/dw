@@ -1,0 +1,129 @@
+fileVersion: 1
+id: 28dc5deb-6b1c-4f65-a04f-338905fec428
+name: DS_VENDOR_DETAILS
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f6b6f2a5-07f5-4695-8343-ceb4362c626b
+          stepCounter: 28dc5deb-6b1c-4f65-a04f-338905fec428
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        isBusinessKey: true
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0a9acaad-4cb2-4915-b475-b3c4d9e081f1
+                stepCounter: de793957-c782-47bc-913f-ac4aa1476216
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 886fe462-878b-4c34-8c2a-ded4cb0827d8
+          stepCounter: 28dc5deb-6b1c-4f65-a04f-338905fec428
+        config: {}
+        dataType: OBJECT
+        description: ""
+        name: HQ_ADDRESS_DETAILS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+                stepCounter: de793957-c782-47bc-913f-ac4aa1476216
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2d0f265c-3198-4b51-aae4-41d4953b53ab
+          stepCounter: 28dc5deb-6b1c-4f65-a04f-338905fec428
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e8ace0bf-a4b4-409e-8ff8-4cf96ce712be
+                stepCounter: de793957-c782-47bc-913f-ac4aa1476216
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 43361aed-a6ba-41fa-b159-5d72a48dc517
+          stepCounter: 28dc5deb-6b1c-4f65-a04f-338905fec428
+        config: {}
+        dataType: NUMBER(3,0)
+        description: ""
+        name: DRIVERS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ff6dd374-a6b8-46f0-b0ed-cbf1cc8d8969
+                stepCounter: de793957-c782-47bc-913f-ac4aa1476216
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 90017042-f464-46db-99bd-d9affde631a4
+          stepCounter: 28dc5deb-6b1c-4f65-a04f-338905fec428
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 48468113-d7ee-49d8-bb7f-92c3e22852fa
+          stepCounter: 28dc5deb-6b1c-4f65-a04f-338905fec428
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          VENDOR_DETAILS: de793957-c782-47bc-913f-ac4aa1476216
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR_DETAILS
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'VENDOR_DETAILS') }} "VENDOR_DETAILS"
+        name: DS_VENDOR_DETAILS
+        noLinkRefs: []
+  name: DS_VENDOR_DETAILS
+  overrideSQL: false
+  schema: ""
+  sqlType: "53"
+  type: sql
+  version: 1
+type: Node
