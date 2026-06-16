@@ -1,0 +1,213 @@
+fileVersion: 1
+id: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+name: fct_yellow_cab_vendor_financial
+operation:
+  config:
+    postSQL: ''
+    preSQL: ''
+    testsEnabled: true
+  database: ''
+  deployEnabled: true
+  description: Summarization of Trip data to provide Financial metrics at Vendor and Month level
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - appliedColumnTests:
+        hasNull: true
+      columnReference:
+        columnCounter: 3ad6b873-268a-4fab-a6e1-e6200113980b
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: FLOAT
+      description: Unique identifier for the vendor. Part of the composite key with YEAR and MONTH. Sourced directly from the input data without transformations. Used in reports to break down trip statistics by vendor. Enables analysis of vendor performance trends over time. Essential for identifying specific vendors in the dataset. Links to vendor details if a vendor dimension table exists.
+      isBusinessKey: true
+      name: vendor_id
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: a7f253ef-3a52-436e-897f-51082763f70c
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: true
+      columnReference:
+        columnCounter: c1a50a99-0a15-4465-ab23-e2fc146c029e
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: VARCHAR(33)
+      description: Name of the vendor. Sourced directly from the input data without transformations. Used in reports to provide a human-readable identifier for the vendor. Allows users to easily identify and differentiate between vendors. Useful for filtering and grouping data by vendor name. Supports vendor-specific analysis and reporting. Consistent naming conventions are important for data quality.
+      name: vendor_name
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: d6bbf682-d6ca-4090-ad02-b116acb8f269
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: true
+      columnReference:
+        columnCounter: f5117238-1b90-47fc-a0eb-57f1e7898370
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER
+      description: The year of the trip. Part of the composite key with VENDOR_ID and MONTH. Sourced directly from the input data without transformations. Used for time-series analysis and trend reporting. Allows users to filter and group data by year. Essential for tracking changes in trip statistics over time. Ensures accurate temporal analysis of the data. Used in annual performance reports.
+      isBusinessKey: true
+      name: year
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: b753f74a-3e72-444c-93c8-fb2825fa46e9
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: true
+      columnReference:
+        columnCounter: 0c665dc8-860a-4f3d-bf1e-df4d7bbf1337
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER
+      description: The month of the trip. Part of the composite key with VENDOR_ID and YEAR. Sourced directly from the input data without transformations. Used for monthly performance tracking and reporting. Allows users to filter and group data by month. Essential for identifying seasonal trends in trip statistics. Ensures accurate temporal analysis of the data. Used in monthly performance reports.
+      isBusinessKey: true
+      name: month
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: f4928708-094c-469a-a6f8-ff4d3a3184cd
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: 3cc11dc5-6023-400d-9b3c-647b89f52143
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER
+      description: Number of trips taken for a specific vendor in a given month and year. Sourced directly from the input data without transformations. Used as a key metric for measuring vendor activity. Allows users to compare trip counts across different vendors and time periods. Essential for identifying high-performing vendors. Used in vendor performance dashboards and reports.
+      name: trip_count
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: af48ea90-ba0f-40de-a626-068a0c963027
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: 00943024-dffe-41e6-b88c-804e4a6dc0d5
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER(12,2)
+      description: Total amount collected from trips for a specific vendor in a given month and year. Sourced directly from the input data without transformations. Used as a key metric for measuring vendor revenue. Allows users to compare total amounts across different vendors and time periods. Essential for identifying high-revenue vendors. Used in vendor revenue dashboards and reports.
+      name: total_amount
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 9df4316a-a742-45ca-b94a-94a816e4c776
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: 3dec7fab-1865-4d16-8a39-68b9d2a3815a
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER(12,2)
+      description: Total amount collected in cash from trips for a specific vendor in a given month and year. Sourced directly from the input data without transformations. Used to analyze cash payment trends. Allows users to compare cash amounts across different vendors and time periods. Useful for understanding payment method preferences. Used in financial analysis and reporting.
+      name: total_amount_cash
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 602c0ddd-c935-4ef2-b1d4-9cd5eb5a8231
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: 6a9e6f86-51ab-4833-b4ef-8adfa8697c96
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER(12,2)
+      description: Total amount collected via credit card from trips for a specific vendor in a given month and year. Sourced directly from the input data without transformations. Used to analyze credit card payment trends. Allows users to compare credit card amounts across different vendors and time periods. Useful for understanding payment method preferences. Used in financial analysis and reporting.
+      name: total_amount_cc
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 8999e3f7-3d42-4b81-9ba5-a2a9e3e9168b
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: d7a4a0e5-0e76-4fd8-8cae-ccc3f1197ffb
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: NUMBER(12,2)
+      description: Total amount voided from trips for a specific vendor in a given month and year. Sourced directly from the input data without transformations. Used to track voided transactions. Allows users to compare voided amounts across different vendors and time periods. Useful for identifying potential fraud or errors. Used in financial analysis and reporting.
+      name: total_amount_void
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 91a2c5e4-4384-4d8b-a906-e0350fc66224
+          stepCounter: 567ec716-0a53-4e84-930d-bfa612f368af
+        transform: ''
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: a588dda0-e6fe-4115-a218-a918830545d3
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Timestamp indicating when the record was created in the system. Automatically generated by the system using the CURRENT_TIMESTAMP function. Provides a historical record of data creation. Useful for auditing and data lineage purposes. Ensures data integrity and traceability. Not sourced from any external source. Essential for tracking data changes over time.
+      isSystemCreateDate: true
+      name: system_create_date
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests:
+        hasNull: false
+      columnReference:
+        columnCounter: 25cef33d-1949-47ac-9600-5e394384b9e3
+        stepCounter: 6f6f7eb4-25a8-4ca1-8348-6fe7b7a59814
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Timestamp indicating when the record was last updated in the system. Automatically generated by the system using the CURRENT_TIMESTAMP function. Provides a historical record of data modifications. Useful for auditing and data lineage purposes. Ensures data integrity and traceability. Not sourced from any external source. Essential for tracking data changes over time.
+      isSystemUpdateDate: true
+      name: system_update_date
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ''
+    enabledColumnTestIDs:
+    - hasNull
+    sourceMapping:
+    - aliases:
+        stg_yellow_cab_vendor_monthly: 567ec716-0a53-4e84-930d-bfa612f368af
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: SILVER
+        nodeName: stg_yellow_cab_vendor_monthly
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'stg_yellow_cab_vendor_monthly') }} "stg_yellow_cab_vendor_monthly"
+      name: fct_yellow_cab_vendor_financial
+      noLinkRefs: []
+  name: fct_yellow_cab_vendor_financial
+  overrideSQL: false
+  schema: ''
+  sqlType: Fact
+  type: sql
+  version: 1
+type: Node
