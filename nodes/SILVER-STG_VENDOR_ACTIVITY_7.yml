@@ -1,0 +1,125 @@
+fileVersion: 1
+id: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+name: STG_VENDOR_ACTIVITY_7
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ''
+    preSQL: ''
+    testsEnabled: true
+    truncateBefore: true
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1e1ccfe3-972c-49d3-9e3f-93f18fd70585
+        stepCounter: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fbeeca5c-6ec8-49a7-9728-f093a1049d9e
+          stepCounter: c8633ffb-82fc-43ae-b825-2122618dd104
+        transform: ''
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 0bcbb4ae-fc22-45ea-be8c-834fd53094de
+        stepCounter: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: TRIP_COUNT_7
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: COUNT(1)
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 3b8f7c21-08ff-4df2-8af3-6ef2c3e0db9b
+        stepCounter: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+      config: {}
+      dataType: FLOAT
+      description: ''
+      name: TRIP_DISTANCE_7
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ac69c4cb-6bb4-4d55-ba17-0c26c36414c5
+          stepCounter: c8633ffb-82fc-43ae-b825-2122618dd104
+        transform: SUM(TRIP_DISTANCE)
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 362b87d3-53ea-49ea-adce-369e804c962e
+        stepCounter: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+      config: {}
+      dataType: FLOAT
+      description: ''
+      name: FARE_AMOUNT_7
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 62e32cf4-9e44-4c7c-9565-92c730d7047c
+          stepCounter: c8633ffb-82fc-43ae-b825-2122618dd104
+        transform: SUM(FARE_AMOUNT)
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 6cecce97-14ee-4cf1-90fd-18d8eb37bedd
+        stepCounter: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: RANK_FARE_7
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: RANK() OVER (ORDER BY SUM(FARE_AMOUNT) DESC)
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: fd16f28f-ff86-4c29-b54e-db324b9baa9d
+        stepCounter: e71a448c-9ece-4fba-ab5b-c32c61a743cc
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: RANK_DISTANCE_7
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: RANK() OVER (ORDER BY SUM(TRIP_DISTANCE) DESC)
+    cteString: ''
+    enabledColumnTestIDs: []
+    sourceMapping:
+    - aliases:
+        YELLOW_CAB_TRIPS: c8633ffb-82fc-43ae-b825-2122618dd104
+        LOCATION: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: YELLOW_CAB_TRIPS
+      - locationName: BRONZE
+        nodeName: LOCATION
+      join:
+        joinCondition: "FROM {{ ref('BRONZE', 'YELLOW_CAB_TRIPS') }} \"YELLOW_CAB_TRIPS\"\
+          \nJOIN {{ ref('BRONZE', 'LOCATION') }} \"LOCATION\"\n    ON \"YELLOW_CAB_TRIPS\"\
+          .\"PU_LOCATION_ID\" = \"LOCATION\".\"LOCATION_ID\"\nWHERE TO_DATE(\"YELLOW_CAB_TRIPS\"\
+          .\"PICKUP_DATETIME\") BETWEEN CURRENT_DATE - 7 AND CURRENT_DATE\nGROUP BY\
+          \ 1"
+      name: STG_VENDOR_ACTIVITY_7
+      noLinkRefs: []
+  name: STG_VENDOR_ACTIVITY_7
+  overrideSQL: false
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

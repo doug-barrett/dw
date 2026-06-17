@@ -1,7 +1,0 @@
-@id("stg-vendor-location-summary-7")
-@nodeType("456")
-SELECT
-    VENDOR_ID,
-    LISTAGG(ZONE || ' ($' || TO_CHAR(LOC_FARE_AMOUNT_7, '9,999,999.00') || ')', ', ') WITHIN GROUP (ORDER BY LOC_FARE_AMOUNT_7 DESC) AS TOP_5_ZONES
-FROM {{ ref("SILVER", "STG_VENDOR_LOCATION_ACTIVITY_7") }}
-GROUP BY 1

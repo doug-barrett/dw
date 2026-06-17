@@ -1,0 +1,152 @@
+fileVersion: 1
+id: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+name: STG_VENDOR_DETAILS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ''
+    preSQL: ''
+    testsEnabled: true
+    truncateBefore: true
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 58443964-602a-4606-b33d-4f4b98a392bb
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 0a9acaad-4cb2-4915-b475-b3c4d9e081f1
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: ''
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: f7c3483d-6c0e-4692-8986-7ca0b42269c5
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: PHONE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: e8ace0bf-a4b4-409e-8ff8-4cf96ce712be
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: ''
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: fca54197-5752-4759-a6da-249c4f6ebc90
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: DRIVERS
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ff6dd374-a6b8-46f0-b0ed-cbf1cc8d8969
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: ''
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: eb9748e5-3230-4629-b87f-26e87f3dd671
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: HQ_ADDRESS1
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: HQ_ADDRESS_DETAILS:ADDRESS::STRING
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1e70cd4c-dc84-499e-a935-9637c8cb2d62
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: HQ_CITY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: HQ_ADDRESS_DETAILS:CITY::STRING
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 806757f2-b9d0-4ad3-a836-17b3203d0665
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: HQ_STATE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: HQ_ADDRESS_DETAILS:STATE::STRING
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 7a259601-2830-4abe-8532-c5fb37269cfe
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: HQ_COUNTRY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: HQ_ADDRESS_DETAILS:COUNTRY::STRING
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 92557311-5898-4923-811a-b5c11294e7ea
+        stepCounter: 8e5ea068-09be-4b61-a0f9-18e67290fb94
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: HQ_ZIP
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: HQ_ADDRESS_DETAILS:ZIP::STRING
+    cteString: ''
+    enabledColumnTestIDs: []
+    sourceMapping:
+    - aliases:
+        VENDOR_DETAILS: b05f7d90-15de-4ff7-899d-d15265360ab3
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: VENDOR_DETAILS
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'VENDOR_DETAILS') }} "VENDOR_DETAILS"
+      name: STG_VENDOR_DETAILS
+      noLinkRefs: []
+  name: STG_VENDOR_DETAILS
+  overrideSQL: false
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
