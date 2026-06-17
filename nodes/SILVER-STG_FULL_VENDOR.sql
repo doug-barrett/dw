@@ -1,0 +1,15 @@
+@id("stg-full-vendor")
+@nodeType("456")
+SELECT
+    BV.VENDOR_ID,
+    BV.VENDOR_NAME,
+    CP.PHONE_DIGITS,
+    CP.DRIVERS,
+    CP.HQ_ADDRESS1,
+    CP.HQ_CITY,
+    CP.HQ_STATE,
+    CP.HQ_COUNTRY,
+    CP.HQ_ZIP
+FROM {{ ref("SILVER", "STG_BASE_VENDOR") }} BV
+JOIN {{ ref("SILVER", "STG_VENDOR_CLEAN_PHONE") }} CP
+    ON BV.VENDOR_ID = CP.VENDOR_ID

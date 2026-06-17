@@ -1,0 +1,22 @@
+@id("stg-vendor-classification")
+@nodeType("456")
+SELECT
+    VENDOR_ID,
+    VENDOR_NAME,
+    PHONE_DIGITS,
+    DRIVERS,
+    HQ_ADDRESS1,
+    HQ_CITY,
+    HQ_STATE,
+    HQ_COUNTRY,
+    HQ_ZIP,
+    CASE
+        WHEN DRIVERS >= 200 THEN 'ENTERPRISE'
+        WHEN DRIVERS >= 50 THEN 'MID_SIZE'
+        ELSE 'SMALL'
+    END AS VENDOR_TIER,
+    CASE
+        WHEN HQ_COUNTRY = 'USA' THEN 'DOMESTIC'
+        ELSE 'INTERNATIONAL'
+    END AS MARKET_TYPE
+FROM {{ ref("SILVER", "STG_FULL_VENDOR") }}
