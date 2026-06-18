@@ -1,0 +1,403 @@
+fileVersion: 1
+id: f4519a13-cbcb-45a1-9d91-056e32b64a47
+name: STG_VENDOR_TRIPS
+operation:
+  database: ""
+  deployEnabled: true
+  description: Final vendor trips report - joins classification, activity, and location summary
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+      - name: STG_VENDOR_TRIPS
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'STG_VENDOR_CLASSIFICATION') }} "STG_VENDOR_CLASSIFICATION"
+            JOIN {{ ref('SILVER', 'STG_VENDOR_ACTIVITY_7') }} "STG_VENDOR_ACTIVITY_7"
+              ON "STG_VENDOR_CLASSIFICATION"."VENDOR_ID" = "STG_VENDOR_ACTIVITY_7"."VENDOR_ID"
+            JOIN {{ ref('SILVER', 'STG_VENDOR_LOCATION_SUMMARY_7') }} "STG_VENDOR_LOCATION_SUMMARY_7"
+              ON "STG_VENDOR_CLASSIFICATION"."VENDOR_ID" = "STG_VENDOR_LOCATION_SUMMARY_7"."VENDOR_ID"
+            ORDER BY "STG_VENDOR_ACTIVITY_7"."RANK_FARE_7"
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_VENDOR_CLASSIFICATION
+          - locationName: SILVER
+            nodeName: STG_VENDOR_ACTIVITY_7
+          - locationName: SILVER
+            nodeName: STG_VENDOR_LOCATION_SUMMARY_7
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000001
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000001
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000002
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000002
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000003
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: PHONE_DIGITS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000003
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000004
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: NUMBER(3,0)
+        defaultValue: ""
+        description: ""
+        name: DRIVERS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000004
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000005
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_ADDRESS1
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000005
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000006
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000006
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000007
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_STATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000007
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000008
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000008
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000009
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_ZIP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000009
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000010
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_TIER
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000010
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000011
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: MARKET_TYPE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0005-0001-0001-000000000011
+                stepCounter: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000012
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: Trip count in last 7 days
+        name: TRIP_COUNT_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0006-0001-0001-000000000002
+                stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000013
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: FLOAT
+        defaultValue: ""
+        description: Total trip distance in last 7 days
+        name: TRIP_DISTANCE_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0006-0001-0001-000000000003
+                stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000014
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: FLOAT
+        defaultValue: ""
+        description: Total fare amount in last 7 days
+        name: FARE_AMOUNT_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0006-0001-0001-000000000004
+                stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000015
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: Rank by fare amount descending
+        name: RANK_FARE_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0006-0001-0001-000000000005
+                stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000016
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: Rank by trip distance descending
+        name: RANK_DISTANCE_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0006-0001-0001-000000000006
+                stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0009-0001-0001-000000000017
+          stepCounter: f4519a13-cbcb-45a1-9d91-056e32b64a47
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: Comma-separated top 5 zones with fare amounts
+        name: TOP_5_ZONES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0008-0001-0001-000000000002
+                stepCounter: 53464c47-abcd-44c6-a34c-9e4b48931668
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_VENDOR_TRIPS
+  schema: ""
+  sources:
+    - id: 67c28ad7-2b43-4c0d-8830-46e3906b87e4
+      join: |-
+        FROM {{ ref('SILVER', 'STG_VENDOR_CLASSIFICATION') }} "STG_VENDOR_CLASSIFICATION"
+        JOIN {{ ref('SILVER', 'STG_VENDOR_ACTIVITY_7') }} "STG_VENDOR_ACTIVITY_7"
+          ON "STG_VENDOR_CLASSIFICATION"."VENDOR_ID" = "STG_VENDOR_ACTIVITY_7"."VENDOR_ID"
+        JOIN {{ ref('SILVER', 'STG_VENDOR_LOCATION_SUMMARY_7') }} "STG_VENDOR_LOCATION_SUMMARY_7"
+          ON "STG_VENDOR_CLASSIFICATION"."VENDOR_ID" = "STG_VENDOR_LOCATION_SUMMARY_7"."VENDOR_ID"
+        ORDER BY "STG_VENDOR_ACTIVITY_7"."RANK_FARE_7"
+      locationName: SILVER
+      name: STG_VENDOR_CLASSIFICATION
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

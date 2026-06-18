@@ -1,0 +1,162 @@
+fileVersion: 1
+id: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+name: STG_VENDOR_ACTIVITY_7
+operation:
+  database: ""
+  deployEnabled: true
+  description: 7-day vendor trip activity aggregation with rankings
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+      - name: STG_VENDOR_ACTIVITY_7
+        join:
+          joinCondition: |-
+            FROM {{ ref('BRONZE', 'YELLOW_CAB_TRIPS') }} "YELLOW_CAB_TRIPS"
+            JOIN {{ ref('BRONZE', 'LOCATION') }} "LOCATION"
+              ON "YELLOW_CAB_TRIPS"."PU_LOCATION_ID" = "LOCATION"."LOCATION_ID"
+            WHERE TO_DATE("YELLOW_CAB_TRIPS"."PICKUP_DATETIME") BETWEEN CURRENT_DATE - 7 AND CURRENT_DATE
+            GROUP BY "YELLOW_CAB_TRIPS"."VENDOR_ID"
+        dependencies:
+          - locationName: BRONZE
+            nodeName: YELLOW_CAB_TRIPS
+          - locationName: BRONZE
+            nodeName: LOCATION
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0006-0001-0001-000000000001
+          stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+        config: {}
+        dataType: FLOAT
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fbeeca5c-6ec8-49a7-9728-f093a1049d9e
+                stepCounter: c8633ffb-82fc-43ae-b825-2122618dd104
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0006-0001-0001-000000000002
+          stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: Trip count in last 7 days
+        name: TRIP_COUNT_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "COUNT(1)"
+        transform: "COUNT(1)"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0006-0001-0001-000000000003
+          stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+        config: {}
+        dataType: FLOAT
+        defaultValue: ""
+        description: Total trip distance in last 7 days
+        name: TRIP_DISTANCE_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ac69c4cb-6bb4-4d55-ba17-0c26c36414c5
+                stepCounter: c8633ffb-82fc-43ae-b825-2122618dd104
+            transform: "SUM(\"TRIP_DISTANCE\")"
+        transform: "SUM(\"TRIP_DISTANCE\")"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0006-0001-0001-000000000004
+          stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+        config: {}
+        dataType: FLOAT
+        defaultValue: ""
+        description: Total fare amount in last 7 days
+        name: FARE_AMOUNT_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 62e32cf4-9e44-4c7c-9565-92c730d7047c
+                stepCounter: c8633ffb-82fc-43ae-b825-2122618dd104
+            transform: "SUM(\"FARE_AMOUNT\")"
+        transform: "SUM(\"FARE_AMOUNT\")"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0006-0001-0001-000000000005
+          stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: Rank by fare amount descending
+        name: RANK_FARE_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "RANK() OVER (ORDER BY SUM(\"FARE_AMOUNT\") DESC)"
+        transform: "RANK() OVER (ORDER BY SUM(\"FARE_AMOUNT\") DESC)"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0006-0001-0001-000000000006
+          stepCounter: f23485c5-6b0b-4f8a-ba5f-5fbb5f4387cd
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: Rank by trip distance descending
+        name: RANK_DISTANCE_7
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "RANK() OVER (ORDER BY SUM(\"TRIP_DISTANCE\") DESC)"
+        transform: "RANK() OVER (ORDER BY SUM(\"TRIP_DISTANCE\") DESC)"
+        uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_VENDOR_ACTIVITY_7
+  schema: ""
+  sources:
+    - id: c8633ffb-82fc-43ae-b825-2122618dd104
+      join: |-
+        FROM {{ ref('BRONZE', 'YELLOW_CAB_TRIPS') }} "YELLOW_CAB_TRIPS"
+        JOIN {{ ref('BRONZE', 'LOCATION') }} "LOCATION"
+          ON "YELLOW_CAB_TRIPS"."PU_LOCATION_ID" = "LOCATION"."LOCATION_ID"
+        WHERE TO_DATE("YELLOW_CAB_TRIPS"."PICKUP_DATETIME") BETWEEN CURRENT_DATE - 7 AND CURRENT_DATE
+        GROUP BY "YELLOW_CAB_TRIPS"."VENDOR_ID"
+      locationName: BRONZE
+      name: YELLOW_CAB_TRIPS
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

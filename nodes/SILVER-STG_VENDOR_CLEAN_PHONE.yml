@@ -1,0 +1,198 @@
+fileVersion: 1
+id: 9cf58563-0ae7-4c11-a271-a6be43203594
+name: STG_VENDOR_CLEAN_PHONE
+operation:
+  database: ""
+  deployEnabled: true
+  description: Clean phone number - strip non-digits
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+      - name: STG_VENDOR_CLEAN_PHONE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'STG_VENDOR_DETAILS') }}
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_VENDOR_DETAILS
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000001
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: NUMBER(4,0)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000001
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000002
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: Phone number with non-digit characters removed
+        name: PHONE_DIGITS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000002
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: "REGEXP_REPLACE(\"PHONE\", '[^0-9]', '')"
+        transform: "REGEXP_REPLACE(\"PHONE\", '[^0-9]', '')"
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000003
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: NUMBER(3,0)
+        defaultValue: ""
+        description: ""
+        name: DRIVERS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000003
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000004
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_ADDRESS1
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000004
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000005
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000005
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000006
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_STATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000006
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000007
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000007
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a1b2c3d4-0003-0001-0001-000000000008
+          stepCounter: 9cf58563-0ae7-4c11-a271-a6be43203594
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: HQ_ZIP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a1b2c3d4-0002-0001-0001-000000000008
+                stepCounter: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+            transform: ""
+        transform: ""
+        uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_VENDOR_CLEAN_PHONE
+  schema: ""
+  sources:
+    - id: 511c438d-6e7d-4fcd-9659-8ef147fcad1b
+      join: FROM {{ ref('SILVER', 'STG_VENDOR_DETAILS') }}
+      locationName: SILVER
+      name: STG_VENDOR_DETAILS
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
