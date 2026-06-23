@@ -1,0 +1,72 @@
+fileVersion: 1
+id: 70c13b5c-5917-4351-a391-50f8f46d3c47
+name: STG_PAYMENT_TYPE
+operation:
+  database: ''
+  deployEnabled: true
+  description: Staging node for payment type reference - cleans payment type data from Bronze
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+    - name: STG_PAYMENT_TYPE
+      join:
+        joinCondition: "FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} \"PAYMENT_TYPE\""
+      dependencies:
+      - locationName: BRONZE
+        nodeName: PAYMENT_TYPE
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: e500416b-a64d-4c87-8163-359fcb48b163
+        stepCounter: 70c13b5c-5917-4351-a391-50f8f46d3c47
+      config: {}
+      dataType: NUMBER(1,0)
+      defaultValue: ''
+      description: ''
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"PAYMENT_TYPE"."PAYMENT_TYPE_ID"'
+      transform: '"PAYMENT_TYPE"."PAYMENT_TYPE_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 9848e026-a0d7-4063-941d-43b70503a7c1
+        stepCounter: 70c13b5c-5917-4351-a391-50f8f46d3c47
+      config: {}
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: ''
+      name: PAYMENT_TYPE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: "NVL(\"PAYMENT_TYPE\".\"PAYMENT_TYPE\", 'Unknown')"
+      transform: "NVL(\"PAYMENT_TYPE\".\"PAYMENT_TYPE\", 'Unknown')"
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_PAYMENT_TYPE
+  schema: ''
+  sources:
+  - id: a103676d-4ced-4438-ac3b-e9671d6b67a9
+    join: "FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} \"PAYMENT_TYPE\""
+    locationName: BRONZE
+    name: PAYMENT_TYPE
+  sqlType: Stage
+  type: sql
+  version: 1
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+type: Node

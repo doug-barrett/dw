@@ -1,0 +1,205 @@
+fileVersion: 1
+id: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+name: STG_CALENDAR
+operation:
+  database: ''
+  deployEnabled: true
+  description: Staging node for calendar dimension - passes through clean calendar data from Bronze
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+    - name: STG_CALENDAR
+      join:
+        joinCondition: "FROM {{ ref('BRONZE', 'CALENDAR') }} \"CALENDAR\""
+      dependencies:
+      - locationName: BRONZE
+        nodeName: CALENDAR
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 4ae66c92-807e-4a42-aea1-e45f3fadabd2
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: DATE
+      defaultValue: ''
+      description: ''
+      name: CALENDAR_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."CALENDAR_DATE"'
+      transform: '"CALENDAR"."CALENDAR_DATE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 10459153-776b-4f79-b330-f72d0fadf752
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(4,0)
+      defaultValue: ''
+      description: ''
+      name: YEAR
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."YEAR"'
+      transform: '"CALENDAR"."YEAR"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 6588c212-05cd-4895-92db-652370d7b731
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: MONTH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."MONTH"'
+      transform: '"CALENDAR"."MONTH"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: a9b995c8-27b0-4eea-97e2-5ee740a9c7ca
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: VARCHAR(3)
+      defaultValue: ''
+      description: ''
+      name: MONTH_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."MONTH_NAME"'
+      transform: '"CALENDAR"."MONTH_NAME"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 354812d4-7080-40a7-b91d-9442769a34a0
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: DAY_OF_MONTH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."DAY_OF_MONTH"'
+      transform: '"CALENDAR"."DAY_OF_MONTH"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: b4497c35-5c8e-42c5-af37-926259f3c6d6
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: DAY_OF_WEEK
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."DAY_OF_WEEK"'
+      transform: '"CALENDAR"."DAY_OF_WEEK"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 02f52f99-1384-4793-92b2-75ea27fe7757
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: WEEK_OF_YEAR
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."WEEK_OF_YEAR"'
+      transform: '"CALENDAR"."WEEK_OF_YEAR"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 22e797a7-2e5d-4d57-be72-387927b0b378
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(4,0)
+      defaultValue: ''
+      description: ''
+      name: DAY_OF_YEAR
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."DAY_OF_YEAR"'
+      transform: '"CALENDAR"."DAY_OF_YEAR"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: e0359746-b75e-4f33-83c5-0074032615a6
+        stepCounter: 6d43c364-448f-4eca-a8d9-16bf0355ca7e
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: QTR_OF_YEAR
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"CALENDAR"."QTR_OF_YEAR"'
+      transform: '"CALENDAR"."QTR_OF_YEAR"'
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_CALENDAR
+  schema: ''
+  sources:
+  - id: fdf7ea41-b0bd-4bee-9f83-197375755152
+    join: "FROM {{ ref('BRONZE', 'CALENDAR') }} \"CALENDAR\""
+    locationName: BRONZE
+    name: CALENDAR
+  sqlType: Stage
+  type: sql
+  version: 1
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+type: Node

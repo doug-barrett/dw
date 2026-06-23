@@ -1,0 +1,244 @@
+fileVersion: 1
+id: ee000001-0001-0001-0001-000000000001
+name: AGG_TRIPS_DAILY
+operation:
+  config:
+    groupByAll: true
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+  database: ''
+  deployEnabled: true
+  description: Daily aggregation of trip metrics for reporting
+  locationName: GOLD
+  metadata:
+    sourceMapping:
+    - name: AGG_TRIPS_DAILY
+      join:
+        joinCondition: "FROM {{ ref('GOLD', 'FACT_TRIPS') }} \"FACT_TRIPS\""
+      dependencies:
+      - locationName: GOLD
+        nodeName: FACT_TRIPS
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 9480021e-ac10-47f9-8066-23efa3064c46
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: DATE
+      defaultValue: ''
+      description: ''
+      name: PICKUP_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"FACT_TRIPS"."PICKUP_DATE"'
+      transform: '"FACT_TRIPS"."PICKUP_DATE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 01765db5-4350-4794-9410-dff0d4a74932
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: TRIP_COUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'COUNT(*)'
+      transform: 'COUNT(*)'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 75ad97b1-1fdd-4e5d-89cc-90417fa783b1
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: TOTAL_PASSENGERS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'SUM("FACT_TRIPS"."PASSENGER_COUNT")'
+      transform: 'SUM("FACT_TRIPS"."PASSENGER_COUNT")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: db5957fa-134c-4788-903b-bd7c6635fca2
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOTAL_DISTANCE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'SUM("FACT_TRIPS"."TRIP_DISTANCE")'
+      transform: 'SUM("FACT_TRIPS"."TRIP_DISTANCE")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 0ea6798e-2fc3-4527-9421-8a83340e7e8d
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOTAL_FARE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'SUM("FACT_TRIPS"."FARE_AMOUNT")'
+      transform: 'SUM("FACT_TRIPS"."FARE_AMOUNT")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 2a6dd492-0840-4b42-b007-fb237d2626be
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOTAL_TIP
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'SUM("FACT_TRIPS"."TIP_AMOUNT")'
+      transform: 'SUM("FACT_TRIPS"."TIP_AMOUNT")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 5bc19f66-d1cc-43e9-b687-f72e68270248
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOTAL_TOLLS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'SUM("FACT_TRIPS"."TOLLS_AMOUNT")'
+      transform: 'SUM("FACT_TRIPS"."TOLLS_AMOUNT")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 7b244c96-c48f-4005-8249-c4c7a3433e20
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOTAL_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'SUM("FACT_TRIPS"."TOTAL_AMOUNT")'
+      transform: 'SUM("FACT_TRIPS"."TOTAL_AMOUNT")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: ce620919-3625-46c2-9976-12dc817452d3
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: AVG_TRIP_DISTANCE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'AVG("FACT_TRIPS"."TRIP_DISTANCE")'
+      transform: 'AVG("FACT_TRIPS"."TRIP_DISTANCE")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: bb49fe4e-1569-4ce3-8178-805e21d08f66
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: AVG_FARE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'AVG("FACT_TRIPS"."FARE_AMOUNT")'
+      transform: 'AVG("FACT_TRIPS"."FARE_AMOUNT")'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: fadf258e-62a1-481a-ac2c-b1b353533fd7
+        stepCounter: ee000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: AVG_TIP
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'AVG("FACT_TRIPS"."TIP_AMOUNT")'
+      transform: 'AVG("FACT_TRIPS"."TIP_AMOUNT")'
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: AGG_TRIPS_DAILY
+  schema: ''
+  sources:
+  - id: dd000001-0001-0001-0001-000000000001
+    join: "FROM {{ ref('GOLD', 'FACT_TRIPS') }} \"FACT_TRIPS\""
+    locationName: GOLD
+    name: FACT_TRIPS
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

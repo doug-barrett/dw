@@ -1,0 +1,76 @@
+fileVersion: 1
+id: 3dab9355-4980-4cae-b992-5d696fdb5654
+name: STG_VENDOR
+operation:
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: "Staged vendor dimension with cleansed names"
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+      - name: STG_VENDOR
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
+        dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7d44dfc4-5cfd-4271-bade-debf121345a6
+          stepCounter: 3dab9355-4980-4cae-b992-5d696fdb5654
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dad8622d-b7ac-4eb4-a7df-8dbd209317c7
+                stepCounter: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
+            transform: "\"VENDOR\".\"VENDOR_ID\""
+        transform: "\"VENDOR\".\"VENDOR_ID\""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9c89dfdb-1d4f-494d-8034-b78de3f1fca3
+          stepCounter: 3dab9355-4980-4cae-b992-5d696fdb5654
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7cbaa1f2-502c-4de4-97e4-4a8e51048dcf
+                stepCounter: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
+            transform: "NVL(\"VENDOR\".\"VENDOR_NAME\", 'Unknown')"
+        transform: "NVL(\"VENDOR\".\"VENDOR_NAME\", 'Unknown')"
+        uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_VENDOR
+  schema: ""
+  sources:
+    - id: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
+      join: FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
+      locationName: BRONZE
+      name: VENDOR
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

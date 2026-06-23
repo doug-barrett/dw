@@ -1,0 +1,465 @@
+fileVersion: 1
+id: cc000001-0001-0001-0001-000000000001
+name: STG_FACT_TRIPS
+operation:
+  database: ''
+  deployEnabled: true
+  description: Fact preparation - joins trips with dimension surrogate keys
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+    - name: STG_FACT_TRIPS
+      join:
+        joinCondition: |-
+          FROM {{ ref('SILVER', 'STG_TRIPS') }} "STG_TRIPS"
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_VENDOR') }} "DIM_VENDOR"
+            ON "STG_TRIPS"."VENDOR_ID" = "DIM_VENDOR"."VENDOR_ID"
+            AND "DIM_VENDOR"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_LOCATION') }} "DIM_PU_LOCATION"
+            ON "STG_TRIPS"."PU_LOCATION_ID" = "DIM_PU_LOCATION"."LOCATION_ID"
+            AND "DIM_PU_LOCATION"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_LOCATION') }} "DIM_DO_LOCATION"
+            ON "STG_TRIPS"."DO_LOCATION_ID" = "DIM_DO_LOCATION"."LOCATION_ID"
+            AND "DIM_DO_LOCATION"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_PAYMENT_TYPE') }} "DIM_PAYMENT_TYPE"
+            ON "STG_TRIPS"."PAYMENT_TYPE_ID" = "DIM_PAYMENT_TYPE"."PAYMENT_TYPE_ID"
+            AND "DIM_PAYMENT_TYPE"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_RATE_CODE') }} "DIM_RATE_CODE"
+            ON "STG_TRIPS"."RATE_CODE_ID" = "DIM_RATE_CODE"."RATE_CODE_ID"
+            AND "DIM_RATE_CODE"."SYSTEM_CURRENT_FLAG" = 'Y'
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_TRIPS
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 180d2a9d-99d4-4f33-a1e4-fd0d245d21aa
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: ''
+      name: TRIP_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."TRIP_ID"'
+      transform: '"STG_TRIPS"."TRIP_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: c459a7bc-4cac-4604-b935-1f580d0b3e53
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      name: DIM_VENDOR_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"DIM_VENDOR"."DIM_VENDOR_KEY"'
+      transform: '"DIM_VENDOR"."DIM_VENDOR_KEY"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 9a716cfb-69d6-4586-9f99-a44183ae7535
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      name: DIM_PU_LOCATION_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"DIM_PU_LOCATION"."DIM_LOCATION_KEY"'
+      transform: '"DIM_PU_LOCATION"."DIM_LOCATION_KEY"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: f02c0227-2615-449f-847a-93c1569d26cf
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      name: DIM_DO_LOCATION_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"DIM_DO_LOCATION"."DIM_LOCATION_KEY"'
+      transform: '"DIM_DO_LOCATION"."DIM_LOCATION_KEY"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 3b94563d-b656-4c75-9fa4-d6a0786d0078
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      name: DIM_PAYMENT_TYPE_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"DIM_PAYMENT_TYPE"."DIM_PAYMENT_TYPE_KEY"'
+      transform: '"DIM_PAYMENT_TYPE"."DIM_PAYMENT_TYPE_KEY"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: c4f657fc-dcf8-481e-834e-e4e849d96f32
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      name: DIM_RATE_CODE_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"DIM_RATE_CODE"."DIM_RATE_CODE_KEY"'
+      transform: '"DIM_RATE_CODE"."DIM_RATE_CODE_KEY"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: b5b00dbd-05df-4e10-845a-532c9ba97f84
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: DATE
+      defaultValue: ''
+      description: ''
+      name: PICKUP_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: 'CAST("STG_TRIPS"."PICKUP_DATETIME" AS DATE)'
+      transform: 'CAST("STG_TRIPS"."PICKUP_DATETIME" AS DATE)'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 567a2952-9389-4f23-870b-d0d64f486bfd
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: TIMESTAMP_TZ(9)
+      defaultValue: ''
+      description: ''
+      name: PICKUP_DATETIME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."PICKUP_DATETIME"'
+      transform: '"STG_TRIPS"."PICKUP_DATETIME"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 81cc289b-ab11-49c1-8d2e-7b8526ed7557
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: TIMESTAMP_TZ(9)
+      defaultValue: ''
+      description: ''
+      name: DROPOFF_DATETIME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."DROPOFF_DATETIME"'
+      transform: '"STG_TRIPS"."DROPOFF_DATETIME"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 2ed408cb-0c10-46ec-bb5d-b4aa66cdd872
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TRIP_DISTANCE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."TRIP_DISTANCE"'
+      transform: '"STG_TRIPS"."TRIP_DISTANCE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 9a400fc3-93fa-412a-b508-31185fbb636e
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: PASSENGER_COUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."PASSENGER_COUNT"'
+      transform: '"STG_TRIPS"."PASSENGER_COUNT"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 4ab26929-d6cd-4692-82ca-145c9a27519c
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: FARE_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."FARE_AMOUNT"'
+      transform: '"STG_TRIPS"."FARE_AMOUNT"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 47f13c69-9a92-46c9-8f9f-a4489078a08a
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: EXTRA
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."EXTRA"'
+      transform: '"STG_TRIPS"."EXTRA"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: f2c53533-efaa-46b3-91fd-a51dbd0a79ed
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: MTA_TAX
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."MTA_TAX"'
+      transform: '"STG_TRIPS"."MTA_TAX"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: b7972d43-13b6-46af-a30b-d418ed485e53
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TIP_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."TIP_AMOUNT"'
+      transform: '"STG_TRIPS"."TIP_AMOUNT"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 3f229aa2-e1e0-4f3a-85e9-efc4fa78496b
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOLLS_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."TOLLS_AMOUNT"'
+      transform: '"STG_TRIPS"."TOLLS_AMOUNT"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1edf49f8-44e6-4f45-a1c5-6e0c3742ed8b
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: IMPROVEMENT_SURCHARGE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."IMPROVEMENT_SURCHARGE"'
+      transform: '"STG_TRIPS"."IMPROVEMENT_SURCHARGE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 4d349270-a3e2-481a-8da0-7137c478646f
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: CONGESTION_SURCHARGE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."CONGESTION_SURCHARGE"'
+      transform: '"STG_TRIPS"."CONGESTION_SURCHARGE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: f47b6f0d-6d3e-4951-9223-e94e13f4a0b1
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: CBD_CONGESTION_FEE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."CBD_CONGESTION_FEE"'
+      transform: '"STG_TRIPS"."CBD_CONGESTION_FEE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: ddf9c93a-3470-4a16-b8c2-9a8c63bdfb12
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: AIRPORT_FEE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."AIRPORT_FEE"'
+      transform: '"STG_TRIPS"."AIRPORT_FEE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: f5ca1eea-08e8-48b2-b527-49f37099b9a9
+        stepCounter: cc000001-0001-0001-0001-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: ''
+      name: TOTAL_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_TRIPS"."TOTAL_AMOUNT"'
+      transform: '"STG_TRIPS"."TOTAL_AMOUNT"'
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_FACT_TRIPS
+  schema: ''
+  sources:
+  - id: aa000001-0001-0001-0001-000000000008
+    join: |-
+      FROM {{ ref('SILVER', 'STG_TRIPS') }} "STG_TRIPS"
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_VENDOR') }} "DIM_VENDOR"
+            ON "STG_TRIPS"."VENDOR_ID" = "DIM_VENDOR"."VENDOR_ID"
+            AND "DIM_VENDOR"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_LOCATION') }} "DIM_PU_LOCATION"
+            ON "STG_TRIPS"."PU_LOCATION_ID" = "DIM_PU_LOCATION"."LOCATION_ID"
+            AND "DIM_PU_LOCATION"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_LOCATION') }} "DIM_DO_LOCATION"
+            ON "STG_TRIPS"."DO_LOCATION_ID" = "DIM_DO_LOCATION"."LOCATION_ID"
+            AND "DIM_DO_LOCATION"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_PAYMENT_TYPE') }} "DIM_PAYMENT_TYPE"
+            ON "STG_TRIPS"."PAYMENT_TYPE_ID" = "DIM_PAYMENT_TYPE"."PAYMENT_TYPE_ID"
+            AND "DIM_PAYMENT_TYPE"."SYSTEM_CURRENT_FLAG" = 'Y'
+          LEFT JOIN {{ ref_no_link('GOLD', 'DIM_RATE_CODE') }} "DIM_RATE_CODE"
+            ON "STG_TRIPS"."RATE_CODE_ID" = "DIM_RATE_CODE"."RATE_CODE_ID"
+            AND "DIM_RATE_CODE"."SYSTEM_CURRENT_FLAG" = 'Y'
+    locationName: SILVER
+    name: STG_TRIPS
+  sqlType: Stage
+  type: sql
+  version: 1
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+type: Node

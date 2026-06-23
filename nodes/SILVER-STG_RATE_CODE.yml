@@ -1,0 +1,72 @@
+fileVersion: 1
+id: d67549ef-28ee-457a-b465-aca57c0b4e85
+name: STG_RATE_CODE
+operation:
+  database: ''
+  deployEnabled: true
+  description: Staging node for rate code reference - cleans rate code data from Bronze
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+    - name: STG_RATE_CODE
+      join:
+        joinCondition: "FROM {{ ref('BRONZE', 'RATE_CODE') }} \"RATE_CODE\""
+      dependencies:
+      - locationName: BRONZE
+        nodeName: RATE_CODE
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 633b1ac5-cd7d-4fe5-b390-183a824db597
+        stepCounter: d67549ef-28ee-457a-b465-aca57c0b4e85
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: RATE_CODE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"RATE_CODE"."RATE_CODE_ID"'
+      transform: '"RATE_CODE"."RATE_CODE_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 94c9209f-085d-4102-b01a-ee089f80e313
+        stepCounter: d67549ef-28ee-457a-b465-aca57c0b4e85
+      config: {}
+      dataType: VARCHAR(21)
+      defaultValue: ''
+      description: ''
+      name: RATE_CODE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: "NVL(\"RATE_CODE\".\"RATE_CODE\", 'Unknown')"
+      transform: "NVL(\"RATE_CODE\".\"RATE_CODE\", 'Unknown')"
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_RATE_CODE
+  schema: ''
+  sources:
+  - id: 5cd27a49-0820-4312-9606-3042840d18fa
+    join: "FROM {{ ref('BRONZE', 'RATE_CODE') }} \"RATE_CODE\""
+    locationName: BRONZE
+    name: RATE_CODE
+  sqlType: Stage
+  type: sql
+  version: 1
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+type: Node

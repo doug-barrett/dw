@@ -1,0 +1,403 @@
+fileVersion: 1
+id: be891d0f-a385-4088-8427-ffc9b7299553
+name: DIM_DRIVER
+operation:
+  database: ''
+  deployEnabled: true
+  description: Driver dimension with SCD2 change tracking on key attributes
+  locationName: GOLD
+  metadata:
+    sourceMapping:
+    - name: DIM_DRIVER
+      join:
+        joinCondition: "FROM {{ ref('SILVER', 'STG_DRIVER') }} \"STG_DRIVER\""
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_DRIVER
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 24e01ca9-52dc-4b6b-8a27-ea5d5a2c2d7c
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      isSurrogateKey: true
+      name: DIM_DRIVER_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: cbf30bd1-74c5-4510-a4f8-5e4e003fd130
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: true
+      isChangeTracking: false
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: DRIVER_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."DRIVER_ID"'
+      transform: '"STG_DRIVER"."DRIVER_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 66f159d7-1342-47bb-b11a-5f129ac32a8d
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: false
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."VENDOR_ID"'
+      transform: '"STG_DRIVER"."VENDOR_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: b46e7973-7695-40e5-81e5-5bf1622d3cce
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: VARCHAR(50)
+      defaultValue: ''
+      description: ''
+      name: FIRST_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."FIRST_NAME"'
+      transform: '"STG_DRIVER"."FIRST_NAME"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 7ac9b81a-d129-4c88-91f0-d5a150c46129
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: VARCHAR(50)
+      defaultValue: ''
+      description: ''
+      name: LAST_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."LAST_NAME"'
+      transform: '"STG_DRIVER"."LAST_NAME"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 16c52eae-126f-4af0-8fa2-634558a0cee4
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: VARCHAR(10)
+      defaultValue: ''
+      description: ''
+      name: LICENSE_NUMBER
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."LICENSE_NUMBER"'
+      transform: '"STG_DRIVER"."LICENSE_NUMBER"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: fe8545e2-2b91-4e5b-a4e9-d08c86fe8938
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: DATE
+      defaultValue: ''
+      description: ''
+      name: LICENSE_EXPIRY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."LICENSE_EXPIRY"'
+      transform: '"STG_DRIVER"."LICENSE_EXPIRY"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 9ae42b07-39c5-4d2d-88bd-03390a65973e
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: ''
+      name: PHONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."PHONE"'
+      transform: '"STG_DRIVER"."PHONE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1d0e40b1-4d62-4c66-a19a-cb8149a1c742
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: VARCHAR(100)
+      defaultValue: ''
+      description: ''
+      name: EMAIL
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."EMAIL"'
+      transform: '"STG_DRIVER"."EMAIL"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 4f6c396f-79a5-487d-a55d-ac1bb5a36079
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: false
+      dataType: DATE
+      defaultValue: ''
+      description: ''
+      name: HIRE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."HIRE_DATE"'
+      transform: '"STG_DRIVER"."HIRE_DATE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 2b606172-4d66-4c1a-a3ea-a90101250e1b
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: NUMBER(2,1)
+      defaultValue: ''
+      description: ''
+      name: RATING
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."RATING"'
+      transform: '"STG_DRIVER"."RATING"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 51d1cd33-c9ed-4cc2-8c20-9395685b475e
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      isBusinessKey: false
+      isChangeTracking: true
+      dataType: BOOLEAN
+      defaultValue: ''
+      description: ''
+      name: IS_ACTIVE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_DRIVER"."IS_ACTIVE"'
+      transform: '"STG_DRIVER"."IS_ACTIVE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: a25d6422-3a8e-4b0e-9126-54a60fb150d8
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: ''
+      isSystemVersion: true
+      name: SYSTEM_VERSION
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1bf601fb-8599-4da5-99ef-16a16fc6cc3e
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: VARCHAR
+      defaultValue: ''
+      description: ''
+      isSystemCurrentFlag: true
+      name: SYSTEM_CURRENT_FLAG
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 2926c358-6ca0-42b2-9567-eb764973f573
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemStartDate: true
+      name: SYSTEM_START_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: cac3a086-43ac-42eb-a010-5c709c8abdd8
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemEndDate: true
+      name: SYSTEM_END_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: ad7e2a24-90fa-41f5-a257-2baf15c82955
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemCreateDate: true
+      name: SYSTEM_CREATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: b82e2850-df3e-4ea2-955f-ad8a054219c9
+        stepCounter: be891d0f-a385-4088-8427-ffc9b7299553
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemUpdateDate: true
+      name: SYSTEM_UPDATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: DIM_DRIVER
+  schema: ''
+  sources:
+  - id: c65ec444-b794-4873-ada2-747c34608439
+    join: "FROM {{ ref('SILVER', 'STG_DRIVER') }} \"STG_DRIVER\""
+    locationName: SILVER
+    name: STG_DRIVER
+  sqlType: Dimension
+  type: sql
+  version: 1
+  config:
+    testsEnabled: true
+type: Node

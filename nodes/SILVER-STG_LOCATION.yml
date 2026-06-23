@@ -1,0 +1,110 @@
+fileVersion: 1
+id: f28d9be1-21f1-46b4-8e9f-4059ec4a9dbe
+name: STG_LOCATION
+operation:
+  database: ''
+  deployEnabled: true
+  description: Staged location zones with cleansed null values
+  locationName: SILVER
+  metadata:
+    sourceMapping:
+    - name: STG_LOCATION
+      join:
+        joinCondition: "FROM {{ ref('BRONZE', 'LOCATION') }} \"LOCATION\""
+      dependencies:
+      - locationName: BRONZE
+        nodeName: LOCATION
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 7fec50e7-b39c-4ad7-9f14-ec8c88ea751c
+        stepCounter: f28d9be1-21f1-46b4-8e9f-4059ec4a9dbe
+      config: {}
+      dataType: NUMBER(3,0)
+      defaultValue: ''
+      description: ''
+      name: LOCATION_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"LOCATION"."LOCATION_ID"'
+      transform: '"LOCATION"."LOCATION_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: a6e9bff5-0f45-4559-8e41-08bf3746a325
+        stepCounter: f28d9be1-21f1-46b4-8e9f-4059ec4a9dbe
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: BOROUGH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: "NVL(\"LOCATION\".\"BOROUGH\", 'Unknown')"
+      transform: "NVL(\"LOCATION\".\"BOROUGH\", 'Unknown')"
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 20c6dd94-5f50-4177-bdef-0d7e285d12c7
+        stepCounter: f28d9be1-21f1-46b4-8e9f-4059ec4a9dbe
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: "NVL(\"LOCATION\".\"ZONE\", 'Unknown')"
+      transform: "NVL(\"LOCATION\".\"ZONE\", 'Unknown')"
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: d93c6377-9208-4497-98ec-011d953ae240
+        stepCounter: f28d9be1-21f1-46b4-8e9f-4059ec4a9dbe
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: SERVICE_ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: "NVL(\"LOCATION\".\"SERVICE_ZONE\", 'Unknown')"
+      transform: "NVL(\"LOCATION\".\"SERVICE_ZONE\", 'Unknown')"
+      uniqueKey: false
+  isMultisource: false
+  materializationType: table
+  name: STG_LOCATION
+  schema: ''
+  sources:
+  - id: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+    join: "FROM {{ ref('BRONZE', 'LOCATION') }} \"LOCATION\""
+    locationName: BRONZE
+    name: LOCATION
+  sqlType: Stage
+  type: sql
+  version: 1
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+type: Node
