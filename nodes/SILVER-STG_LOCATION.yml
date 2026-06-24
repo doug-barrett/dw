@@ -3,20 +3,31 @@ id: de263dd4-d12c-4a97-8958-18f8f17a7d62
 name: STG_LOCATION
 operation:
   config:
-    insertStrategy: INSERT
     postSQL: ""
     preSQL: ""
     testsEnabled: true
-    truncateBefore: true
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
   locationName: SILVER
-  materializationType: table
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c257aa8a-019f-4aee-bd30-cb24a7d4f144
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: STG_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
       - appliedColumnTests:
           hasNull: true
           isDistinct: true
@@ -139,6 +150,84 @@ operation:
               - columnCounter: 792c622d-4e17-422a-b377-fe1c835a7177
                 stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
             transform: PARSE_JSON(CURRENT_QUERY_TAG()):"coalesce"."jobName"::STRING
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e256050-a9de-4ba5-83ed-389f353a3951
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fda41d5a-7f17-4f81-a412-8d10521cb199
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ef8f45ca-7bf0-4ee6-a210-2ee083b7dcf7
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 79b6b64e-0aaa-428a-91df-7aac4df6eeaa
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6c063767-0937-4eec-833e-70b74807823f
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 50148bb3-6655-48d3-b174-7d37622183b6
+          stepCounter: de263dd4-d12c-4a97-8958-18f8f17a7d62
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
     cteString: ""
     enabledColumnTestIDs:
       - hasNull
@@ -158,7 +247,7 @@ operation:
   name: STG_LOCATION
   overrideSQL: false
   schema: ""
-  sqlType: Stage
+  sqlType: persistentStage
   type: sql
   version: 1
 type: Node
