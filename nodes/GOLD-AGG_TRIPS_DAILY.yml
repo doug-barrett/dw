@@ -1,0 +1,218 @@
+fileVersion: 1
+id: a1b2c3d4-eeee-4000-8000-000000000014
+name: AGG_TRIPS_DAILY
+operation:
+  database: ''
+  deployEnabled: true
+  description: Daily trip aggregation by pickup location borough and zone
+  locationName: GOLD
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-001
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: DATE
+      defaultValue: ''
+      description: Trip date
+      name: TRIP_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-007
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: CAST("FACT_TRIPS"."PICKUP_DATETIME" AS DATE)
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-002
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: Pickup borough
+      name: BOROUGH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: dim-loc-col-003
+          stepCounter: a1b2c3d4-9999-4000-8000-000000000009
+        transform: '"DIM_LOCATION"."BOROUGH"'
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-003
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: Pickup zone
+      name: ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: dim-loc-col-004
+          stepCounter: a1b2c3d4-9999-4000-8000-000000000009
+        transform: '"DIM_LOCATION"."ZONE"'
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-004
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Total number of trips
+      name: TRIP_COUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-001
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: COUNT("FACT_TRIPS"."TRIP_ID")
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-005
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: NUMBER(18,2)
+      defaultValue: ''
+      description: Total revenue
+      name: TOTAL_REVENUE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-014
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: SUM("FACT_TRIPS"."TOTAL_AMOUNT")
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-006
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: NUMBER(10,2)
+      defaultValue: ''
+      description: Average trip distance
+      name: AVG_DISTANCE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-010
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: AVG("FACT_TRIPS"."TRIP_DISTANCE")
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-007
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Total passengers
+      name: TOTAL_PASSENGERS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-009
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: SUM("FACT_TRIPS"."PASSENGER_COUNT")
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-008
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: NUMBER(10,2)
+      defaultValue: ''
+      description: Average fare per trip
+      name: AVG_FARE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-011
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: AVG("FACT_TRIPS"."FARE_AMOUNT")
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: agg-daily-col-009
+        stepCounter: a1b2c3d4-eeee-4000-8000-000000000014
+      config: {}
+      dataType: NUMBER(18,2)
+      defaultValue: ''
+      description: Total tips
+      name: TOTAL_TIPS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: fct-trip-col-012
+          stepCounter: a1b2c3d4-dddd-4000-8000-000000000013
+        transform: SUM("FACT_TRIPS"."TIP_AMOUNT")
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: FACT_TRIPS
+      join:
+        joinCondition: "FROM {{ ref('GOLD', 'FACT_TRIPS') }} \"FACT_TRIPS\"\nLEFT JOIN {{ ref('GOLD', 'DIM_LOCATION') }} \"DIM_LOCATION\"\n  ON \"FACT_TRIPS\".\"DIM_PU_LOCATION_KEY\" = \"DIM_LOCATION\"\
+          .\"DIM_LOCATION_KEY\"\nGROUP BY\n  CAST(\"FACT_TRIPS\".\"PICKUP_DATETIME\" AS DATE),\n  \"DIM_LOCATION\".\"BOROUGH\",\n  \"DIM_LOCATION\".\"ZONE\""
+      dependencies:
+      - locationName: GOLD
+        nodeName: FACT_TRIPS
+      - locationName: GOLD
+        nodeName: DIM_LOCATION
+  name: AGG_TRIPS_DAILY
+  schema: ''
+  sqlType: View
+  type: sql
+  version: 1
+  config: {}
+  isMultisource: false
+  materializationType: view
+type: Node

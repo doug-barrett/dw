@@ -1,0 +1,259 @@
+fileVersion: 1
+id: a1b2c3d4-8888-4000-8000-000000000008
+name: DIM_VENDOR
+operation:
+  database: ''
+  deployEnabled: true
+  description: Vendor dimension with SCD Type 2 history tracking
+  locationName: GOLD
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-001
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: Surrogate key
+      name: DIM_VENDOR_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+      keyColumnType: surrogateKey
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-002
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: Vendor business key
+      isBusinessKey: true
+      isChangeTracking: false
+      name: VENDOR_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: stg-vendor-col-001
+          stepCounter: a1b2c3d4-2222-4000-8000-000000000002
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-003
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: Vendor name
+      isBusinessKey: false
+      isChangeTracking: true
+      name: VENDOR_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: stg-vendor-col-002
+          stepCounter: a1b2c3d4-2222-4000-8000-000000000002
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-004
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: Vendor phone number
+      isBusinessKey: false
+      isChangeTracking: true
+      name: PHONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: stg-vendor-col-003
+          stepCounter: a1b2c3d4-2222-4000-8000-000000000002
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-005
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: NUMBER(3,0)
+      defaultValue: ''
+      description: Number of drivers
+      isBusinessKey: false
+      isChangeTracking: true
+      name: DRIVER_COUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: stg-vendor-col-004
+          stepCounter: a1b2c3d4-2222-4000-8000-000000000002
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-006
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: SCD version number
+      name: SYSTEM_VERSION
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysVersion
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-007
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: VARCHAR
+      defaultValue: ''
+      description: Current record flag
+      name: SYSTEM_CURRENT_FLAG
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysCurrentFlag
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-008
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective start date
+      name: SYSTEM_START_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysStartDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-009
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective end date
+      name: SYSTEM_END_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      systemColumnType: sysEndDate
+      transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-010
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record creation timestamp
+      name: SYSTEM_CREATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysCreateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vnd-col-011
+        stepCounter: a1b2c3d4-8888-4000-8000-000000000008
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record last update timestamp
+      name: SYSTEM_UPDATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysUpdateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    sourceMapping:
+    - name: STG_VENDOR
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_VENDOR') }} "STG_VENDOR"
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_VENDOR
+  name: DIM_VENDOR
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+  config:
+    testsEnabled: true
+  isMultisource: false
+  materializationType: table
+type: Node
