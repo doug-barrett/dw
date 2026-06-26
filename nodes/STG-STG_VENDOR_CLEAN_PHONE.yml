@@ -1,0 +1,183 @@
+fileVersion: 1
+id: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+name: STG_VENDOR_CLEAN_PHONE
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STG
+  materializationType: table
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8d0a03be-af6d-44d6-8587-15e120d86c23
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"VENDOR_ID\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0c963114-b64c-4944-8212-572908ada3ae
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: PHONE_DIGITS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "REGEXP_REPLACE(PHONE, '[^0-9]', '')"
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6b2c03eb-b19d-4b9c-8806-eb6e3f218b5b
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: DRIVERS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"DRIVERS\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: dfcbfc3f-247f-4d34-9f59-6fd70cb5aa6d
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_ADDRESS1
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"HQ_ADDRESS1\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 15b1f3b3-7197-402f-ab4f-db3f954628ce
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"HQ_CITY\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b1f9384-04fa-45f0-a8c3-9e7025f5044d
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_STATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"HQ_STATE\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0db2d85-8e78-4f13-912a-6aa639ff43e4
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"HQ_COUNTRY\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e1ed6b58-87d0-4220-baf8-b80e5231b885
+          stepCounter: 81e6b22e-f04f-494d-a72d-b5f93afe745f
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_ZIP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_DETAILS\".\"HQ_ZIP\""
+        transform: ""
+        uniqueKey: false
+    sourceMapping:
+      - name: STG_VENDOR_CLEAN_PHONE
+        join:
+          joinCondition: |-
+            FROM {{ ref("STG", "STG_VENDOR_DETAILS") }}
+        dependencies:
+          - locationName: STG
+            nodeName: STG_VENDOR_DETAILS
+        noLinkRefs: []
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+  name: STG_VENDOR_CLEAN_PHONE
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

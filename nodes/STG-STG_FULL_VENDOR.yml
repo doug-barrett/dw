@@ -1,0 +1,205 @@
+fileVersion: 1
+id: c0c16cb2-e1d8-4592-b762-199c44316cd2
+name: STG_FULL_VENDOR
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: true
+  locationName: STG
+  materializationType: table
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 83356917-9526-4a60-aee2-8c6482e168bc
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR\".\"VENDOR_ID\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7ce46633-2e91-4098-b7bb-46687328d896
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR\".\"VENDOR_NAME\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a7ce8125-eeae-4296-a4fc-07653ea2d608
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: PHONE_DIGITS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"PHONE_DIGITS\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2f4db9c9-d647-49c2-8769-7bdd512ff3b4
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: DRIVERS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"DRIVERS\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6857d72a-373a-42da-a32c-fd02c89e24cb
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_ADDRESS1
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"HQ_ADDRESS1\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 951549f6-6579-4aa5-9d6a-599e620dc85f
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_CITY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"HQ_CITY\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9b611933-17d8-40e0-80e2-8cb2bd6f1a3b
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_STATE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"HQ_STATE\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e3f02e08-f4e9-4093-b743-ff3eff576d1f
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_COUNTRY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"HQ_COUNTRY\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2715813e-ee03-4ae1-b303-3e951dd7c1f5
+          stepCounter: c0c16cb2-e1d8-4592-b762-199c44316cd2
+        config: {}
+        dataType: VARCHAR(256)
+        defaultValue: ""
+        description: ""
+        name: HQ_ZIP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_CLEAN_PHONE\".\"HQ_ZIP\""
+        transform: ""
+        uniqueKey: false
+    sourceMapping:
+      - name: STG_FULL_VENDOR
+        join:
+          joinCondition: |-
+            FROM {{ ref("STG", "STG_VENDOR") }}
+            JOIN {{ ref("STG", "STG_VENDOR_CLEAN_PHONE") }} USING (VENDOR_ID)
+        dependencies:
+          - locationName: STG
+            nodeName: STG_VENDOR
+          - locationName: STG
+            nodeName: STG_VENDOR_CLEAN_PHONE
+        noLinkRefs: []
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+  name: STG_FULL_VENDOR
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

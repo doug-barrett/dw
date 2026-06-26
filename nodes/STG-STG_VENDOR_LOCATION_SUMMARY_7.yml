@@ -1,0 +1,70 @@
+fileVersion: 1
+id: 8654fae0-9170-44ad-9f3b-a197c15beb7e
+name: STG_VENDOR_LOCATION_SUMMARY_7
+operation:
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: STG
+  materializationType: table
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: f28fe891-911d-46de-8bfc-a9b3876afc4f
+          stepCounter: 8654fae0-9170-44ad-9f3b-a197c15beb7e
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"STG_VENDOR_LOCATION_ACTIVITY_7\".\"VENDOR_ID\""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b1c9037-7612-4099-994c-eae09acb9007
+          stepCounter: 8654fae0-9170-44ad-9f3b-a197c15beb7e
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: TOP_5_ZONES
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "LISTAGG(ZONE || ' ($' || TO_CHAR(LOC_FARE_AMOUNT_7,'9,999,999.00')||')', ', ') WITHIN GROUP (ORDER BY LOC_FARE_AMOUNT_7 DESC)"
+        transform: ""
+        uniqueKey: false
+    sourceMapping:
+      - name: STG_VENDOR_LOCATION_SUMMARY_7
+        join:
+          joinCondition: |-
+            FROM {{ ref("STG", "STG_VENDOR_LOCATION_ACTIVITY_7") }}
+            GROUP BY 1
+        dependencies:
+          - locationName: STG
+            nodeName: STG_VENDOR_LOCATION_ACTIVITY_7
+        noLinkRefs: []
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+  name: STG_VENDOR_LOCATION_SUMMARY_7
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
