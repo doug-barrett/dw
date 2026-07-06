@@ -1,0 +1,67 @@
+fileVersion: 1
+id: a1b2c3d4-0005-4000-8000-000000000005
+name: STG_RATE_CODE
+operation:
+  database: ''
+  deployEnabled: true
+  description: Staging layer for rate code reference data
+  locationName: SILVER
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: sv-rtc-001
+        stepCounter: a1b2c3d4-0005-4000-8000-000000000005
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      name: RATE_CODE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 22f491a3-10a8-41ca-b8b6-ef6ffb8ff87f
+          stepCounter: 5cd27a49-0820-4312-9606-3042840d18fa
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: sv-rtc-002
+        stepCounter: a1b2c3d4-0005-4000-8000-000000000005
+      config: {}
+      dataType: VARCHAR(21)
+      defaultValue: ''
+      description: ''
+      name: RATE_CODE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: b582aa66-2294-45b8-9ddf-e4006183e94f
+          stepCounter: 5cd27a49-0820-4312-9606-3042840d18fa
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: RATE_CODE
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'RATE_CODE') }} "RATE_CODE"
+      dependencies:
+      - locationName: BRONZE
+        nodeName: RATE_CODE
+  name: STG_RATE_CODE
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+type: Node

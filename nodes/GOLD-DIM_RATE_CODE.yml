@@ -1,0 +1,71 @@
+fileVersion: 1
+id: b1b2c3d4-0005-4000-8000-000000000005
+name: DIM_RATE_CODE
+operation:
+  database: ''
+  deployEnabled: true
+  description: Rate code dimension - standard rate, JFK, Newark, etc.
+  locationName: GOLD
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-rtc-001
+        stepCounter: b1b2c3d4-0005-4000-8000-000000000005
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: true
+      isChangeTracking: false
+      name: RATE_CODE_ID
+      nullable: false
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-rtc-001
+          stepCounter: a1b2c3d4-0005-4000-8000-000000000005
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-rtc-002
+        stepCounter: b1b2c3d4-0005-4000-8000-000000000005
+      config: {}
+      dataType: VARCHAR(21)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: false
+      isChangeTracking: true
+      name: RATE_CODE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-rtc-002
+          stepCounter: a1b2c3d4-0005-4000-8000-000000000005
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: STG_RATE_CODE
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_RATE_CODE') }} "STG_RATE_CODE"
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_RATE_CODE
+  name: DIM_RATE_CODE
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+type: Node

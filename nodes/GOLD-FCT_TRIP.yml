@@ -1,0 +1,509 @@
+fileVersion: 1
+id: c1b2c3d4-0001-4000-8000-000000000001
+name: FCT_TRIP
+operation:
+  database: ''
+  deployEnabled: true
+  description: Trip fact table - measurable taxi trip events with FK references to dimensions
+  locationName: GOLD
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-001
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Unique trip identifier
+      isBusinessKey: true
+      name: TRIP_ID
+      nullable: false
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-001
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-002
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: FK to DIM_VENDOR
+      isBusinessKey: false
+      name: VENDOR_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-002
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-003
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: FK to DIM_PAYMENT_TYPE
+      isBusinessKey: false
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-003
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-004
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: FK to DIM_RATE_CODE
+      isBusinessKey: false
+      name: RATE_CODE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-004
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-005
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: TIMESTAMP_TZ(9)
+      defaultValue: ''
+      description: Trip pickup timestamp
+      isBusinessKey: false
+      name: PICKUP_DATETIME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-005
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-006
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: TIMESTAMP_TZ(9)
+      defaultValue: ''
+      description: Trip dropoff timestamp
+      isBusinessKey: false
+      name: DROPOFF_DATETIME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-006
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-007
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: DATE
+      defaultValue: ''
+      description: FK to DIM_DATE - pickup date
+      isBusinessKey: false
+      name: PICKUP_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-005
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: CAST("PICKUP_DATETIME" AS DATE)
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-008
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: FK to DIM_LOCATION - pickup location
+      isBusinessKey: false
+      name: PU_LOCATION_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-007
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-009
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: FK to DIM_LOCATION - dropoff location
+      isBusinessKey: false
+      name: DO_LOCATION_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-008
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-010
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Trip distance in miles
+      isBusinessKey: false
+      name: TRIP_DISTANCE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-009
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-011
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Number of passengers
+      isBusinessKey: false
+      name: PASSENGER_COUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-010
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-012
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Base fare amount
+      isBusinessKey: false
+      name: FARE_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-011
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-013
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Tip amount
+      isBusinessKey: false
+      name: TIP_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-012
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-014
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Tolls amount
+      isBusinessKey: false
+      name: TOLLS_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-013
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-015
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Total trip amount including all fees
+      isBusinessKey: false
+      name: TOTAL_AMOUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-014
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-016
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Airport fee
+      isBusinessKey: false
+      name: AIRPORT_FEE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-015
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-017
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Congestion surcharge
+      isBusinessKey: false
+      name: CONGESTION_SURCHARGE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-016
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-018
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Improvement surcharge
+      isBusinessKey: false
+      name: IMPROVEMENT_SURCHARGE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-017
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-019
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: MTA tax
+      isBusinessKey: false
+      name: MTA_TAX
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-018
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-020
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: FLOAT
+      defaultValue: ''
+      description: Extra charges
+      isBusinessKey: false
+      name: EXTRA
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-019
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-021
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: Store and forward flag
+      isBusinessKey: false
+      name: STORE_AND_FWD_FLAG
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-020
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gf-trp-022
+        stepCounter: c1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: VARCHAR(10)
+      defaultValue: ''
+      description: Source system identifier (CAB or YELLOW_CAB)
+      isBusinessKey: false
+      name: TRIP_SOURCE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-trp-021
+          stepCounter: a1b2c3d4-0007-4000-8000-000000000007
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: STG_TRIPS
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_TRIPS') }} "STG_TRIPS"
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_TRIPS
+  name: FCT_TRIP
+  schema: ''
+  sqlType: Fact
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+type: Node

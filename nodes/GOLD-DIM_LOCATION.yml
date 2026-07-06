@@ -1,0 +1,117 @@
+fileVersion: 1
+id: b1b2c3d4-0001-4000-8000-000000000001
+name: DIM_LOCATION
+operation:
+  database: ''
+  deployEnabled: true
+  description: Location dimension - NYC taxi zones with borough and service zone attributes
+  locationName: GOLD
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-loc-001
+        stepCounter: b1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: NUMBER(3,0)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: true
+      isChangeTracking: false
+      name: LOCATION_ID
+      nullable: false
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sl-loc-001
+          stepCounter: a1b2c3d4-0001-4000-8000-000000000001
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-loc-002
+        stepCounter: b1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: false
+      isChangeTracking: true
+      name: BOROUGH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sl-loc-002
+          stepCounter: a1b2c3d4-0001-4000-8000-000000000001
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-loc-003
+        stepCounter: b1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: false
+      isChangeTracking: true
+      name: ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sl-loc-003
+          stepCounter: a1b2c3d4-0001-4000-8000-000000000001
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-loc-004
+        stepCounter: b1b2c3d4-0001-4000-8000-000000000001
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: false
+      isChangeTracking: true
+      name: SERVICE_ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sl-loc-004
+          stepCounter: a1b2c3d4-0001-4000-8000-000000000001
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: STG_LOCATION
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_LOCATION') }} "STG_LOCATION"
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_LOCATION
+  name: DIM_LOCATION
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+type: Node

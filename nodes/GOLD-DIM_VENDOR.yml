@@ -1,0 +1,71 @@
+fileVersion: 1
+id: b1b2c3d4-0002-4000-8000-000000000002
+name: DIM_VENDOR
+operation:
+  database: ''
+  deployEnabled: true
+  description: Vendor dimension - taxi fleet operators
+  locationName: GOLD
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-vnd-001
+        stepCounter: b1b2c3d4-0002-4000-8000-000000000002
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: true
+      isChangeTracking: false
+      name: VENDOR_ID
+      nullable: false
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-vnd-001
+          stepCounter: a1b2c3d4-0002-4000-8000-000000000002
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: gd-vnd-002
+        stepCounter: b1b2c3d4-0002-4000-8000-000000000002
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: false
+      isChangeTracking: true
+      name: VENDOR_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: sv-vnd-002
+          stepCounter: a1b2c3d4-0002-4000-8000-000000000002
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: STG_VENDOR
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_VENDOR') }} "STG_VENDOR"
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_VENDOR
+  name: DIM_VENDOR
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+type: Node
