@@ -1,0 +1,209 @@
+fileVersion: 1
+id: dim-payment-type-001
+name: DIM_PAYMENT_TYPE
+operation:
+  config:
+    testsEnabled: true
+  database: ''
+  deployEnabled: true
+  description: Payment type dimension (SCD Type 2)
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-001
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: Surrogate key
+      keyColumnType: surrogateKey
+      name: DIM_PAYMENT_TYPE_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-002
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Payment type business key
+      isBusinessKey: true
+      isChangeTracking: false
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_PAYMENT_TYPE"."PAYMENT_TYPE_ID"'
+      transform: '"STG_PAYMENT_TYPE"."PAYMENT_TYPE_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-003
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: VARCHAR(50)
+      defaultValue: ''
+      description: Payment type description
+      isBusinessKey: false
+      isChangeTracking: true
+      name: PAYMENT_TYPE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_PAYMENT_TYPE"."PAYMENT_TYPE"'
+      transform: '"STG_PAYMENT_TYPE"."PAYMENT_TYPE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-004
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: SCD version number
+      name: SYSTEM_VERSION
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysVersion
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-005
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: VARCHAR
+      defaultValue: ''
+      description: Current record flag
+      name: SYSTEM_CURRENT_FLAG
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysCurrentFlag
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-006
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective start date
+      name: SYSTEM_START_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysStartDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-007
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective end date
+      name: SYSTEM_END_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      systemColumnType: sysEndDate
+      transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-008
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record creation timestamp
+      name: SYSTEM_CREATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysCreateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-payment-type-001-col-009
+        stepCounter: dim-payment-type-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record last update timestamp
+      name: SYSTEM_UPDATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysUpdateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    sourceMapping:
+    - dependencies:
+      - locationName: SILVER
+        nodeName: STG_PAYMENT_TYPE
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_PAYMENT_TYPE') }} "STG_PAYMENT_TYPE"
+      name: STG_PAYMENT_TYPE
+  name: DIM_PAYMENT_TYPE
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

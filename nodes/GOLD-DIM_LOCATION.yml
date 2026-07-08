@@ -1,0 +1,251 @@
+fileVersion: 1
+id: dim-location-001
+name: DIM_LOCATION
+operation:
+  config:
+    testsEnabled: true
+  database: ''
+  deployEnabled: true
+  description: Location dimension (SCD Type 2), role-played as pickup and dropoff
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-001
+        stepCounter: dim-location-001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: Surrogate key
+      keyColumnType: surrogateKey
+      name: DIM_LOCATION_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-002
+        stepCounter: dim-location-001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Location business key
+      isBusinessKey: true
+      isChangeTracking: false
+      name: LOCATION_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_LOCATION"."LOCATION_ID"'
+      transform: '"STG_LOCATION"."LOCATION_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-003
+        stepCounter: dim-location-001
+      config: {}
+      dataType: VARCHAR(100)
+      defaultValue: ''
+      description: Borough name
+      isBusinessKey: false
+      isChangeTracking: true
+      name: BOROUGH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_LOCATION"."BOROUGH"'
+      transform: '"STG_LOCATION"."BOROUGH"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-004
+        stepCounter: dim-location-001
+      config: {}
+      dataType: VARCHAR(100)
+      defaultValue: ''
+      description: Zone name
+      isBusinessKey: false
+      isChangeTracking: true
+      name: ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_LOCATION"."ZONE"'
+      transform: '"STG_LOCATION"."ZONE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-005
+        stepCounter: dim-location-001
+      config: {}
+      dataType: VARCHAR(100)
+      defaultValue: ''
+      description: Service zone classification
+      isBusinessKey: false
+      isChangeTracking: true
+      name: SERVICE_ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_LOCATION"."SERVICE_ZONE"'
+      transform: '"STG_LOCATION"."SERVICE_ZONE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-006
+        stepCounter: dim-location-001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: SCD version number
+      name: SYSTEM_VERSION
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysVersion
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-007
+        stepCounter: dim-location-001
+      config: {}
+      dataType: VARCHAR
+      defaultValue: ''
+      description: Current record flag
+      name: SYSTEM_CURRENT_FLAG
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysCurrentFlag
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-008
+        stepCounter: dim-location-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective start date
+      name: SYSTEM_START_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysStartDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-009
+        stepCounter: dim-location-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective end date
+      name: SYSTEM_END_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      systemColumnType: sysEndDate
+      transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-010
+        stepCounter: dim-location-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record creation timestamp
+      name: SYSTEM_CREATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysCreateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-location-001-col-011
+        stepCounter: dim-location-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record last update timestamp
+      name: SYSTEM_UPDATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysUpdateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    sourceMapping:
+    - dependencies:
+      - locationName: SILVER
+        nodeName: STG_LOCATION
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_LOCATION') }} "STG_LOCATION"
+      name: STG_LOCATION
+  name: DIM_LOCATION
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

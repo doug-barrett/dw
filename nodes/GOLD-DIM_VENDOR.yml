@@ -1,0 +1,274 @@
+fileVersion: 1
+id: dim-vendor-001
+name: DIM_VENDOR
+operation:
+  config:
+    testsEnabled: true
+  database: ''
+  deployEnabled: true
+  description: Vendor dimension (SCD Type 2), denormalized from vendor + vendor details
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-001
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: Surrogate key
+      keyColumnType: surrogateKey
+      name: DIM_VENDOR_KEY
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-002
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Vendor business key
+      isBusinessKey: true
+      isChangeTracking: false
+      name: VENDOR_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_VENDOR"."VENDOR_ID"'
+      transform: '"STG_VENDOR"."VENDOR_ID"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-003
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: VARCHAR(100)
+      defaultValue: ''
+      description: Vendor name
+      isBusinessKey: false
+      isChangeTracking: true
+      name: VENDOR_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_VENDOR"."VENDOR_NAME"'
+      transform: '"STG_VENDOR"."VENDOR_NAME"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-004
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: VARCHAR(500)
+      defaultValue: ''
+      description: Vendor HQ address
+      isBusinessKey: false
+      isChangeTracking: true
+      name: HQ_ADDRESS_DETAILS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_VENDOR_DETAILS"."HQ_ADDRESS_DETAILS"'
+      transform: '"STG_VENDOR_DETAILS"."HQ_ADDRESS_DETAILS"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-005
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: Vendor phone number
+      isBusinessKey: false
+      isChangeTracking: true
+      name: PHONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_VENDOR_DETAILS"."PHONE"'
+      transform: '"STG_VENDOR_DETAILS"."PHONE"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-006
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Number of drivers
+      isBusinessKey: false
+      isChangeTracking: true
+      name: DRIVER_COUNT
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: '"STG_VENDOR_DETAILS"."DRIVERS"'
+      transform: '"STG_VENDOR_DETAILS"."DRIVERS"'
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-007
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: NUMBER
+      defaultValue: ''
+      description: SCD version number
+      name: SYSTEM_VERSION
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysVersion
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-008
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: VARCHAR
+      defaultValue: ''
+      description: Current record flag
+      name: SYSTEM_CURRENT_FLAG
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      systemColumnType: sysCurrentFlag
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-009
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective start date
+      name: SYSTEM_START_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysStartDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-010
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record effective end date
+      name: SYSTEM_END_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      systemColumnType: sysEndDate
+      transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-011
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record creation timestamp
+      name: SYSTEM_CREATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysCreateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: dim-vendor-001-col-012
+        stepCounter: dim-vendor-001
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: Record last update timestamp
+      name: SYSTEM_UPDATE_DATE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      systemColumnType: sysUpdateDate
+      transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      uniqueKey: false
+    sourceMapping:
+    - dependencies:
+      - locationName: SILVER
+        nodeName: STG_VENDOR
+      - locationName: SILVER
+        nodeName: STG_VENDOR_DETAILS
+      join:
+        joinCondition: "FROM {{ ref('SILVER', 'STG_VENDOR') }} \"STG_VENDOR\"\nLEFT JOIN {{ ref('SILVER', 'STG_VENDOR_DETAILS') }} \"STG_VENDOR_DETAILS\"\n  ON \"STG_VENDOR\".\"VENDOR_ID\" = \"STG_VENDOR_DETAILS\".\"VENDOR_ID\""
+      name: STG_VENDOR
+  name: DIM_VENDOR
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

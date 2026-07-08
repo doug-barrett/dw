@@ -1,0 +1,115 @@
+fileVersion: 1
+id: stg-vendor-details-001
+name: STG_VENDOR_DETAILS
+operation:
+  database: ''
+  deployEnabled: true
+  description: Staged vendor detail records
+  locationName: SILVER
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: stg-vd-01
+        stepCounter: stg-vendor-details-001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Vendor identifier
+      name: VENDOR_ID
+      nullable: false
+      primaryKey: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 0a9acaad-4cb2-4915-b475-b3c4d9e081f1
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: stg-vd-02
+        stepCounter: stg-vendor-details-001
+      config: {}
+      dataType: VARCHAR(500)
+      defaultValue: ''
+      description: Vendor HQ address
+      name: HQ_ADDRESS_DETAILS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ea97cfb5-9e64-4ba0-b86f-1ed27aa876ff
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: TO_VARCHAR("BRONZE"."VENDOR_DETAILS"."HQ_ADDRESS_DETAILS")
+      transform: TO_VARCHAR("BRONZE"."VENDOR_DETAILS"."HQ_ADDRESS_DETAILS")
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: stg-vd-03
+        stepCounter: stg-vendor-details-001
+      config: {}
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: Vendor phone number
+      name: PHONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: e8ace0bf-a4b4-409e-8ff8-4cf96ce712be
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: stg-vd-04
+        stepCounter: stg-vendor-details-001
+      config: {}
+      dataType: NUMBER(18,0)
+      defaultValue: ''
+      description: Number of drivers
+      name: DRIVERS
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: ff6dd374-a6b8-46f0-b0ed-cbf1cc8d8969
+          stepCounter: b05f7d90-15de-4ff7-899d-d15265360ab3
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - name: BRONZE_VENDOR_DETAILS
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'VENDOR_DETAILS') }}
+      dependencies:
+      - locationName: BRONZE
+        nodeName: VENDOR_DETAILS
+  name: STG_VENDOR_DETAILS
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+    preSQL: ''
+    postSQL: ''
+type: Node
