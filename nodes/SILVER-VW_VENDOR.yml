@@ -1,11 +1,16 @@
 fileVersion: 1
-id: e432a5e6-345f-43dd-921d-b68bc01d7c13
-name: STG_RATE_CODE
+id: f26255a6-2c88-420a-b160-940905bfdafe
+name: VW_VENDOR
 operation:
+  config:
+    selectDistinct: false
+    insertStrategy: UNION
   database: ''
   deployEnabled: true
   description: ''
+  isMultisource: false
   locationName: SILVER
+  materializationType: view
   metadata:
     columns:
     - acceptedValues:
@@ -13,19 +18,19 @@ operation:
         values: []
       appliedColumnTests: {}
       columnReference:
-        columnCounter: e711a723-d881-4d24-baf1-c8d7577f615d
-        stepCounter: e432a5e6-345f-43dd-921d-b68bc01d7c13
+        columnCounter: 4627a93b-57ba-4f43-886d-f70b44ad8d67
+        stepCounter: f26255a6-2c88-420a-b160-940905bfdafe
       config: {}
-      dataType: NUMBER(2,0)
+      dataType: NUMBER(38,0)
       defaultValue: ''
       description: ''
-      name: RATE_CODE_ID
+      name: VENDOR_ID
       nullable: true
       primaryKey: false
       sourceColumnReferences:
       - columnReferences:
-        - columnCounter: 72290dc6-9898-401d-a150-3871230abc88
-          stepCounter: 4f3bf1e1-c1ef-4419-b96e-f0bbc14552f1
+        - columnCounter: dad8622d-b7ac-4eb4-a7df-8dbd209317c7
+          stepCounter: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
         transform: ''
       transform: ''
       uniqueKey: false
@@ -34,19 +39,19 @@ operation:
         values: []
       appliedColumnTests: {}
       columnReference:
-        columnCounter: a8583972-3468-4270-9809-179df916a2c3
-        stepCounter: e432a5e6-345f-43dd-921d-b68bc01d7c13
+        columnCounter: 29c39e96-efd3-4f2d-9553-16d8c6b43ffe
+        stepCounter: f26255a6-2c88-420a-b160-940905bfdafe
       config: {}
-      dataType: VARCHAR(21)
+      dataType: VARCHAR(16777216)
       defaultValue: ''
       description: ''
-      name: RATE_CODE
+      name: VENDOR_NAME
       nullable: true
       primaryKey: false
       sourceColumnReferences:
       - columnReferences:
-        - columnCounter: 243e1c16-5e36-40bb-a5a6-b19171fb64b3
-          stepCounter: 4f3bf1e1-c1ef-4419-b96e-f0bbc14552f1
+        - columnCounter: 7cbaa1f2-502c-4de4-97e4-4a8e51048dcf
+          stepCounter: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
         transform: ''
       transform: ''
       uniqueKey: false
@@ -55,22 +60,14 @@ operation:
       customSQL:
         customSQL: ''
       dependencies:
-      - locationName: SILVER
-        nodeName: VW_RATE_CODE
+      - locationName: BRONZE
+        nodeName: VENDOR
       join:
-        joinCondition: FROM {{ ref('SILVER', 'VW_RATE_CODE') }}
+        joinCondition: FROM {{ ref('BRONZE', 'VENDOR') }}
       name: new
-  name: STG_RATE_CODE
+  name: VW_VENDOR
   schema: ''
-  sqlType: Stage
+  sqlType: View
   type: sql
   version: 1
-  isMultisource: false
-  materializationType: table
-  config:
-    insertStrategy: INSERT
-    truncateBefore: true
-    testsEnabled: true
-    postSQL: ''
-    preSQL: ''
 type: Node

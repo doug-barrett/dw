@@ -1,11 +1,16 @@
 fileVersion: 1
-id: e432a5e6-345f-43dd-921d-b68bc01d7c13
-name: STG_RATE_CODE
+id: e318461b-9728-41ec-8f3f-2d8a109f8415
+name: VW_PAYMENT_TYPE
 operation:
+  config:
+    selectDistinct: false
+    insertStrategy: UNION
   database: ''
   deployEnabled: true
   description: ''
+  isMultisource: false
   locationName: SILVER
+  materializationType: view
   metadata:
     columns:
     - acceptedValues:
@@ -13,19 +18,19 @@ operation:
         values: []
       appliedColumnTests: {}
       columnReference:
-        columnCounter: e711a723-d881-4d24-baf1-c8d7577f615d
-        stepCounter: e432a5e6-345f-43dd-921d-b68bc01d7c13
+        columnCounter: eac3c8b9-34e2-478d-a6cf-3930664a7a7c
+        stepCounter: e318461b-9728-41ec-8f3f-2d8a109f8415
       config: {}
-      dataType: NUMBER(2,0)
+      dataType: NUMBER(1,0)
       defaultValue: ''
       description: ''
-      name: RATE_CODE_ID
+      name: PAYMENT_TYPE_ID
       nullable: true
       primaryKey: false
       sourceColumnReferences:
       - columnReferences:
-        - columnCounter: 72290dc6-9898-401d-a150-3871230abc88
-          stepCounter: 4f3bf1e1-c1ef-4419-b96e-f0bbc14552f1
+        - columnCounter: 605c86e5-ed08-4a50-9e2b-672d877122b7
+          stepCounter: a103676d-4ced-4438-ac3b-e9671d6b67a9
         transform: ''
       transform: ''
       uniqueKey: false
@@ -34,19 +39,19 @@ operation:
         values: []
       appliedColumnTests: {}
       columnReference:
-        columnCounter: a8583972-3468-4270-9809-179df916a2c3
-        stepCounter: e432a5e6-345f-43dd-921d-b68bc01d7c13
+        columnCounter: 2cdab3ee-80ec-4095-a2b8-e19fba99b452
+        stepCounter: e318461b-9728-41ec-8f3f-2d8a109f8415
       config: {}
-      dataType: VARCHAR(21)
+      dataType: VARCHAR(14)
       defaultValue: ''
       description: ''
-      name: RATE_CODE
+      name: PAYMENT_TYPE
       nullable: true
       primaryKey: false
       sourceColumnReferences:
       - columnReferences:
-        - columnCounter: 243e1c16-5e36-40bb-a5a6-b19171fb64b3
-          stepCounter: 4f3bf1e1-c1ef-4419-b96e-f0bbc14552f1
+        - columnCounter: 2176cb79-9e15-4c00-a9e0-90f1b28d9803
+          stepCounter: a103676d-4ced-4438-ac3b-e9671d6b67a9
         transform: ''
       transform: ''
       uniqueKey: false
@@ -55,22 +60,14 @@ operation:
       customSQL:
         customSQL: ''
       dependencies:
-      - locationName: SILVER
-        nodeName: VW_RATE_CODE
+      - locationName: BRONZE
+        nodeName: PAYMENT_TYPE
       join:
-        joinCondition: FROM {{ ref('SILVER', 'VW_RATE_CODE') }}
+        joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }}
       name: new
-  name: STG_RATE_CODE
+  name: VW_PAYMENT_TYPE
   schema: ''
-  sqlType: Stage
+  sqlType: View
   type: sql
   version: 1
-  isMultisource: false
-  materializationType: table
-  config:
-    insertStrategy: INSERT
-    truncateBefore: true
-    testsEnabled: true
-    postSQL: ''
-    preSQL: ''
 type: Node
