@@ -1,0 +1,76 @@
+fileVersion: 1
+id: 01104e50-8228-469f-a2e0-713e9e51c1fe
+name: STG_PAYMENT_TYPE
+operation:
+  database: ''
+  deployEnabled: true
+  description: ''
+  locationName: SILVER
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 9fe4f128-4247-4418-96bb-b31de63efcf3
+        stepCounter: 01104e50-8228-469f-a2e0-713e9e51c1fe
+      config: {}
+      dataType: NUMBER(1,0)
+      defaultValue: ''
+      description: ''
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 605c86e5-ed08-4a50-9e2b-672d877122b7
+          stepCounter: a103676d-4ced-4438-ac3b-e9671d6b67a9
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 28d9b338-a87b-4a77-86de-993c61ef62ff
+        stepCounter: 01104e50-8228-469f-a2e0-713e9e51c1fe
+      config: {}
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: ''
+      name: PAYMENT_TYPE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 2176cb79-9e15-4c00-a9e0-90f1b28d9803
+          stepCounter: a103676d-4ced-4438-ac3b-e9671d6b67a9
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - aliases: {}
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: PAYMENT_TYPE
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }}
+      name: new
+  name: STG_PAYMENT_TYPE
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+    postSQL: ''
+    preSQL: ''
+type: Node

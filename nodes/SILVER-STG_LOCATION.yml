@@ -1,0 +1,139 @@
+fileVersion: 1
+id: 2ff5079d-e15a-40d7-8902-57a4e7fd9f17
+name: STG_LOCATION
+operation:
+  database: ''
+  deployEnabled: true
+  description: ''
+  locationName: SILVER
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 79e3715b-338e-4c97-905c-b8a76805d826
+        stepCounter: 2ff5079d-e15a-40d7-8902-57a4e7fd9f17
+      config: {}
+      dataType: NUMBER(3,0)
+      defaultValue: ''
+      description: ''
+      name: LOCATION_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 979b70db-4f94-44e7-a1e1-a7edc78fbb05
+          stepCounter: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: ecce78b4-f087-4443-8036-e0222d2bfb50
+        stepCounter: 2ff5079d-e15a-40d7-8902-57a4e7fd9f17
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: BOROUGH
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 120175f7-8470-414b-98d1-5cb3661199a2
+          stepCounter: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 576c85b0-5c43-4c3e-bfde-cd7b2f216b62
+        stepCounter: 2ff5079d-e15a-40d7-8902-57a4e7fd9f17
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 04d3cf16-a331-47b7-9213-aefe5b7e3ca9
+          stepCounter: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 811a10b4-e0b0-4922-bc9d-f92131ce356e
+        stepCounter: 2ff5079d-e15a-40d7-8902-57a4e7fd9f17
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: SERVICE_ZONE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 8ddda3f7-8859-468a-9b04-3c5a02b7feff
+          stepCounter: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 5615e076-1c86-443d-bb1d-97a448f5594e
+        stepCounter: 2ff5079d-e15a-40d7-8902-57a4e7fd9f17
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: FILENAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 96f2d335-b17c-4660-adcb-237fa398dfa9
+          stepCounter: 5c8a01a9-5477-40cf-be19-ce4b543f0c2f
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - aliases: {}
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: LOCATION
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'LOCATION') }}
+      name: new
+  name: STG_LOCATION
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+    postSQL: ''
+    preSQL: ''
+type: Node

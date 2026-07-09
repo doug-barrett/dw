@@ -1,0 +1,76 @@
+fileVersion: 1
+id: d12482da-349b-43de-91f8-04e28b15a583
+name: STG_VENDOR
+operation:
+  database: ''
+  deployEnabled: true
+  description: ''
+  locationName: SILVER
+  metadata:
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: ba1002f5-9b16-498e-b553-2fe2dd1dad9b
+        stepCounter: d12482da-349b-43de-91f8-04e28b15a583
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: dad8622d-b7ac-4eb4-a7df-8dbd209317c7
+          stepCounter: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: fc5bd1b0-35d6-4e7d-b8ea-e6cb7c9a4a0e
+        stepCounter: d12482da-349b-43de-91f8-04e28b15a583
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 7cbaa1f2-502c-4de4-97e4-4a8e51048dcf
+          stepCounter: 4a526f7e-7c8c-4ff6-8282-e5fd2ca409b8
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    sourceMapping:
+    - aliases: {}
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: VENDOR
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'VENDOR') }}
+      name: new
+  name: STG_VENDOR
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+  isMultisource: false
+  materializationType: table
+  config:
+    insertStrategy: INSERT
+    truncateBefore: true
+    testsEnabled: true
+    postSQL: ''
+    preSQL: ''
+type: Node
