@@ -1,0 +1,62 @@
+fileVersion: 1
+id: "469"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: AI
+    short: AI
+    plural: AI
+    tagColor: 'brown'
+
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        default: view
+        options:
+        - view
+        isRequired: true
+        enableIf: "false"
+
+      - displayName: Model
+        type: dropdownSelector
+        attributeName: model
+        options:
+        - claude-opus-4-8
+        - claude-sonnet-5
+        - claude-haiku-4-5
+        isRequired: true
+
+      - displayName: Description
+        attributeName: desc
+        type: textBox
+        syntax: text
+        isRequired: false
+        default: "Use this tool to answer questions about NYC Yellow Cab trip data
+            including fares, distances, boroughs, payment types, tips,
+            surcharges, and trip patterns."
+
+      - displayName: Warehouse
+        attributeName: wh
+        type: textBox
+        syntax: text
+        isRequired: true
+        default: "COMPUTE_WH"
+
+      - displayName: Orchestration Instructions
+        attributeName: orchestration
+        type: textBox
+        syntax: text
+        isRequired: false
+        default: ""
+
+      - displayName: Response Instructions
+        attributeName: response
+        type: textBox
+        syntax: text
+        isRequired: false
+        default: ""
+name: AI Agent
+type: NodeType
