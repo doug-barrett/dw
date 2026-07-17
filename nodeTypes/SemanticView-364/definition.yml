@@ -8,29 +8,26 @@ metadata:
     capitalized: SV
     short: SV
     plural: SV
-    tagColor: '#2EB67D'
+    tagColor: 'pink'
 
     config:
     - groupName: Options
       items:
       - type: materializationSelector
-        default: table
+        default: view
         options:
         - view
         isRequired: true
         enableIf: "false"
-        
-      - displayName: Pre-SQL
-        attributeName: preSQL
-        type: textBox
-        syntax: sql
+
+      - type: businessKeyColumns
         isRequired: false
 
-      - displayName: Post-SQL
-        attributeName: postSQL
-        type: textBox
-        syntax: sql
-        isRequired: false
+      - type: columnSelector
+        displayName: Dimensions
+        attributeName: dims
+        isRequired: true
+        enableIf: 'true'
 
     mappingColumns:                                  
     - type: textBox                                  

@@ -1,0 +1,29 @@
+{{ stage('Create Agent') }}
+
+{%- set source = sources[0] %}
+{%- set col0 = source.columns[0] %}
+{%- set tabloc = col0.sourceColumns[0].node.location.name %}
+{%- set tab = col0.sourceColumns[0].node.name  %}
+
+CREATE OR REPLACE AGENT {{this}}
+FROM SPECIFICATION $$
+models:
+    orchestration: {{config.model}}
+orchestration: {}
+instructions:
+    response: {{config.response}}
+    orchestration: {{config.orchestration}}
+
+tools:
+    - tool_spec:
+        type: cortex_analyst_text_to_sql
+        name: {{tab}}_analyst
+        description: >-
+          	{{ config.desc | escape }}
+tool_resources:
+    sv:
+        semantic_view: {{ ref(tabloc, tab) | replace('"','')}}
+        execution_environment:
+            type: warehouse
+            warehouse: {{config.wh}}
+$$
