@@ -4,35 +4,33 @@
 {%- set col0 = source.columns[0] %}
 {%- set tabloc = col0.sourceColumns[0].node.location.name %}
 {%- set tab = col0.sourceColumns[0].node.name  %}
-{%- set has_business_key = columns | selectattr("isBusinessKey") | list | length > 0 %}
 
 CREATE OR REPLACE SEMANTIC VIEW {{this}}
 TABLES (
   {{ ref(tabloc, tab)}} 
-  {% if has_business_key %} 
-      PRIMARY KEY (
-      {%- for col in source.columns if col.isBusinessKey %}
-        {{ col.name }} {%- if not loop.last %},{%- endif %}
-      {%- endfor %}
-      )
-  {% endif %}
+  {%- for col in source.columns if col.isBusinessKey %}
+    {% if loop.first %}PRIMARY KEY ( {% endif %}      
+        {{ col.name }} {%- if loop.last %}) {%- else %},{%- endif %}
+  {%- endfor %}
 )
-FACTS (
-  {% for col in source.columns if not col.dims  %}
+{%- for col in source.columns if not col.dims  %}
+  {% if loop.first %}FACTS ({% endif %}
     {{tab}}.{{col.name}} AS {{col.name}} 
-    {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}{%- if not loop.last %},{%- endif %}
-  {% endfor %}
-)
-DIMENSIONS (
-  {% for col in source.columns if col.dims %}
+    {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}{%- if loop.last %}){%- else %},{%- endif %}
+{%- endfor %}
+
+{%- for col in source.columns if col.dims  %}
+  {% if loop.first %}DIMENSIONS ({% endif %}
     {{tab}}.{{col.name}} AS {{col.name}} 
-    {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}{%- if not loop.last %},{%- endif %}
-  {% endfor %}
-)
-METRICS (
-  {% for col in source.columns if not col.dims and col.transform | trim != "" %}
+    {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}
+    {%- if loop.last %}) {%- else %},{%- endif %}
+{%- endfor %}
+
+{%- for col in source.columns if not col.dims and col.transform | trim != "" %}
+  {% if loop.first %} METRICS ({% endif %}
     {{ col.transform[:3]}}_{{col.name}} AS {{ col.transform }}  
-    {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}{%- if not loop.last %},{%- endif %}
-  {% endfor %}
-)
+    {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}
+    {%- if loop.last %}) {%- else %},{%- endif %}
+{%- endfor %}
+
 COMMENT = '{{ node.description | escape }}'
