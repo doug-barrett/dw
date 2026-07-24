@@ -1,0 +1,6 @@
+@id("a1b2c3d4-1001-4000-8001-000000000006")
+@nodeType("457")
+SELECT
+  RATE_CODE_ID,
+  RATE_CODE
+FROM {{ ref("BRONZE", "RATE_CODE") }}

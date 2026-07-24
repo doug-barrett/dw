@@ -1,0 +1,6 @@
+@id("a1b2c3d4-1001-4000-8001-000000000008")
+@nodeType("457")
+SELECT
+  VENDOR_ID,
+  VENDOR_NAME
+FROM {{ ref("BRONZE", "VENDOR") }}
