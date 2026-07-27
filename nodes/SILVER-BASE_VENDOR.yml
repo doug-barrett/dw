@@ -1,0 +1,71 @@
+fileVersion: 1
+id: ad7ddc3b-1006-417a-a656-93d7a5b62df1
+name: BASE_VENDOR
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Base vendor attributes.
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d5-ff67-7767-be6a-be7a9697820b
+          stepCounter: ad7ddc3b-1006-417a-a656-93d7a5b62df1
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c7d460ec-45ab-425d-be5d-61d54aaa8fb2
+                stepCounter: 98c996d3-c5b0-426c-8ffa-de8b7a7b4c5f
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d5-ff67-7767-be6a-c36f04bfe3b0
+          stepCounter: ad7ddc3b-1006-417a-a656-93d7a5b62df1
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bddb150d-e912-41c2-9975-ff4aeb8f6e3a
+                stepCounter: 98c996d3-c5b0-426c-8ffa-de8b7a7b4c5f
+            transform: ""
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          VENDOR: 98c996d3-c5b0-426c-8ffa-de8b7a7b4c5f
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
+        name: STG_NODE
+        noLinkRefs: []
+  name: BASE_VENDOR
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

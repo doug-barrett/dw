@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 5acd9db4-c3c8-4851-881d-31d8c7f6d6e0
+name: VENDOR_LOCATION_SUMMARY_7
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Per-vendor summary string of top 5 zones by fare over the trailing 7 days.
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-81e0-77b6-8bee-1a620e167c8a
+          stepCounter: 5acd9db4-c3c8-4851-881d-31d8c7f6d6e0
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 019fa4d6-4b36-712b-9f0a-f34c46f8dbae
+                stepCounter: e488bd5e-48bc-41ec-b197-94f333fe413e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-81e0-77b6-8bee-1f71c13b6f20
+          stepCounter: 5acd9db4-c3c8-4851-881d-31d8c7f6d6e0
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: TOP_5_ZONES
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 019fa4d6-4b36-712b-9f0a-f6f72d8ed127
+                stepCounter: e488bd5e-48bc-41ec-b197-94f333fe413e
+            transform: LISTAGG("VENDOR_LOCATION_ACTIVITY_7"."ZONE" || ' ($' || TO_CHAR("VENDOR_LOCATION_ACTIVITY_7"."LOC_FARE_AMOUNT_7",'9,999,999.00')||')', ', ') WITHIN GROUP (ORDER BY "VENDOR_LOCATION_ACTIVITY_7"."LOC_FARE_AMOUNT_7" DESC)
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          VENDOR_LOCATION_ACTIVITY_7: e488bd5e-48bc-41ec-b197-94f333fe413e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: VENDOR_LOCATION_ACTIVITY_7
+        join:
+          joinCondition: |-
+            FROM {{ ref('SILVER', 'VENDOR_LOCATION_ACTIVITY_7') }} "VENDOR_LOCATION_ACTIVITY_7"
+            GROUP BY "VENDOR_LOCATION_ACTIVITY_7"."VENDOR_ID"
+        name: STG_NODE
+        noLinkRefs: []
+  name: VENDOR_LOCATION_SUMMARY_7
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,145 @@
+fileVersion: 1
+id: 9e54871b-542c-4b91-a62c-787ae4785396
+name: VENDOR_DETAILS
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Vendor details with HQ address fields flattened from the address object.
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-a530d16d2900
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: NUMBER(4,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 019fa4d6-1f01-7538-8e92-a530d16d2900
+                stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-ab5e8f3e5025
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 019fa4d6-1f01-7538-8e92-ab5e8f3e5025
+                stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-aff30c95b10d
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: NUMBER(3,0)
+        description: ""
+        name: DRIVERS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 019fa4d6-1f01-7538-8e92-aff30c95b10d
+                stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-b38e36c8ebbe
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HQ_ADDRESS1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"VENDOR_DETAILS\".\"HQ_ADDRESS_DETAILS\":ADDRESS::STRING"
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-b51392f694fe
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HQ_CITY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"VENDOR_DETAILS\".\"HQ_ADDRESS_DETAILS\":CITY::STRING"
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-badbb08aa907
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HQ_STATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"VENDOR_DETAILS\".\"HQ_ADDRESS_DETAILS\":STATE::STRING"
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-bc11b2320b5f
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HQ_COUNTRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"VENDOR_DETAILS\".\"HQ_ADDRESS_DETAILS\":COUNTRY::STRING"
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019fa4d6-1f01-7538-8e92-c1b7ce5ff184
+          stepCounter: 9e54871b-542c-4b91-a62c-787ae4785396
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: HQ_ZIP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "\"VENDOR_DETAILS\".\"HQ_ADDRESS_DETAILS\":ZIP::STRING"
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          VENDOR_DETAILS: 97523c70-6d8d-4a50-a3f5-7ec996bfc2ee
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: VENDOR_DETAILS
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'VENDOR_DETAILS') }} "VENDOR_DETAILS"
+        name: STG_NODE
+        noLinkRefs: []
+  name: VENDOR_DETAILS
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
