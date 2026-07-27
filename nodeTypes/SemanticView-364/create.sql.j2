@@ -20,9 +20,9 @@
       {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}{%- if loop.last %}){%- else %},{%- endif %}
   {%- endfor %}
 
-  {%- for col in desiredState.config.dims  %}
+{%- for col in source.columns if col.dims  %}
     {% if loop.first %}DIMENSIONS ({% endif %}
-      {{tab}}.{{dimcol.name}} AS {{dimcol.name}} 
+      {{tab}}.{{col.name}} AS {{col.name}} 
       {%- if col.syn | trim != "" %} WITH SYNONYMS {{col.syn}}{%- endif %}
       {%- if loop.last %}) {%- else %},{%- endif %}
   {%- endfor %}
