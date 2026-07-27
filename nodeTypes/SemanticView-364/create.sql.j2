@@ -1,6 +1,6 @@
-{{ stage('Create Semantic View') }}
 {% if desiredState  %}
 
+  {{ stage('Create Semantic View') }}
   {%- set source = desiredState.sources[0] %}
   {%- set col0 = source.columns[0] %}
   {%- set tabloc = col0.sourceColumns[0].node.location.name %}
@@ -36,5 +36,6 @@
 
   COMMENT = '{{ desiredState.node.description | escape }}'
 {% else %}
+  {{ stage('Drop Semantic View') }}
   DROP SEMANTIC VIEW IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
 {% endif %}
