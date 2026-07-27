@@ -1,52 +1,52 @@
 fileVersion: 1
-id: c7a4b091-3ea8-4811-8104-42893d6ef07f
-name: DIM_RATE_CODE
+id: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
+name: V_RATE_CODE
 operation:
   config:
-    postSQL: ""
-    preSQL: ""
-    testsEnabled: true
+    groupByAll: false
+    insertStrategy: UNION
+    selectDistinct: false
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: GOLD
-  materializationType: table
+  locationName: PLATINUM
+  materializationType: view
   metadata:
     appliedNodeTests: []
     columns:
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 7742cdae-5a1c-4bda-a569-e20f269a970e
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 19ae31da-657c-4f77-8af6-91fe1a3f33e1
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: NUMBER
         description: Unique identifier for each rate code dimension record. This surrogate key is system-generated during the data loading process. It serves as the primary key for this dimension table and is referenced as a foreign key in various fact tables for analytical reporting. Used in performance metrics and trend analysis. No direct source column; it is an auto-incrementing value. Ensures referential integrity across the data model. Facilitates efficient joins and data retrieval for business intelligence dashboards.
-        isSurrogateKey: true
         name: DIM_RATE_CODE_KEY
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
+          - columnReferences:
+              - columnCounter: 7742cdae-5a1c-4bda-a569-e20f269a970e
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2b3bbf63-8420-4d99-b813-1e2c235ef111
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: e98bf145-5ce3-4a44-9e4b-816f0c682a0f
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: NUMBER(2,0)
         description: Business identifier for the rate code, sourced directly from the upstream system's `RATE_CODE_ID` column. This column acts as the business key for the rate code dimension. It is used in operational reports to identify specific rate structures and for reconciliation with source systems. No transformations are applied during ingestion. Provides a stable, business-centric reference for rate code definitions. Supports detailed rate analysis and financial reporting requirements.
-        isBusinessKey: true
         name: RATE_CODE_ID
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: d6f6bd7d-b024-42b2-9d69-2e7c30f8ed3b
-                stepCounter: 8c9128f5-6d78-45a2-8f3e-8e4c7a5349ee
+              - columnCounter: 2b3bbf63-8420-4d99-b813-1e2c235ef111
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 60d98e1a-8522-46d6-b292-f54a6926335d
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 7b4766c8-692b-4e42-aab7-1d0a4aba61d9
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: VARCHAR(21)
         description: Alphanumeric code representing a specific rate, sourced directly from the upstream system's `RATE_CODE` column. This attribute provides a human-readable description of the rate. It is used in user-facing reports, dashboards, and analytical tools to categorize and display rate information. No transformations are applied. Supports filtering and grouping of data by rate type. Facilitates understanding of pricing structures and their impact on revenue metrics.
@@ -54,105 +54,111 @@ operation:
         nullable: true
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: dacf0509-f70a-4e35-aca2-76a26c88a723
-                stepCounter: 8c9128f5-6d78-45a2-8f3e-8e4c7a5349ee
+              - columnCounter: 60d98e1a-8522-46d6-b292-f54a6926335d
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 9b911b06-f7a3-4fa7-8a45-124764f784e5
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 8b215dda-d809-4f1b-aa02-791f6345faa2
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: NUMBER
         description: Version number for the rate code record, indicating changes over time. This system-generated integer increments with each update to the record, supporting Slowly Changing Dimension Type 2 implementation. It enables historical analysis of rate code attributes. No direct source column; it is managed by the data warehousing process. Combined with the business key, it uniquely identifies each historical state of a rate code. Used for auditing and time-series reporting.
-        isSystemVersion: true
         name: SYSTEM_VERSION
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
+          - columnReferences:
+              - columnCounter: 9b911b06-f7a3-4fa7-8a45-124764f784e5
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 10403a38-5051-4e5a-a06d-d76fc1bc0d34
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 1e768255-c40f-4a52-aeab-129bdcd7f1b2
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: VARCHAR
         description: Indicator identifying the most recent version of a rate code record. This system-generated flag, typically 'Y' for current and 'N' for historical, supports Slowly Changing Dimension Type 2. It is used by downstream consumers to filter for active rate code data in reports and applications. No direct source column; it is managed by the data warehousing process. Ensures that only the latest rate code definitions are considered for current operations.
-        isSystemCurrentFlag: true
         name: SYSTEM_CURRENT_FLAG
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
+          - columnReferences:
+              - columnCounter: 10403a38-5051-4e5a-a06d-d76fc1bc0d34
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: a7d0a7e3-f6fd-4a4c-9e56-62a9ede4f41b
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: c5a5a51b-67ed-45c9-ab8a-eb51daf328dd
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: TIMESTAMP
         description: Timestamp indicating when a specific version of the rate code record became active. This system-generated value is set to `CURRENT_TIMESTAMP` upon record creation or update, supporting Slowly Changing Dimension Type 2. It enables point-in-time analysis of rate code attributes. No direct source column; it is managed by the data warehousing process. Defines the beginning of a record's validity period. Used for historical data slicing and time-based reporting.
-        isSystemStartDate: true
         name: SYSTEM_START_DATE
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - columnReferences:
+              - columnCounter: a7d0a7e3-f6fd-4a4c-9e56-62a9ede4f41b
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 178a81ec-a0cb-42b2-930b-41107d36a77f
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 1b117d0f-34bf-47f2-afec-00786c1de37f
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: TIMESTAMP
         description: Timestamp indicating when a specific version of the rate code record ceased to be active. This system-generated value is set to `2999-12-31` for current records and updated to `CURRENT_TIMESTAMP` for historical records, supporting Slowly Changing Dimension Type 2. It enables historical data range queries. No direct source column; it is managed by the data warehousing process. Defines the end of a record's validity period.
-        isSystemEndDate: true
         name: SYSTEM_END_DATE
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+          - columnReferences:
+              - columnCounter: 178a81ec-a0cb-42b2-930b-41107d36a77f
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 4b4eea42-0d2d-46c9-a8ce-a2acc0f30d31
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 0241d563-f597-4532-a7ec-69c6172b4df9
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: TIMESTAMP
         description: Timestamp recording the exact moment the rate code record was first loaded into the data warehouse. This system-generated value is set to `CURRENT_TIMESTAMP` during initial ingestion. It provides an immutable audit trail for data lineage and governance. No direct source column; it is managed by the data warehousing process. Used for tracking data freshness and understanding the age of records within the warehouse. Supports data quality monitoring.
-        isSystemCreateDate: true
         name: SYSTEM_CREATE_DATE
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - columnReferences:
+              - columnCounter: 4b4eea42-0d2d-46c9-a8ce-a2acc0f30d31
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+            transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5c75f251-d8e7-47a1-922c-fb692fc8c93b
-          stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+          columnCounter: 418364fb-a157-4d86-82e0-57929528ea2f
+          stepCounter: 92a5c3f2-b84a-4a4a-b34c-684199e25a9c
         config: {}
         dataType: TIMESTAMP
         description: Timestamp recording the exact moment the rate code record was last modified within the data warehouse. This system-generated value is updated to `CURRENT_TIMESTAMP` with every record modification. It provides an audit trail for data changes and indicates data freshness. No direct source column; it is managed by the data warehousing process. Used for monitoring data synchronization and identifying recently altered records for downstream processes.
-        isSystemUpdateDate: true
         name: SYSTEM_UPDATE_DATE
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+          - columnReferences:
+              - columnCounter: 5c75f251-d8e7-47a1-922c-fb692fc8c93b
+                stepCounter: c7a4b091-3ea8-4811-8104-42893d6ef07f
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
       - aliases:
-          STG_RATE_CODE: 8c9128f5-6d78-45a2-8f3e-8e4c7a5349ee
+          DIM_RATE_CODE: c7a4b091-3ea8-4811-8104-42893d6ef07f
         customSQL:
           customSQL: ""
         dependencies:
-          - locationName: SILVER
-            nodeName: STG_RATE_CODE
+          - locationName: GOLD
+            nodeName: DIM_RATE_CODE
         join:
-          joinCondition: FROM {{ ref('SILVER', 'STG_RATE_CODE') }} "STG_RATE_CODE"
-        name: DIM_RATE_CODE
+          joinCondition: FROM {{ ref('GOLD', 'DIM_RATE_CODE') }} "DIM_RATE_CODE"
+        name: V_RATE_CODE
         noLinkRefs: []
-  name: DIM_RATE_CODE
+  name: V_RATE_CODE
   overrideSQL: false
   schema: ""
-  sqlType: Dimension
+  sqlType: View
   type: sql
   version: 1
 type: Node
