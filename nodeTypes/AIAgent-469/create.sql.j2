@@ -1,29 +1,35 @@
-{{ stage('Create Agent') }}
+{% if desiredState %}
+    {{ stage('Create Agent') }}
+    {%- set source = desiredState.sources[0] %}
+    {%- set col0 = source.columns[0] %}
+    {%- set tabloc = col0.sourceColumns[0].node.location.name %}
+    {%- set tab = col0.sourceColumns[0].node.name  %}
 
-{%- set source = sources[0] %}
-{%- set col0 = source.columns[0] %}
-{%- set tabloc = col0.sourceColumns[0].node.location.name %}
-{%- set tab = col0.sourceColumns[0].node.name  %}
+    CREATE OR REPLACE AGENT {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+    FROM SPECIFICATION $$
+    models:
+        orchestration: {{desiredState.config.model}}
+    orchestration: {}
+    instructions:
+        response: {{desiredState.config.response}}
+        orchestration: {{desiredState.config.orchestration}}
 
-CREATE OR REPLACE AGENT {{this}}
-FROM SPECIFICATION $$
-models:
-    orchestration: {{config.model}}
-orchestration: {}
-instructions:
-    response: {{config.response}}
-    orchestration: {{config.orchestration}}
+    tools:
+        - tool_spec:
+            type: cortex_analyst_text_to_sql
+            name: {{tab}}_analyst
+            description: >-
+                {{ desiredState.config.desc | escape }}
+    tool_resources:
+        sv:
+            semantic_view: {{ ref(tabloc, tab) | replace('"','')}}
+            execution_environment:
+                type: warehouse
+                warehouse: {{desiredState.config.wh}}
+    $$
 
-tools:
-    - tool_spec:
-        type: cortex_analyst_text_to_sql
-        name: {{tab}}_analyst
-        description: >-
-          	{{ config.desc | escape }}
-tool_resources:
-    sv:
-        semantic_view: {{ ref(tabloc, tab) | replace('"','')}}
-        execution_environment:
-            type: warehouse
-            warehouse: {{config.wh}}
-$$
+{% else %}
+    {{ stage('Drop Agent') }}
+    DROP AGENT IF EXISTS {{ ref_no_link(currentState.node.location.name, currentState.node.name) }}
+
+{% endif %}
