@@ -1,0 +1,200 @@
+fileVersion: 1
+id: f461a46a-ad93-4933-8346-231267f7731e
+name: DIM_LOCATION
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: Locations at Borough and Zone detail around NYC used to identify Pickup and Dropoff locations.  Reference data provided by New York City (NYC) Taxi & Limousine Commission (TLC)
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a9d5eb1-da07-4932-920a-96d1bc2dd0ca
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: DIM_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 35423fe1-2ba2-40bd-8b00-ed78dbc73fed
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: NUMBER(3,0)
+        description: Business key for the location dimension. Identifies each location record. Sourced from LOCATION_ID column in the source data. Used to track location-specific metrics in reports. Helps in identifying unique location. Integer value. No transformations applied. Used for auditing and data reconciliation. Part of the composite key along with other attributes. Enables tracking of changes to location attributes over time.
+        isBusinessKey: true
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 70cf69d9-cf46-4b68-81da-8cc26f1c8a7b
+                stepCounter: ef56cc1f-1ad9-4947-b468-364a7b12d055
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0412c01f-9c13-43a6-ae8c-36d82404fef0
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Borough in which the location is situated. Sourced from the BOROUGH column in the source data. Used in location-based analytics and reporting. Helps in understanding the distribution of activity across different boroughs. String value. No transformations applied. Enables filtering and grouping of data by borough. Part of the location's descriptive information. Essential for geographic segmentation and analysis.
+        name: BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 816d0fab-e796-485b-9a78-c568a6031f2e
+                stepCounter: ef56cc1f-1ad9-4947-b468-364a7b12d055
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a70a77e8-be72-47d8-b48a-1b1f4346d0a5
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Zone within the borough where the location is situated. Sourced from the ZONE column in the source data. Used in location-based analytics and reporting. Helps in understanding the distribution of activity across different zones. String value. No transformations applied. Enables filtering and grouping of data by zone. Part of the location's descriptive information. Essential for geographic segmentation and analysis.
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: df927cdc-8105-4e27-9e2d-4b41209d4e70
+                stepCounter: ef56cc1f-1ad9-4947-b468-364a7b12d055
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 895ee664-0f35-42c1-85cf-c1fe5f4137bf
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Service zone associated with the location. Sourced from the SERVICE_ZONE column in the source data. Used in location-based analytics and reporting. Helps in understanding the distribution of activity across different service zones. String value. No transformations applied. Enables filtering and grouping of data by service zone. Part of the location's descriptive information. Essential for operational analysis.
+        name: SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a7509f08-f4a0-4b12-a5b3-aefbd7a1a017
+                stepCounter: ef56cc1f-1ad9-4947-b468-364a7b12d055
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0bbc0bf1-69e0-4273-8d22-0cd9f87553e7
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: Name of the source file from which the location data was loaded. Sourced from the FILENAME column in the source data. Used for auditing and data lineage purposes. Helps in tracking the origin of the data. String value. No transformations applied. Enables identification of the specific file that contributed to a location record. Useful for troubleshooting and data quality monitoring. Supports data governance efforts.
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1919e46c-ffc1-4ed1-bf7e-27c0d2d35b28
+                stepCounter: ef56cc1f-1ad9-4947-b468-364a7b12d055
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 69695172-c41f-42f7-9828-72338971dbd4
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ea5c3e32-6edc-4cec-8a3e-b106a8c52a1b
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: eaf053b9-59e9-474c-b550-8316ca308cb5
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7fb0f346-9d81-4583-9103-4bac6f7a0077
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04535a97-e0d9-4072-8bd5-6821d2efcd82
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7eaaa01d-9929-4de7-94f7-49085381ab41
+          stepCounter: f461a46a-ad93-4933-8346-231267f7731e
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STG_LOCATION: ef56cc1f-1ad9-4947-b468-364a7b12d055
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_LOCATION
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'STG_LOCATION') }} "STG_LOCATION"
+        name: DIM_LOCATION
+        noLinkRefs: []
+  name: DIM_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

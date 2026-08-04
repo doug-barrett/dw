@@ -1,0 +1,74 @@
+fileVersion: 1
+id: ccd7ff49-6629-43ff-be2c-b54a9752f016
+name: STG_PAYMENT_TYPE
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: true
+        columnReference:
+          columnCounter: 2484c489-89df-4c1b-aebf-888612f43246
+          stepCounter: ccd7ff49-6629-43ff-be2c-b54a9752f016
+        config: {}
+        dataType: NUMBER(1,0)
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9e8230d6-c989-4684-83f1-7d01c65c4ef1
+                stepCounter: 11819065-e673-4095-a903-014b1e81bc48
+            transform: ""
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: false
+        columnReference:
+          columnCounter: 07fb95f4-abee-4eed-848f-8fe6f1ac511d
+          stepCounter: ccd7ff49-6629-43ff-be2c-b54a9752f016
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4ca38eb6-a4fe-41aa-b28c-b518252e8cb6
+                stepCounter: 11819065-e673-4095-a903-014b1e81bc48
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs:
+      - hasNull
+      - isDistinct
+    sourceMapping:
+      - aliases:
+          PAYMENT_TYPE: 11819065-e673-4095-a903-014b1e81bc48
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} "PAYMENT_TYPE"
+        name: STG_PAYMENT_TYPE
+        noLinkRefs: []
+  name: STG_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

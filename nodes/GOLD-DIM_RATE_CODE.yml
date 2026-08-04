@@ -1,0 +1,158 @@
+fileVersion: 1
+id: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+name: DIM_RATE_CODE
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 398d9e90-e2a5-441d-8282-5379d3903a80
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSurrogateKey: true
+        name: DIM_RATE_CODE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: acaaad98-4e8c-4e2d-bfb7-c88025884155
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: NUMBER(2,0)
+        description: ""
+        isBusinessKey: true
+        name: RATE_CODE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cad5eb1a-b439-4c49-b093-460560a5e215
+                stepCounter: 99168d8c-25f2-438a-9bc7-ec9c5b0e5ca6
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 129e138b-a2ab-4414-825f-c71975e19ca6
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: VARCHAR(21)
+        description: ""
+        name: RATE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 38aabc4b-df49-4d07-8f33-9bb23446fd45
+                stepCounter: 99168d8c-25f2-438a-9bc7-ec9c5b0e5ca6
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f0ca5e5d-8091-48dc-adee-33143feb65f4
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: NUMBER
+        description: ""
+        isSystemVersion: true
+        name: SYSTEM_VERSION
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: cce7cb46-a2e6-4e75-a3ab-9e5702ddbbca
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        isSystemCurrentFlag: true
+        name: SYSTEM_CURRENT_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f8c8d2a9-c76e-4f4a-a7c7-3d4975c1e0bc
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemStartDate: true
+        name: SYSTEM_START_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 695c5897-9929-4831-a217-f4a8e298c0d2
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemEndDate: true
+        name: SYSTEM_END_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST('2999-12-31 00:00:00' AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e8da73b7-193d-420a-8d97-25babb192aa2
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 04479f4e-bef4-4a42-af8c-35736b9b589e
+          stepCounter: dc96e143-a01b-4101-8cab-0135fcbfc2b6
+        config: {}
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          STG_RATE_CODE: 99168d8c-25f2-438a-9bc7-ec9c5b0e5ca6
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_RATE_CODE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'STG_RATE_CODE') }} "STG_RATE_CODE"
+        name: DIM_RATE_CODE
+        noLinkRefs: []
+  name: DIM_RATE_CODE
+  overrideSQL: false
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

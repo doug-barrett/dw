@@ -1,0 +1,210 @@
+fileVersion: 1
+id: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+name: STG_YELLOW_CAB_VENDOR_MONTHLY
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8f11226e-fca8-4be0-a0c4-755019e80f9d
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fef8f62d-ef49-4aa1-aa23-adece09a842f
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 32b8fa50-1c7a-4465-96a9-9bd22e06ba6d
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: YEAR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7180fa96-ca16-4eea-a132-bb717cf072c6
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: YEAR("FCT_YELLOW_CAB_TRIPS"."PICKUP_DATETIME")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8362efd8-d6ea-4165-8bfd-59f828b179e4
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: MONTH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7180fa96-ca16-4eea-a132-bb717cf072c6
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: MONTH("FCT_YELLOW_CAB_TRIPS"."PICKUP_DATETIME")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 057f825e-23f6-43cb-bb07-e52170403c0b
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: VARCHAR(33)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5a277dc3-e663-493d-8267-5dd2e1989514
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: MAX("FCT_YELLOW_CAB_TRIPS"."VENDOR_NAME")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9c0c462d-22ea-464a-8019-b83c8017cbe9
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TRIP_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ceadd61-b803-4c38-ad0b-7162020f5733
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: COUNT(1)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7b438ba6-d9aa-488d-b798-6c4e24d31053
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: TOTAL_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ceadd61-b803-4c38-ad0b-7162020f5733
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: sum("FCT_YELLOW_CAB_TRIPS"."TOTAL_AMOUNT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4e31d680-1021-4194-81a3-f1962d7787a7
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: TOTAL_AMOUNT_CASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ceadd61-b803-4c38-ad0b-7162020f5733
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: sum(CASE WHEN PAYMENT_TYPE = 'Cash' THEN "FCT_YELLOW_CAB_TRIPS"."TOTAL_AMOUNT" END)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 408e6f25-a16d-4c3c-b1c1-8a11ed6aa033
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: TOTAL_AMOUNT_CC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ceadd61-b803-4c38-ad0b-7162020f5733
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: sum(CASE WHEN PAYMENT_TYPE = 'Credit card' THEN "FCT_YELLOW_CAB_TRIPS"."TOTAL_AMOUNT" END)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b8638904-6f70-4d0e-bcb3-ba1b287d508e
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: TOTAL_AMOUNT_VOID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7ceadd61-b803-4c38-ad0b-7162020f5733
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: sum(CASE WHEN PAYMENT_TYPE = 'Void' THEN "FCT_YELLOW_CAB_TRIPS"."TOTAL_AMOUNT" END)
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 877fc3c2-e9a9-4fe3-a2eb-5423b31d179b
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TRIP_DISTANCE_TOTAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 20b5cdae-2528-440b-b3fa-234775d61ecc
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: SUM("FCT_YELLOW_CAB_TRIPS"."TRIP_DISTANCE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: c54a35bd-34dc-43af-b108-e09967c337b4
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER(12,2)
+        description: ""
+        name: TRIP_DISTANCE_AVG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 20b5cdae-2528-440b-b3fa-234775d61ecc
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: AVG("FCT_YELLOW_CAB_TRIPS"."TRIP_DISTANCE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ba3959be-5aaa-4c18-8458-41993f61006a
+          stepCounter: 063aad96-d478-4818-b4b7-d4655c2ec3fa
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: TRIP_DURATION_MINUTES_TOTAL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 84571f75-8754-4ac7-8ced-86ce699893fa
+                stepCounter: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+            transform: SUM("FCT_YELLOW_CAB_TRIPS"."TRIP_DURATION_MINUTES")
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          FCT_YELLOW_CAB_TRIPS: b2bca1f9-9bd8-45f6-8361-ff764f22eb1c
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: GOLD
+            nodeName: FCT_YELLOW_CAB_TRIPS
+        join:
+          joinCondition: |-
+            FROM {{ ref('GOLD', 'FCT_YELLOW_CAB_TRIPS') }} "FCT_YELLOW_CAB_TRIPS"
+            GROUP BY 1, 2, 3
+        name: STG_YELLOW_CAB_VENDOR_MONTHLY
+        noLinkRefs: []
+  name: STG_YELLOW_CAB_VENDOR_MONTHLY
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
