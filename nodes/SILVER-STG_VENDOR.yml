@@ -1,0 +1,69 @@
+fileVersion: 1
+id: 364b5fba-5d85-4c8d-aeb5-f1e1bbf19686
+name: STG_VENDOR
+operation:
+  config:
+    insertStrategy: UNION
+    postSQL: ''
+    preSQL: ''
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 82a22882-22b9-4c3a-9ed1-e9a4160375db
+        stepCounter: 364b5fba-5d85-4c8d-aeb5-f1e1bbf19686
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: bc3f96e6-91e7-4d73-91a9-b82ab30a7a91
+          stepCounter: 27ea33a4-2938-4349-ba44-533663e0015a
+        transform: ''
+    - appliedColumnTests: {}
+      columnReference:
+        columnCounter: 6d544e6c-e486-4dff-b30e-81183455c11a
+        stepCounter: 364b5fba-5d85-4c8d-aeb5-f1e1bbf19686
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_NAME
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 2fd4b2c6-e313-4004-9dc2-9b1d3226e4a9
+          stepCounter: 27ea33a4-2938-4349-ba44-533663e0015a
+        transform: ''
+    cteString: ''
+    enabledColumnTestIDs: []
+    sourceMapping:
+    - aliases:
+        VENDOR: 27ea33a4-2938-4349-ba44-533663e0015a
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: VENDOR
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
+      name: STG_VENDOR
+      noLinkRefs: []
+  name: STG_VENDOR
+  overrideSQL: false
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
