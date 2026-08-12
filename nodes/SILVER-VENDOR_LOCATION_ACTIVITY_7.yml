@@ -1,0 +1,106 @@
+fileVersion: 1
+id: 226dcbf7-5493-4d0c-a89e-c31a3faedd83
+name: VENDOR_LOCATION_ACTIVITY_7
+operation:
+  config:
+    insertStrategy: INSERT
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Per-vendor, per-zone fare and trip totals over the last 7 days, top 5 zones by fare.
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019ff6fe-0ebd-75fe-a050-2c09926b7ec0
+          stepCounter: 226dcbf7-5493-4d0c-a89e-c31a3faedd83
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3b109247-c404-4caa-8e81-4485c0c5925d
+                stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019ff6fe-0ebd-75fe-a050-325717a673a8
+          stepCounter: 226dcbf7-5493-4d0c-a89e-c31a3faedd83
+        config: {}
+        dataType: VARCHAR
+        description: ""
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4cbfc41b-819f-4f6b-b428-8f2eccdf6dfd
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019ff6fe-0ebd-75fe-a050-3522eb4cce92
+          stepCounter: 226dcbf7-5493-4d0c-a89e-c31a3faedd83
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: LOC_FARE_AMOUNT_7
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 35419267-64da-4f66-8555-0e58fb4b73d8
+                stepCounter: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+            transform: SUM("YELLOW_CAB_TRIPS"."FARE_AMOUNT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 019ff6fe-0ebd-75fe-a050-3a1a5d2d0078
+          stepCounter: 226dcbf7-5493-4d0c-a89e-c31a3faedd83
+        config: {}
+        dataType: NUMBER
+        description: ""
+        name: LOC_TRIP_COUNT_7
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: COUNT(1)
+    cteString: ""
+    description: ""
+    destinationName: ""
+    enabledColumnTestIDs: []
+    materializationOption: ""
+    sourceMapping:
+      - aliases:
+          LOCATION: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+          YELLOW_CAB_TRIPS: 6a80fae2-af6e-49f1-aaeb-0f04e21c5757
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: LOCATION
+          - locationName: BRONZE
+            nodeName: YELLOW_CAB_TRIPS
+        join:
+          joinCondition: |-
+            FROM {{ ref('BRONZE', 'YELLOW_CAB_TRIPS') }} "YELLOW_CAB_TRIPS"
+            JOIN {{ ref('BRONZE', 'LOCATION') }} "LOCATION"
+              ON "YELLOW_CAB_TRIPS"."PU_LOCATION_ID" = "LOCATION"."LOCATION_ID"
+            WHERE TO_DATE("YELLOW_CAB_TRIPS"."PICKUP_DATETIME") BETWEEN CURRENT_DATE - 7 AND CURRENT_DATE
+            GROUP BY 1, 2
+            QUALIFY ROW_NUMBER() OVER (PARTITION BY "YELLOW_CAB_TRIPS"."VENDOR_ID", "LOCATION"."ZONE" ORDER BY SUM("YELLOW_CAB_TRIPS"."FARE_AMOUNT") DESC) <= 5
+        name: STG_NODE
+        noLinkRefs: []
+  name: VENDOR_LOCATION_ACTIVITY_7
+  overrideSQL: false
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node
