@@ -583,7 +583,7 @@ operation:
           joinCondition: |-
             FROM {{ ref('SILVER', 'STG_YELLOW_CAB_TRIPS1') }} "STG_YELLOW_CAB_TRIPS1"
             WHERE TO_DATE("PICKUP_DATETIME") NOT IN (SELECT DISTINCT TO_DATE("PICKUP_DATETIME") FROM {{this}})
-            AND TO_CHAR("STG_YELLOW_CAB_TRIPS1"."DO_BOROUGH") <> ''
+            AND TO_CHA("STG_YELLOW_CAB_TRIPS1"."DO_BOROUGH") <> ''
         name: FCT_YELLOW_CAB_TRIPS
         noLinkRefs:
           - locationName: GOLD
