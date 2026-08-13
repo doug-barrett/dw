@@ -15,10 +15,7 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
           columnCounter: 8820ee33-b5c8-47e3-ace7-a612734382b9
           stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
@@ -498,10 +495,7 @@ operation:
               - columnCounter: 37f8ef64-5d71-477c-9b0b-74f5d871a946
                 stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
             transform: ""
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests:
+      - appliedColumnTests:
           hasNull: false
         columnReference:
           columnCounter: 8a10dbbd-aab1-43cf-9feb-3c7b45dd0303
@@ -516,10 +510,7 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests:
+      - appliedColumnTests:
           hasNull: false
         columnReference:
           columnCounter: 95be16e7-50f1-47da-a379-3e18cec0c823
@@ -534,10 +525,7 @@ operation:
         sourceColumnReferences:
           - columnReferences: []
             transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
           columnCounter: b5784b0d-1557-4411-93ad-570bb052917c
           stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
@@ -551,10 +539,7 @@ operation:
               - columnCounter: d0711121-c687-4915-a6ee-2c32bea7f5da
                 stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
             transform: ""
-      - acceptedValues:
-          strictMatch: false
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
           columnCounter: e8a096ba-d0f4-4878-afdb-e1fca7b5a779
           stepCounter: 1071b060-08d3-4a37-b76b-3b47c74b61ed
@@ -569,8 +554,11 @@ operation:
                 stepCounter: 6384942e-b835-4067-aa2d-114d3ad0a58f
             transform: ""
     cteString: ""
+    description: ""
+    destinationName: ""
     enabledColumnTestIDs:
       - hasNull
+    materializationOption: ""
     sourceMapping:
       - aliases:
           STG_YELLOW_CAB_TRIPS1: 6384942e-b835-4067-aa2d-114d3ad0a58f
@@ -583,7 +571,7 @@ operation:
           joinCondition: |-
             FROM {{ ref('SILVER', 'STG_YELLOW_CAB_TRIPS1') }} "STG_YELLOW_CAB_TRIPS1"
             WHERE TO_DATE("PICKUP_DATETIME") NOT IN (SELECT DISTINCT TO_DATE("PICKUP_DATETIME") FROM {{this}})
-            AND TO_CHA("STG_YELLOW_CAB_TRIPS1"."DO_BOROUGH") <> ''
+            AND TO_CHAR("STG_YELLOW_CAB_TRIPS1"."DO_BOROUGH") <> ''
         name: FCT_YELLOW_CAB_TRIPS
         noLinkRefs:
           - locationName: GOLD
@@ -592,6 +580,7 @@ operation:
   overrideSQL: false
   schema: ""
   sqlType: Fact
+  table: FCT_YELLOW_CAB_TRIPS
   type: sql
   version: 1
 type: Node
