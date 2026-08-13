@@ -1,0 +1,45 @@
+fileVersion: 1
+id: "477"
+isDisabled: false
+metadata:
+  defaultStorageLocation: SILVER
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Copy of Stage
+    short: STG
+    plural: Stages
+    tagColor: '#2EB67D'
+
+    config:
+    - groupName: Options
+      items:
+      - type: materializationSelector
+        default: view
+        options:
+        - view
+        isRequired: true
+        enableIf: "false"
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: true
+
+      - displayName: Enable Tests
+        attributeName: testsEnabled
+        type: toggleButton
+        default: true
+        
+      - displayName: Pre-SQL
+        attributeName: preSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+
+      - displayName: Post-SQL
+        attributeName: postSQL
+        type: textBox
+        syntax: sql
+        isRequired: false
+name: Copy of Stage
+type: NodeType
