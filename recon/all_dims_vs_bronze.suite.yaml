@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=https://schemas.synq.io/synq-recon/v1/config.schema.json
+
+name: all_dims_vs_bronze
+title: All GOLD dimensions vs BRONZE sources (common columns)
+description: >-
+  Row-level reconciliation of each GOLD DIM_* table against its BRONZE
+  source on the columns common to both. Only the shared (common) columns
+  are compared; dimension-only columns (surrogate keys, SCD/SYSTEM_*,
+  audit timestamps) are omitted via an explicit column list.
+
+# Connections live in .connections.yaml (git-ignored):
+#   warehouse_src -> NY_TAXI   (BRONZE sources)
+#   warehouse_tgt -> DOUG_DB   (GOLD dimensions)
+# Separate connections keep runs on the cross-DB path (avoids the
+# synq-recon 0.4.0 same-DB combined-query bug).
+
+reconciliations:
+  dim-drivers:
+    title: DRIVERS (BRONZE) vs DIM_DRIVERS (GOLD) — common columns
+    source:
+      connection: warehouse_src
+      table: NY_TAXI.BRONZE.DRIVERS
+      columns:
+        - DRIVER_ID
+        - VENDOR_ID
+        - FIRST_NAME
+        - LAST_NAME
+        - LICENSE_NUMBER
+        - LICENSE_EXPIRY
+        - PHONE
+        - EMAIL
+        - HIRE_DATE
+        - RATING
+        - IS_ACTIVE
+    target:
+      connection: warehouse_tgt
+      table: DOUG_DB.DEV_GOLD.DIM_DRIVERS
+      columns:
+        - DRIVER_ID
+        - VENDOR_ID
+        - FIRST_NAME
+        - LAST_NAME
+        - LICENSE_NUMBER
+        - LICENSE_EXPIRY
+        - PHONE
+        - EMAIL
+        - HIRE_DATE
+        - RATING
+        - IS_ACTIVE
+    key_columns: [DRIVER_ID]
+    mode: row_checksum
+
+  dim-location:
+    title: LOCATION (BRONZE) vs DIM_LOCATION (GOLD) — common columns
+    source:
+      connection: warehouse_src
+      table: NY_TAXI.BRONZE.LOCATION
+      columns:
+        - LOCATION_ID
+        - BOROUGH
+        - ZONE
+        - SERVICE_ZONE
+        - FILENAME
+    target:
+      connection: warehouse_tgt
+      table: DOUG_DB.DEV_GOLD.DIM_LOCATION
+      columns:
+        - LOCATION_ID
+        - BOROUGH
+        - ZONE
+        - SERVICE_ZONE
+        - FILENAME
+    key_columns: [LOCATION_ID]
+    mode: row_checksum
+
+  dim-vendor:
+    title: VENDOR (BRONZE) vs DIM_VENDOR (GOLD) — common columns
+    source:
+      connection: warehouse_src
+      table: NY_TAXI.BRONZE.VENDOR
+      columns:
+        - VENDOR_ID
+        - VENDOR_NAME
+    target:
+      connection: warehouse_tgt
+      table: DOUG_DB.DEV_GOLD.DIM_VENDOR
+      columns:
+        - VENDOR_ID
+        - VENDOR_NAME
+    key_columns: [VENDOR_ID]
+    mode: row_checksum

@@ -1,0 +1,20 @@
+# Copy to .connections.yaml (git-ignored) and fill in real values,
+# or export the SF_* environment variables referenced below.
+#
+#   export SF_ACCOUNT=myorg-myaccount
+#   export SF_WAREHOUSE=COMPUTE_WH
+#   export SF_ROLE=SYSADMIN
+#   export SF_USER=your_username
+#   export SF_PASSWORD=your_password
+#
+# The role used must be able to read both NY_TAXI.GOLD and DOUG_DB.DEV_GOLD.
+
+connections:
+  warehouse:
+    snowflake:
+      account: ${SF_ACCOUNT}
+      warehouse: ${SF_WAREHOUSE}
+      role: ${SF_ROLE}
+      username: ${SF_USER}
+      password: ${SF_PASSWORD}
+      databases: [NY_TAXI, DOUG_DB]

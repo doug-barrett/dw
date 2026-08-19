@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://schemas.synq.io/synq-recon/v1/config.schema.json
+
+name: fct_yellow_cab_trips
+title: FCT_YELLOW_CAB_TRIPS — Prod vs Dev
+description: >-
+  Row-level reconciliation of NY_TAXI.GOLD.FCT_YELLOW_CAB_TRIPS against
+  DOUG_DB.DEV_GOLD.FCT_YELLOW_CAB_TRIPS for pickup date 2026-08-10.
+
+# Connection `warehouse` is defined in .connections.yaml (git-ignored),
+# which supplies credentials and the databases [NY_TAXI, DOUG_DB].
+reconciliations:
+  fct-yellow-cab-trips:
+    title: FCT_YELLOW_CAB_TRIPS (prod vs dev) for 2026-08-10
+    source:
+      connection: warehouse_src
+      table: NY_TAXI.GOLD.FCT_YELLOW_CAB_TRIPS
+      where: "TO_DATE(PICKUP_DATETIME) = '2026-08-10'"
+      exclude_columns:
+        - COALESCE_RUN_ID
+        - SYSTEM_CREATE_DATE
+        - SYSTEM_UPDATE_DATE
+        - DIM_PAYMENT_TYPE_KEY
+        - DIM_RATE_CODE_KEY
+        - DIM_VENDOR_KEY
+        - DIM_PICKUP_LOCATION_KEY
+        - DIM_DROPOFF_LOCATION_KEY
+    target:
+      connection: warehouse_tgt
+      table: DOUG_DB.DEV_GOLD.FCT_YELLOW_CAB_TRIPS
+      where: "TO_DATE(PICKUP_DATETIME) = '2026-08-10'"
+      exclude_columns:
+        - COALESCE_RUN_ID
+        - SYSTEM_CREATE_DATE
+        - SYSTEM_UPDATE_DATE
+        - DIM_PAYMENT_TYPE_KEY
+        - DIM_RATE_CODE_KEY
+        - DIM_VENDOR_KEY
+        - DIM_PICKUP_LOCATION_KEY
+        - DIM_DROPOFF_LOCATION_KEY
+    key_columns: [TRIP_ID]
+    mode: row_checksum
