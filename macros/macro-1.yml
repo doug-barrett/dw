@@ -35,6 +35,32 @@ macroString: |
       TO_NUMBER(TO_CHAR({{ column }}, 'YYYYMMDD'))
   {%- endmacro %}
 
+  {#-- date_dow_case #}
+  {#-- Builds a long CASE expression keyed on the (month, ISO day-of-week) of a #}
+  {#-- date column. For each of the 12 months x 7 weekdays the value resolves to #}
+  {#-- col2, col3, or a concat of both; unmatched/NULL dates fall to the ELSE. #}
+  {#-- Eg {{ date_dow_case("HIRE_DATE", '"FIRST_NAME"', '"LAST_NAME"') }} #}
+
+  {%- macro date_dow_case(date_col, col2, col3) -%}
+  {%- set months = ['January','February','March','April','May','June','July','August','September','October','November','December'] -%}
+  CASE
+  {%- for m in range(1, 13) %}
+      -- {{ months[m-1] }}
+  {%- for d in range(1, 8) %}
+  {%- set r = (m + d) % 3 %}
+  {%- if r == 0 %}
+      WHEN EXTRACT(MONTH FROM {{ date_col }}) = {{ m }} AND DAYOFWEEKISO({{ date_col }}) = {{ d }} THEN {{ col2 }}
+  {%- elif r == 1 %}
+      WHEN EXTRACT(MONTH FROM {{ date_col }}) = {{ m }} AND DAYOFWEEKISO({{ date_col }}) = {{ d }} THEN {{ col3 }}
+  {%- else %}
+      WHEN EXTRACT(MONTH FROM {{ date_col }}) = {{ m }} AND DAYOFWEEKISO({{ date_col }}) = {{ d }} THEN CONCAT({{ col2 }}, '-', {{ col3 }})
+  {%- endif %}
+  {%- endfor %}
+  {%- endfor %}
+      ELSE CONCAT({{ col2 }}, '-', {{ col3 }})
+  END
+  {%- endmacro %}
+
   {#-- replacer #}
   {#-- used for column renames eg {{ replacer(column.name) }} #}
 
