@@ -1,80 +1,95 @@
 fileVersion: 1
 id: f56a169d-5eac-405b-ae09-2ffd81a8279d
 name: DIM_VENDOR
-type: Node
 operation:
   config:
-    postSQL: ''
-    preSQL: ''
+    postSQL: ""
+    preSQL: ""
     testsEnabled: true
-  locationName: GOLD
-  name: DIM_VENDOR
-  sqlType: Dimension
-  type: sql
-  version: 1
-  description: Dimension for VENDOR
-  materializationType: table
-  isMultisource: false
+  database: ""
   deployEnabled: true
+  description: Dimension for VENDOR
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
   metadata:
     appliedNodeTests: []
     columns:
-    - name: VENDOR_ID
-      dataType: NUMBER(38,0)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
-        columnCounter: bd02d133-5db8-4e9f-9dae-95122af5bdc7
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: d0ffaa3e-f968-409c-908f-cc384a750d77
-          stepCounter: c4174166-455b-4faf-8519-cda17ea07e80
-        transform: ''
-      isBusinessKey: true
-    - name: VENDOR_NAME
-      dataType: VARCHAR(16777216)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
-        columnCounter: 83eff442-0b58-4a0f-ba3c-e56a7baee672
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: 077d8588-213c-4ef2-9299-50fd6e5da736
-          stepCounter: c4174166-455b-4faf-8519-cda17ea07e80
-        transform: ''
-    - name: SYSTEM_CREATE_DATE
-      dataType: TIMESTAMP
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
-        columnCounter: dd04bdcb-5198-4135-a22c-81a7578fbd2b
-      isSystemCreateDate: true
-      sourceColumnReferences:
-      - columnReferences: []
-        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
-    - name: SYSTEM_UPDATE_DATE
-      dataType: TIMESTAMP
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
-        columnCounter: c18e9ad8-291a-40f4-95ed-85ce22e0aeef
-      isSystemUpdateDate: true
-      sourceColumnReferences:
-      - columnReferences: []
-        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - columnReference:
+          columnCounter: bd02d133-5db8-4e9f-9dae-95122af5bdc7
+          stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
+        dataType: NUMBER(38,0)
+        description: ""
+        isBusinessKey: true
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d0ffaa3e-f968-409c-908f-cc384a750d77
+                stepCounter: c4174166-455b-4faf-8519-cda17ea07e80
+            transform: ""
+      - columnReference:
+          columnCounter: 83eff442-0b58-4a0f-ba3c-e56a7baee672
+          stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 077d8588-213c-4ef2-9299-50fd6e5da736
+                stepCounter: c4174166-455b-4faf-8519-cda17ea07e80
+            transform: ""
+      - columnReference:
+          columnCounter: 02e6d56f-d99f-481f-be28-c9ec04e5a46c
+          stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME1
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 077d8588-213c-4ef2-9299-50fd6e5da736
+                stepCounter: c4174166-455b-4faf-8519-cda17ea07e80
+            transform: ""
+      - columnReference:
+          columnCounter: dd04bdcb-5198-4135-a22c-81a7578fbd2b
+          stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
+        dataType: TIMESTAMP
+        description: ""
+        isSystemCreateDate: true
+        name: SYSTEM_CREATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      - columnReference:
+          columnCounter: c18e9ad8-291a-40f4-95ed-85ce22e0aeef
+          stepCounter: f56a169d-5eac-405b-ae09-2ffd81a8279d
+        dataType: TIMESTAMP
+        description: ""
+        isSystemUpdateDate: true
+        name: SYSTEM_UPDATE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+    enabledColumnTestIDs: []
     sourceMapping:
-    - aliases:
-        STG_VENDOR: c4174166-455b-4faf-8519-cda17ea07e80
-      customSQL:
-        customSQL: ''
-      name: DIM_VENDOR
-      join:
-        joinCondition: FROM {{ ref('SILVER', 'STG_VENDOR') }} "STG_VENDOR"
-      dependencies:
-      - locationName: SILVER
-        nodeName: STG_VENDOR
-      noLinkRefs: []
+      - aliases:
+          STG_VENDOR: c4174166-455b-4faf-8519-cda17ea07e80
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: STG_VENDOR
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'STG_VENDOR') }} "STG_VENDOR"
+        name: DIM_VENDOR
+        noLinkRefs: []
+  name: DIM_VENDOR
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node
