@@ -1,179 +1,202 @@
 fileVersion: 1
 id: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
 name: STG_DRIVERS
-type: Node
 operation:
   config:
-    truncateBefore: true
     insertStrategy: INSERT
     testsEnabled: true
+    truncateBefore: true
+  database: ""
+  deployEnabled: true
+  description: Stage of BRONZE.DRIVERS
+  isMultisource: false
   locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests:
+      - continueOnFailure: true
+        description: Fail if any DRIVER_ID is negative
+        name: no_negative_driver_ids
+        runOrder: After
+        templateString: |-
+          SELECT 1
+          FROM {{this}}
+          WHERE "DRIVER_ID" < 0
+    columns:
+      - appliedColumnTests:
+          hasNull: true
+          isDistinct: true
+        columnReference:
+          columnCounter: 48ab6799-7a06-4278-af9e-eec21391c580
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DRIVER_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fb4c05bb-904a-4177-9b7b-412b5be350fe
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 54596247-622f-400c-9c8a-aad39593aac6
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f24ab376-a860-49ab-a710-780f1349e087
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: fdd438d4-7fe2-4515-b1e9-94948ebb42a8
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: FIRST_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4f9ceff6-2024-41cc-b182-005659549955
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7e9239e7-1144-4710-a556-8daefeb369d5
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: LAST_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 28be9d62-f5af-47ac-a2fa-4787288ff891
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 08e0008d-e6ad-4857-85bf-8f7a61f99d0b
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: VARCHAR(10)
+        description: ""
+        name: LICENSE_NUMBER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0d03a447-cfc6-4659-a5c8-3a99a3055719
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 528e5162-e8ed-4abb-a7e2-09dea5942d27
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: DATE
+        description: ""
+        name: LICENSE_EXPIRY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0125fc45-5ce7-42b6-b0d9-75e0de228bff
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bcf034c7-16b8-4312-b4ba-29c96767f940
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: VARCHAR(14)
+        description: ""
+        name: PHONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d6748172-9e8b-4a91-9454-c837ca02a395
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: e0e0265b-199d-4807-9ef6-9cc1aa9dc85e
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: EMAIL
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dcb19a8c-30ef-4c34-a06f-493e33f93590
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3da3747a-3d00-4cd6-9231-04acff863d3e
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: DATE
+        description: ""
+        name: HIRE_DATE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 67a2129a-c1e0-4138-8077-40ecd4b01dd1
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6f0487be-7ad5-4d02-a25f-76b5341ca709
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: NUMBER(2,1)
+        description: ""
+        name: RATING
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c9cfb412-c02c-4095-be95-c85c386356e8
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 799f0076-80ff-4d04-8127-67ef558990b1
+          stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
+        config: {}
+        dataType: BOOLEAN
+        description: ""
+        name: IS_ACTIVE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f85cfb62-c666-4565-8a7d-bd98498c2f86
+                stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+            transform: ""
+    enabledColumnTestIDs:
+      - hasNull
+      - isDistinct
+    sourceMapping:
+      - aliases:
+          DRIVERS: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: DRIVERS
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'DRIVERS') }} "DRIVERS"
+        name: STG_DRIVERS
+        noLinkRefs: []
   name: STG_DRIVERS
+  schema: ""
   sqlType: Stage
   type: sql
   version: 1
-  description: Stage of BRONZE.DRIVERS
-  materializationType: table
-  isMultisource: false
-  deployEnabled: true
-  metadata:
-    appliedNodeTests:
-    - name: no_negative_driver_ids
-      description: Fail if any DRIVER_ID is negative
-      continueOnFailure: true
-      runOrder: After
-      templateString: |-
-        SELECT 1
-        FROM {{this}}
-        WHERE "DRIVER_ID" < 0
-    enabledColumnTestIDs:
-    - hasNull
-    - isDistinct
-    columns:
-    - name: DRIVER_ID
-      dataType: NUMBER(38,0)
-      description: ''
-      nullable: false
-      appliedColumnTests:
-        isDistinct: true
-        hasNull: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 48ab6799-7a06-4278-af9e-eec21391c580
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: fb4c05bb-904a-4177-9b7b-412b5be350fe
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: VENDOR_ID
-      dataType: NUMBER(38,0)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 54596247-622f-400c-9c8a-aad39593aac6
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: f24ab376-a860-49ab-a710-780f1349e087
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: FIRST_NAME
-      dataType: VARCHAR(50)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: fdd438d4-7fe2-4515-b1e9-94948ebb42a8
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: 4f9ceff6-2024-41cc-b182-005659549955
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: LAST_NAME
-      dataType: VARCHAR(50)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 7e9239e7-1144-4710-a556-8daefeb369d5
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: 28be9d62-f5af-47ac-a2fa-4787288ff891
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: LICENSE_NUMBER
-      dataType: VARCHAR(10)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 08e0008d-e6ad-4857-85bf-8f7a61f99d0b
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: 0d03a447-cfc6-4659-a5c8-3a99a3055719
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: LICENSE_EXPIRY
-      dataType: DATE
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 528e5162-e8ed-4abb-a7e2-09dea5942d27
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: 0125fc45-5ce7-42b6-b0d9-75e0de228bff
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: PHONE
-      dataType: VARCHAR(14)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: bcf034c7-16b8-4312-b4ba-29c96767f940
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: d6748172-9e8b-4a91-9454-c837ca02a395
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: EMAIL
-      dataType: VARCHAR(100)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: e0e0265b-199d-4807-9ef6-9cc1aa9dc85e
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: dcb19a8c-30ef-4c34-a06f-493e33f93590
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: HIRE_DATE
-      dataType: DATE
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 3da3747a-3d00-4cd6-9231-04acff863d3e
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: 67a2129a-c1e0-4138-8077-40ecd4b01dd1
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: RATING
-      dataType: NUMBER(2,1)
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 6f0487be-7ad5-4d02-a25f-76b5341ca709
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: c9cfb412-c02c-4095-be95-c85c386356e8
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    - name: IS_ACTIVE
-      dataType: BOOLEAN
-      description: ''
-      nullable: true
-      columnReference:
-        stepCounter: b32f3962-ba85-4a77-8d12-f8fe8d0175c6
-        columnCounter: 799f0076-80ff-4d04-8127-67ef558990b1
-      sourceColumnReferences:
-      - columnReferences:
-        - columnCounter: f85cfb62-c666-4565-8a7d-bd98498c2f86
-          stepCounter: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-        transform: ''
-    sourceMapping:
-    - aliases:
-        DRIVERS: d9fa186b-c14a-4ab0-8e28-1956e85d9a9d
-      customSQL:
-        customSQL: ''
-      name: STG_DRIVERS
-      join:
-        joinCondition: FROM {{ ref('BRONZE', 'DRIVERS') }} "DRIVERS"
-      dependencies:
-      - locationName: BRONZE
-        nodeName: DRIVERS
-      noLinkRefs: []
+type: Node
