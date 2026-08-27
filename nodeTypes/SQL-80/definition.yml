@@ -30,8 +30,8 @@ metadata:
         type: textBox 
         syntax: sql 
         isRequired: false    
-        default: "CREATE OR REPLACE TABLE {{ ref_no_link('SILVER', 'STG_CUSTOMER') }} \n
-        AS SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} \n
+        default: "CREATE OR REPLACE TABLE {{ ref_no_link('SILVER', 'STG_DRIVERS') }} \n
+        AS SELECT * FROM {{ ref_no_link('BRONZE', 'DRIVERS') }} \n
       "
 
       - displayName: SQL Run Time 
@@ -39,13 +39,16 @@ metadata:
         type: textBox 
         syntax: sql 
         isRequired: false    
-        default: "INSERT INTO {{ ref_no_link('SILVER', 'STG_CUSTOMER') }} \n
-        SELECT * FROM {{ ref_no_link('BRONZE', 'CUSTOMER') }} \n
+        default: "INSERT INTO {{ ref_no_link('SILVER', 'STG_DRIVERS') }} \n
+        SELECT * FROM {{ ref_no_link('BRONZE', 'DRIVERS') }} \n
       "
 
-
     systemColumns:
-
+    - displayName: SQL
+      transform: ''
+      dataType: STRING
+      placement: beginning
+      attributeName: sysSQL
     - displayName: TSTAMP
       transform: CURRENT_TIMESTAMP()
       dataType: TIMESTAMP

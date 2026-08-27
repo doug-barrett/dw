@@ -2,3 +2,8 @@
     {{ stage('Create SQL') }} 
     {{ config.SQL_Deploy }}
 {% endif %}
+
+{{ stage('Create Audit Table') }}
+CREATE OR REPLACE TABLE {{ this }}
+AS 
+SELECT '{{ config.SQL_Deploy }}' AS SQL, CURRENT_TIMESTAMP() AS TSTAMP

@@ -1,4 +1,10 @@
 {% if config.SQL_Run | length > 0 %}
     {{ stage('Run SQL') }}
     {{ config.SQL_Run }}
+
+    {{ stage('Run Audit SQL') }}
+    INSERT INTO {{ this }}
+    SELECT '{{ config.SQL_Run }}' AS SQL, CURRENT_TIMESTAMP() AS TSTAMP
+
 {% endif %}
+
