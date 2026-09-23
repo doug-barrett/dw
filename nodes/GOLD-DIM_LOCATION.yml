@@ -1,0 +1,25 @@
+fileVersion: 1
+id: 8967CA76-A224-48CF-9EF8-6BB601050DDF
+name: DIM_LOCATION
+operation:
+  config: {postSQL: "", preSQL: "", testsEnabled: true}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - {columnReference: {columnCounter: EBAC949C-F1AA-4AAE-8209-CBF1097677FD, stepCounter: 8967CA76-A224-48CF-9EF8-6BB601050DDF}, config: {}, dataType: NUMBER, description: "", isSurrogateKey: true, name: DIM_LOCATION_KEY, nullable: true, sourceColumnReferences: [{columnReferences: [], transform: ""}]}
+      - {columnReference: {columnCounter: BAFD76C6-79AF-4995-89E8-23E25E69B8C4, stepCounter: 8967CA76-A224-48CF-9EF8-6BB601050DDF}, config: {}, dataType: 'NUMBER(3,0)', description: "", isBusinessKey: true, name: LOCATION_ID, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 9e509a8d-ca8a-4298-a873-bf83ae510dae, stepCounter: FDF267F0-9996-4A3C-A954-7F30F4933977}], transform: ""}]}
+      - {columnReference: {columnCounter: E3BA3474-EB5E-44CF-94A7-981CD04AEA50, stepCounter: 8967CA76-A224-48CF-9EF8-6BB601050DDF}, config: {}, dataType: VARCHAR(16777216), description: "", name: BOROUGH, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: ec0b6c2d-3ae3-4e55-b838-3ac7f2dd79fa, stepCounter: FDF267F0-9996-4A3C-A954-7F30F4933977}], transform: ""}]}
+    sourceMapping:
+      - {aliases: {STG_LOCATION: FDF267F0-9996-4A3C-A954-7F30F4933977}, customSQL: {customSQL: ""}, dependencies: [{locationName: SILVER, nodeName: STG_LOCATION}], join: {joinCondition: 'FROM {{ ref(''SILVER'', ''STG_LOCATION'') }} "STG_LOCATION"'}, name: DIM_LOCATION, noLinkRefs: []}
+  name: DIM_LOCATION
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

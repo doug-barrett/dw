@@ -1,0 +1,26 @@
+fileVersion: 1
+id: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33
+name: STG_DRIVERS
+operation:
+  config: {insertStrategy: UNION, selectDistinct: false}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - {columnReference: {columnCounter: 9D3B7F44-CF34-4FD4-CF28-54CAB6E60745, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}, config: {}, dataType: 'NUMBER(38,0)', description: "", name: DRIVER_ID, nullable: false, sourceColumnReferences: [{columnReferences: [{columnCounter: 2c5c8cc7-5e1d-4fd1-935e-a37eb32c8e01, stepCounter: 106cbe96-cb9a-468d-945e-d6889dff6a05}], transform: ""}]}
+      - {columnReference: {columnCounter: 8C2A6E23-BE23-4EC3-BE17-43B9A4D5F634, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}, config: {}, dataType: 'NUMBER(38,0)', description: "", name: VENDOR_ID, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 46394c74-57a8-4a09-87ce-cb1c495f7efe, stepCounter: 106cbe96-cb9a-468d-945e-d6889dff6a05}], transform: ""}]}
+      - {columnReference: {columnCounter: A1E2F355-D045-4FE5-D029-65DB17F71856, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}, config: {}, dataType: VARCHAR(50), description: "", name: FIRST_NAME, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 3cab0f17-abdb-475b-9c64-c8b2cd7522a3, stepCounter: 106cbe96-cb9a-468d-945e-d6889dff6a05}], transform: ""}]}
+      - {columnReference: {columnCounter: C3F4B577-F267-40A7-F24B-87FD39A93A78, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}, config: {}, dataType: VARCHAR(50), description: "", name: LAST_NAME, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 14de1311-f173-4c94-8fa1-5e89e0e21239, stepCounter: 106cbe96-cb9a-468d-945e-d6889dff6a05}], transform: ""}]}
+    sourceMapping:
+      - {aliases: {DRIVERS: 106cbe96-cb9a-468d-945e-d6889dff6a05}, customSQL: {customSQL: ""}, dependencies: [{locationName: BRONZE, nodeName: DRIVERS}], join: {joinCondition: 'FROM {{ ref(''BRONZE'', ''DRIVERS'') }} "DRIVERS"'}, name: STG_DRIVERS, noLinkRefs: []}
+  name: STG_DRIVERS
+  schema: ""
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

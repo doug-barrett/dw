@@ -1,0 +1,27 @@
+fileVersion: 1
+id: 39EB5134-4D8C-4754-A142-1722619FB335
+name: DIM_DRIVERS
+operation:
+  config: {postSQL: "", preSQL: "", testsEnabled: true}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - {columnReference: {columnCounter: 7BECA82A-6D94-4A3C-AA35-C14BED72F450, stepCounter: 39EB5134-4D8C-4754-A142-1722619FB335}, config: {}, dataType: NUMBER, description: "", isSurrogateKey: true, name: DIM_DRIVERS_KEY, nullable: true, sourceColumnReferences: [{columnReferences: [], transform: ""}]}
+      - {columnReference: {columnCounter: 3B0F30D3-58CF-4F53-A46F-F86F50B203B5, stepCounter: 39EB5134-4D8C-4754-A142-1722619FB335}, config: {}, dataType: 'NUMBER(38,0)', description: "", isBusinessKey: true, name: DRIVER_ID, nullable: false, sourceColumnReferences: [{columnReferences: [{columnCounter: 9D3B7F44-CF34-4FD4-CF28-54CAB6E60745, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}], transform: ""}]}
+      - {columnReference: {columnCounter: FB4F219F-6AD0-4372-B1E6-EC138E254055, stepCounter: 39EB5134-4D8C-4754-A142-1722619FB335}, config: {}, dataType: 'NUMBER(38,0)', description: "", name: VENDOR_ID, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 8C2A6E23-BE23-4EC3-BE17-43B9A4D5F634, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}], transform: ""}]}
+      - {columnReference: {columnCounter: 6311EA15-E28C-4D16-886A-6DF179F171B5, stepCounter: 39EB5134-4D8C-4754-A142-1722619FB335}, config: {}, dataType: VARCHAR(50), description: "", name: FIRST_NAME, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: A1E2F355-D045-4FE5-D029-65DB17F71856, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}], transform: ""}]}
+      - {columnReference: {columnCounter: DDDD7D10-B575-4C2C-BAA7-6DD6E3B58E66, stepCounter: 39EB5134-4D8C-4754-A142-1722619FB335}, config: {}, dataType: VARCHAR(50), description: "", name: LAST_NAME, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: C3F4B577-F267-40A7-F24B-87FD39A93A78, stepCounter: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}], transform: ""}]}
+    sourceMapping:
+      - {aliases: {STG_DRIVERS: B7D8C944-8FAA-40E1-8E40-4D5FA0CE4B33}, customSQL: {customSQL: ""}, dependencies: [{locationName: SILVER, nodeName: STG_DRIVERS}], join: {joinCondition: 'FROM {{ ref(''SILVER'', ''STG_DRIVERS'') }} "STG_DRIVERS"'}, name: DIM_DRIVERS, noLinkRefs: []}
+  name: DIM_DRIVERS
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

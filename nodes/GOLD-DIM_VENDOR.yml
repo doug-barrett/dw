@@ -1,0 +1,25 @@
+fileVersion: 1
+id: 7BECA82A-6D94-4A3C-AA35-C14BED72F450
+name: DIM_VENDOR
+operation:
+  config: {postSQL: "", preSQL: "", testsEnabled: true}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - {columnReference: {columnCounter: 3B0F30D3-58CF-4F53-A46F-F86F50B203B5, stepCounter: 7BECA82A-6D94-4A3C-AA35-C14BED72F450}, config: {}, dataType: NUMBER, description: "", isSurrogateKey: true, name: DIM_VENDOR_KEY, nullable: true, sourceColumnReferences: [{columnReferences: [], transform: ""}]}
+      - {columnReference: {columnCounter: FB4F219F-6AD0-4372-B1E6-EC138E254055, stepCounter: 7BECA82A-6D94-4A3C-AA35-C14BED72F450}, config: {}, dataType: 'NUMBER(38,0)', description: "", isBusinessKey: true, name: VENDOR_ID, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 2F9D8A01-8C9F-4B90-9B84-10E6D1A2C301, stepCounter: 8A2B2C17-5D77-4DB8-9B1D-1A2C7D9B1E10}], transform: ""}]}
+      - {columnReference: {columnCounter: 6311EA15-E28C-4D16-886A-6DF179F171B5, stepCounter: 7BECA82A-6D94-4A3C-AA35-C14BED72F450}, config: {}, dataType: VARCHAR(16777216), description: "", name: VENDOR_NAME, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 6C6C4C7B-6FD0-4F5A-9DA5-6C85B1D2E402, stepCounter: 8A2B2C17-5D77-4DB8-9B1D-1A2C7D9B1E10}], transform: ""}]}
+    sourceMapping:
+      - {aliases: {STG_VENDOR: 8A2B2C17-5D77-4DB8-9B1D-1A2C7D9B1E10}, customSQL: {customSQL: ""}, dependencies: [{locationName: SILVER, nodeName: STG_VENDOR}], join: {joinCondition: 'FROM {{ ref(''SILVER'', ''STG_VENDOR'') }} "STG_VENDOR"'}, name: DIM_VENDOR, noLinkRefs: []}
+  name: DIM_VENDOR
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

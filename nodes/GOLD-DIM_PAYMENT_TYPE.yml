@@ -1,0 +1,25 @@
+fileVersion: 1
+id: D00A828F-CCCC-4372-92A8-9205057B6913
+name: DIM_PAYMENT_TYPE
+operation:
+  config: {postSQL: "", preSQL: "", testsEnabled: true}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - {columnReference: {columnCounter: E6CC4D95-A325-4FDB-9919-836F45E8E188, stepCounter: D00A828F-CCCC-4372-92A8-9205057B6913}, config: {}, dataType: NUMBER, description: "", isSurrogateKey: true, name: DIM_PAYMENT_TYPE_KEY, nullable: true, sourceColumnReferences: [{columnReferences: [], transform: ""}]}
+      - {columnReference: {columnCounter: 3B3759EC-D728-486A-A086-15CCDF993E08, stepCounter: D00A828F-CCCC-4372-92A8-9205057B6913}, config: {}, dataType: 'NUMBER(1,0)', description: "", isBusinessKey: true, name: PAYMENT_TYPE_ID, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 4E0A9C12-9D01-4CA1-AC95-21F7E2B3D412, stepCounter: 9D5E4A22-6E88-4EC9-AC2E-2B3D8EAC2F11}], transform: ""}]}
+      - {columnReference: {columnCounter: 4494327F-5928-4096-A080-98BCA744D646, stepCounter: D00A828F-CCCC-4372-92A8-9205057B6913}, config: {}, dataType: VARCHAR(14), description: "", name: PAYMENT_TYPE, nullable: true, sourceColumnReferences: [{columnReferences: [{columnCounter: 7B1F5D33-AD12-4DB2-BD06-32A8F3C4E523, stepCounter: 9D5E4A22-6E88-4EC9-AC2E-2B3D8EAC2F11}], transform: ""}]}
+    sourceMapping:
+      - {aliases: {STG_PAYMENT_TYPE: 9D5E4A22-6E88-4EC9-AC2E-2B3D8EAC2F11}, customSQL: {customSQL: ""}, dependencies: [{locationName: SILVER, nodeName: STG_PAYMENT_TYPE}], join: {joinCondition: 'FROM {{ ref(''SILVER'', ''STG_PAYMENT_TYPE'') }} "STG_PAYMENT_TYPE"'}, name: DIM_PAYMENT_TYPE, noLinkRefs: []}
+  name: DIM_PAYMENT_TYPE
+  schema: ""
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node
