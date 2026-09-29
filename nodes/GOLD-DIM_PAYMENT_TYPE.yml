@@ -1,0 +1,149 @@
+fileVersion: 1
+id: 813e4bb6-396f-4811-8323-2d7b917f546a
+name: DIM_PAYMENT_TYPE
+operation:
+  config:
+    groupByAll: false
+    insertStrategy: UNION DISTINCT
+    orderby: false
+    orderbycolumn:
+      items:
+      - {}
+    postSQL: ''
+    preSQL: ''
+    selectDistinct: false
+    testsEnabled: true
+    truncateBefore: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: efefe229-bb90-469b-916b-a04a56b073ab
+        stepCounter: 813e4bb6-396f-4811-8323-2d7b917f546a
+      config: {}
+      dataType: STRING
+      defaultValue: ''
+      description: ''
+      isSurrogateKey: true
+      name: dim_payment_type_key
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: fed5a8dd-06fe-4a7b-a7e2-536cb267211f
+        stepCounter: 813e4bb6-396f-4811-8323-2d7b917f546a
+      config: {}
+      dataType: NUMBER(1,0)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: true
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: f6a27fc1-1ba1-4732-a0e1-ba639587dfc1
+          stepCounter: ff176d15-d709-441c-9425-c505f9dcfd4a
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: d27b3218-e8dc-4f64-bb6c-ac3efaf793f5
+        stepCounter: 813e4bb6-396f-4811-8323-2d7b917f546a
+      config: {}
+      dataType: VARCHAR(14)
+      defaultValue: ''
+      description: ''
+      name: PAYMENT_TYPE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 4fd5b5c8-2feb-45c2-b396-14f466678c1a
+          stepCounter: ff176d15-d709-441c-9425-c505f9dcfd4a
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 3d2bef38-8b85-4b22-8973-e865cbb8b018
+        stepCounter: 813e4bb6-396f-4811-8323-2d7b917f546a
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemCreateDate: true
+      name: system_create_date
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 1af41a9a-8685-4d7e-a73d-59401763f7ba
+        stepCounter: 813e4bb6-396f-4811-8323-2d7b917f546a
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemUpdateDate: true
+      name: system_update_date
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      transform: ''
+      uniqueKey: false
+    cteString: ''
+    enabledColumnTestIDs: []
+    sourceMapping:
+    - aliases:
+        STG_PAYMENT_TYPE: ff176d15-d709-441c-9425-c505f9dcfd4a
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_PAYMENT_TYPE
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_PAYMENT_TYPE') }} "STG_PAYMENT_TYPE"
+      name: DIM_PAYMENT_TYPE
+      noLinkRefs: []
+  name: DIM_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

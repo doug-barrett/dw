@@ -1,0 +1,149 @@
+fileVersion: 1
+id: fd54c957-05f9-42e3-8cf1-791e7ebd413d
+name: DIM_RATE_CODE
+operation:
+  config:
+    groupByAll: false
+    insertStrategy: UNION DISTINCT
+    orderby: false
+    orderbycolumn:
+      items:
+      - {}
+    postSQL: ''
+    preSQL: ''
+    selectDistinct: false
+    testsEnabled: true
+    truncateBefore: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: bfcc272f-8299-4235-941e-bd7ada409a96
+        stepCounter: fd54c957-05f9-42e3-8cf1-791e7ebd413d
+      config: {}
+      dataType: STRING
+      defaultValue: ''
+      description: ''
+      isSurrogateKey: true
+      name: dim_rate_code_key
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: a9720ddc-7a9b-41ea-9ede-0b15e4675a91
+        stepCounter: fd54c957-05f9-42e3-8cf1-791e7ebd413d
+      config: {}
+      dataType: NUMBER(2,0)
+      defaultValue: ''
+      description: ''
+      isBusinessKey: true
+      name: RATE_CODE_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: efe82b83-5191-4b9a-ab3b-9a833738917a
+          stepCounter: d8b6aeea-104a-4682-b8c8-cf18055faf34
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 255bd098-036e-4446-bde3-ad82ef923d09
+        stepCounter: fd54c957-05f9-42e3-8cf1-791e7ebd413d
+      config: {}
+      dataType: VARCHAR(21)
+      defaultValue: ''
+      description: ''
+      name: RATE_CODE
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 3372c551-aeb8-4793-bbf1-b56bf1c057ea
+          stepCounter: d8b6aeea-104a-4682-b8c8-cf18055faf34
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: afbc1e45-6e27-4157-86fa-8a4c06dc55df
+        stepCounter: fd54c957-05f9-42e3-8cf1-791e7ebd413d
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemCreateDate: true
+      name: system_create_date
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 53551523-7366-4b9a-b891-07bcb4112b83
+        stepCounter: fd54c957-05f9-42e3-8cf1-791e7ebd413d
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      isSystemUpdateDate: true
+      name: system_update_date
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: CAST(CURRENT_TIMESTAMP AS TIMESTAMP)
+      transform: ''
+      uniqueKey: false
+    cteString: ''
+    enabledColumnTestIDs: []
+    sourceMapping:
+    - aliases:
+        STG_RATE_CODE: d8b6aeea-104a-4682-b8c8-cf18055faf34
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_RATE_CODE
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_RATE_CODE') }} "STG_RATE_CODE"
+      name: DIM_RATE_CODE
+      noLinkRefs: []
+  name: DIM_RATE_CODE
+  overrideSQL: false
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

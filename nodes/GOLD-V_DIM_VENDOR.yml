@@ -1,0 +1,142 @@
+fileVersion: 1
+id: e4ab3c00-4493-4a7b-af85-1c799e6a79f6
+name: V_DIM_VENDOR
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 03916eca-ebce-444f-95f3-90f218f2d9a8
+        stepCounter: e4ab3c00-4493-4a7b-af85-1c799e6a79f6
+      config: {}
+      dataType: STRING
+      defaultValue: ''
+      description: ''
+      name: dim_vendor_key
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: b69efc49-314c-481a-a938-a0cf5dce80a2
+          stepCounter: 90ac8664-d33b-468e-9965-2d03c6923453
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 68e0ed49-14c8-4ae8-a3fb-ac644271ae0c
+        stepCounter: e4ab3c00-4493-4a7b-af85-1c799e6a79f6
+      config: {}
+      dataType: NUMBER(38,0)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 4bd5b72d-7233-441e-a36b-f7ba2a578fbe
+          stepCounter: 90ac8664-d33b-468e-9965-2d03c6923453
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 0180bbd4-182d-4b36-8a10-9f1b246676a1
+        stepCounter: e4ab3c00-4493-4a7b-af85-1c799e6a79f6
+      config: {}
+      dataType: VARCHAR(16777216)
+      defaultValue: ''
+      description: ''
+      name: VENDOR_NAME
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: e2b4aa3e-319b-48c6-8c70-1c07fac72de2
+          stepCounter: 90ac8664-d33b-468e-9965-2d03c6923453
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 8773a1e8-a0b3-4a96-b9d6-18147f4c34ee
+        stepCounter: e4ab3c00-4493-4a7b-af85-1c799e6a79f6
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      name: system_create_date
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 8e21fe72-ff94-4a62-8fa9-32b00821836c
+          stepCounter: 90ac8664-d33b-468e-9965-2d03c6923453
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    - acceptedValues:
+        strictMatch: true
+        values: []
+      appliedColumnTests: {}
+      columnReference:
+        columnCounter: 8b1fb5fb-14f2-4869-b721-867751e2df05
+        stepCounter: e4ab3c00-4493-4a7b-af85-1c799e6a79f6
+      config: {}
+      dataType: TIMESTAMP
+      defaultValue: ''
+      description: ''
+      name: system_update_date
+      nullable: true
+      primaryKey: false
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: a25c1ea5-64e9-41aa-984d-7d74598d005f
+          stepCounter: 90ac8664-d33b-468e-9965-2d03c6923453
+        transform: ''
+      transform: ''
+      uniqueKey: false
+    cteString: ''
+    enabledColumnTestIDs: []
+    sourceMapping:
+    - aliases:
+        DIM_VENDOR: 90ac8664-d33b-468e-9965-2d03c6923453
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: GOLD
+        nodeName: DIM_VENDOR
+      join:
+        joinCondition: FROM {{ ref('GOLD', 'DIM_VENDOR') }} "DIM_VENDOR"
+      name: V_DIM_VENDOR
+      noLinkRefs: []
+  name: V_DIM_VENDOR
+  overrideSQL: false
+  schema: ''
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
