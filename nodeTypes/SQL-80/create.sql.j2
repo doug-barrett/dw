@@ -1,0 +1,9 @@
+{{ stage('Create SQL Table') }}
+
+CREATE OR REPLACE TABLE {{ this }}
+(
+    {% for col in columns %}
+        "{{ col.name }}" {{ col.dataType }} 
+        {%- if not loop.last -%}, {% endif %}
+    {% endfor %}
+)

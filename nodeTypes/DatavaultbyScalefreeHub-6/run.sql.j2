@@ -1,0 +1,49 @@
+{% if config.preSQL %}
+	{{ stage('Pre-SQL') }}
+	{{ config.preSQL }}
+{% endif %}
+
+{% for source in sources %}
+
+	{{ stage('INSERT INTO Hub - ' ~ source.name) }}
+
+	{%- set hashkey_column = get_value_by_column_attribute("is_Hub_hk") -%}
+
+	INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+	
+WITH incoming AS (
+
+	SELECT DISTINCT
+	{% for col in source.columns %}
+		{{ get_source_transform(col) }} AS "{{ col.name }}"
+		{%- if not loop.last -%}, {% endif %}
+	{% endfor %}
+
+	{{ source.join }}
+
+), 
+
+new_records AS (
+
+	SELECT 
+	"SRC".* 
+	FROM incoming "SRC"
+	WHERE NOT EXISTS 
+
+	(SELECT 1 
+	FROM {{ ref_no_link(node.location.name, node.name) }} "TGT"
+	WHERE 
+		"SRC"."{{ hashkey_column }}" = "TGT"."{{ hashkey_column }}")
+
+	QUALIFY ROW_NUMBER() OVER (PARTITION BY "{{ hashkey_column }}" ORDER BY "{{ datavault4coalesce.config.ldts_alias }}" ) = 1
+)
+
+
+	SELECT * FROM new_records
+
+{% endfor %}
+
+{% if config.postSQL %}
+	{{ stage('Post-SQL') }}
+	{{ config.postSQL }}
+{% endif %}

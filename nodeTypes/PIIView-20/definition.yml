@@ -1,0 +1,46 @@
+fileVersion: 1
+id: "20"
+isDisabled: false
+metadata:
+  defaultStorageLocation: DWH
+  error: null
+  nodeMetadataSpec: |-
+    capitalized: PII View
+    short: VPII
+    tagColor: 'red'
+    isDisabled: true
+    plural: Views
+
+    config:
+      - groupName: Documentation
+        items:
+        - displayName: Description
+          attributename: description
+          type: textBox
+          isRequired: false
+          default: "A PII View adds a masking policy to specific attributes marked using the PII Flag column.  Allowed values (PII or blank)."
+
+      - groupName: Options
+        items: 
+
+        - displayName: Masking policy name
+          attributeName: maskingPolicy
+          type: textBox
+          isRequired: true
+
+      - groupName: Hidden config
+        enableIf: "false"
+        items:
+        - displayName: Type
+          type: materializationSelector
+          default: view
+          options:
+          - view
+          isRequired: true
+
+    mappingColumns:                                  
+    - type: textBox                                  
+      headerName: 'PII Flag'                        
+      attributeName: piiFlag
+name: PII View
+type: NodeType

@@ -1,0 +1,6 @@
+{{ stage('Run Stored Procedure') }}
+CALL {{ ref_no_link(node.location.name, 'PROC_' + node.name | upper) | trim }}(
+    '{{ this }}'
+    ,{% if config.skipRows %}{{ config.skipRows }}{% else %}NULL{% endif %}
+    ,{% if config.useCols %}'{{ config.useCols }}'{% else %}NULL{% endif %}
+)
