@@ -1,0 +1,125 @@
+fileVersion: 1
+id: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+name: LINK_DRIVER_VENDOR
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 4f429564-56db-4e2b-be56-bc31dd45f264
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        config:
+          is_Link_hk: true
+        dataType: STRING
+        description: 'Driver-Vendor Link hash key'
+        name: L_DRIVER_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b9c03a1c-4ddb-466f-96e4-6a17370b0809
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+      - columnReference:
+          columnCounter: 9660f5c4-4a77-4832-a467-f77bb6fcecac
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        dataType: STRING
+        description: Driver Hub hash key
+        name: H_DRIVER_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1921eae5-1025-4078-8544-d81cd13537d5
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+      - columnReference:
+          columnCounter: 39f05001-7d86-404e-b335-959d0f24b985
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        dataType: STRING
+        description: Vendor Hub hash key
+        name: H_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87fb231a-8f09-4779-9e51-ea5943439222
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+      - columnReference:
+          columnCounter: 3ee8f8a5-20c9-41fd-97bd-4f9114e28c5f
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        dataType: NUMBER(38,0)
+        description: ""
+        name: DRIVER_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8338c0ac-14b1-4753-8db1-6bacf324bc56
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+      - columnReference:
+          columnCounter: f27b9b8c-4fa8-43fe-9723-1c265cef2277
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        dataType: NUMBER(38,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9cc68447-26b3-4166-91b1-1a42f8bc86a7
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+      - columnReference:
+          columnCounter: a40050cc-21d6-4848-baaf-b3cf62a6ce30
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 379e706d-cfc4-4402-a6db-3180340993a4
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+      - columnReference:
+          columnCounter: 15b73e75-ebf3-4a2c-9efb-c8159a989314
+          stepCounter: 36b758fb-e34c-4bf5-8fe3-8939d3c079df
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f3c56109-5695-4a92-a655-38d627be1092
+                stepCounter: dc4ef815-9b90-4eac-9971-34617af09e69
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_DRIVER: dc4ef815-9b90-4eac-9971-34617af09e69
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_DRIVER
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_DRIVER') }} "DVSTG_DRIVER"
+        name: LINK_DRIVER_VENDOR
+        noLinkRefs: []
+  name: LINK_DRIVER_VENDOR
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::7
+  type: sql
+  version: 1
+type: Node
