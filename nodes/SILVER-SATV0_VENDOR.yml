@@ -1,0 +1,115 @@
+fileVersion: 1
+id: 122e7269-a673-478f-9cde-1aa4f0848757
+name: SATV0_VENDOR
+operation:
+  config:
+    disable_hwm: false
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 45999f81-6862-4026-bb57-2bebbd218398
+          stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+        config:
+          is_hk: true
+        dataType: STRING
+        description: 'Vendor Hub hash key'
+        name: H_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2819bc1c-9d8f-4f9a-9fea-f1360ca7d11c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: 9de3e217-bc81-472f-91d5-70bd9da186d5
+          stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+        dataType: NUMBER(38,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 200d0304-4dea-43d4-b55c-65100ed8297c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: 08880125-3145-4af6-b217-f190aa62e753
+          stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2988626c-39ff-4a73-a2c0-08a3e994248f
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: a0fa8156-564e-4eeb-bba8-e4c4535d35c6
+          stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ac4f3497-7806-4e16-bfd4-afdf110dcf8c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: 1d9a95b3-1f39-4022-9e4e-27f2594505e1
+          stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87d6a9c0-8885-4844-9276-74156dd3a02c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: a9240eee-48b7-4cc7-81ca-fa8c04f3a3d1
+          stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+        config:
+          is_hd: true
+        dataType: STRING
+        description: 'Vendor Satellite change hash key'
+        name: S_VENDOR_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: cf7bd48f-2f66-40c2-a3fb-a8e0c0c4e441
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_VENDOR: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_VENDOR
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_VENDOR') }} "DVSTG_VENDOR"
+        name: SATV0_VENDOR
+        noLinkRefs: []
+  name: SATV0_VENDOR
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::8
+  type: sql
+  version: 1
+type: Node

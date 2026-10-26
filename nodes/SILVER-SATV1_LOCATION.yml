@@ -1,0 +1,180 @@
+fileVersion: 1
+id: cdac3252-8c82-4736-8c33-27f6fe81196c
+name: SATV1_LOCATION
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 90c15a93-de70-4a7b-94cd-652789118918
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        config:
+          is_hk: true
+        dataType: STRING
+        description: 'Location Hub hash key'
+        name: H_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 97d28aca-9d11-4333-8fc2-b4f3596b9729
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: 8fc258e8-991d-457d-9283-8290a95cb06b
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: NUMBER(3,0)
+        description: ""
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 17660368-1e68-416f-b496-30572e15201b
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: 69a85dc2-39e7-46cb-87d1-b573893efef7
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7f0a6a3c-f09b-44ca-87fb-75c71df74971
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: cf870696-8e19-4f4a-b851-8b155bb6d446
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9dbfd384-7f6d-457c-b443-4afedca094a8
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: 7e2dddb3-3bda-44ad-99d4-126870ddffb6
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ddb7b293-fdb5-4947-a067-1bbe464b8a90
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: 92b49db6-fe3f-41ac-b948-739007cc6bc6
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fdf21168-17e1-4d87-a230-2108747a4dfc
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: 407c50bb-c395-4922-b8f2-d9ea75d9f92d
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: f13cc2d2-24d0-4f52-9da4-447e5185810b
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - columnReference:
+          columnCounter: 2e8ccb63-7ec3-415d-94d5-7bd80a82408d
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        dataType: STRING
+        description: ""
+        name: S_LOCATION_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3a7ed9ee-4a22-47da-bbb5-c0d723a16040
+                stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 347b0599-b528-42d6-b572-9446cf4a3bd6
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        is_system_ledts: true
+        name: LEDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+              OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+              ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: da5d92c1-07e1-4e7e-8350-823fcebf65ab
+          stepCounter: cdac3252-8c82-4736-8c33-27f6fe81196c
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_system_current_col: true
+        name: IS_CURRENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              CASE 
+                WHEN 
+                  LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+                  OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+                  ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") IS NULL 
+                THEN TRUE 
+                ELSE FALSE 
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SATV0_LOCATION: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: SATV0_LOCATION
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'SATV0_LOCATION') }} "SATV0_LOCATION"
+        name: SATV1_LOCATION
+        noLinkRefs: []
+  name: SATV1_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::9
+  type: sql
+  version: 1
+type: Node

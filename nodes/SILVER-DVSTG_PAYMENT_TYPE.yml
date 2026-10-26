@@ -1,0 +1,133 @@
+fileVersion: 1
+id: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+name: DVSTG_PAYMENT_TYPE
+operation:
+  config:
+    contains_multiactive_data: false
+    generate_ghost_records: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 8a6b0904-8e6f-4a62-bc7d-8b9c827801c3
+          stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        dataType: NUMBER(1,0)
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 63c1b7d9-e018-4d0a-a052-48399dd29440
+                stepCounter: 5d63e4c0-022d-49a2-95cd-8c2af5b74ba7
+            transform: ""
+      - columnReference:
+          columnCounter: 885252cd-5382-4b61-a614-9a87a63bab8b
+          stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        dataType: VARCHAR(14)
+        description: ""
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 94fc07a6-6e5d-4c63-84dd-32fd4ceed07c
+                stepCounter: 5d63e4c0-022d-49a2-95cd-8c2af5b74ba7
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 212ca805-844f-4a62-9799-3f5c40d3d221
+          stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        is_system_ldts: true
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: SYSDATE()
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 31ac7dcf-f972-4802-b559-2fceb161e01b
+          stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: The Record Source (RSRC) describes the source of this data.
+        is_system_rsrc: true
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "{{record_source()}}"
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3d33bc3f-5ea6-42ff-8181-162dd035f4a2
+          stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: Payment Hub hash key
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: 8a6b0904-8e6f-4a62-bc7d-8b9c827801c3
+            stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        name: H_PAYMENT_KEY
+        nullable: true
+        sourceColumnReferences: []
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 380b3f05-e626-4eb5-9e38-11766dc42c93
+          stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: Payment Satellite change hash key
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: 885252cd-5382-4b61-a614-9a87a63bab8b
+            stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        name: S_PAYMENT_HASH
+        nullable: true
+        sourceColumnReferences: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PAYMENT_TYPE: 5d63e4c0-022d-49a2-95cd-8c2af5b74ba7
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} "PAYMENT_TYPE"
+        name: DVSTG_PAYMENT_TYPE
+        noLinkRefs: []
+  name: DVSTG_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::4
+  type: sql
+  version: 1
+type: Node

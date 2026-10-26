@@ -1,0 +1,89 @@
+fileVersion: 1
+id: 5ea9376e-a4e3-47bd-bb76-a0fd957d9fe9
+name: HUB_PAYMENT_TYPE
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: cd2d20bb-3836-4c1d-88f2-0bdb2682996a
+          stepCounter: 5ea9376e-a4e3-47bd-bb76-a0fd957d9fe9
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: Payment Hub hash key
+        name: H_PAYMENT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d33bc3f-5ea6-42ff-8181-162dd035f4a2
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: df42f970-c56d-4fa4-8806-fccf476aded5
+          stepCounter: 5ea9376e-a4e3-47bd-bb76-a0fd957d9fe9
+        dataType: NUMBER(1,0)
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8a6b0904-8e6f-4a62-bc7d-8b9c827801c3
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: 2706fd1f-d904-4539-b009-f9565f455c6e
+          stepCounter: 5ea9376e-a4e3-47bd-bb76-a0fd957d9fe9
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 212ca805-844f-4a62-9799-3f5c40d3d221
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: f358dc93-c908-4acc-a6a1-9dcf6624c13c
+          stepCounter: 5ea9376e-a4e3-47bd-bb76-a0fd957d9fe9
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 31ac7dcf-f972-4802-b559-2fceb161e01b
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_PAYMENT_TYPE: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_PAYMENT_TYPE') }} "DVSTG_PAYMENT_TYPE"
+        name: HUB_PAYMENT_TYPE
+        noLinkRefs: []
+  name: HUB_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node

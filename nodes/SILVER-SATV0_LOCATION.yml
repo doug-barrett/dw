@@ -1,0 +1,139 @@
+fileVersion: 1
+id: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+name: SATV0_LOCATION
+operation:
+  config:
+    disable_hwm: false
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 97d28aca-9d11-4333-8fc2-b4f3596b9729
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        config:
+          is_hk: true
+        dataType: STRING
+        description: 'Location Hub hash key'
+        name: H_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2263f4be-c3d9-4225-b2ea-c75ebd467eed
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 17660368-1e68-416f-b496-30572e15201b
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        dataType: NUMBER(3,0)
+        description: ""
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e25ae8a3-376c-4713-815b-e0f7eafb1f4e
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: ddb7b293-fdb5-4947-a067-1bbe464b8a90
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 70802edb-3f5a-4a2b-a8f9-43b75ae1008f
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: fdf21168-17e1-4d87-a230-2108747a4dfc
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: eb09f28e-1363-46f9-b877-e980f0aa3f21
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: f13cc2d2-24d0-4f52-9da4-447e5185810b
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0caa9166-3d5b-47c6-b940-db4a4fbcc5ec
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 7f0a6a3c-f09b-44ca-87fb-75c71df74971
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 37ce67a2-fe57-41e6-9eeb-ec1ff4e26729
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 9dbfd384-7f6d-457c-b443-4afedca094a8
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a4e5ab6d-51ef-4df8-8747-71fe154a4d50
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 3a7ed9ee-4a22-47da-bbb5-c0d723a16040
+          stepCounter: e3c6697b-b27a-47b7-9071-96f8b96cc5a6
+        config:
+          is_hd: true
+        dataType: STRING
+        description: 'Location Satellite change hash key'
+        name: S_LOCATION_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 58ba8670-28e4-4222-aaa6-34b7ffdac391
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_LOCATION: 1c8ae526-dd97-469b-b764-08260d826611
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_LOCATION
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_LOCATION') }} "DVSTG_LOCATION"
+        name: SATV0_LOCATION
+        noLinkRefs: []
+  name: SATV0_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::8
+  type: sql
+  version: 1
+type: Node

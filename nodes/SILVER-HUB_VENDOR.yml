@@ -1,0 +1,89 @@
+fileVersion: 1
+id: 2c7b2ec2-63d4-4e94-9bbc-af635cd137ed
+name: HUB_VENDOR
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: e15bf7d1-17c3-447d-8bd9-1c754a61e19d
+          stepCounter: 2c7b2ec2-63d4-4e94-9bbc-af635cd137ed
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: 'Vendor Hub hash key'
+        name: H_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2819bc1c-9d8f-4f9a-9fea-f1360ca7d11c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: bd039cee-94e3-451c-8f21-2fde3331b1c6
+          stepCounter: 2c7b2ec2-63d4-4e94-9bbc-af635cd137ed
+        dataType: NUMBER(38,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 200d0304-4dea-43d4-b55c-65100ed8297c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: 04dee32d-2510-48b9-bc7c-de32d70ce416
+          stepCounter: 2c7b2ec2-63d4-4e94-9bbc-af635cd137ed
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ac4f3497-7806-4e16-bfd4-afdf110dcf8c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+      - columnReference:
+          columnCounter: 95c37370-7965-4ce5-9980-cabbe066424a
+          stepCounter: 2c7b2ec2-63d4-4e94-9bbc-af635cd137ed
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 87d6a9c0-8885-4844-9276-74156dd3a02c
+                stepCounter: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_VENDOR: 2c1b60f8-d140-4da0-88b4-22bbaf373b0d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_VENDOR
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_VENDOR') }} "DVSTG_VENDOR"
+        name: HUB_VENDOR
+        noLinkRefs: []
+  name: HUB_VENDOR
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node

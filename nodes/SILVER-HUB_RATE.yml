@@ -1,0 +1,89 @@
+fileVersion: 1
+id: 48c42e64-8632-46c9-913a-6d975bbcb06d
+name: HUB_RATE
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 68928dae-9b0c-4886-ad78-215629bb7fa6
+          stepCounter: 48c42e64-8632-46c9-913a-6d975bbcb06d
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: 'Rate Hub hash key'
+        name: H_RATE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 71c4a503-4698-4ba8-bcfc-b4c4d9f612bf
+                stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+            transform: ""
+      - columnReference:
+          columnCounter: 5b9e056c-7c4d-4e98-b672-507ec25c0871
+          stepCounter: 48c42e64-8632-46c9-913a-6d975bbcb06d
+        dataType: NUMBER(2,0)
+        description: ""
+        name: RATE_CODE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b1dcfd54-4c84-43d7-9b0b-f26c40e16c2c
+                stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+            transform: ""
+      - columnReference:
+          columnCounter: 64bbd4b1-5143-42eb-807c-fe0403e21367
+          stepCounter: 48c42e64-8632-46c9-913a-6d975bbcb06d
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 425ecd27-baa1-4214-96f6-9af311a36603
+                stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+            transform: ""
+      - columnReference:
+          columnCounter: e8b44d83-28aa-4ab3-a2ee-bd658af11256
+          stepCounter: 48c42e64-8632-46c9-913a-6d975bbcb06d
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 192109a3-5b64-47bb-af95-6ab052d5111b
+                stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_RATE_CODE: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_RATE_CODE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_RATE_CODE') }} "DVSTG_RATE_CODE"
+        name: HUB_RATE
+        noLinkRefs: []
+  name: HUB_RATE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node

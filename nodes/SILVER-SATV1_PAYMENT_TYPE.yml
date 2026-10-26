@@ -1,0 +1,156 @@
+fileVersion: 1
+id: 66d3b67d-2512-438e-9249-4d1810ddfc49
+name: SATV1_PAYMENT_TYPE
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 911b6e51-4577-4ef5-a331-c451edb98923
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        config:
+          is_hk: true
+        dataType: STRING
+        description: Payment Hub hash key
+        name: H_PAYMENT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a3e22179-77b2-4bdd-99fa-a4d9110ac1a1
+                stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+            transform: ""
+      - columnReference:
+          columnCounter: fe8e2347-7741-423e-9dc3-d8e22f350eb8
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        dataType: NUMBER(1,0)
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: dc346dbf-6e73-420c-ac3d-c9530ee0d53f
+                stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+            transform: ""
+      - columnReference:
+          columnCounter: af71426a-fb50-415d-b75d-cdd8bd01273c
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3050275b-f525-44ba-9193-71919eb01ba5
+                stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+            transform: ""
+      - columnReference:
+          columnCounter: 23742801-34b2-4b84-81f1-df77d6d4000d
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5880390e-20e0-4727-9cd9-64eca12f92d4
+                stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+            transform: ""
+      - columnReference:
+          columnCounter: 6d27b0d4-c8a1-4c9e-abde-c9941540508d
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        dataType: VARCHAR(14)
+        description: ""
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 982468a7-e4d1-441e-9174-bcb403b87c55
+                stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+            transform: ""
+      - columnReference:
+          columnCounter: c3005a21-b7ac-4968-9c7b-2600815087ca
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        dataType: STRING
+        description: Payment Satellite change hash key
+        name: S_PAYMENT_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 41b57658-7188-49ae-912e-d7ae122d85c8
+                stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: bc04a280-d02e-4f18-87d9-335cf335e74f
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        is_system_ledts: true
+        name: LEDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+              OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+              ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: de5204dd-86db-4229-aa2d-e8fe85b908f5
+          stepCounter: 66d3b67d-2512-438e-9249-4d1810ddfc49
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_system_current_col: true
+        name: IS_CURRENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              CASE 
+                WHEN 
+                  LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+                  OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+                  ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") IS NULL 
+                THEN TRUE 
+                ELSE FALSE 
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SATV0_PAYMENT_TYPE: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: SATV0_PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'SATV0_PAYMENT_TYPE') }} "SATV0_PAYMENT_TYPE"
+        name: SATV1_PAYMENT_TYPE
+        noLinkRefs: []
+  name: SATV1_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::9
+  type: sql
+  version: 1
+type: Node

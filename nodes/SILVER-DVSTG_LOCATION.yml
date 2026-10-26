@@ -1,0 +1,161 @@
+fileVersion: 1
+id: 1c8ae526-dd97-469b-b764-08260d826611
+name: DVSTG_LOCATION
+operation:
+  config:
+    contains_multiactive_data: false
+    generate_ghost_records: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: e25ae8a3-376c-4713-815b-e0f7eafb1f4e
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        dataType: NUMBER(3,0)
+        description: ""
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3a3dbed2-5eb6-4f05-9562-1d2080ad6de7
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: ""
+      - columnReference:
+          columnCounter: 70802edb-3f5a-4a2b-a8f9-43b75ae1008f
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0218d931-a24b-4bc5-9416-e56ed226cd3f
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: ""
+      - columnReference:
+          columnCounter: eb09f28e-1363-46f9-b877-e980f0aa3f21
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4cbfc41b-819f-4f6b-b428-8f2eccdf6dfd
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: ""
+      - columnReference:
+          columnCounter: 0caa9166-3d5b-47c6-b940-db4a4fbcc5ec
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 576e4b95-870b-4bc5-9b9b-fd836a8600ba
+                stepCounter: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 37ce67a2-fe57-41e6-9eeb-ec1ff4e26729
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        is_system_ldts: true
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: SYSDATE()
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: a4e5ab6d-51ef-4df8-8747-71fe154a4d50
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: The Record Source (RSRC) describes the source of this data.
+        is_system_rsrc: true
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "{{record_source()}}"
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2263f4be-c3d9-4225-b2ea-c75ebd467eed
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: Location Hub hash key
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: e25ae8a3-376c-4713-815b-e0f7eafb1f4e
+            stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        name: H_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences: []
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 58ba8670-28e4-4222-aaa6-34b7ffdac391
+          stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: Location Satellite change hash key
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: 70802edb-3f5a-4a2b-a8f9-43b75ae1008f
+            stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+          - columnCounter: eb09f28e-1363-46f9-b877-e980f0aa3f21
+            stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+          - columnCounter: 0caa9166-3d5b-47c6-b940-db4a4fbcc5ec
+            stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+        name: S_LOCATION_HASH
+        nullable: true
+        sourceColumnReferences: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LOCATION: f811d53e-5b34-4d53-bc0e-a0ed9b8a110b
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: LOCATION
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'LOCATION') }} "LOCATION"
+        name: DVSTG_LOCATION
+        noLinkRefs: []
+  name: DVSTG_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::4
+  type: sql
+  version: 1
+type: Node

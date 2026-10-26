@@ -1,0 +1,133 @@
+fileVersion: 1
+id: a74360cf-e590-45a1-a1ca-8f64035c5d87
+name: DVSTG_RATE_CODE
+operation:
+  config:
+    contains_multiactive_data: false
+    generate_ghost_records: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: b1dcfd54-4c84-43d7-9b0b-f26c40e16c2c
+          stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        dataType: NUMBER(2,0)
+        description: ""
+        name: RATE_CODE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7147190a-92fd-4215-99c7-a56de547eabb
+                stepCounter: 52fd1afb-356e-432c-97f2-988e143c6466
+            transform: ""
+      - columnReference:
+          columnCounter: 0bd1e017-2246-4943-9c81-f3980b52acb3
+          stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        dataType: VARCHAR(21)
+        description: ""
+        name: RATE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c6b4d8b5-3fe0-4dfc-b036-bcf094c011ab
+                stepCounter: 52fd1afb-356e-432c-97f2-988e143c6466
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 425ecd27-baa1-4214-96f6-9af311a36603
+          stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        is_system_ldts: true
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: SYSDATE()
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 192109a3-5b64-47bb-af95-6ab052d5111b
+          stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: The Record Source (RSRC) describes the source of this data.
+        is_system_rsrc: true
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: "{{record_source()}}"
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 71c4a503-4698-4ba8-bcfc-b4c4d9f612bf
+          stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: Rate Hub hash key
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: b1dcfd54-4c84-43d7-9b0b-f26c40e16c2c
+            stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        name: H_RATE_KEY
+        nullable: true
+        sourceColumnReferences: []
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2cc548b9-1d77-4fe7-bbc7-8750ca020089
+          stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: Rate Satellite change hash key
+        hashDetails:
+          hashAlgorithm: SHA1
+        hashedColumns:
+          - columnCounter: 0bd1e017-2246-4943-9c81-f3980b52acb3
+            stepCounter: a74360cf-e590-45a1-a1ca-8f64035c5d87
+        name: S_RATE_HASH
+        nullable: true
+        sourceColumnReferences: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          RATE_CODE: 52fd1afb-356e-432c-97f2-988e143c6466
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: BRONZE
+            nodeName: RATE_CODE
+        join:
+          joinCondition: FROM {{ ref('BRONZE', 'RATE_CODE') }} "RATE_CODE"
+        name: DVSTG_RATE_CODE
+        noLinkRefs: []
+  name: DVSTG_RATE_CODE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::4
+  type: sql
+  version: 1
+type: Node

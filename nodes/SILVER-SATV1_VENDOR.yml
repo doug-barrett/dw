@@ -1,0 +1,156 @@
+fileVersion: 1
+id: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+name: SATV1_VENDOR
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 0e54e2ef-423c-4a46-9388-6900c0ea72a2
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        config:
+          is_hk: true
+        dataType: STRING
+        description: 'Vendor Hub hash key'
+        name: H_VENDOR_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 45999f81-6862-4026-bb57-2bebbd218398
+                stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+            transform: ""
+      - columnReference:
+          columnCounter: a0274636-dfd1-4d99-852a-ad27eb3b0420
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        dataType: NUMBER(38,0)
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 9de3e217-bc81-472f-91d5-70bd9da186d5
+                stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+            transform: ""
+      - columnReference:
+          columnCounter: aa33d356-55b1-46c0-aa1c-d27d8c61156e
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a0fa8156-564e-4eeb-bba8-e4c4535d35c6
+                stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+            transform: ""
+      - columnReference:
+          columnCounter: cef05439-92cb-46d5-a3be-4148a4998651
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1d9a95b3-1f39-4022-9e4e-27f2594505e1
+                stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+            transform: ""
+      - columnReference:
+          columnCounter: c8653e0d-6b2a-4f6b-9edf-04f9b077eeb8
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 08880125-3145-4af6-b217-f190aa62e753
+                stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+            transform: ""
+      - columnReference:
+          columnCounter: 0dbf58ff-d475-4c44-bce5-6cdab3df4178
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        dataType: STRING
+        description: ""
+        name: S_VENDOR_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a9240eee-48b7-4cc7-81ca-fa8c04f3a3d1
+                stepCounter: 122e7269-a673-478f-9cde-1aa4f0848757
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1544a049-86de-427c-a404-c090d920a98d
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        is_system_ledts: true
+        name: LEDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+              OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+              ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 97bcfb76-1d31-4ade-8f25-611a67d17fe9
+          stepCounter: 2494c81f-52dd-4e86-a39c-fb4736266d8d
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_system_current_col: true
+        name: IS_CURRENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              CASE 
+                WHEN 
+                  LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+                  OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+                  ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") IS NULL 
+                THEN TRUE 
+                ELSE FALSE 
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SATV0_VENDOR: 122e7269-a673-478f-9cde-1aa4f0848757
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: SATV0_VENDOR
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'SATV0_VENDOR') }} "SATV0_VENDOR"
+        name: SATV1_VENDOR
+        noLinkRefs: []
+  name: SATV1_VENDOR
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::9
+  type: sql
+  version: 1
+type: Node

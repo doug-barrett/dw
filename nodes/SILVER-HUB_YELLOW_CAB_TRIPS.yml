@@ -1,0 +1,89 @@
+fileVersion: 1
+id: 01b9b7cc-e4e9-4286-8f9d-27daf27b9806
+name: HUB_YELLOW_CAB_TRIPS
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: 10543720-ac42-41cb-b2be-6d3ffcbf6117
+          stepCounter: 01b9b7cc-e4e9-4286-8f9d-27daf27b9806
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: Trip Hub hash key
+        name: H_TRIP_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 29f24472-bd3b-47e7-b131-5bc971dae9c1
+                stepCounter: 0e3e8d2f-1f7a-4dc1-9ae8-af354fa43550
+            transform: ""
+      - columnReference:
+          columnCounter: b4fc4953-ee9e-40cb-93a9-48557716a781
+          stepCounter: 01b9b7cc-e4e9-4286-8f9d-27daf27b9806
+        dataType: NUMBER(18,0)
+        description: ""
+        name: TRIP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: ca68b8bf-02d0-4c83-bbfc-f467c5fe3360
+                stepCounter: 0e3e8d2f-1f7a-4dc1-9ae8-af354fa43550
+            transform: ""
+      - columnReference:
+          columnCounter: 6ea99d7f-e650-4e63-83ec-0d4b41711494
+          stepCounter: 01b9b7cc-e4e9-4286-8f9d-27daf27b9806
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: b22327ea-a1e8-4d96-a4af-1f5144e86392
+                stepCounter: 0e3e8d2f-1f7a-4dc1-9ae8-af354fa43550
+            transform: ""
+      - columnReference:
+          columnCounter: 3cfbefc6-b54e-4ee0-bd84-0bee1cb47ae4
+          stepCounter: 01b9b7cc-e4e9-4286-8f9d-27daf27b9806
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: c3eecf42-c006-4c38-8b9d-b0701ba7edde
+                stepCounter: 0e3e8d2f-1f7a-4dc1-9ae8-af354fa43550
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_YELLOW_CAB_TRIPS: 0e3e8d2f-1f7a-4dc1-9ae8-af354fa43550
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_YELLOW_CAB_TRIPS
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_YELLOW_CAB_TRIPS') }} "DVSTG_YELLOW_CAB_TRIPS"
+        name: HUB_YELLOW_CAB_TRIPS
+        noLinkRefs: []
+  name: HUB_YELLOW_CAB_TRIPS
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node

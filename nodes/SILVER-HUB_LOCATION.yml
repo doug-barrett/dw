@@ -1,0 +1,89 @@
+fileVersion: 1
+id: f8fd3d8a-aa7d-432b-93e8-b1ee6c390cb2
+name: HUB_LOCATION
+operation:
+  config:
+    disable_hwm: true
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: a1746721-df9c-48d9-b896-466ab1aab33d
+          stepCounter: f8fd3d8a-aa7d-432b-93e8-b1ee6c390cb2
+        config:
+          is_Hub_hk: true
+        dataType: STRING
+        description: 'Location Hub hash key'
+        name: H_LOCATION_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 2263f4be-c3d9-4225-b2ea-c75ebd467eed
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 0bea7c0d-37c6-4b6e-a86c-32eef71cc270
+          stepCounter: f8fd3d8a-aa7d-432b-93e8-b1ee6c390cb2
+        dataType: NUMBER(3,0)
+        description: ""
+        name: LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: e25ae8a3-376c-4713-815b-e0f7eafb1f4e
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 6cab94b6-0d70-4d4b-a19d-a0404852f8f2
+          stepCounter: f8fd3d8a-aa7d-432b-93e8-b1ee6c390cb2
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 37ce67a2-fe57-41e6-9eeb-ec1ff4e26729
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+      - columnReference:
+          columnCounter: 866e5edf-6563-4590-9d6c-33650adfeb1a
+          stepCounter: f8fd3d8a-aa7d-432b-93e8-b1ee6c390cb2
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: a4e5ab6d-51ef-4df8-8747-71fe154a4d50
+                stepCounter: 1c8ae526-dd97-469b-b764-08260d826611
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_LOCATION: 1c8ae526-dd97-469b-b764-08260d826611
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_LOCATION
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_LOCATION') }} "DVSTG_LOCATION"
+        name: HUB_LOCATION
+        noLinkRefs: []
+  name: HUB_LOCATION
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::6
+  type: sql
+  version: 1
+type: Node

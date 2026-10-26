@@ -1,0 +1,115 @@
+fileVersion: 1
+id: d001c8fa-5f88-4d30-9117-e599b28fbe73
+name: SATV0_PAYMENT_TYPE
+operation:
+  config:
+    disable_hwm: false
+    postSQL: ""
+    preSQL: ""
+    testsEnabled: true
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: a3e22179-77b2-4bdd-99fa-a4d9110ac1a1
+          stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        config:
+          is_hk: true
+        dataType: STRING
+        description: Payment Hub hash key
+        name: H_PAYMENT_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 3d33bc3f-5ea6-42ff-8181-162dd035f4a2
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: dc346dbf-6e73-420c-ac3d-c9530ee0d53f
+          stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        dataType: NUMBER(1,0)
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8a6b0904-8e6f-4a62-bc7d-8b9c827801c3
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: 982468a7-e4d1-441e-9174-bcb403b87c55
+          stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        dataType: VARCHAR(14)
+        description: ""
+        name: PAYMENT_TYPE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 885252cd-5382-4b61-a614-9a87a63bab8b
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: 3050275b-f525-44ba-9193-71919eb01ba5
+          stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 212ca805-844f-4a62-9799-3f5c40d3d221
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: 5880390e-20e0-4727-9cd9-64eca12f92d4
+          stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 31ac7dcf-f972-4802-b559-2fceb161e01b
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+      - columnReference:
+          columnCounter: 41b57658-7188-49ae-912e-d7ae122d85c8
+          stepCounter: d001c8fa-5f88-4d30-9117-e599b28fbe73
+        config:
+          is_hd: true
+        dataType: STRING
+        description: Payment Satellite change hash key
+        name: S_PAYMENT_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 380b3f05-e626-4eb5-9e38-11766dc42c93
+                stepCounter: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          DVSTG_PAYMENT_TYPE: 814264f8-5ff5-4f0a-a5ef-cbb301acacf4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: DVSTG_PAYMENT_TYPE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'DVSTG_PAYMENT_TYPE') }} "DVSTG_PAYMENT_TYPE"
+        name: SATV0_PAYMENT_TYPE
+        noLinkRefs: []
+  name: SATV0_PAYMENT_TYPE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::8
+  type: sql
+  version: 1
+type: Node

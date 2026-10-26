@@ -1,0 +1,156 @@
+fileVersion: 1
+id: f13e4b4c-fe50-4813-a3b7-d914163006fd
+name: SATV1_RATE
+operation:
+  config:
+    postSQL: ""
+    preSQL: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SILVER
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - columnReference:
+          columnCounter: c422d05c-4afb-4519-9703-4f3c109f988c
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        config:
+          is_hk: true
+        dataType: STRING
+        description: 'Rate Hub hash key'
+        name: H_RATE_KEY
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1f8dbeb0-ab18-4610-aa59-4d30a262db47
+                stepCounter: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+            transform: ""
+      - columnReference:
+          columnCounter: 079bdbb8-63ce-4728-bd33-273e9edc28f7
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        dataType: NUMBER(2,0)
+        description: ""
+        name: RATE_CODE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 5885437c-6a75-42f0-b050-e3a42964b9d4
+                stepCounter: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+            transform: ""
+      - columnReference:
+          columnCounter: 3aa9edb1-3577-45b0-8661-418a894e0bcd
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        dataType: TIMESTAMP
+        description: The Load Date Timestamp (LDTS) describes when this data first arrived in the Data Warehouse.
+        name: LDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 1a8a475f-07ff-4150-8b5c-a83c2737e779
+                stepCounter: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+            transform: ""
+      - columnReference:
+          columnCounter: 6a225e4a-7c85-4bae-9a5c-ac41cf23df5d
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        dataType: STRING
+        description: The Record Source (RSRC) describes the source of this data.
+        name: RSRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 54b2b96b-d5e9-4d66-8631-0719c4b73ed6
+                stepCounter: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+            transform: ""
+      - columnReference:
+          columnCounter: f1aa5573-f5ba-4cbb-a1f2-0f9cb5d34e50
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        dataType: VARCHAR(21)
+        description: ""
+        name: RATE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 6225c01c-35b4-4b21-8c4d-b787a65246b7
+                stepCounter: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+            transform: ""
+      - columnReference:
+          columnCounter: a51dceb7-5247-4085-88ca-ea67106d977c
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        dataType: STRING
+        description: ""
+        name: S_RATE_HASH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 65edddae-fb3c-4e24-b6d6-d9b02f7ca336
+                stepCounter: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 85da0f2c-c566-472a-a2c0-36904daa43be
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        config: {}
+        dataType: TIMESTAMP
+        defaultValue: ""
+        description: ""
+        is_system_ledts: true
+        name: LEDTS
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              COALESCE(LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+              OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+              ORDER BY "{{ datavault4coalesce.config.ldts_alias }}"), {{ datavault4coalesce__string_to_timestamp(datavault4coalesce.config.timestamp_format, datavault4coalesce.config.end_of_all_times) }})
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 59690da1-3010-4cb3-8b24-6e7c75cc5cb0
+          stepCounter: f13e4b4c-fe50-4813-a3b7-d914163006fd
+        config: {}
+        dataType: BOOLEAN
+        defaultValue: ""
+        description: ""
+        is_system_current_col: true
+        name: IS_CURRENT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: |-
+              CASE 
+                WHEN 
+                  LEAD("{{ datavault4coalesce.config.ldts_alias }}" - INTERVAL '1 MICROSECOND') 
+                  OVER (PARTITION BY "{{ get_value_by_column_attribute("is_hk") }}" 
+                  ORDER BY "{{ datavault4coalesce.config.ldts_alias }}") IS NULL 
+                THEN TRUE 
+                ELSE FALSE 
+              END
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SATV0_RATE: da617bba-7dfe-4c71-a2b3-3ba98c042fd4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: SATV0_RATE
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'SATV0_RATE') }} "SATV0_RATE"
+        name: SATV1_RATE
+        noLinkRefs: []
+  name: SATV1_RATE
+  overrideSQL: false
+  schema: ""
+  sqlType: DV:::9
+  type: sql
+  version: 1
+type: Node
