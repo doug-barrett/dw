@@ -1,0 +1,201 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Branch Diff</title>
+<style>
+  :root{
+    --added:#1a7f37; --added-bg:#dafbe1;
+    --modified:#9a6700; --modified-bg:#fff8c5;
+    --removed:#cf222e; --removed-bg:#ffebe9;
+    --unchanged:#57606a; --unchanged-bg:#f6f8fa;
+    --line:#d0d7de; --ink:#1f2328; --muted:#636c76;
+  }
+  *{box-sizing:border-box}
+  body{font:14px system-ui,-apple-system,Segoe UI,sans-serif;margin:0;color:var(--ink);display:flex;flex-direction:column;height:100vh}
+  header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line);background:#fff}
+  header h1{font-size:15px;margin:0;font-weight:600}
+  select{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:#fff}
+  .cmp{color:var(--muted)}
+  .cmp b{color:var(--ink)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-left:auto;align-items:center}
+  .legend span{display:inline-flex;align-items:center;gap:6px;color:var(--muted)}
+  .dot{width:12px;height:12px;border-radius:3px;border:1.5px solid}
+  .dot.added{background:var(--added-bg);border-color:var(--added)}
+  .dot.modified{background:var(--modified-bg);border-color:var(--modified)}
+  .dot.removed{background:var(--removed-bg);border-color:var(--removed)}
+  .dot.unchanged{background:var(--unchanged-bg);border-color:var(--unchanged)}
+  .counts{display:flex;gap:10px;padding:6px 16px;border-bottom:1px solid var(--line);background:#fbfcfd;color:var(--muted);font-size:13px}
+  .counts b{color:var(--ink)}
+  #wrap{flex:1;overflow:auto;background:#fafbfc}
+  #msg{padding:24px 16px;color:var(--muted)}
+  .edge{fill:none;stroke:var(--line);stroke-width:1.5}
+  .edge.changed{stroke:#8c6d1f;stroke-width:2}
+  .nodebox rect{rx:7;stroke-width:2}
+  .nodebox text.name{font-weight:600;font-size:12px}
+  .nodebox text.loc{font-size:10px;fill:var(--muted)}
+  .nodebox.added rect{fill:var(--added-bg);stroke:var(--added)}
+  .nodebox.modified rect{fill:var(--modified-bg);stroke:var(--modified)}
+  .nodebox.removed rect{fill:var(--removed-bg);stroke:var(--removed)}
+  .nodebox.removed text.name{text-decoration:line-through}
+  .nodebox.unchanged rect{fill:var(--unchanged-bg);stroke:var(--line)}
+  .nodebox{cursor:default}
+  .nodebox title{white-space:pre}
+</style>
+
+<header>
+  <h1>Branch Diff</h1>
+  <span class="cmp">on <b id="current">…</b> vs</span>
+  <select id="branch"><option>loading…</option></select>
+  <div class="legend">
+    <span><i class="dot added"></i>added</span>
+    <span><i class="dot modified"></i>modified</span>
+    <span><i class="dot removed"></i>removed</span>
+    <span><i class="dot unchanged"></i>unchanged</span>
+  </div>
+</header>
+<div class="counts" id="counts"></div>
+<div id="wrap"><div id="msg">Pick a branch to compare.</div></div>
+
+<script>
+const SVGNS = "http://www.w3.org/2000/svg";
+const COL_W = 230, ROW_H = 64, BOX_W = 180, BOX_H = 44, PAD = 30;
+
+async function loadBranches(){
+  const { current, branches } = await (await fetch("api/branches")).json();
+  document.getElementById("current").textContent = current;
+  const sel = document.getElementById("branch");
+  sel.innerHTML = "";
+  const def = document.createElement("option");
+  def.value = ""; def.textContent = "— select a branch —";
+  sel.append(def);
+  for (const b of branches){
+    if (b === current) continue;
+    const o = document.createElement("option");
+    o.value = b; o.textContent = b;
+    sel.append(o);
+  }
+  sel.onchange = () => sel.value ? render(sel.value) : clear("Pick a branch to compare.");
+}
+
+function clear(text){
+  document.getElementById("counts").textContent = "";
+  document.getElementById("wrap").innerHTML = '<div id="msg">'+text+'</div>';
+}
+
+// Longest-path layering so upstream sits left of downstream.
+function assignDepths(nodes, edges){
+  const incoming = new Map(nodes.map(n => [n.id, []]));
+  const outgoing = new Map(nodes.map(n => [n.id, []]));
+  for (const e of edges){
+    if (outgoing.has(e.from) && incoming.has(e.to)){
+      outgoing.get(e.from).push(e.to);
+      incoming.get(e.to).push(e.from);
+    }
+  }
+  const depth = new Map();
+  const visiting = new Set();
+  function d(id){
+    if (depth.has(id)) return depth.get(id);
+    if (visiting.has(id)) return 0;         // cycle guard
+    visiting.add(id);
+    let best = 0;
+    for (const p of incoming.get(id)) best = Math.max(best, d(p) + 1);
+    visiting.delete(id);
+    depth.set(id, best);
+    return best;
+  }
+  for (const n of nodes) d(n.id);
+  return depth;
+}
+
+async function render(compare){
+  clear("Loading…");
+  const data = await (await fetch("api/graph?compare=" + encodeURIComponent(compare))).json();
+  if (data.error){ clear("Error: " + data.error); return; }
+  const { nodes, edges } = data;
+  if (!nodes.length){ clear("No nodes found in this workspace."); return; }
+
+  // counts
+  const tally = { added:0, modified:0, removed:0, unchanged:0 };
+  for (const n of nodes) tally[n.status] = (tally[n.status]||0) + 1;
+  document.getElementById("counts").innerHTML =
+    `<span><b>${tally.added}</b> added</span>` +
+    `<span><b>${tally.modified}</b> modified</span>` +
+    `<span><b>${tally.removed}</b> removed</span>` +
+    `<span><b>${tally.unchanged}</b> unchanged</span>` +
+    `<span style="margin-left:auto"><b>${nodes.length}</b> nodes · <b>${edges.length}</b> edges</span>`;
+
+  // layout
+  const depth = assignDepths(nodes, edges);
+  const cols = new Map();
+  for (const n of nodes){
+    const dpt = depth.get(n.id) || 0;
+    if (!cols.has(dpt)) cols.set(dpt, []);
+    cols.get(dpt).push(n);
+  }
+  const pos = new Map();
+  let maxRows = 0;
+  for (const [dpt, list] of cols){
+    list.sort((a,b) => (a.location+a.name).localeCompare(b.location+b.name));
+    list.forEach((n,i) => pos.set(n.id, {
+      x: PAD + dpt * COL_W,
+      y: PAD + i * ROW_H
+    }));
+    maxRows = Math.max(maxRows, list.length);
+  }
+  const maxDepth = Math.max(0, ...[...cols.keys()]);
+  const W = PAD*2 + maxDepth*COL_W + BOX_W;
+  const H = PAD*2 + Math.max(1, maxRows) * ROW_H;
+
+  const svg = document.createElementNS(SVGNS, "svg");
+  svg.setAttribute("width", W); svg.setAttribute("height", H);
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+  // arrow marker
+  svg.innerHTML =
+    '<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">' +
+    '<path d="M0,0 L8,4 L0,8 z" fill="#8a94a0"/></marker></defs>';
+
+  const byId = new Map(nodes.map(n => [n.id, n]));
+  // edges first (under boxes)
+  for (const e of edges){
+    const a = pos.get(e.from), b = pos.get(e.to);
+    if (!a || !b) continue;
+    const x1 = a.x + BOX_W, y1 = a.y + BOX_H/2;
+    const x2 = b.x,         y2 = b.y + BOX_H/2;
+    const mx = (x1 + x2) / 2;
+    const path = document.createElementNS(SVGNS, "path");
+    path.setAttribute("d", `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`);
+    const changed = ["added","modified","removed"].includes(byId.get(e.to)?.status) ||
+                    ["added","modified","removed"].includes(byId.get(e.from)?.status);
+    path.setAttribute("class", "edge" + (changed ? " changed" : ""));
+    path.setAttribute("marker-end", "url(#arr)");
+    svg.append(path);
+  }
+  // node boxes
+  for (const n of nodes){
+    const p = pos.get(n.id);
+    const g = document.createElementNS(SVGNS, "g");
+    g.setAttribute("class", "nodebox " + n.status);
+    g.setAttribute("transform", `translate(${p.x},${p.y})`);
+    const rect = document.createElementNS(SVGNS, "rect");
+    rect.setAttribute("width", BOX_W); rect.setAttribute("height", BOX_H);
+    rect.setAttribute("rx", 7);
+    const loc = document.createElementNS(SVGNS, "text");
+    loc.setAttribute("class","loc"); loc.setAttribute("x",12); loc.setAttribute("y",17);
+    loc.textContent = n.location + "  ·  " + n.status;
+    const nm = document.createElementNS(SVGNS, "text");
+    nm.setAttribute("class","name"); nm.setAttribute("x",12); nm.setAttribute("y",33);
+    nm.textContent = n.name.length > 24 ? n.name.slice(0,23) + "…" : n.name;
+    const tip = document.createElementNS(SVGNS, "title");
+    tip.textContent = n.id + "\n" + n.file + "\n" + n.status;
+    g.append(rect, loc, nm, tip);
+    svg.append(g);
+  }
+
+  const wrap = document.getElementById("wrap");
+  wrap.innerHTML = "";
+  wrap.append(svg);
+}
+
+loadBranches().catch(e => clear("Error loading branches: " + e));
+</script>
