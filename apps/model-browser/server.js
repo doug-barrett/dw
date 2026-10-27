@@ -22,7 +22,20 @@ const DV_FALLBACK = {
 const COLOR_FALLBACK = {
   "DV:::4": "#72B7B2", "DV:::6": "#4C78A8", "DV:::7": "#E45756",
   "DV:::8": "#54A24B", "DV:::9": "#88B04B", "Source": "#6B7785",
+  // V2 SQL node types reuse the dimensional palette for consistency
+  "SQL:::SQLDimension": "#1E339A", "SQL:::SQLFact": "#D9A438",
+  "SQL:::SQLWork": "#2EB67D", "SQL:::SQLView": "#C4C4C4",
 };
+// Make a readable label from an unresolved sqlType, e.g.
+// "SQL:::SQLDimension" -> "SQL Dimension", "479" stays "479".
+function prettyType(sqlType) {
+  let s = String(sqlType || "").replace(/^[^:]*:::/, "");
+  s = s.replace(/[-_]+/g, " ")
+       .replace(/([a-z\d])([A-Z])/g, "$1 $2")
+       .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+       .trim();
+  return s || String(sqlType || "");
+}
 // Build {sqlType: {name, color}} from every definition.yml on disk. Each type
 // def carries a `tagColor` (hex like '#D9A438' or a CSS name like 'gray').
 function scanTypeMeta() {
@@ -51,7 +64,7 @@ function scanTypeMeta() {
   return meta;
 }
 function typeLabel(sqlType, meta) {
-  return (meta[sqlType] && meta[sqlType].name) || DV_FALLBACK[sqlType] || sqlType;
+  return (meta[sqlType] && meta[sqlType].name) || DV_FALLBACK[sqlType] || prettyType(sqlType);
 }
 function typeColor(sqlType, meta) {
   return (meta[sqlType] && meta[sqlType].color) || COLOR_FALLBACK[sqlType] || "#1f6feb";
@@ -69,8 +82,39 @@ function idFromFile(file) {
   return { location, name, id: location + "." + name };
 }
 
+// V2 nodes (.sql) declare their columns as the SELECT output names
+// ("SOURCE" AS "ALIAS", or a bare "COL"). Pull the output column name of each.
+function parseColumnsV2(content) {
+  const m = content.match(/\bSELECT\b([\s\S]*?)\bFROM\b/i);
+  if (!m) return [];
+  const cols = [];
+  for (const item of m[1].split(/,(?=\s*(?:\r?\n|$))/)) {
+    let line = item.replace(/--.*$/gm, "").trim();
+    if (!line) continue;
+    // trailing @annotations (e.g. @id("…") @isSurrogateKey @isSystemCreateDate)
+    const anns = (line.match(/@[A-Za-z_]\w*(?:\([^)]*\))?/g) || []).map((x) => x.toLowerCase());
+    const core = line.replace(/@[A-Za-z_]\w*(?:\([^)]*\))?/g, "").trim();
+    let a, name = null;
+    if ((a = core.match(/\bAS\s+"([^"]+)"\s*$/i))) name = a[1];
+    else if ((a = core.match(/\bAS\s+([A-Za-z_][\w$]*)\s*$/i))) name = a[1];
+    else if ((a = core.match(/"([^"]+)"\s*$/))) name = a[1];
+    else if ((a = core.match(/([A-Za-z_][\w$]*)\s*$/))) name = a[1];
+    if (!name || name.toUpperCase() === "SELECT") continue;
+    const flags = {};
+    if (anns.some((x) => x.startsWith("@issystem"))) flags.system = true;
+    cols.push({ name, flags });
+  }
+  return cols;
+}
+
 function parseNode(file, content) {
   const info = idFromFile(file);
+  // V2 node (.sql): type comes from @nodeType("…"), columns from the SELECT.
+  const v2 = content.match(/@nodeType\(\s*["']([^"']+)["']\s*\)/);
+  if (v2) {
+    return { id: info.id, name: info.name, location: info.location,
+             sqlType: v2[1], columns: parseColumnsV2(content) };
+  }
   const lines = content.split("\n");
   const top = (re) => { for (const l of lines) { const m = l.match(re); if (m) return m[1]; } return null; };
   const sqlType = top(/^\s*sqlType:\s*(.+?)\s*$/) || "";
@@ -133,7 +177,7 @@ function isSystemColumn(col) {
   if (col.flags && col.flags.system) return true;
   const n = (col.name || "").toUpperCase();
   if (SYSTEM_NAMES.has(n)) return true;
-  if (/^(DW_|META_|ETL_|DBT_|_)/.test(n)) return true;
+  if (/^(DW_|META_|ETL_|DBT_|SYSTEM_|_)/.test(n)) return true;
   if (/_HASH$/.test(n) || /HASHDIFF/.test(n)) return true; // satellite change hashes
   return false;
 }
