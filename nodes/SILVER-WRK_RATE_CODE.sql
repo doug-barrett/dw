@@ -1,0 +1,6 @@
+@id("38a6b9e9-cd50-4947-9f8e-f91c3049cb51")
+@nodeType("SQL:::SQLWork")
+SELECT
+     "RATE_CODE_ID" AS "RATE_CODE_ID",
+     "RATE_CODE" AS "RATE_CODE"
+FROM {{ ref('BRONZE', 'RATE_CODE') }} "RATE_CODE"
