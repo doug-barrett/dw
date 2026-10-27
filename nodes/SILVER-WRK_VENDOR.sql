@@ -1,0 +1,6 @@
+@id("f7fed099-6240-4dd2-b70f-1794a91fa827")
+@nodeType("SQL:::SQLWork")
+SELECT
+     "VENDOR_ID" AS "VENDOR_ID",
+     "VENDOR_NAME" AS "VENDOR_NAME"
+FROM {{ ref('BRONZE', 'VENDOR') }} "VENDOR"
