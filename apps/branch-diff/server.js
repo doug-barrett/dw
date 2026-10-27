@@ -72,6 +72,55 @@ function parseRefs(content) {
   return refs;
 }
 
+// --- column parsing (for per-column diff) ----------------------------------
+// V1 node YAML lists columns under operation.metadata.columns (6-space items).
+// Capture each column's name, dataType and raw block so we can detect changes.
+function parseColumns(content) {
+  const lines = (content || "").split("\n");
+  const cols = [];
+  let i = 0;
+  while (i < lines.length && !/^    columns:\s*$/.test(lines[i])) i++;
+  i++;
+  let cur = null;
+  const flush = () => { if (cur && cur.name) cols.push(cur); cur = null; };
+  for (; i < lines.length; i++) {
+    const l = lines[i];
+    if (/^    \S/.test(l) || /^  \S/.test(l) || /^\S/.test(l)) break; // block ended
+    if (/^      - /.test(l)) { flush(); cur = { name: null, dataType: "", block: [] }; }
+    if (!cur) continue;
+    cur.block.push(l);
+    let m;
+    if ((m = l.match(/^        name:\s*["']?(.+?)["']?\s*$/))) cur.name = m[1];
+    else if ((m = l.match(/^        dataType:\s*["']?(.+?)["']?\s*$/))) cur.dataType = m[1];
+  }
+  flush();
+  return cols;
+}
+
+// Diff the columns of one node between the working tree and the compare branch.
+// Normalized column signature — drop the per-branch UUIDs (columnCounter /
+// stepCounter) so a column only reads "modified" when something real changed.
+function colSig(c) {
+  return c.block
+    .filter((l) => !/^\s*(columnCounter|stepCounter):/.test(l))
+    .join("\n").trim();
+}
+function columnDiff(curContent, cmpContent, compare) {
+  const cur = parseColumns(curContent), cmp = parseColumns(cmpContent);
+  const um = new Map(cur.map((c) => [c.name, c]));
+  const cm = new Map(cmp.map((c) => [c.name, c]));
+  const names = [...new Set([...cur.map((c) => c.name), ...cmp.map((c) => c.name)])];
+  const columns = names.map((nm) => {
+    const a = um.get(nm), b = cm.get(nm);
+    let status;
+    if (a && !b) status = compare ? "added" : "unchanged";
+    else if (!a && b) status = "removed";
+    else status = colSig(a) === colSig(b) ? "unchanged" : "modified";
+    return { name: nm, dataType: (a || b).dataType || "", status };
+  });
+  return { hasColumns: cur.length + cmp.length > 0, columns };
+}
+
 // --- diff status ------------------------------------------------------------
 // `git diff --name-status <compare>` describes what it takes to go from the
 // compare branch to the working tree: A = added here, D = removed here,
@@ -192,6 +241,21 @@ http
         const current = await currentBranch();
         const { nodes, edges } = await buildGraph(compare);
         return sendJson(res, { current, compare, nodes, edges });
+      }
+      if (p === "/api/node") {
+        const file = path.basename(url.searchParams.get("file") || "");
+        const compare = url.searchParams.get("compare") || "";
+        let cur = "";
+        try { cur = fs.readFileSync(path.join(NODES_DIR, file), "utf-8"); } catch {}
+        let cmp = "";
+        if (compare) { try { cmp = await git(["show", `${compare}:nodes/${file}`]); } catch {} }
+        const info = idFromFile(file);
+        const nodeStatus = !cur ? "removed" : (compare && !cmp ? "added" : undefined);
+        const { hasColumns, columns } = columnDiff(cur, cmp, compare);
+        return sendJson(res, {
+          file, id: info.id, name: info.name, location: info.location,
+          status: nodeStatus, hasColumns, columns,
+        });
       }
       if (p === "/" || p === "/index.html") {
         res.setHeader("content-type", "text/html");
