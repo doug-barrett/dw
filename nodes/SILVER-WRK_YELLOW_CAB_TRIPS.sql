@@ -1,7 +1,7 @@
 @id("0be780b6-477e-453f-a2b3-7c7b897588fc")
 @nodeType("SQL:::SQLWork")
 SELECT
-     "TRIP_ID" AS "TRIP_ID" @isBusinessKey,
+     "TRIP_ID" AS "TRIP_ID",
      "VENDOR_ID" AS "VENDOR_ID",
      "PAYMENT_TYPE_ID" AS "PAYMENT_TYPE_ID",
      "RATE_CODE_ID" AS "RATE_CODE_ID",
