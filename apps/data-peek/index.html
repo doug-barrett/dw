@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Workspace Explorer</title>
+<style>
+  body{font:14px system-ui;margin:0;display:flex;height:100vh}
+  ul{width:280px;margin:0;padding:8px;overflow:auto;border-right:1px solid #ddd;list-style:none}
+  li{padding:6px 8px;cursor:pointer;border-radius:4px} li:hover{background:#eef}
+  pre{flex:1;margin:0;padding:16px;overflow:auto}
+</style>
+<ul id="list"></ul><pre id="out">Select a node…</pre>
+<script>
+  // Relative URLs (no leading "/") so requests stay under the watch-server proxy prefix.
+  fetch("api/nodes").then(r => r.json()).then(({ nodes }) => {
+    list.innerHTML = nodes.length ? "" : "<li>No nodes found</li>";
+    for (const n of nodes) {
+      const li = document.createElement("li");
+      li.textContent = n;
+      li.onclick = async () => out.textContent = await (await fetch("api/node?name=" + encodeURIComponent(n))).text();
+      list.append(li);
+    }
+  });
+</script>
