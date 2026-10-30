@@ -1,0 +1,549 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Model Browser</title>
+<style>
+  :root{
+    --ink:#1f2328; --muted:#636c76; --line:#d0d7de; --bg:#fafbfc;
+    --accent:#0969da; --accent-bg:#ddf4ff;
+    --key:#8250df; --sys:#9aa2ab;
+    --saved:#0969da; --infer:#bf8700; --sel:#cf222e;
+    --hdr:#1f6feb;
+  }
+  *{box-sizing:border-box}
+  body{font:13px system-ui,-apple-system,Segoe UI,sans-serif;margin:0;color:var(--ink);height:100vh;display:flex;flex-direction:column}
+  header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line);background:#fff}
+  header h1{font-size:14px;margin:0 6px 0 0;font-weight:600}
+  select,input{font:inherit;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:#fff}
+  input{width:118px}
+  .sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+  button{font:inherit;padding:5px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer}
+  button:hover{background:#f3f4f6}
+  button.on{background:var(--accent-bg);border-color:var(--accent);color:var(--accent)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.sel{background:var(--sel);border-color:var(--sel);color:#fff}
+  button.primary:hover{filter:brightness(1.05)}
+  button:disabled{opacity:.5;cursor:default}
+  .dropdown{position:relative}
+  .panel{position:absolute;top:110%;left:0;z-index:30;background:#fff;border:1px solid var(--line);border-radius:8px;
+          box-shadow:0 8px 24px rgba(0,0,0,.12);padding:8px;min-width:230px;max-height:60vh;overflow:auto;display:none}
+  .panel.open{display:block}
+  .panel label{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:5px;cursor:pointer}
+  .panel label:hover{background:#f3f4f6}
+  .panel .presets{display:flex;gap:6px;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px}
+  .panel .cnt{margin-left:auto;color:var(--muted);font-size:11px}
+  .spacer{flex:1}
+  .status{color:var(--muted);font-size:12px}
+  .legend{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:11px;padding:4px 12px;border-bottom:1px solid var(--line);background:#fbfcfd}
+  .legend i{display:inline-block;vertical-align:middle}
+  .lk{width:14px;height:0;border-top:2px solid var(--saved)}
+  .li{width:14px;height:0;border-top:2px dashed var(--infer)}
+  .lkey{color:var(--key);font-weight:700}
+  #canvas{flex:1;overflow:auto;background:var(--bg);position:relative}
+  #surface{position:relative;min-width:100%;min-height:100%;transform-origin:0 0}
+  #zoomLbl{font-size:12px;color:var(--muted);min-width:40px;text-align:center;display:inline-block}
+  #zoomOut,#zoomIn{padding:4px 9px;font-weight:600}
+  svg#wires{position:absolute;inset:0;pointer-events:none}
+  svg#wires path{pointer-events:stroke}
+  .node{position:absolute;background:#fff;border:1px solid var(--line);border-radius:8px;min-width:170px;
+        box-shadow:0 1px 3px rgba(0,0,0,.08);user-select:none}
+  .node .nhdr{display:flex;align-items:center;gap:6px;padding:6px 9px;background:#eef3fb;border-bottom:1px solid var(--line);
+              border-radius:8px 8px 0 0;cursor:grab;font-weight:600}
+  .node.collapsed .nhdr{border-radius:8px}
+  .node .badge{font-size:10px;font-weight:600;color:#fff;background:var(--hdr);border-radius:10px;padding:1px 7px}
+  .node .loc{font-size:10px;color:var(--muted);font-weight:400}
+  .node .cols{list-style:none;margin:0;padding:3px 0}
+  .node.collapsed .cols{display:none}
+  .node .col{display:flex;align-items:center;gap:6px;padding:3px 9px;font-size:12px;position:relative}
+  .node .col.keyc{font-weight:600}
+  .node .col .kglyph{color:var(--key)}
+  .node .col.sys{color:var(--sys);font-style:italic}
+  .connect .node .col:not(.sys){cursor:crosshair}
+  .connect .node .col:not(.sys):hover{background:var(--accent-bg)}
+  .col.src{background:var(--accent-bg);outline:1px solid var(--accent)}
+  #delbtn{position:absolute;z-index:40;display:none;background:var(--sel);color:#fff;border:none;border-radius:6px;
+          padding:3px 8px;font-size:11px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  #msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+</style>
+
+<header>
+  <h1>Model Browser</h1>
+  <select id="modelSelect" title="Saved models"></select>
+  <input id="modelName" placeholder="model name" size="12">
+  <button id="saveBtn">Save</button>
+  <span class="sep"></span>
+  <div class="dropdown">
+    <button id="typesBtn" class="ddbtn">Node types ▾</button>
+    <div class="panel" id="typesPanel">
+      <div class="presets">
+        <button data-preset="all">All</button>
+        <button data-preset="marts">Marts (Fact+Dim)</button>
+        <button data-preset="dv">Data Vault</button>
+        <button data-preset="none">None</button>
+      </div>
+      <div id="typesList"></div>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button id="keysBtn" class="ddbtn">Infer keys ▾</button>
+    <div class="panel" id="keysPanel">
+      <label><input type="checkbox" class="keycb" value="hash" checked> Hash keys</label>
+      <label><input type="checkbox" class="keycb" value="surrogate" checked> Surrogate keys</label>
+      <label><input type="checkbox" class="keycb" value="natural" checked> Natural keys</label>
+    </div>
+  </div>
+  <button id="inferBtn">Infer relationships</button>
+  <button id="addMissingBtn" class="primary" disabled>Add missing</button>
+  <button id="clearBtn">Clear</button>
+  <button id="connectBtn">Connect</button>
+  <button id="collapseBtn">Tables only</button>
+  <button id="arrangeBtn" title="Lay out by connection count (most-connected in the middle)">Arrange</button>
+  <span class="sep"></span>
+  <button id="zoomOut" title="Zoom out">−</button>
+  <span id="zoomLbl">100%</span>
+  <button id="zoomIn" title="Zoom in">+</button>
+  <span class="spacer"></span>
+  <span class="status" id="status"></span>
+</header>
+<div class="legend">
+  <span><i class="lk"></i> saved relationship</span>
+  <span><i class="li"></i> inferred suggestion (click to add)</span>
+  <span><i class="lkey">⚷</i> key column</span>
+  <span><i style="color:var(--sys);font-style:italic">sys</i> system column (ignored)</span>
+  <span>⪬ many &nbsp;—&nbsp; │ one</span>
+  <span style="margin-left:auto">drag headers · Ctrl/⌘+scroll to zoom · click a line then Delete</span>
+</div>
+<div id="canvas"><div id="surface">
+  <svg id="wires"></svg>
+  <div id="msg">Loading…</div>
+</div></div>
+<button id="delbtn">Delete</button>
+
+<script>
+const SVGNS="http://www.w3.org/2000/svg";
+const esc = (s)=> (window.CSS&&CSS.escape)?CSS.escape(s):String(s).replace(/[^\w-]/g,"\\$&");
+const state = {
+  types:[], selected:new Set(), nodes:[], rels:[], suggestions:[],
+  positions:{}, collapsed:false, connect:false, src:null, selRel:null,
+  modelName:"default", models:[], inferKeys:new Set(["hash","surrogate","natural"]), zoom:1,
+};
+const $=(id)=>document.getElementById(id);
+const api = (u,o)=> fetch(u,o).then(r=>r.json());
+function setStatus(t){ $("status").textContent=t; }
+function statusLine(){ return `${state.nodes.length} nodes · ${state.rels.length} relationships · model: ${state.modelName}`; }
+// pick black/white text for a background color (resolves hex or CSS names)
+const _txtCache={};
+function textOn(bg){
+  if(_txtCache[bg]) return _txtCache[bg];
+  const el=document.createElement("span"); el.style.color=bg; el.style.display="none";
+  document.body.appendChild(el); const rgb=getComputedStyle(el).color; el.remove();
+  const m=rgb.match(/\d+/g); let fg="#ffffff";
+  if(m){ const L=0.2126*+m[0]+0.7152*+m[1]+0.0722*+m[2]; fg=L>150?"#1f2328":"#ffffff"; }
+  return _txtCache[bg]=fg;
+}
+
+// ---- node types ----
+async function loadTypes(){
+  const { types } = await api("api/types");
+  state.types = types;
+  // default: Fact+Dimension if present, else everything
+  const marts = types.filter(t=>/fact|\bdim(ension)?\b/i.test(t.label));
+  (marts.length?marts:types).forEach(t=>state.selected.add(t.sqlType));
+  renderTypeList();
+}
+function applySelection(types){ state.selected=new Set(types); renderTypeList(); }
+function renderTypeList(){
+  const box=$("typesList"); box.innerHTML="";
+  for(const t of state.types){
+    const lab=document.createElement("label");
+    const cb=document.createElement("input"); cb.type="checkbox"; cb.value=t.sqlType;
+    cb.checked=state.selected.has(t.sqlType);
+    cb.onchange=()=>{ cb.checked?state.selected.add(t.sqlType):state.selected.delete(t.sqlType); loadModel(); };
+    const span=document.createElement("span"); span.textContent=t.label;
+    const cnt=document.createElement("span"); cnt.className="cnt"; cnt.textContent=t.count;
+    lab.append(cb,span,cnt); box.append(lab);
+  }
+}
+// generic dropdown open/close for Node types + Infer keys panels
+document.querySelectorAll(".dropdown > .ddbtn").forEach(btn=>{
+  btn.onclick=()=>{ const panel=btn.nextElementSibling;
+    document.querySelectorAll(".panel.open").forEach(p=>{ if(p!==panel) p.classList.remove("open"); });
+    panel.classList.toggle("open"); };
+});
+document.addEventListener("click",e=>{ if(!e.target.closest(".dropdown")) document.querySelectorAll(".panel.open").forEach(p=>p.classList.remove("open")); });
+$("typesPanel").querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{
+  const p=b.dataset.preset;
+  state.selected.clear();
+  if(p==="all") state.types.forEach(t=>state.selected.add(t.sqlType));
+  else if(p==="marts") state.types.filter(t=>/fact|\bdim(ension)?\b/i.test(t.label)).forEach(t=>state.selected.add(t.sqlType));
+  else if(p==="dv") state.types.filter(t=>/hub|link|satellite/i.test(t.label)).forEach(t=>state.selected.add(t.sqlType));
+  renderTypeList(); loadModel();
+});
+
+// ---- model ----
+function typesParam(){ return [...state.selected].join(","); }
+function applyModel(data){
+  if(data.error){ setStatus("Error: "+data.error); return; }
+  state.nodes=data.nodes; state.rels=data.relationships||[];
+  state.positions=data.positions||{};
+  state.collapsed=!!data.collapsed; syncCollapseBtn();
+  if(typeof data.zoom==="number") setZoom(data.zoom,false);
+  if(data.modelName) state.modelName=data.modelName;
+  if(data.models) state.models=data.models;
+  state.suggestions=[]; state.selRel=null;
+  $("addMissingBtn").disabled=true; $("addMissingBtn").textContent="Add missing"; $("delbtn").style.display="none";
+  render();
+  setStatus(statusLine());
+  // fresh model with no saved layout -> auto-arrange by connection count
+  if(!Object.keys(state.positions).length && state.nodes.length) arrange(false);
+}
+// reload nodes/relationships for the current model using the current type filter
+async function loadModel(){
+  const data = await api("api/model?types="+encodeURIComponent(typesParam()));
+  applyModel(data);
+  populateModels();
+}
+// switch to a saved model: server returns its saved types, keys, layout
+async function switchModel(name){
+  const data = await api("api/model?name="+encodeURIComponent(name));
+  if(data.inferKeys) setInferKeys(data.inferKeys);
+  if(data.types && data.types.length){ applySelection(data.types); applyModel(data); populateModels(); }
+  else await loadModel();
+}
+function populateModels(){
+  const sel=$("modelSelect"); sel.innerHTML="";
+  for(const m of state.models){
+    const o=document.createElement("option"); o.value=m; o.textContent=m;
+    if(m===state.modelName) o.selected=true; sel.append(o);
+  }
+  $("modelName").value=state.modelName;
+}
+$("modelSelect").onchange=()=>switchModel($("modelSelect").value);
+$("saveBtn").onclick=async()=>{
+  const name=($("modelName").value.trim()||state.modelName||"default");
+  const r=await api("api/save",{method:"POST",headers:{"content-type":"application/json"},
+    body:JSON.stringify({name, positions:state.positions, collapsed:state.collapsed, zoom:state.zoom,
+      types:[...state.selected], inferKeys:[...state.inferKeys]})});
+  state.models=r.models; state.modelName=r.modelName; populateModels();
+  $("saveBtn").textContent="Save"; $("saveBtn").classList.remove("primary");
+  setStatus(`Saved model “${r.modelName}” (${Object.keys(state.positions).length} node positions)`);
+};
+
+// ---- infer-key classes ----
+function setInferKeys(arr){
+  state.inferKeys=new Set(arr&&arr.length?arr:["hash","surrogate","natural"]);
+  document.querySelectorAll(".keycb").forEach(cb=>cb.checked=state.inferKeys.has(cb.value));
+}
+document.querySelectorAll(".keycb").forEach(cb=>cb.onchange=()=>{
+  cb.checked?state.inferKeys.add(cb.value):state.inferKeys.delete(cb.value);
+});
+
+// ---- zoom + arrange ----
+function setZoom(z,dirty){
+  state.zoom=Math.max(0.3,Math.min(2.5,Math.round(z*20)/20));
+  $("surface").style.transform="scale("+state.zoom+")";
+  $("zoomLbl").textContent=Math.round(state.zoom*100)+"%";
+  drawWires();
+  if(dirty) markDirty();
+}
+$("zoomIn").onclick=()=>setZoom(state.zoom+0.1,true);
+$("zoomOut").onclick=()=>setZoom(state.zoom-0.1,true);
+$("zoomLbl").onclick=()=>setZoom(1,true);
+$("canvas").addEventListener("wheel",e=>{ if(e.ctrlKey||e.metaKey){ e.preventDefault(); setZoom(state.zoom+(e.deltaY<0?0.1:-0.1),true); } },{passive:false});
+$("arrangeBtn").onclick=()=>arrange(true);
+
+function render(){
+  const surface=$("surface");
+  surface.querySelectorAll(".node").forEach(n=>n.remove());
+  const msg=$("msg");
+  if(!state.nodes.length){ msg.style.display="flex"; msg.textContent="No nodes for the selected types."; return; }
+  msg.style.display="none";
+
+  // auto grid-position any node without a saved position
+  const COLW=250, ROWH=230, PERROW=4, PAD=24;
+  let auto=0;
+  for(const n of state.nodes){
+    if(!state.positions[n.id]){
+      state.positions[n.id]={ x:PAD+(auto%PERROW)*COLW, y:PAD+Math.floor(auto/PERROW)*ROWH };
+      auto++;
+    }
+  }
+  for(const n of state.nodes) surface.append(buildNode(n));
+  surface.style.transform="scale("+(state.zoom||1)+")";
+  resizeSurface();
+  drawWires();
+}
+
+// square-spiral grid cells, center first, spiralling outward
+function spiralCells(n){
+  const cells=[[0,0]]; let x=0,y=0,dir=0,steps=1; const D=[[1,0],[0,1],[-1,0],[0,-1]];
+  while(cells.length<n){
+    for(let s=0;s<2 && cells.length<n;s++){
+      const [dx,dy]=D[dir%4];
+      for(let k=0;k<steps && cells.length<n;k++){ x+=dx; y+=dy; cells.push([x,y]); }
+      dir++;
+    }
+    steps++;
+  }
+  return cells;
+}
+// lay nodes out by connection count: most-connected in the middle, spiralling out
+async function arrange(dirty){
+  if(!state.nodes.length) return;
+  const deg={}; const bump=(id)=>deg[id]=(deg[id]||0)+1;
+  if(state.rels.length) state.rels.forEach(r=>{bump(r.from.node);bump(r.to.node);});
+  else { // no saved relationships yet — rank by *potential* (inferred) connections
+    try{
+      const {inferred}=await api("api/infer?types="+encodeURIComponent(typesParam())
+        +"&keys="+encodeURIComponent([...state.inferKeys].join(",")));
+      inferred.filter(visible).forEach(r=>{bump(r.from.node);bump(r.to.node);});
+    }catch{}
+  }
+  const ordered=[...state.nodes].sort((a,b)=>(deg[b.id]||0)-(deg[a.id]||0)||a.name.localeCompare(b.name));
+  const CW=260, CH=state.collapsed?110:230, cells=spiralCells(ordered.length);
+  const pos={}; let minc=0,minr=0;
+  cells.forEach(([c,r])=>{ minc=Math.min(minc,c); minr=Math.min(minr,r); });
+  ordered.forEach((n,i)=>{ const [c,r]=cells[i]; pos[n.id]={x:(c-minc)*CW+30, y:(r-minr)*CH+30}; });
+  state.positions=pos;
+  render();
+  if(dirty) markDirty();
+}
+
+function buildNode(n){
+  const el=document.createElement("div");
+  el.className="node"+(state.collapsed?" collapsed":"");
+  el.dataset.node=n.id;
+  const p=state.positions[n.id]; el.style.left=p.x+"px"; el.style.top=p.y+"px";
+  const hdr=document.createElement("div"); hdr.className="nhdr";
+  // tint the header with the node type's color; pick readable text + border
+  const bg=n.typeColor||"#1f6feb", fg=textOn(bg);
+  hdr.style.background=bg; hdr.style.color=fg; hdr.style.borderBottomColor="rgba(0,0,0,.12)";
+  el.style.borderColor=bg;
+  const badge=document.createElement("span"); badge.className="badge"; badge.textContent=n.typeLabel;
+  badge.style.background=(fg==="#ffffff"?"rgba(255,255,255,.22)":"rgba(0,0,0,.12)"); badge.style.color=fg;
+  const nm=document.createElement("span"); nm.textContent=n.name;
+  const loc=document.createElement("span"); loc.className="loc"; loc.textContent=n.location; loc.style.color=fg; loc.style.opacity=".7";
+  hdr.append(badge,nm,loc); el.append(hdr);
+  if(n.nodeId){ hdr.title="Double-click to edit"; hdr.addEventListener("dblclick",()=>openNode(n.nodeId)); }
+  const ul=document.createElement("ul"); ul.className="cols";
+  for(const c of n.columns){
+    const li=document.createElement("li");
+    li.className="col"+(c.key?" keyc":"")+(c.system?" sys":"");
+    li.dataset.node=n.id; li.dataset.col=c.name;
+    if(c.key){ const g=document.createElement("span"); g.className="kglyph"; g.textContent="⚷"; li.append(g); }
+    const t=document.createElement("span"); t.textContent=c.name; li.append(t);
+    if(!c.system) li.onclick=()=>onColumnClick(n.id,c.name,li);
+    ul.append(li);
+  }
+  el.append(ul);
+  makeDraggable(el,hdr);
+  return el;
+}
+
+// Apps are served from the Coalesce UI's own origin, so move the parent window
+// to the node's editor route and let its router pick up the change.
+function openNode(nodeId){
+  try {
+    window.top.history.pushState(null,"","/build/nodes/"+encodeURIComponent(nodeId));
+    window.top.dispatchEvent(new PopStateEvent("popstate"));
+  } catch(e){ alert("Could not open the node in Coalesce: "+e); }
+}
+
+// ---- dragging ----
+// node positions/view are persisted explicitly via the Save button; mark the
+// button so it's clear there are unsaved layout changes
+function markDirty(){ $("saveBtn").textContent="Save •"; $("saveBtn").classList.add("primary"); }
+function makeDraggable(el,handle){
+  handle.addEventListener("mousedown",e=>{
+    if(state.connect) return;
+    e.preventDefault();
+    // grab offset in viewport px; positions are unscaled, so divide deltas by zoom
+    const r0=el.getBoundingClientRect();
+    const gx=e.clientX-r0.left, gy=e.clientY-r0.top;
+    const move=(ev)=>{
+      const z=state.zoom||1, srf=$("surface").getBoundingClientRect();
+      let x=(ev.clientX-gx-srf.left)/z, y=(ev.clientY-gy-srf.top)/z;
+      x=Math.max(0,x); y=Math.max(0,y);
+      el.style.left=x+"px"; el.style.top=y+"px";
+      state.positions[el.dataset.node]={x,y};
+      drawWires();
+    };
+    const up=()=>{ document.removeEventListener("mousemove",move); document.removeEventListener("mouseup",up);
+      resizeSurface(); markDirty(); };
+    document.addEventListener("mousemove",move); document.addEventListener("mouseup",up);
+  });
+}
+function resizeSurface(){
+  let w=0,h=0;
+  $("surface").querySelectorAll(".node").forEach(n=>{
+    w=Math.max(w,n.offsetLeft+n.offsetWidth+40); h=Math.max(h,n.offsetTop+n.offsetHeight+40);
+  });
+  const s=$("surface"); s.style.width=w+"px"; s.style.height=h+"px";
+  const svg=$("wires"); svg.setAttribute("width",w); svg.setAttribute("height",h);
+}
+
+// ---- wires ----
+function anchorFor(nodeId,col){
+  const surf=$("surface").getBoundingClientRect();
+  let el;
+  if(state.collapsed) el=document.querySelector(`.node[data-node="${esc(nodeId)}"] .nhdr`);
+  else el=document.querySelector(`.col[data-node="${esc(nodeId)}"][data-col="${esc(col)}"]`)
+         || document.querySelector(`.node[data-node="${esc(nodeId)}"] .nhdr`);
+  if(!el) return null;
+  const r=el.getBoundingClientRect(), z=state.zoom||1;
+  // divide by zoom so coordinates are in the surface's own (unscaled) space
+  return { top:(r.top-surf.top)/z, left:(r.left-surf.left)/z, right:(r.right-surf.left)/z,
+           midY:(r.top-surf.top+r.height/2)/z, w:r.width/z };
+}
+// geometry of the connector: the path plus each end's exit direction (+1 right,
+// -1 left) so we can draw crow's-foot (many) / bar (one) cardinality markers
+function geo(a,b){
+  const y1=a.midY, y2=b.midY;
+  if(a.left < b.right && b.left < a.right){ // boxes overlap -> exit both right
+    const x1=a.right, x2=b.right, off=60;
+    return {x1,y1,x2,y2,d1:1,d2:1,path:`M${x1},${y1} C${x1+off},${y1} ${x2+off},${y2} ${x2},${y2}`};
+  }
+  const aRight = a.left < b.left;
+  const x1=aRight?a.right:a.left, x2=aRight?b.left:b.right;
+  const d1=aRight?1:-1, d2=aRight?-1:1;
+  const dx=Math.max(40,Math.abs(x2-x1)/2);
+  const c1=x1+(aRight?dx:-dx), c2=x2+(aRight?-dx:dx);
+  return {x1,y1,x2,y2,d1,d2,path:`M${x1},${y1} C${c1},${y1} ${c2},${y2} ${x2},${y2}`};
+}
+function crowFoot(x,y,dir){ const P=x+dir*13; return `M${P},${y} L${x},${y-6} M${P},${y} L${x},${y} M${P},${y} L${x},${y+6}`; }
+function oneBar(x,y,dir){ const B=x+dir*9; return `M${B},${y-6} L${B},${y+6}`; }
+function drawWires(){
+  const svg=$("wires"); svg.innerHTML="";
+  const mk=(d,color,w)=>{ const p=document.createElementNS(SVGNS,"path"); p.setAttribute("d",d);
+    p.setAttribute("fill","none"); p.setAttribute("stroke",color); p.setAttribute("stroke-width",w); return p; };
+  const draw=(r,cls,color)=>{
+    const a=anchorFor(r.from.node,r.from.column), b=anchorFor(r.to.node,r.to.column);
+    if(!a||!b) return;
+    const g=geo(a,b);
+    const onClick=(e)=>{ e.stopPropagation(); cls==="infer"?addRel(r):selectRel(r,hit); };
+    // wide invisible hit area so thin/bunched wires are easy to click
+    const hit=mk(g.path,"transparent",14); hit.style.cursor="pointer"; hit.onclick=onClick;
+    const path=mk(g.path,color, r===state.selRel?3:1.8);
+    if(cls==="infer") path.setAttribute("stroke-dasharray","6 4");
+    path.dataset.id=r.id; path.dataset.kind=cls;
+    path.style.cursor="pointer"; path.onclick=onClick;
+    svg.append(hit, path);
+    // cardinality: crow's-foot at the "many" (from) end, bar at the "one" (to) end
+    const foot=mk(crowFoot(g.x1,g.y1,g.d1),color,1.6);
+    const bar=mk(oneBar(g.x2,g.y2,g.d2),color,2);
+    if(cls==="infer"){ foot.setAttribute("opacity",".8"); bar.setAttribute("opacity",".8"); }
+    svg.append(foot, bar);
+  };
+  for(const r of state.suggestions) draw(r,"infer","var(--infer)");
+  for(const r of state.rels) draw(r,"saved", r===state.selRel?"var(--sel)":"var(--saved)");
+}
+
+// ---- relationships ----
+function onColumnClick(nodeId,col,li){
+  if(!state.connect) return;
+  if(!state.src){ state.src={nodeId,col,li}; li.classList.add("src"); return; }
+  if(state.src.nodeId===nodeId && state.src.col===col){ clearSrc(); return; }
+  addRel({ from:{node:state.src.nodeId,column:state.src.col}, to:{node:nodeId,column:col}, origin:"manual" });
+  clearSrc();
+}
+function clearSrc(){ if(state.src){ state.src.li.classList.remove("src"); state.src=null; } }
+async function addRel(r){
+  const { relationships } = await api("api/relationships",{method:"POST",
+    headers:{"content-type":"application/json"}, body:JSON.stringify(r)});
+  state.rels=relationships.filter(x=>visible(x));
+  // drop any suggestion now saved
+  state.suggestions=state.suggestions.filter(s=>!saved(s));
+  $("addMissingBtn").disabled=!state.suggestions.length;
+  $("addMissingBtn").textContent="Add missing"+(state.suggestions.length?` (${state.suggestions.length})`:"");
+  drawWires(); setStatus(`${state.nodes.length} nodes · ${state.rels.length} relationships`);
+}
+function visible(r){ const ids=new Set(state.nodes.map(n=>n.id)); return ids.has(r.from.node)&&ids.has(r.to.node); }
+function saved(s){ return state.rels.some(r=>r.id===s.id ||
+  r.id===`${s.to.node}:${s.to.column}->${s.from.node}:${s.from.column}`); }
+
+function selectRel(r,path){
+  state.selRel=r; drawWires();
+  const bb=path.getBoundingClientRect(), cv=$("canvas").getBoundingClientRect();
+  const btn=$("delbtn");
+  btn.style.display="block";
+  // #delbtn is body-level & the page doesn't scroll, so viewport == page coords
+  btn.style.left=Math.max(8,Math.min(window.innerWidth-70, bb.left+bb.width/2-24))+"px";
+  btn.style.top =Math.max(44,Math.min(window.innerHeight-30, bb.top+bb.height/2-12))+"px";
+}
+$("delbtn").onclick=async()=>{
+  if(!state.selRel) return;
+  const { relationships } = await api("api/relationships?id="+encodeURIComponent(state.selRel.id),{method:"DELETE"});
+  state.rels=relationships.filter(visible); state.selRel=null; $("delbtn").style.display="none";
+  drawWires(); setStatus(statusLine());
+};
+document.addEventListener("keydown",e=>{ if((e.key==="Delete"||e.key==="Backspace")&&state.selRel){ $("delbtn").click(); }});
+$("canvas").addEventListener("click",()=>{ if(state.selRel){ state.selRel=null; $("delbtn").style.display="none"; drawWires(); }});
+
+// ---- infer ----
+$("inferBtn").onclick=async()=>{
+  if(!state.inferKeys.size){ setStatus("Pick at least one key class under Infer keys"); return; }
+  setStatus("Inferring…");
+  const { missing } = await api("api/infer?types="+encodeURIComponent(typesParam())
+    +"&keys="+encodeURIComponent([...state.inferKeys].join(",")));
+  state.suggestions=missing.filter(visible);
+  $("addMissingBtn").disabled=!state.suggestions.length;
+  $("addMissingBtn").textContent="Add missing"+(state.suggestions.length?` (${state.suggestions.length})`:"");
+  drawWires();
+  setStatus(`${state.suggestions.length} suggested relationship(s) — click one, or Add missing`);
+};
+$("addMissingBtn").onclick=async()=>{
+  if(!state.suggestions.length) return;
+  const { relationships } = await api("api/relationships",{method:"POST",
+    headers:{"content-type":"application/json"}, body:JSON.stringify({add:state.suggestions})});
+  state.rels=relationships.filter(visible); state.suggestions=[];
+  $("addMissingBtn").disabled=true; $("addMissingBtn").textContent="Add missing";
+  drawWires(); setStatus(statusLine());
+};
+
+// two-click arm (works in the Electron webview where window.confirm may not)
+let clearArm=null;
+function disarmClear(){ if(clearArm){clearTimeout(clearArm);clearArm=null;} $("clearBtn").textContent="Clear"; $("clearBtn").classList.remove("sel"); }
+$("clearBtn").onclick=async()=>{
+  if(!state.rels.length && !state.suggestions.length){ setStatus("No relationships to clear"); return; }
+  if(!clearArm){
+    $("clearBtn").textContent="Confirm clear?"; $("clearBtn").classList.add("sel");
+    setStatus("Click again to remove all relationships from “"+state.modelName+"”");
+    clearArm=setTimeout(disarmClear,3000);
+    return;
+  }
+  disarmClear();
+  const { relationships } = await api("api/relationships?all=1",{method:"DELETE"});
+  state.rels=relationships; state.suggestions=[]; state.selRel=null; $("delbtn").style.display="none";
+  $("addMissingBtn").disabled=true; $("addMissingBtn").textContent="Add missing";
+  drawWires(); setStatus(statusLine());
+};
+
+// ---- toggles ----
+$("connectBtn").onclick=()=>{
+  state.connect=!state.connect; clearSrc();
+  $("connectBtn").classList.toggle("on",state.connect);
+  document.body.classList.toggle("connect",state.connect);
+  setStatus(state.connect?"Connect mode: click a key column, then its parent column":"");
+};
+function syncCollapseBtn(){
+  $("collapseBtn").classList.toggle("on",state.collapsed);
+  $("collapseBtn").textContent=state.collapsed?"Show columns":"Tables only";
+}
+$("collapseBtn").onclick=()=>{
+  state.collapsed=!state.collapsed; syncCollapseBtn();
+  document.querySelectorAll(".node").forEach(n=>n.classList.toggle("collapsed",state.collapsed));
+  resizeSurface(); drawWires(); markDirty();
+};
+
+window.addEventListener("resize",drawWires);
+$("canvas").addEventListener("scroll",()=>{ if(state.selRel) $("delbtn").style.display="none"; });
+
+(async()=>{
+  await loadTypes();
+  const meta=await api("api/model");              // current model's saved settings
+  if(meta.inferKeys) setInferKeys(meta.inferKeys);
+  if(meta.models) state.models=meta.models;
+  if(meta.modelName) state.modelName=meta.modelName;
+  if(meta.types && meta.types.length){ applySelection(meta.types); applyModel(meta); populateModels(); }
+  else await loadModel();
+})().catch(e=>setStatus("Error: "+e));
+</script>
