@@ -1,0 +1,73 @@
+fileVersion: 1
+id: DA2110CF-503F-4227-A8A7-06FB123D89BC
+name: V_DIM_PAYMENT_TYPE
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - columnReference:
+        columnCounter: 1A59B9F1-A6CC-4CA4-A551-F939965FB9B4
+        stepCounter: DA2110CF-503F-4227-A8A7-06FB123D89BC
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: DIM_PAYMENT_TYPE_KEY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: C1DD4F65-1945-40D3-979A-B93D0D761454
+          stepCounter: EC2DFE3C-AFC4-4DED-8247-80DECFED0732
+        transform: ''
+    - columnReference:
+        columnCounter: 9B87DD80-A65D-4436-9258-EC506D4BC3E3
+        stepCounter: DA2110CF-503F-4227-A8A7-06FB123D89BC
+      config: {}
+      dataType: NUMBER(1,0)
+      description: ''
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: FEE21AB6-FBFF-41F5-B413-A3F4D504AD96
+          stepCounter: EC2DFE3C-AFC4-4DED-8247-80DECFED0732
+        transform: ''
+    - columnReference:
+        columnCounter: B629F432-E2C0-4C84-9937-EADC9C2D67DE
+        stepCounter: DA2110CF-503F-4227-A8A7-06FB123D89BC
+      config: {}
+      dataType: VARCHAR(14)
+      description: ''
+      name: PAYMENT_TYPE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 8AE224D8-E681-4749-9543-5D8C0FBEB750
+          stepCounter: EC2DFE3C-AFC4-4DED-8247-80DECFED0732
+        transform: ''
+    sourceMapping:
+    - aliases:
+        DIM_PAYMENT_TYPE: EC2DFE3C-AFC4-4DED-8247-80DECFED0732
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: GOLD
+        nodeName: DIM_PAYMENT_TYPE
+      join:
+        joinCondition: FROM {{ ref('GOLD', 'DIM_PAYMENT_TYPE') }} "DIM_PAYMENT_TYPE"
+      name: V_DIM_PAYMENT_TYPE
+      noLinkRefs: []
+  name: V_DIM_PAYMENT_TYPE
+  schema: ''
+  sqlType: View
+  type: sql
+  version: 1
+type: Node

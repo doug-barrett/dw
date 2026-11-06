@@ -1,0 +1,113 @@
+fileVersion: 1
+id: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+name: DIM_LOCATION
+operation:
+  config:
+    postSQL: ''
+    preSQL: ''
+    testsEnabled: true
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - columnReference:
+        columnCounter: B17AA208-79E5-4E65-80B5-FADD422D47B8
+        stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: DIM_LOCATION_KEY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences: []
+        transform: ''
+      isSurrogateKey: true
+    - columnReference:
+        columnCounter: 804EEA48-9420-489A-B3D0-EA639451BEE6
+        stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      config: {}
+      dataType: NUMBER(3,0)
+      description: ''
+      name: LOCATION_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 6DFBEFF3-AD62-40ED-BCAC-4CD7A3DE0DBC
+          stepCounter: F3EEE360-70DC-40EF-BA57-862C855C612B
+        transform: ''
+      isBusinessKey: true
+    - columnReference:
+        columnCounter: A0EF399A-A272-4C31-852B-4F6709CDBA08
+        stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: BOROUGH
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 875069A3-01C4-4382-9B8A-3E2F27BCF3AC
+          stepCounter: F3EEE360-70DC-40EF-BA57-862C855C612B
+        transform: ''
+    - columnReference:
+        columnCounter: 23F0C699-99AA-4439-8C8C-F12567DCA841
+        stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: ZONE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 5F268859-D759-49BE-953A-1B0575FF507A
+          stepCounter: F3EEE360-70DC-40EF-BA57-862C855C612B
+        transform: ''
+    - columnReference:
+        columnCounter: 0971E4A4-5880-4713-B137-278D4AAFC9B9
+        stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: SERVICE_ZONE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 939F738D-8426-4440-B8B2-6B5D3350FA98
+          stepCounter: F3EEE360-70DC-40EF-BA57-862C855C612B
+        transform: ''
+    - columnReference:
+        columnCounter: 80B5E1CF-EC20-47C4-ADCE-D6111BD20C35
+        stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: FILENAME
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 78B83FA0-EB82-4FB8-BBB0-4D24355EFC09
+          stepCounter: F3EEE360-70DC-40EF-BA57-862C855C612B
+        transform: ''
+    sourceMapping:
+    - aliases:
+        STG_LOCATION: F3EEE360-70DC-40EF-BA57-862C855C612B
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: SILVER
+        nodeName: STG_LOCATION
+      join:
+        joinCondition: FROM {{ ref('SILVER', 'STG_LOCATION') }} "STG_LOCATION"
+      name: DIM_LOCATION
+      noLinkRefs: []
+  name: DIM_LOCATION
+  schema: ''
+  sqlType: Dimension
+  type: sql
+  version: 1
+type: Node

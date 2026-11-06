@@ -1,0 +1,60 @@
+fileVersion: 1
+id: D221FF30-7C5B-4C52-85F0-97AA6C96B063
+name: STG_PAYMENT_TYPE
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - columnReference:
+        columnCounter: 27C005D2-E0AF-4448-B345-32E1E5296BCF
+        stepCounter: D221FF30-7C5B-4C52-85F0-97AA6C96B063
+      config: {}
+      dataType: NUMBER(1,0)
+      description: ''
+      name: PAYMENT_TYPE_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 228d79aa-46ee-4240-beb7-601447c7575c
+          stepCounter: d15c823a-d7e0-4df3-a466-5ce9d948516a
+        transform: ''
+    - columnReference:
+        columnCounter: C3018B5E-EBB2-462E-999C-788DCC32495A
+        stepCounter: D221FF30-7C5B-4C52-85F0-97AA6C96B063
+      config: {}
+      dataType: VARCHAR(14)
+      description: ''
+      name: PAYMENT_TYPE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 0efb5479-51f8-43c9-9cfc-ac870748ffa3
+          stepCounter: d15c823a-d7e0-4df3-a466-5ce9d948516a
+        transform: ''
+    sourceMapping:
+    - aliases:
+        PAYMENT_TYPE: d15c823a-d7e0-4df3-a466-5ce9d948516a
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: PAYMENT_TYPE
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'PAYMENT_TYPE') }} "PAYMENT_TYPE"
+      name: STG_PAYMENT_TYPE
+      noLinkRefs: []
+  name: STG_PAYMENT_TYPE
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,112 @@
+fileVersion: 1
+id: 0979605D-0F40-45B0-A824-1C744DC95E9A
+name: V_DIM_LOCATION
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - columnReference:
+        columnCounter: FF43A64F-20A5-421C-B89D-930462BBE08A
+        stepCounter: 0979605D-0F40-45B0-A824-1C744DC95E9A
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: DIM_LOCATION_KEY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: B17AA208-79E5-4E65-80B5-FADD422D47B8
+          stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+        transform: ''
+    - columnReference:
+        columnCounter: C686E2C3-6A90-4CA4-A6F1-FCF293B90579
+        stepCounter: 0979605D-0F40-45B0-A824-1C744DC95E9A
+      config: {}
+      dataType: NUMBER(3,0)
+      description: ''
+      name: LOCATION_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 804EEA48-9420-489A-B3D0-EA639451BEE6
+          stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+        transform: ''
+    - columnReference:
+        columnCounter: 53A25AD4-E2C0-4C2D-B31B-535FB40A68F8
+        stepCounter: 0979605D-0F40-45B0-A824-1C744DC95E9A
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: BOROUGH
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: A0EF399A-A272-4C31-852B-4F6709CDBA08
+          stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+        transform: ''
+    - columnReference:
+        columnCounter: 61304368-A41A-4015-83DF-5A8A55B85422
+        stepCounter: 0979605D-0F40-45B0-A824-1C744DC95E9A
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: ZONE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 23F0C699-99AA-4439-8C8C-F12567DCA841
+          stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+        transform: ''
+    - columnReference:
+        columnCounter: 18075928-8EF7-48F2-A235-CAD768D6B387
+        stepCounter: 0979605D-0F40-45B0-A824-1C744DC95E9A
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: SERVICE_ZONE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 0971E4A4-5880-4713-B137-278D4AAFC9B9
+          stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+        transform: ''
+    - columnReference:
+        columnCounter: 8A1EC33F-4785-4FF8-8B68-19908BDFD2A4
+        stepCounter: 0979605D-0F40-45B0-A824-1C744DC95E9A
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: FILENAME
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 80B5E1CF-EC20-47C4-ADCE-D6111BD20C35
+          stepCounter: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+        transform: ''
+    sourceMapping:
+    - aliases:
+        DIM_LOCATION: 4E1A8962-7EF2-4EBD-A4B7-F6CA56A2F469
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: GOLD
+        nodeName: DIM_LOCATION
+      join:
+        joinCondition: FROM {{ ref('GOLD', 'DIM_LOCATION') }} "DIM_LOCATION"
+      name: V_DIM_LOCATION
+      noLinkRefs: []
+  name: V_DIM_LOCATION
+  schema: ''
+  sqlType: View
+  type: sql
+  version: 1
+type: Node

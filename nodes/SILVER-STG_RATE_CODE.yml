@@ -1,0 +1,60 @@
+fileVersion: 1
+id: 76AAEDD7-0575-44C5-B0BD-F5C49BC8B041
+name: STG_RATE_CODE
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: SILVER
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - columnReference:
+        columnCounter: 9F33B77E-69E1-403B-9456-0B04B1302C7F
+        stepCounter: 76AAEDD7-0575-44C5-B0BD-F5C49BC8B041
+      config: {}
+      dataType: NUMBER(2,0)
+      description: ''
+      name: RATE_CODE_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 74f49968-0314-4fd2-b41a-617091cd6685
+          stepCounter: afce502a-194d-4b62-ad88-38a404fd4ea0
+        transform: ''
+    - columnReference:
+        columnCounter: 449A3C4A-4922-4179-BA1A-83284C5B1D08
+        stepCounter: 76AAEDD7-0575-44C5-B0BD-F5C49BC8B041
+      config: {}
+      dataType: VARCHAR(21)
+      description: ''
+      name: RATE_CODE
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 60b4fcf8-c4b8-4f04-b45a-fd4e401b2d04
+          stepCounter: afce502a-194d-4b62-ad88-38a404fd4ea0
+        transform: ''
+    sourceMapping:
+    - aliases:
+        RATE_CODE: afce502a-194d-4b62-ad88-38a404fd4ea0
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: BRONZE
+        nodeName: RATE_CODE
+      join:
+        joinCondition: FROM {{ ref('BRONZE', 'RATE_CODE') }} "RATE_CODE"
+      name: STG_RATE_CODE
+      noLinkRefs: []
+  name: STG_RATE_CODE
+  schema: ''
+  sqlType: Stage
+  type: sql
+  version: 1
+type: Node

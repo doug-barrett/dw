@@ -1,0 +1,73 @@
+fileVersion: 1
+id: 7D504802-94CC-4845-9D8F-7E977A4D2DD3
+name: V_DIM_VENDOR
+operation:
+  config:
+    insertStrategy: UNION
+    selectDistinct: false
+  database: ''
+  deployEnabled: true
+  description: ''
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+    - columnReference:
+        columnCounter: D01C43F1-542F-48FE-AFF1-38C89EA0DE10
+        stepCounter: 7D504802-94CC-4845-9D8F-7E977A4D2DD3
+      config: {}
+      dataType: NUMBER
+      description: ''
+      name: DIM_VENDOR_KEY
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: EBE07FA5-1659-4D69-A18C-4C868931846C
+          stepCounter: A0D36717-1055-40E9-9D17-9D4ABA5B32D9
+        transform: ''
+    - columnReference:
+        columnCounter: F1852053-D259-4BE3-B030-784A0ABC8803
+        stepCounter: 7D504802-94CC-4845-9D8F-7E977A4D2DD3
+      config: {}
+      dataType: NUMBER(38,0)
+      description: ''
+      name: VENDOR_ID
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 179501DD-2E21-43D2-BC4A-6E038BF587CA
+          stepCounter: A0D36717-1055-40E9-9D17-9D4ABA5B32D9
+        transform: ''
+    - columnReference:
+        columnCounter: 84260EC7-7D09-42A3-813F-6441FEC6DE0C
+        stepCounter: 7D504802-94CC-4845-9D8F-7E977A4D2DD3
+      config: {}
+      dataType: VARCHAR(16777216)
+      description: ''
+      name: VENDOR_NAME
+      nullable: true
+      sourceColumnReferences:
+      - columnReferences:
+        - columnCounter: 55B249DE-885F-48F6-918E-395779D97385
+          stepCounter: A0D36717-1055-40E9-9D17-9D4ABA5B32D9
+        transform: ''
+    sourceMapping:
+    - aliases:
+        DIM_VENDOR: A0D36717-1055-40E9-9D17-9D4ABA5B32D9
+      customSQL:
+        customSQL: ''
+      dependencies:
+      - locationName: GOLD
+        nodeName: DIM_VENDOR
+      join:
+        joinCondition: FROM {{ ref('GOLD', 'DIM_VENDOR') }} "DIM_VENDOR"
+      name: V_DIM_VENDOR
+      noLinkRefs: []
+  name: V_DIM_VENDOR
+  schema: ''
+  sqlType: View
+  type: sql
+  version: 1
+type: Node
