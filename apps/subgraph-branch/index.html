@@ -1,0 +1,199 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Subgraph Branch</title>
+<style>
+  :root{
+    --line:#d0d7de; --ink:#1f2328; --muted:#636c76;
+    --accent:#0969da; --accent-bg:#ddf4ff;
+    --ok:#1a7f37; --ok-bg:#dafbe1;
+    --err:#cf222e; --err-bg:#ffebe9;
+    --warn:#9a6700; --warn-bg:#fff8c5; --warn-line:#e7c200;
+    --panel:#fbfcfd;
+  }
+  *{box-sizing:border-box}
+  body{font:14px system-ui,-apple-system,Segoe UI,sans-serif;margin:0;color:var(--ink);background:#fff}
+  header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:5}
+  header h1{font-size:15px;margin:0;font-weight:600;display:flex;align-items:center;gap:8px}
+  header h1 .glyph{color:var(--accent)}
+  .spacer{flex:1}
+  input,button{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+  button{cursor:pointer}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+  button.primary:hover{filter:brightness(1.05)}
+  button.primary:disabled{opacity:.55;cursor:default;filter:none}
+  button.ghost:hover{background:#f3f4f6}
+  button.sm{padding:4px 10px;font-size:12.5px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel);font-size:12.5px}
+  .chip b{font-weight:600}
+  .chip.branch{background:var(--accent-bg);border-color:#acd1ff}
+  .chip code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+  main{max-width:1040px;margin:0 auto;padding:18px 16px 60px}
+  .card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;margin-bottom:18px}
+  .card>h3{margin:0;padding:10px 14px;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;align-items:center;gap:8px}
+  .card>h3 .count{margin-left:auto;color:var(--muted);font-weight:400;font-size:12px}
+  .body{padding:14px}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .row input.name{flex:1;min-width:240px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .hint{color:var(--muted);font-size:12.5px;margin:10px 2px 0}
+  .hint code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .msg{margin:12px 2px 0;font-size:13px;display:none}
+  .msg.show{display:block}
+  .msg.ok{color:var(--ok)} .msg.err{color:var(--err)}
+  .commit{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted)}
+  /* subgraph list */
+  ul.sgs{list-style:none;margin:0;padding:4px 0}
+  ul.sgs li{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid #eef1f4}
+  ul.sgs li:first-child{border-top:none}
+  ul.sgs li.active{background:var(--accent-bg)}
+  ul.sgs li .nm{font-weight:500}
+  ul.sgs li .sc{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+  ul.sgs li .sp{flex:1}
+  /* focus panel */
+  .focus h3 .nm{color:var(--accent)}
+  ul.nodes{list-style:none;margin:0;padding:4px 0;max-height:440px;overflow:auto}
+  ul.nodes li{display:flex;align-items:center;gap:9px;padding:6px 14px}
+  ul.nodes li .loc{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 5px;flex:none}
+  ul.nodes li .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  ul.nodes li .ty{font-size:11px;color:var(--muted);margin-left:auto;flex:none}
+  .empty{padding:16px 14px;color:var(--muted);font-size:13px}
+  .stale{margin:0;padding:8px 14px;font-size:12px;color:var(--err);border-top:1px dashed var(--err)}
+</style>
+
+<header>
+  <h1><span class="glyph">⌥</span> Subgraph Branch</h1>
+  <span class="chip branch">on <b id="curBranch">…</b></span>
+  <span class="chip" id="headChip" title="Latest commit on this branch">HEAD <code id="headSha">…</code></span>
+  <span class="spacer"></span>
+  <button class="ghost sm" id="refresh" title="Reload">↻</button>
+</header>
+
+<main>
+  <section class="card">
+    <h3>① New branch from the latest commit, then switch to it</h3>
+    <div class="body">
+      <div class="row">
+        <input class="name" id="branchName" spellcheck="false" placeholder="new-branch-name">
+        <button class="primary" id="create">Create branch &amp; switch</button>
+        <button class="ghost sm" id="regen" title="Regenerate default name">↻ default</button>
+      </div>
+      <p class="hint">Branches from <b id="fromBranch">…</b> at <span class="commit" id="fromCommit">…</span>.
+        Uncommitted work comes with you. Default name is the current branch + a timestamp.</p>
+      <p class="msg" id="branchMsg"></p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>② Switch to a subgraph <span class="count" id="sgCount"></span></h3>
+    <ul class="sgs" id="sgList"><li class="empty">Loading…</li></ul>
+  </section>
+
+  <section class="card focus" id="focusCard" style="display:none">
+    <h3>Focused subgraph: <span class="nm" id="focusName"></span>
+      <span class="count" id="focusCount"></span></h3>
+    <ul class="nodes" id="focusNodes"></ul>
+    <p class="stale" id="focusStale" style="display:none"></p>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const S = { state:null, activeSubgraph:null, nameEdited:false };
+
+async function j(url, opts){ const r = await fetch(url, opts); return r.json(); }
+function el(tag, cls, txt){ const e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
+
+function renderHead(){
+  const st = S.state;
+  $("curBranch").textContent = st.current;
+  $("fromBranch").textContent = st.current;
+  if (st.head){
+    $("headSha").textContent = st.head.sha;
+    $("headChip").title = st.head.subject + " — " + st.head.author + ", " + st.head.when;
+    $("fromCommit").textContent = st.head.sha + " “" + st.head.subject + "”";
+  } else {
+    $("headSha").textContent = "—"; $("fromCommit").textContent = "(no commits)";
+  }
+}
+
+function renderSubgraphs(){
+  const list = $("sgList"); list.innerHTML="";
+  const sgs = S.state.subgraphs || [];
+  $("sgCount").textContent = sgs.length ? sgs.length+" subgraph"+(sgs.length!==1?"s":"") : "";
+  if (!sgs.length){ list.append(el("li","empty","No subgraphs in this workspace (subgraphs/*.yml).")); return; }
+  for (const s of sgs){
+    const li = el("li"); if (S.activeSubgraph===s.id) li.classList.add("active");
+    li.append(el("span","nm", s.name));
+    li.append(el("span","sc", s.stepCount+" node"+(s.stepCount!==1?"s":"")));
+    li.append(el("span","sp"));
+    const btn = el("button", "ghost sm", S.activeSubgraph===s.id ? "Focused ✓" : "Switch to");
+    btn.onclick = () => focusSubgraph(s.id);
+    li.append(btn);
+    list.append(li);
+  }
+}
+
+async function focusSubgraph(id){
+  const d = await j("api/subgraph?id="+encodeURIComponent(id));
+  if (d.error){ return; }
+  S.activeSubgraph = id;
+  renderSubgraphs();
+  $("focusCard").style.display="block";
+  $("focusName").textContent = d.name;
+  $("focusCount").textContent = d.nodes.length+" / "+d.stepCount+" node"+(d.stepCount!==1?"s":"")+" in this branch";
+  const ul = $("focusNodes"); ul.innerHTML="";
+  if (!d.nodes.length) ul.append(el("li","empty","No member nodes present in the current branch."));
+  for (const n of d.nodes){
+    const li = el("li");
+    if (n.location) li.append(el("span","loc", n.location));
+    li.append(el("span","nm", n.name));
+    if (n.typeLabel) li.append(el("span","ty", n.typeLabel));
+    ul.append(li);
+  }
+  const stale = $("focusStale");
+  if (d.staleSteps && d.staleSteps.length){
+    stale.style.display="block";
+    stale.textContent = "⚠ "+d.staleSteps.length+" step"+(d.staleSteps.length>1?"s":"")+
+      " reference nodes not in this branch.";
+  } else stale.style.display="none";
+  $("focusCard").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+async function load(){
+  const st = await j("api/state");
+  if (st.error){ const m=$("branchMsg"); m.className="msg show err"; m.textContent=st.error; return; }
+  S.state = st;
+  renderHead();
+  if (!S.nameEdited) $("branchName").value = st.suggestedBranch;
+  renderSubgraphs();
+  // keep focus panel in sync if the active subgraph still exists
+  if (S.activeSubgraph && st.subgraphs.some(s=>s.id===S.activeSubgraph)) focusSubgraph(S.activeSubgraph);
+  else if (S.activeSubgraph){ S.activeSubgraph=null; $("focusCard").style.display="none"; }
+}
+
+$("branchName").addEventListener("input", ()=>{ S.nameEdited = true; });
+$("regen").onclick = ()=>{ S.nameEdited=false; if (S.state) $("branchName").value = S.state.suggestedBranch; $("branchName").focus(); };
+
+$("create").onclick = async () => {
+  const name = $("branchName").value.trim();
+  const msg = $("branchMsg");
+  if (!name){ msg.className="msg show err"; msg.textContent="Enter a branch name."; return; }
+  $("create").disabled = true;
+  msg.className="msg show"; msg.textContent="Creating…";
+  const r = await j("api/branch", { method:"POST", headers:{"content-type":"application/json"},
+    body: JSON.stringify({ name }) });
+  $("create").disabled = false;
+  if (r.ok){
+    msg.className="msg show ok";
+    msg.innerHTML = "✓ Created and switched to <b>"+r.current+"</b>"+
+      (r.from ? " from <span class='commit'>"+r.from.sha+" “"+r.from.subject+"”</span>" : "")+".";
+    S.nameEdited = false;
+    await load();
+  } else {
+    msg.className="msg show err";
+    msg.textContent = "✗ "+(r.error || "Could not create branch.");
+  }
+};
+
+$("refresh").onclick = load;
+load();
+</script>
