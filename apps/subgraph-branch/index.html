@@ -7,7 +7,6 @@
     --accent:#0969da; --accent-bg:#ddf4ff;
     --ok:#1a7f37; --ok-bg:#dafbe1;
     --err:#cf222e; --err-bg:#ffebe9;
-    --warn:#9a6700; --warn-bg:#fff8c5; --warn-line:#e7c200;
     --panel:#fbfcfd;
   }
   *{box-sizing:border-box}
@@ -16,7 +15,7 @@
   header h1{font-size:15px;margin:0;font-weight:600;display:flex;align-items:center;gap:8px}
   header h1 .glyph{color:var(--accent)}
   .spacer{flex:1}
-  input,button{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+  input,button,select{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
   button{cursor:pointer}
   button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
   button.primary:hover{filter:brightness(1.05)}
@@ -27,36 +26,71 @@
   .chip b{font-weight:600}
   .chip.branch{background:var(--accent-bg);border-color:#acd1ff}
   .chip code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
-  main{max-width:1040px;margin:0 auto;padding:18px 16px 60px}
-  .card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;margin-bottom:18px}
-  .card>h3{margin:0;padding:10px 14px;font-size:13px;border-bottom:1px solid var(--line);background:var(--panel);display:flex;align-items:center;gap:8px}
-  .card>h3 .count{margin-left:auto;color:var(--muted);font-weight:400;font-size:12px}
-  .body{padding:14px}
+  main{max-width:720px;margin:0 auto;padding:22px 16px 60px}
+  .card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+  .card>h3{margin:0;padding:11px 16px;font-size:14px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .body{padding:18px}
+  .field{margin-bottom:18px}
+  .field>label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;margin-bottom:6px}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .row input.name{flex:1;min-width:240px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .hint{color:var(--muted);font-size:12.5px;margin:10px 2px 0}
-  .hint code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .msg{margin:12px 2px 0;font-size:13px;display:none}
-  .msg.show{display:block}
-  .msg.ok{color:var(--ok)} .msg.err{color:var(--err)}
+  input.name{flex:1;min-width:240px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  select.sel{width:100%}
+  .hint{color:var(--muted);font-size:12.5px;margin:8px 2px 0}
   .commit{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted)}
-  /* subgraph list */
-  ul.sgs{list-style:none;margin:0;padding:4px 0}
-  ul.sgs li{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid #eef1f4}
-  ul.sgs li:first-child{border-top:none}
-  ul.sgs li.active{background:var(--accent-bg)}
-  ul.sgs li .nm{font-weight:500}
-  ul.sgs li .sc{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
-  ul.sgs li .sp{flex:1}
-  /* focus panel */
-  .focus h3 .nm{color:var(--accent)}
-  ul.nodes{list-style:none;margin:0;padding:4px 0;max-height:440px;overflow:auto}
-  ul.nodes li{display:flex;align-items:center;gap:9px;padding:6px 14px}
-  ul.nodes li .loc{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:1px 5px;flex:none}
-  ul.nodes li .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  ul.nodes li .ty{font-size:11px;color:var(--muted);margin-left:auto;flex:none}
-  .empty{padding:16px 14px;color:var(--muted);font-size:13px}
-  .stale{margin:0;padding:8px 14px;font-size:12px;color:var(--err);border-top:1px dashed var(--err)}
+  .actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+  .msg{font-size:13px}
+  .msg.ok{color:var(--ok)} .msg.err{color:var(--err)}
+
+  /* full-screen graph overlay */
+  .overlay{position:fixed;inset:0;background:#fff;z-index:50;display:flex;flex-direction:column}
+  .obar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+  .obar h2{margin:0;font-size:15px;font-weight:600}
+  .obar h2 .sg{color:var(--accent)}
+  .toggle{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--ink);cursor:pointer;user-select:none}
+  .toggle input{width:14px;height:14px;cursor:pointer}
+  .ghint2{font-size:12px;color:var(--muted)}
+  .ghint2.ok{color:var(--ok)} .ghint2.err{color:var(--err)}
+  .ovbody{flex:1;display:flex;min-height:0}
+  .props{width:320px;flex:none;border-left:1px solid var(--line);background:#fff;overflow:auto;display:flex;flex-direction:column}
+  .props-h{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0}
+  .swatch{width:12px;height:12px;border-radius:3px;flex:none;border:1px solid rgba(0,0,0,.15)}
+  .props-title{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .props-h .x{margin-left:auto;border:none;background:none;color:var(--muted);padding:2px 6px;font-size:14px}
+  .props-b{padding:12px 14px;font-size:13px}
+  .prop{margin-bottom:12px}
+  .prop .k{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600;margin-bottom:3px}
+  .prop .v{word-break:break-word}
+  .prop .v.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+  .typetag{display:inline-flex;align-items:center;gap:6px}
+  .collist{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+  .collist li{display:flex;align-items:center;gap:8px;padding:5px 9px;border-top:1px solid #eef1f4}
+  .collist li:first-child{border-top:none}
+  .collist li .cn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .collist li .badge{margin-left:auto;font-size:9.5px;font-weight:700;letter-spacing:.03em;padding:1px 5px;border-radius:999px;flex:none}
+  .badge.sk{background:#fff1cc;color:#8a5a00} .badge.bk{background:#ddf4ff;color:#0a52a8}
+  .badge.sys{background:#eef1f4;color:var(--muted)}
+  .deplist{display:flex;flex-wrap:wrap;gap:5px}
+  .deplist .d{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;background:var(--panel)}
+  .propbtn{width:100%;margin-top:4px}
+  .graphwrap{flex:1;overflow:auto;background:
+    linear-gradient(90deg,#fafbfc 1px,transparent 1px) 0 0/22px 22px,
+    linear-gradient(#fafbfc 1px,transparent 1px) 0 0/22px 22px, #fff}
+  .graphwrap svg{display:block}
+  .gnode{cursor:pointer}
+  .gnode rect{fill:#fff;stroke:var(--line);stroke-width:1.5}
+  .gnode:hover rect{stroke:var(--accent);filter:drop-shadow(0 1px 3px rgba(0,0,0,.12))}
+  .gnode .accent{stroke-width:0}
+  .gnode .nm{font:600 12px system-ui,-apple-system,sans-serif;fill:var(--ink)}
+  .gnode .ty{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;fill:var(--muted)}
+  .gnode .loc{font:700 9px system-ui,sans-serif;letter-spacing:.04em}
+  .gnode.sel rect.box{stroke-width:2.5}
+  .gnode .divider{stroke:#eef1f4;stroke-width:1}
+  .gnode .col{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;fill:var(--ink)}
+  .gnode .col.sys{fill:var(--muted)}
+  .gnode .ckey{font:700 8.5px system-ui,sans-serif}
+  .gedge{fill:none;stroke:#b6c2cf;stroke-width:1.5}
+  .gempty{padding:28px 18px;color:var(--muted);font-size:14px}
+  .stale{margin:0;padding:8px 16px;font-size:12px;color:var(--err);border-top:1px dashed var(--err)}
 </style>
 
 <header>
@@ -69,38 +103,60 @@
 
 <main>
   <section class="card">
-    <h3>① New branch from the latest commit, then switch to it</h3>
+    <h3>Create a working branch &amp; open a subgraph</h3>
     <div class="body">
-      <div class="row">
-        <input class="name" id="branchName" spellcheck="false" placeholder="new-branch-name">
-        <button class="primary" id="create">Create branch &amp; switch</button>
-        <button class="ghost sm" id="regen" title="Regenerate default name">↻ default</button>
+      <div class="field">
+        <label for="branchName">Branch name</label>
+        <div class="row">
+          <input class="name" id="branchName" spellcheck="false" placeholder="new-branch-name">
+          <button class="ghost sm" id="regen" title="Regenerate default name">↻ default</button>
+        </div>
+        <p class="hint">Branches from <b id="fromBranch">…</b> at <span class="commit" id="fromCommit">…</span>.
+          Uncommitted work comes with you. Default is the current branch + a timestamp.</p>
       </div>
-      <p class="hint">Branches from <b id="fromBranch">…</b> at <span class="commit" id="fromCommit">…</span>.
-        Uncommitted work comes with you. Default name is the current branch + a timestamp.</p>
-      <p class="msg" id="branchMsg"></p>
+
+      <div class="field" id="sgField">
+        <label for="sgSelect">Subgraph to open</label>
+        <select class="sel" id="sgSelect"></select>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="create">Create branch &amp; open graph</button>
+        <span class="msg" id="branchMsg"></span>
+      </div>
     </div>
-  </section>
-
-  <section class="card">
-    <h3>② Switch to a subgraph <span class="count" id="sgCount"></span></h3>
-    <ul class="sgs" id="sgList"><li class="empty">Loading…</li></ul>
-  </section>
-
-  <section class="card focus" id="focusCard" style="display:none">
-    <h3>Focused subgraph: <span class="nm" id="focusName"></span>
-      <span class="count" id="focusCount"></span></h3>
-    <ul class="nodes" id="focusNodes"></ul>
-    <p class="stale" id="focusStale" style="display:none"></p>
   </section>
 </main>
 
+<!-- full-screen subgraph graph -->
+<div class="overlay" id="overlay" style="display:none">
+  <div class="obar">
+    <h2>Subgraph: <span class="sg" id="ovName"></span></h2>
+    <span class="chip branch">on <b id="ovBranch"></b></span>
+    <label class="toggle"><input type="checkbox" id="colToggle"> Show columns</label>
+    <span class="spacer"></span>
+    <span class="ghint2" id="openMsg">Click a node for details · double-click to open its file.</span>
+    <button class="ghost sm" id="ovClose">✕ Close</button>
+  </div>
+  <div class="ovbody">
+    <div class="graphwrap" id="focusGraph"></div>
+    <aside class="props" id="props" style="display:none">
+      <div class="props-h">
+        <span class="swatch" id="propSwatch"></span>
+        <span class="props-title" id="propName"></span>
+        <button class="x" id="propClose" title="Deselect">✕</button>
+      </div>
+      <div class="props-b" id="propBody"></div>
+    </aside>
+  </div>
+  <p class="stale" id="focusStale" style="display:none"></p>
+</div>
+
 <script>
 const $ = (id) => document.getElementById(id);
-const S = { state:null, activeSubgraph:null, nameEdited:false };
+const S = { state:null, nameEdited:false, selected:null, graph:null, selectedNode:null };
 
 async function j(url, opts){ const r = await fetch(url, opts); return r.json(); }
-function el(tag, cls, txt){ const e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }
 
 function renderHead(){
   const st = S.state;
@@ -110,86 +166,182 @@ function renderHead(){
     $("headSha").textContent = st.head.sha;
     $("headChip").title = st.head.subject + " — " + st.head.author + ", " + st.head.when;
     $("fromCommit").textContent = st.head.sha + " “" + st.head.subject + "”";
-  } else {
-    $("headSha").textContent = "—"; $("fromCommit").textContent = "(no commits)";
-  }
+  } else { $("headSha").textContent = "—"; $("fromCommit").textContent = "(no commits)"; }
 }
 
-function renderSubgraphs(){
-  const list = $("sgList"); list.innerHTML="";
-  const sgs = S.state.subgraphs || [];
-  $("sgCount").textContent = sgs.length ? sgs.length+" subgraph"+(sgs.length!==1?"s":"") : "";
-  if (!sgs.length){ list.append(el("li","empty","No subgraphs in this workspace (subgraphs/*.yml).")); return; }
+function renderSubgraphSelect(){
+  const sel = $("sgSelect"); const sgs = S.state.subgraphs || [];
+  if (!sgs.length){
+    $("sgField").style.display = "none"; S.selected = null; return;
+  }
+  $("sgField").style.display = "block";
+  const keep = S.selected && sgs.some(s=>s.id===S.selected) ? S.selected : sgs[0].id;
+  sel.innerHTML = "";
   for (const s of sgs){
-    const li = el("li"); if (S.activeSubgraph===s.id) li.classList.add("active");
-    li.append(el("span","nm", s.name));
-    li.append(el("span","sc", s.stepCount+" node"+(s.stepCount!==1?"s":"")));
-    li.append(el("span","sp"));
-    const btn = el("button", "ghost sm", S.activeSubgraph===s.id ? "Focused ✓" : "Switch to");
-    btn.onclick = () => focusSubgraph(s.id);
-    li.append(btn);
-    list.append(li);
+    const o = document.createElement("option");
+    o.value = s.id; o.textContent = s.name + "  (" + s.stepCount + " node" + (s.stepCount!==1?"s":"") + ")";
+    if (s.id === keep) o.selected = true;
+    sel.append(o);
   }
-}
-
-async function focusSubgraph(id){
-  const d = await j("api/subgraph?id="+encodeURIComponent(id));
-  if (d.error){ return; }
-  S.activeSubgraph = id;
-  renderSubgraphs();
-  $("focusCard").style.display="block";
-  $("focusName").textContent = d.name;
-  $("focusCount").textContent = d.nodes.length+" / "+d.stepCount+" node"+(d.stepCount!==1?"s":"")+" in this branch";
-  const ul = $("focusNodes"); ul.innerHTML="";
-  if (!d.nodes.length) ul.append(el("li","empty","No member nodes present in the current branch."));
-  for (const n of d.nodes){
-    const li = el("li");
-    if (n.location) li.append(el("span","loc", n.location));
-    li.append(el("span","nm", n.name));
-    if (n.typeLabel) li.append(el("span","ty", n.typeLabel));
-    ul.append(li);
-  }
-  const stale = $("focusStale");
-  if (d.staleSteps && d.staleSteps.length){
-    stale.style.display="block";
-    stale.textContent = "⚠ "+d.staleSteps.length+" step"+(d.staleSteps.length>1?"s":"")+
-      " reference nodes not in this branch.";
-  } else stale.style.display="none";
-  $("focusCard").scrollIntoView({behavior:"smooth", block:"nearest"});
+  S.selected = keep;
+  sel.onchange = () => { S.selected = sel.value; };
 }
 
 async function load(){
   const st = await j("api/state");
-  if (st.error){ const m=$("branchMsg"); m.className="msg show err"; m.textContent=st.error; return; }
+  if (st.error){ const m=$("branchMsg"); m.className="msg err"; m.textContent=st.error; return; }
   S.state = st;
   renderHead();
   if (!S.nameEdited) $("branchName").value = st.suggestedBranch;
-  renderSubgraphs();
-  // keep focus panel in sync if the active subgraph still exists
-  if (S.activeSubgraph && st.subgraphs.some(s=>s.id===S.activeSubgraph)) focusSubgraph(S.activeSubgraph);
-  else if (S.activeSubgraph){ S.activeSubgraph=null; $("focusCard").style.display="none"; }
+  renderSubgraphSelect();
 }
+
+// ---- full-screen subgraph mini-DAG --------------------------------------
+const SVGNS = "http://www.w3.org/2000/svg";
+const HEADER=46, ROW=18, HGAP=62, VGAP=24, PAD=22;
+function svg(tag, attrs){ const e=document.createElementNS(SVGNS,tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]); return e; }
+function trunc(s, n){ s=String(s||""); return s.length>n ? s.slice(0,n-1)+"…" : s; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function nodeW(showCols){ return showCols ? 214 : 178; }
+function nodeH(n, showCols){ return HEADER + (showCols && n.columns && n.columns.length ? n.columns.length*ROW+8 : 0); }
+function layerize(nodes, edges){
+  const ids = new Set(nodes.map(n=>n.id));
+  const layer = new Map(nodes.map(n=>[n.id,0]));
+  let changed=true, iter=0, cap=nodes.length+2;
+  while(changed && iter++<cap){ changed=false;
+    for(const e of edges){ if(!ids.has(e.from)||!ids.has(e.to)) continue;
+      const nl=layer.get(e.from)+1; if(nl>layer.get(e.to)){ layer.set(e.to,nl); changed=true; } } }
+  return layer;
+}
+function renderGraph(){
+  const container = $("focusGraph");
+  const data = S.graph; if(!data) return;
+  const showCols = $("colToggle").checked;
+  const nodes = data.nodes, edges = data.edges || [];
+  container.innerHTML="";
+  if(!nodes.length){ container.innerHTML='<div class="gempty">No member nodes present in this branch.</div>'; return; }
+  const NW = nodeW(showCols);
+  const layer = layerize(nodes, edges);
+  const byLayer=new Map();
+  for(const n of nodes){ const L=layer.get(n.id); (byLayer.get(L)||byLayer.set(L,[]).get(L)).push(n); }
+  const layers=[...byLayer.keys()].sort((a,b)=>a-b);
+  const lay=new Map(); let maxBottom=PAD, maxRight=PAD;
+  layers.forEach((L,ci)=>{ const col=byLayer.get(L).sort((a,b)=>a.name.localeCompare(b.name));
+    const x=PAD+ci*(NW+HGAP); let y=PAD;
+    for(const n of col){ const h=nodeH(n,showCols); lay.set(n.id,{x,y,w:NW,h}); y+=h+VGAP; maxBottom=Math.max(maxBottom,y); }
+    maxRight=Math.max(maxRight,x+NW); });
+  const width=maxRight+PAD, height=maxBottom+PAD-VGAP;
+  const root=svg("svg",{width:Math.max(width, container.clientWidth||width),
+    height:Math.max(height, container.clientHeight||height), viewBox:"0 0 "+width+" "+height});
+  for(const e of edges){ const a=lay.get(e.from), b=lay.get(e.to); if(!a||!b) continue;
+    const x1=a.x+a.w, y1=a.y+a.h/2, x2=b.x, y2=b.y+b.h/2, mx=(x1+x2)/2;
+    root.appendChild(svg("path",{class:"gedge", d:`M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`})); }
+  for(const n of nodes){ const p=lay.get(n.id); const col=n.typeColor||"#7d8893";
+    const g=svg("g",{class:"gnode"+(S.selectedNode===n.id?" sel":""), transform:`translate(${p.x},${p.y})`});
+    g.appendChild(svg("title",{})).textContent = (n.location?n.location+".":"")+n.name+
+      (n.typeLabel?"  ["+n.typeLabel+"]":"")+"\n"+(n.file||"")+"\n(click = details · double-click = open)";
+    g.appendChild(svg("rect",{class:"box",width:p.w,height:p.h,rx:7,stroke:col}));
+    g.appendChild(svg("rect",{class:"accent",width:6,height:p.h,fill:col}));
+    const nm=svg("text",{class:"nm",x:16,y:21}); nm.textContent=trunc(n.name, showCols?28:23); g.appendChild(nm);
+    const sub=svg("text",{class:"ty",x:16,y:37}); sub.textContent=trunc((n.location?n.location+" · ":"")+(n.typeLabel||""), showCols?34:26); g.appendChild(sub);
+    if(showCols && n.columns && n.columns.length){
+      g.appendChild(svg("line",{class:"divider",x1:8,y1:HEADER-6,x2:p.w-8,y2:HEADER-6}));
+      n.columns.forEach((c,i)=>{ const cy=HEADER+12+i*ROW;
+        const t=svg("text",{class:"col"+(c.flags&&c.flags.system?" sys":""),x:15,y:cy}); t.textContent=trunc(c.name,24); g.appendChild(t);
+        if(c.flags&&c.flags.key){ const sk=c.flags.key==="surrogate";
+          const b=svg("text",{class:"ckey",x:p.w-10,y:cy,"text-anchor":"end",fill:sk?"#8a5a00":"#0a52a8"}); b.textContent=sk?"SK":"BK"; g.appendChild(b); }
+        else if(c.flags&&c.flags.system){ const b=svg("text",{class:"ckey",x:p.w-10,y:cy,"text-anchor":"end",fill:"#8a95a1"}); b.textContent="sys"; g.appendChild(b); }
+      });
+    }
+    g.addEventListener("click",()=>selectNode(n.id));
+    g.addEventListener("dblclick",(ev)=>{ ev.preventDefault(); openNode(n.id); });
+    root.appendChild(g); }
+  container.appendChild(root);
+}
+
+function nameOf(id){ const n=S.graph.nodes.find(x=>x.id===id); return n?n.name:id; }
+function propRow(k, vHTML, cls){ const d=document.createElement("div"); d.className="prop";
+  d.innerHTML=`<div class="k">${esc(k)}</div><div class="v${cls?' '+cls:''}">${vHTML}</div>`; return d; }
+function depsHTML(ids){ return `<div class="deplist">${ids.map(id=>`<span class="d">${esc(nameOf(id))}</span>`).join("")}</div>`; }
+function colListHTML(cols){ return `<ul class="collist">${cols.map(c=>{ let b="";
+  if(c.flags&&c.flags.key){ const sk=c.flags.key==="surrogate"; b=`<span class="badge ${sk?'sk':'bk'}">${sk?'SK':'BK'}</span>`; }
+  else if(c.flags&&c.flags.system){ b='<span class="badge sys">SYS</span>'; }
+  return `<li><span class="cn">${esc(c.name)}</span>${b}</li>`; }).join("")}</ul>`; }
+function renderProps(){
+  const n = S.graph && S.graph.nodes.find(x=>x.id===S.selectedNode);
+  const panel=$("props");
+  if(!n){ panel.style.display="none"; return; }
+  panel.style.display="flex";
+  $("propSwatch").style.background = n.typeColor||"#7d8893";
+  $("propName").textContent = n.name;
+  $("propName").title = n.name;
+  const up = (S.graph.edges||[]).filter(e=>e.to===n.id).map(e=>e.from);
+  const down = (S.graph.edges||[]).filter(e=>e.from===n.id).map(e=>e.to);
+  const body=$("propBody"); body.innerHTML="";
+  body.append(propRow("Type", `<span class="typetag"><span class="swatch" style="background:${esc(n.typeColor||'#7d8893')}"></span>${esc(n.typeLabel||n.sqlType||'—')}</span>`));
+  body.append(propRow("Location", esc(n.location||"—")));
+  body.append(propRow("Node file", esc(n.file||"—"), "mono"));
+  body.append(propRow("Columns", String(n.columns?n.columns.length:0)));
+  if(up.length) body.append(propRow("Upstream (in subgraph)", depsHTML(up)));
+  if(down.length) body.append(propRow("Downstream (in subgraph)", depsHTML(down)));
+  if(n.columns && n.columns.length) body.append(propRow("Column list", colListHTML(n.columns)));
+  const btn=document.createElement("button"); btn.className="ghost sm propbtn";
+  btn.textContent="Open "+n.file+" for editing"; btn.onclick=()=>openNode(n.id);
+  body.append(btn);
+}
+function selectNode(id){ S.selectedNode = (S.selectedNode===id ? null : id); renderGraph(); renderProps(); }
+
+async function openNode(id){
+  const msg=$("openMsg"); msg.className="ghint2"; msg.textContent="Opening…";
+  const r=await j("api/open-node",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id})});
+  if(r.ok){ msg.className="ghint2 ok"; msg.textContent="✓ Opened "+r.file+" in "+r.via; }
+  else { msg.className="ghint2 err"; msg.textContent="✗ "+(r.error||"Could not open node."); }
+}
+
+async function openGraph(id){
+  const d = await j("api/subgraph?id="+encodeURIComponent(id));
+  if (d.error){ const m=$("branchMsg"); m.className="msg err"; m.textContent=d.error; return; }
+  S.graph = d; S.selectedNode = null;
+  $("ovName").textContent = d.name;
+  $("ovBranch").textContent = S.state ? S.state.current : "";
+  $("openMsg").className = "ghint2";
+  $("openMsg").textContent = d.nodes.length + " / " + d.stepCount + " nodes — click a node for details, double-click to open its file.";
+  const stale = $("focusStale");
+  if (d.staleSteps && d.staleSteps.length){
+    stale.style.display="block";
+    stale.textContent = "⚠ "+d.staleSteps.length+" step"+(d.staleSteps.length>1?"s":"")+" reference nodes not in this branch.";
+  } else stale.style.display="none";
+  $("overlay").style.display = "flex";
+  renderGraph(); renderProps();   // after display so sizing is right
+}
+function closeGraph(){ $("overlay").style.display = "none"; }
 
 $("branchName").addEventListener("input", ()=>{ S.nameEdited = true; });
 $("regen").onclick = ()=>{ S.nameEdited=false; if (S.state) $("branchName").value = S.state.suggestedBranch; $("branchName").focus(); };
+$("ovClose").onclick = closeGraph;
+$("colToggle").onchange = () => renderGraph();
+$("propClose").onclick = () => { S.selectedNode = null; renderGraph(); renderProps(); };
+document.addEventListener("keydown", (e)=>{ if(e.key==="Escape"){ if(S.selectedNode){ S.selectedNode=null; renderGraph(); renderProps(); } else closeGraph(); } });
 
 $("create").onclick = async () => {
   const name = $("branchName").value.trim();
   const msg = $("branchMsg");
-  if (!name){ msg.className="msg show err"; msg.textContent="Enter a branch name."; return; }
+  if (!name){ msg.className="msg err"; msg.textContent="Enter a branch name."; return; }
+  const chosen = S.selected;
   $("create").disabled = true;
-  msg.className="msg show"; msg.textContent="Creating…";
+  msg.className="msg"; msg.textContent="Creating…";
   const r = await j("api/branch", { method:"POST", headers:{"content-type":"application/json"},
     body: JSON.stringify({ name }) });
   $("create").disabled = false;
   if (r.ok){
-    msg.className="msg show ok";
-    msg.innerHTML = "✓ Created and switched to <b>"+r.current+"</b>"+
-      (r.from ? " from <span class='commit'>"+r.from.sha+" “"+r.from.subject+"”</span>" : "")+".";
+    msg.className="msg ok";
+    msg.innerHTML = "✓ Switched to <b>"+r.current+"</b>.";
     S.nameEdited = false;
     await load();
+    if (chosen) await openGraph(chosen);   // open the graph full-screen
   } else {
-    msg.className="msg show err";
+    msg.className="msg err";
     msg.textContent = "✗ "+(r.error || "Could not create branch.");
   }
 };
