@@ -1,0 +1,36 @@
+{#
+    Copyright (c) 2026 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalesce but does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Name           : Work  == #}
+{# == Node Type Description    : This node creates work table or view  == #}
+{#---------------------------------------------------------------------------------------------#}
+
+
+{{ stage('Create view') }}
+CREATE OR REPLACE VIEW {{ this }}
+(
+    {%- for col in columns %}
+        "{{ col.name }}"
+        {%- if withTags and col.tag %} WITH TAG ({{ tag_list(col.tag) }}){% endif %}
+        {%- if col.description | trim | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+        {%- if not loop.last -%}, {%- endif %}
+    {%- endfor %}
+)
+{%- if node.description | trim | length > 0 %} COMMENT = '{{ node.description | escape }}'{% endif %}
+{%- if withTags and config.tag %} WITH TAG ({{ tag_list(config.tag) }}){% endif %}
+AS
+{{ sources[0].cteString }}
+SELECT {{ sources[0].selectModifier | default('', true) }}
+{%- for col in sources[0].columns %}
+    {%- if col.isSurrogateKey or col.isSystemVersion or col.isSystemCurrentFlag
+            or col.isSystemCreateDate or col.isSystemUpdateDate or col.isSystemEndDate %}
+    CAST(NULL AS {{ col.dataType }}) AS "{{ col.name }}"
+    {%- else %}
+    {{ get_source_transform(col) }} AS "{{ col.name }}"
+    {%- endif %}
+    {%- if not loop.last -%}, {%- endif %}
+{%- endfor %}
+{{ sources[0].join }}

@@ -1,0 +1,457 @@
+fileVersion: 1
+id: 50198c83-f1ca-4136-af33-89be0e61ded3
+name: SV_YELLOW_CAB_TRIPS
+operation:
+  config: {}
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: GOLD
+  materializationType: view
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d0b98f6e-9e42-47b1-ae2a-0fa2c776a4cb
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: NUMBER(18,0)
+        description: ""
+        isBusinessKey: true
+        name: TRIP_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: TRIP_ID
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b3e90068-a060-4d3c-9124-a09d79177ea8
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: FLOAT
+        description: ""
+        name: VENDOR_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: VENDOR_ID
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: d93ef072-3be0-442d-a5e4-c1cb90003521
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: FLOAT
+        description: ""
+        name: PAYMENT_TYPE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PAYMENT_TYPE_ID
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 97395ca9-d55f-4f49-a201-4bbe59f3f7e9
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: FLOAT
+        description: ""
+        name: RATE_CODE_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: RATE_CODE_ID
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a06a624f-a320-4cfa-90f0-a3ebc6f2a123
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: TIMESTAMP_TZ(9)
+        description: ""
+        name: PICKUP_DATETIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PICKUP_DATETIME
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: bc024635-901c-456e-9177-0cd9614ded5c
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: TIMESTAMP_TZ(9)
+        description: ""
+        name: DROPOFF_DATETIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: DROPOFF_DATETIME
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5e1494c9-0685-4352-8aa8-1442ae753129
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: FLOAT
+        description: ""
+        name: DO_LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: DO_LOCATION_ID
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0a1467a7-e30d-467f-930d-ea1d8d9e8c30
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: FLOAT
+        description: ""
+        name: PU_LOCATION_ID
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PU_LOCATION_ID
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 41b75a52-8e60-43b3-baa7-f8d63567f141
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: TRIP_DISTANCE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: TRIP_DISTANCE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2db84e80-d530-4293-ac06-b33d077d8654
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: AIRPORT_FEE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: AIRPORT_FEE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."AIRPORT_FEE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: ddb9f523-5242-4709-b76b-e457b8e6964c
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: CBD_CONGESTION_FEE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: CBD_CONGESTION_FEE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."CBD_CONGESTION_FEE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 8dcad90e-b885-4310-af1d-7bb72125d07f
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: CONGESTION_SURCHARGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: CONGESTION_SURCHARGE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."CONGESTION_SURCHARGE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 047904b5-275b-4657-ab0e-192c5b75ab8c
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: EXTRA
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: EXTRA
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."EXTRA")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 82714984-b23c-49a4-bbd5-dc2ae63a3e5d
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: FARE_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: FARE_AMOUNT
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."FARE_AMOUNT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 67843211-290c-44bd-9da0-e701bab42fa9
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: IMPROVEMENT_SURCHARGE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: IMPROVEMENT_SURCHARGE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."IMPROVEMENT_SURCHARGE")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0da33011-929b-4c90-9c94-dbc3e25ea441
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: MTA_TAX
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: MTA_TAX
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."MTA_TAX")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 46d24fb3-b7b8-488f-8f2f-5af1923fc03a
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: PASSENGER_COUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PASSENGER_COUNT
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: sum("VW_YELLOW_CAB_TRIPS"."PASSENGER_COUNT")
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 1b50a015-ae28-448d-9b50-18af42f8d725
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: STORE_AND_FWD_FLAG
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: STORE_AND_FWD_FLAG
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6bd08d25-a41f-44c5-be17-a8037ba7049d
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: TIP_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: TIP_AMOUNT
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9a1e9bef-50ad-42e6-b36b-f817374cd803
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: TOLLS_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: TOLLS_AMOUNT
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 404d1abb-072b-45be-8eb9-fbdc55754b64
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config: {}
+        dataType: FLOAT
+        description: ""
+        name: TOTAL_AMOUNT
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: TOTAL_AMOUNT
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9eaa809f-bd46-4422-bb3e-202fc1c04973
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DO_BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: DO_BOROUGH
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 61ae5c91-c1ce-4ee9-8691-12a0969d987d
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DO_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: DO_ZONE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7e60d2c8-fe3d-412d-8caa-53ff14381c11
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: DO_SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: DO_SERVICE_ZONE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9ea07352-e5cf-4eae-ac5c-e851886c5da0
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PU_BOROUGH
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PU_BOROUGH
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b943cceb-6d1d-4942-ba5a-5ac9b5ca9c51
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PU_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PU_ZONE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 30c5c75a-56d0-44ae-87b0-40b17623377c
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: PU_SERVICE_ZONE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: PU_SERVICE_ZONE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: be6463e9-d0dd-4f42-b7c9-58fee68d4ae7
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(21)
+        description: ""
+        name: RATE_CODE
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: RATE_CODE
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 988965f8-fd2a-46c1-87f5-f74c19cebaca
+          stepCounter: 50198c83-f1ca-4136-af33-89be0e61ded3
+        config:
+          dims: true
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: VENDOR_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: VENDOR_NAME
+                stepCounter: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          VW_YELLOW_CAB_TRIPS: 463a251a-f2ff-4dcd-91c6-3663ff3d27d4
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SILVER
+            nodeName: VW_YELLOW_CAB_TRIPS
+        join:
+          joinCondition: FROM {{ ref('SILVER', 'VW_YELLOW_CAB_TRIPS') }} "VW_YELLOW_CAB_TRIPS"
+        name: SV_YELLOW_CAB_TRIPS
+        noLinkRefs: []
+  name: SV_YELLOW_CAB_TRIPS
+  overrideSQL: false
+  schema: ""
+  sqlType: "364"
+  type: sql
+  version: 1
+type: Node
