@@ -1,0 +1,110 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "headline": {
+      "type": "string",
+      "description": "One sentence, under twenty words, that leads with what the pipeline produces, like 'Monthly medical and pharmacy cost per member, with the top 100 by spend.' No first person, and nothing about what changed this turn or what hasn't been run."
+    },
+    "nodes": {
+      "type": "array",
+      "description": "Every node this session has added, changed or deleted so far, in build order.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "description": "Workspace-relative path, like nodes/MART-FCT_X.sql."
+          },
+          "change": {
+            "type": "string",
+            "enum": [
+              "added",
+              "modified",
+              "deleted"
+            ]
+          },
+          "grain": {
+            "type": "string",
+            "description": "What one row represents, in under ten plain words, like 'One row per member per month'."
+          }
+        },
+        "required": [
+          "name",
+          "file",
+          "change",
+          "grain"
+        ]
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Choices the spec didn't settle, including anything you'd otherwise ask about. Each one is already built one way; the person can switch it with a click.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "The choice as a short question, under twelve words, like 'Which date puts a claim in the 12-month window?'"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "One to four short answers, each under eight words. The first is what you built; the rest are the likely alternatives."
+          },
+          "open": {
+            "type": "boolean",
+            "description": "True when you had to guess and the person should really decide. False for sensible defaults."
+          }
+        },
+        "required": [
+          "topic",
+          "options",
+          "open"
+        ]
+      }
+    },
+    "checks": {
+      "type": "array",
+      "description": "Only high-value checks: invariants this pipeline depends on, where a violation would silently make the output wrong (duplicate rows at the declared grain, a join that could fan out, a total that must reconcile with its source). Leave out sanity checks that only confirm the data looks reasonable. Usually zero to three; an empty list is fine.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The check in under fifteen plain words."
+          },
+          "why": {
+            "type": "string",
+            "description": "What goes wrong downstream if it fails, in under twelve words."
+          },
+          "node": {
+            "type": "string",
+            "description": "The node it applies to."
+          }
+        },
+        "required": [
+          "text",
+          "why"
+        ]
+      }
+    }
+  },
+  "required": [
+    "headline",
+    "nodes",
+    "decisions",
+    "checks"
+  ]
+}

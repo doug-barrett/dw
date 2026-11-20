@@ -1,0 +1,123 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "A short name for the pipeline, two to six words in sentence case with no final punctuation, like 'Monthly pharmacy spend by plan'."
+    },
+    "headline": {
+      "type": "string",
+      "description": "One sentence, under twenty words, that leads with what the pipeline will produce, like 'Monthly medical and pharmacy cost per member, with the top 100 by spend.' No first person."
+    },
+    "nodes": {
+      "type": "array",
+      "description": "Every node you plan to add or change, in build order. Existing nodes you'll only read from aren't listed here.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "change": {
+            "type": "string",
+            "enum": [
+              "added",
+              "modified"
+            ]
+          },
+          "grain": {
+            "type": "string",
+            "description": "What one row represents, in under ten plain words, like 'One row per member per month'."
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What the node does, in under fifteen plain words."
+          },
+          "from": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The nodes it reads from, existing or planned, by name."
+          }
+        },
+        "required": [
+          "name",
+          "location",
+          "change",
+          "grain",
+          "purpose",
+          "from"
+        ]
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "description": "Choices the spec doesn't settle, including anything you'd otherwise ask about. Each one has the answer you'd build first; the person can switch it with a click before approving.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "topic": {
+            "type": "string",
+            "description": "The choice as a short question, under twelve words, like 'Which date puts a claim in the 12-month window?'"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "One to four short answers, each under eight words. The first is what you'll build; the rest are the likely alternatives."
+          },
+          "open": {
+            "type": "boolean",
+            "description": "True when you're guessing and the person should really decide. False for sensible defaults."
+          }
+        },
+        "required": [
+          "topic",
+          "options",
+          "open"
+        ]
+      }
+    },
+    "checks": {
+      "type": "array",
+      "description": "Tests worth building into the nodes: invariants this pipeline depends on, where a violation would silently make the output wrong (duplicate rows at the declared grain, a join that could fan out, a total that must reconcile with its source). Usually one to three. The person picks which ones to build.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "The check in under fifteen plain words."
+          },
+          "why": {
+            "type": "string",
+            "description": "What goes wrong downstream if it fails, in under twelve words."
+          },
+          "node": {
+            "type": "string",
+            "description": "The node it applies to."
+          }
+        },
+        "required": [
+          "text",
+          "why"
+        ]
+      }
+    }
+  },
+  "required": [
+    "title",
+    "headline",
+    "nodes",
+    "decisions",
+    "checks"
+  ]
+}
