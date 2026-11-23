@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Data Modeler</title>
+<script>
+  // Relative URLs must resolve under the watch-server proxy prefix even without a trailing slash.
+  document.write(`<base href="${location.pathname.replace(/\/?$/, "/")}">`);
+</script>
+<script src="theme.js"></script>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header id="toolbar">
+  <!-- Same markup and measurements as the Coalesce graph's "View as" selector and filter button. -->
+  <div class="view-selector">
+    <label for="modelSelect" class="view-selector__label">Data model</label>
+    <div class="view-selector__select">
+      <span class="view-selector__icon" data-icon="database"></span>
+      <select id="modelSelect" title="Switch data model"></select>
+      <span class="view-selector__arrow" data-icon="down"></span>
+    </div>
+  </div>
+  <span class="filter-badge">
+    <button id="btnSidebar" class="filter-btn" data-icon="filter" title="Filters (B)"></button>
+    <sup id="filterCount" class="filter-badge__count" hidden></sup>
+  </span>
+  <span class="sep"></span>
+  <button id="btnEditModel" class="icon" data-icon="edit" title="Edit model: name, type, node types and locations"></button>
+  <button id="btnNewModel" class="icon" data-icon="plus" title="New model"></button>
+  <span class="grow"></span>
+  <span id="status"></span>
+  <button id="btnDbml" title="Preview the DBML of this model">DBML</button>
+  <button id="btnSave" class="primary" disabled title="Save (Ctrl/Cmd+S)">Save</button>
+  <button id="btnInspector" class="icon" title="Show/hide details pane (I)">◨</button>
+</header>
+<main>
+  <aside id="sidebar">
+    <div class="filters-head"><b>Filters</b><button id="btnClearFilters" class="link" title="Remove all filters">Clear all</button></div>
+    <input id="search" type="search" placeholder="Filter by node or column…">
+    <h3>Storage locations <button id="btnAllLocs" class="link" title="Show all locations">All</button></h3>
+    <ul id="locList"></ul>
+    <h3>Node types <button id="btnAllTypes" class="link" title="Show all node types">All</button></h3>
+    <ul id="typeFilterList"></ul>
+    <div id="statusFilter" hidden>
+      <h3 title="Planned status: new, changed or to delete">Planned status</h3>
+      <ul id="statusFilterList"></ul>
+    </div>
+    <h3>Tags <button id="btnNewTag" class="link" title="Add a tag to model/tags.yml">+ New</button></h3>
+    <ul id="legend"></ul>
+    <p class="hint">Click a tag to show only nodes that have it (its columns are highlighted), ✎ to edit it. Double-click a location or node type to show only that one.</p>
+  </aside>
+  <section id="canvas">
+    <!-- Floating controls, laid out like the Coalesce node graph's graph-controls. -->
+    <div class="graph-controls">
+      <div class="graph-controls__group">
+        <button id="btnColumns" class="gc-btn" data-icon="table" aria-pressed="true" title="Show columns (off: compact nodes like the Coalesce graph)"></button>
+        <button id="btnLimit" class="gc-btn" data-icon="bars" aria-pressed="false" title="Show at most 8 columns per node; scroll inside the node for more"></button>
+        <button id="btnLabels" class="gc-btn" data-icon="tags" aria-pressed="false" title="Show business labels instead of technical names"></button>
+      </div>
+      <div class="graph-controls__group">
+        <button id="btnReload" class="gc-btn" data-icon="reload" title="Reload metadata from the YAML files"></button>
+        <button id="btnLayout" class="gc-btn" data-icon="apartment" title="Auto layout"></button>
+        <button id="btnZoomOut" class="gc-btn" data-icon="zoom-out" title="Zoom out"></button>
+        <button id="btnZoomIn" class="gc-btn" data-icon="zoom-in" title="Zoom in"></button>
+        <button id="btnFit" class="gc-btn" data-icon="fullscreen-exit" title="Fit to screen"></button>
+      </div>
+    </div>
+    <div id="banner" hidden>Metadata files changed on disk.
+      <button id="btnBannerReload">Reload and discard my changes</button>
+      <button id="btnBannerDismiss" class="link">Keep editing</button></div>
+    <div id="world">
+      <svg id="edges" class="LinkCanvas"></svg>
+      <div id="nodes"></div>
+      <div id="labels"></div>
+    </div>
+  </section>
+  <aside id="inspector"></aside>
+</main>
+<dialog id="dbmlDialog">
+  <header><b>model/model.dbml</b> <span class="muted">preview of unsaved state</span><span class="grow"></span>
+    <button id="btnCopyDbml">Copy</button><button id="btnCloseDbml">Close</button></header>
+  <pre id="dbmlText"></pre>
+</dialog>
+<dialog id="modelDialog">
+  <form method="dialog">
+    <h3 id="modelTitle">New model</h3>
+    <div class="row">
+      <label>Name <input id="modelName" required placeholder="e.g. Sales star schema"></label>
+      <label>Model type
+        <span class="typePick"><select id="modelTypePreset"></select>
+        <input id="modelType" placeholder="Custom model type" hidden></span></label>
+    </div>
+    <p class="muted">Picking a known type pre-selects its node types. A node is included when it matches the selected node types <b>and</b> locations; leave a list empty to match any.</p>
+    <div class="row grow">
+      <fieldset><legend>Node types <button type="button" id="btnTypesUsed" class="link">only used</button> <button type="button" id="btnTypesNone" class="link">none</button></legend>
+        <input id="typeFilter" type="search" placeholder="Filter node types…"><div id="typeList" class="checklist"></div></fieldset>
+      <fieldset><legend>Storage locations <button type="button" id="btnLocsNone" class="link">none</button></legend><div id="locPickList" class="checklist"></div></fieldset>
+    </div>
+    <p id="modelMatch" class="muted"></p>
+    <menu><button id="modelDelete" value="delete" class="danger" formnovalidate hidden>Delete model</button><span class="grow"></span>
+      <button value="cancel" formnovalidate>Cancel</button><button id="modelOk" value="ok" class="primary">Create model</button></menu>
+  </form>
+</dialog>
+<dialog id="tagDialog">
+  <form method="dialog">
+    <h3 id="tagTitle">New tag</h3>
+    <label>Label <input id="tagLabel" required placeholder="e.g. Business date"></label>
+    <label>Key <input id="tagKey" required pattern="[A-Za-z][A-Za-z0-9_]*" placeholder="businessDate"></label>
+    <p id="tagKeyHint" class="muted" hidden>Role keys are fixed: generators read them from model/nodes/*.yml.</p>
+    <label>Colour <input id="tagColor" type="color" value="#4C8BF5"></label>
+    <menu><button id="tagDelete" value="delete" class="danger" formnovalidate hidden>Delete</button><span class="grow"></span>
+      <button value="cancel" formnovalidate>Cancel</button><button id="tagOk" value="ok" class="primary">Add tag</button></menu>
+  </form>
+</dialog>
+<script src="icons.js"></script>
+<script src="models.js"></script>
+<script src="layout.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

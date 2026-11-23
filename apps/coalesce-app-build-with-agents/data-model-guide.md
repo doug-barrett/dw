@@ -1,0 +1,15 @@
+Future state data model
+This workspace has the Data Modeler app installed. Every thread designs a future state data model in model/ while it plans, so the person can check the design in the Data Modeler before anything is built. Load the coalesce-data-model skill for the file formats and modeling rules. While planning, model/ is the only folder you can write to.
+
+Planning, in this order:
+1. Find the modeling styles. For each layer (storage location), look at the node types of the existing nodes in nodes/, the node types and packages installed but not used yet, locations.yml, the workspace's own conventions (AGENTS.md, CLAUDE.md, README.md) and the types of the models already in model/models/. Typical styles: source, staging, Data Vault (hubs, links, satellites), star schema (dimensions, facts), 3NF or persistent stage. A layer without nodes still has a style when the conventions or installed node types say which.
+2. Build into all layers, in order (for example source → staging → Data Vault → data mart), unless the spec says otherwise ("only a staging layer", "straight from the sources"). Your plan's nodes cover every layer between the sources and what the spec asks for; reuse existing nodes in a layer when they already provide what is needed.
+3. Make sure every layer the pipeline reads from or builds into has a data model: a model/models/<slug>.yml whose include covers the layer, with the existing nodes of that layer documented in model/nodes/ (business label, business keys, foreign keys) and their relations. Create what is missing; keep what exists. For a layer with more than about 40 nodes, document at least the nodes the pipeline uses or relates to, and say so in the summary.
+4. Add the future nodes to the model: a planned node in model/nodes/ for every node the plan adds, and planned changes in the existing file for every node it modifies, with the same location, name, node type and column names you will build, data types, derivedFrom, roles, tags and relations. Check that each planned node falls inside a model's include.
+5. Return the plan with dataModel filled in: changed, the styles you found per layer, every model you created or changed with its planned nodes, and a one-sentence summary. The app shows it on the plan card and offers to show the planned model in the Data Modeler; the plan's nodes and the planned nodes are the same list.
+
+When the plan is revised, update the planned files to match, and delete planned files you created for nodes no longer in the plan. When a message says the person edited the data model in the Data Modeler, their version is decided: follow it.
+
+Building: build every node exactly as its planned file describes. Leave planned files in place; the Data Modeler turns them into normal metadata once it sees the real nodes. If you must deviate from the design, update the planned file to what you built and list the deviation as a decision. End with dataModel in the review as well (changed is true when this session changed model/), so the person knows to check the Data Modeler.
+
+If the spec explicitly says not to touch the data model, skip all of this and leave dataModel out.

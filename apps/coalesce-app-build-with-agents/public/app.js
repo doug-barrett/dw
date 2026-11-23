@@ -284,19 +284,35 @@ function section(title, body, { side = "", note = "" } = {}) {
 
 // ───────────── setup ─────────────
 const cmd = (c) => `<div class="cmd"><code>${c}</code><button class="btn ghost icon sm" data-copy="${c}" title="Copy">${icon("copy")}</button></div>`;
-// Getting each agent installed and signed in.
+// Getting each agent installed and signed in. The install command is for the system the app runs on,
+// which is where the agent has to be.
+const onWindows = () => S.status?.platform === "win32";
+const installHelp = ({ unix, windows, guide }) =>
+  onWindows()
+    ? `<div>Install it with this command in PowerShell, then check again:</div>
+      ${cmd(windows)}
+      <div>If that doesn't work, see <a href="${guide}" target="_blank" rel="noopener">the setup guide</a>.</div>`
+    : `<div>Install it with this command in a terminal, then check again:</div>
+      ${cmd(unix)}
+      <div>On Windows, see <a href="${guide}" target="_blank" rel="noopener">the setup guide</a>.</div>`;
 const AGENT_HELP = {
   claude: {
-    install: `<div>Install it with this command in a terminal, then check again:</div>
-      ${cmd("curl -fsSL https://claude.ai/install.sh | bash")}
-      <div>On Windows, see <a href="https://docs.claude.com/en/docs/claude-code/setup" target="_blank" rel="noopener">the setup guide</a>.</div>`,
+    install: () =>
+      installHelp({
+        unix: "curl -fsSL https://claude.ai/install.sh | bash",
+        windows: "irm https://claude.ai/install.ps1 | iex",
+        guide: "https://docs.claude.com/en/docs/claude-code/setup",
+      }),
     login: `<div>Open a terminal, run this, and follow the sign-in steps. Any Claude plan, Console account or company setup (Bedrock, Vertex) works.</div>
       ${cmd("claude")}`,
   },
   cortex: {
-    install: `<div>Install it with this command in a terminal, then check again:</div>
-      ${cmd("curl -LsS https://ai.snowflake.com/static/cc-scripts/install.sh | sh")}
-      <div>On Windows, see <a href="https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli" target="_blank" rel="noopener">the setup guide</a>.</div>`,
+    install: () =>
+      installHelp({
+        unix: "curl -LsS https://ai.snowflake.com/static/cc-scripts/install.sh | sh",
+        windows: "irm https://ai.snowflake.com/static/cc-scripts/install.ps1 | iex",
+        guide: "https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli",
+      }),
     login: `<div>Open a terminal, run this, and follow the steps to connect it to your Snowflake account.</div>
       ${cmd("cortex")}`,
   },
@@ -307,7 +323,10 @@ const HELP = {
   nodeTypes: `<div>Optional. Without node types the agent can still write SQL nodes, but installing the base package from Build Settings › Packages gives it more to match.</div>`,
 };
 
-const helpFor = (key) => AGENT_HELP[agentId()][key] || HELP[key];
+const helpFor = (key) => {
+  const help = AGENT_HELP[agentId()][key] || HELP[key];
+  return typeof help === "function" ? help() : help;
+};
 
 function checkList() {
   const rows = (S.status?.checks || [])
@@ -404,6 +423,9 @@ function renderSettings() {
     </div>`, { side: '<span class="saved" id="saved-app"></span>' })}`);
 }
 
+// Where the app found the agent, so a person with more than one install can tell which it uses.
+const agentLocation = (c) => (c.location ? prow("Location", `<span class="mono path" title="${esc(c.location)}">${esc(c.location)}</span>`) : "");
+
 function renderAgent() {
   const c = S.status?.agent;
   const cortex = c?.id === "cortex";
@@ -418,6 +440,7 @@ function renderAgent() {
   else if (cortex)
     account = [
       prow("Version", esc(c.version)),
+      agentLocation(c),
       prow("Snowflake account", esc(a.snowflakeAccount || ""), "Usage is billed here as Cortex credits, so the app doesn't show dollar costs."),
       a.user ? prow("User", esc(a.user)) : "",
       prow("Connection", esc(a.connection || ""), "Cortex Code's active connection. Change it with <code>cortex connections set</code>."),
@@ -425,6 +448,7 @@ function renderAgent() {
   else
     account = [
       prow("Version", esc(c.version)),
+      agentLocation(c),
       a.email ? prow("Signed in as", esc(a.email)) : prow("Signed in", esc(a.provider || a.method || "Yes")),
       plan ? prow("Plan", esc(plan), billedByUsage() ? "" : "Threads count toward this plan's usage, so the app doesn't show dollar costs.") : "",
       a.org ? prow("Organization", esc(a.org)) : "",
@@ -1048,6 +1072,8 @@ function renderReview(e, run, interactive, check = "") {
         .join("")}</div></div>`
     : "";
 
+  const model = renderDataModel(r.dataModel, run, interactive);
+
   const p = pendingCount(d);
   const parts = [p.dec && plural(p.dec, "change"), p.checks && plural(p.checks, isPlan ? "test" : "check")].filter(Boolean);
   let foot = "";
@@ -1063,8 +1089,44 @@ function renderReview(e, run, interactive, check = "") {
     ${isPlan ? `<div class="rv-kind">Plan</div>` : ""}
     <p class="rv-headline">${mdLine(r.headline || "")}</p>
     ${check ? `<div class="rv-valid">${check}</div>` : ""}
-    ${built}${dec}${chk}${foot}
+    ${built}${model}${dec}${chk}${foot}
   </div>`;
+}
+
+// The future state data model the agent planned in model/ (Data Modeler app). The latest card can
+// copy it into the workspace so the Data Modeler shows it, and take it out again.
+function renderDataModel(dm, run, interactive) {
+  if (!dm?.changed && !(interactive && (run.changes || []).some((c) => c.path.startsWith("model/")))) return "";
+  const models = dm?.models || [];
+  const planned = models.reduce((n, m) => n + (m.planned?.length || 0), 0);
+  const list = models.length
+    ? `<div class="pnodes">${models
+        .map((m) => `<div class="pnode"><span class="pchip">${esc(m.name)}</span><span class="pp">${m.change === "added" ? "New model" : "Updated"}${m.planned?.length ? ` · planned: ${esc(m.planned.join(", "))}` : ""}<span class="from">${esc(m.file)}</span></span></div>`)
+        .join("")}</div>`
+    : "";
+  const styles = dm?.styles?.length ? `<div class="nchips dm-styles">${dm.styles.map((x) => `<span class="pchip">${esc(x)}</span>`).join("")}</div>` : "";
+  const open = run.status === "plan" || run.status === "review";
+  let action = "";
+  if (interactive && run.dataModeler && open && !run.running) {
+    action = run.modelPreview
+      ? `<div class="notice dm-note">The planned data model is in your workspace. Open the <b>Data Modeler</b> app to check it: planned nodes have a dashed outline. Changes you save there go back to the agent.<button class="btn" id="dm-hide">Take it out again</button></div>`
+      : `<div class="notice dm-note">Check the data model changes in the <b>Data Modeler</b> app before you approve.<button class="btn primary" id="dm-show">${icon("layers")}Show in Data Modeler</button></div>`;
+  } else if (dm?.changed && run.dataModeler && open) {
+    action = `<div class="notice dm-note">Data model changes: check them in the <b>Data Modeler</b> app.</div>`;
+  }
+  return `<div class="rv-sec dm"><h4>${icon("layers")}Data model${planned ? `<span class="count quiet">${plural(planned, "planned node")}</span>` : ""}</h4>
+    ${dm?.summary ? `<p class="dm-summary">${mdLine(dm.summary)}</p>` : ""}${styles}${list}${action}</div>`;
+}
+
+async function modelPreview(btn, show) {
+  btn.disabled = true;
+  try {
+    Object.assign(S.run, await api(show ? "POST" : "DELETE", `api/runs/${S.run.id}/model-preview`));
+    renderSession();
+  } catch (error) {
+    btn.disabled = false;
+    alertLine(error.message);
+  }
 }
 
 function composeFeedback(run, review, isPlan = false) {
@@ -1695,6 +1757,8 @@ document.addEventListener("click", (e) => {
     case "send": return sendReply();
     case "rv-send": return sendReview(t);
     case "rv-approve": return approvePlan(t);
+    case "dm-show": return modelPreview(t, true);
+    case "dm-hide": return modelPreview(t, false);
     case "rv-more": draftFor(S.run).more = true; return renderSession();
     case "rv-all": {
       const latest = latestReview(S.run);

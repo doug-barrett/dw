@@ -17,6 +17,7 @@ const path = require("path");
 const os = require("os");
 const crypto = require("crypto");
 const { spawn } = require("child_process");
+const locate = require("./locate");
 
 const PORT = Number(process.env.PORT) || 8455;
 const WORKSPACE = path.resolve(process.env.WORKSPACE_DIR || path.resolve(__dirname, "../.."));
@@ -42,6 +43,8 @@ const AGENTS = {
     name: "Claude Code",
     exe: "claude",
     override: "CLAUDE_PATH",
+    // "2.1.5 (Claude Code)". On Windows an old Claude desktop app can also answer to `claude`.
+    signature: /Claude Code/i,
     authLabel: "Claude Code is signed in",
     authFix: "Run `claude` once in a terminal and sign in.",
   },
@@ -52,6 +55,9 @@ const AGENTS = {
     override: "CORTEX_PATH",
     // Other tools are also called cortex; this one's --version says "Cortex Code v1.2.46".
     signature: /Cortex Code/i,
+    // The Windows installer puts only a cortex.cmd launcher on PATH and keeps cortex.exe in a folder
+    // per version, so look there too in case the launcher can't be read.
+    versioned: (env) => [path.win32.join(locate.getEnv(env, "LOCALAPPDATA") || path.win32.join(os.homedir(), "AppData", "Local"), "cortex")],
     authLabel: "Cortex Code has a Snowflake connection",
     authFix: "Run `cortex` once in a terminal and set up a connection.",
   },
@@ -93,6 +99,13 @@ const MAX_ARG_PROMPT = 20_000;
 // Coalesce Platform Skills, vendored at a pinned release (scripts/update-skills.sh) and loaded as a
 // plugin, so they ship and update with the app and work offline.
 const SKILLS_DIR = path.join(__dirname, "vendor", "coalesce-platform-skills");
+// The app's own skills (using the Data Modeler's model/ metadata), loaded as a second plugin so
+// scripts/update-skills.sh, which replaces vendor/, never touches them.
+const APP_SKILLS_DIR = path.join(__dirname, "app-skills");
+// Data model metadata of the Data Modeler app. When that app is installed, threads plan a future
+// state data model there: planning may write in this folder (and only there).
+const MODEL_DIR = "model";
+const isModelPath = (rel) => toPosix(rel).startsWith(`${MODEL_DIR}/`);
 // Opus at medium effort whatever the person's own Claude Code defaults to, so a thread costs the
 // same for everyone and a personal switch to a larger model doesn't carry over unnoticed.
 // With no agent chosen the app uses whichever is installed (activeAgent). Cortex Code's own default
@@ -110,6 +123,9 @@ const SETTING_CHOICES = {
 const MAX_FILE_CHARS = 400_000;
 
 const GUIDE = fs.readFileSync(path.join(__dirname, "guide.md"), "utf8");
+// Added to the guide in workspaces that have the Data Modeler app installed.
+const DATA_MODEL_GUIDE = fs.readFileSync(path.join(__dirname, "data-model-guide.md"), "utf8");
+const guideFor = (run) => (run.dataModeler ? `${GUIDE}\n\n${DATA_MODEL_GUIDE}` : GUIDE);
 // Claude Code settings the app owns. Sessions load these and none of the user's own settings
 // (`--setting-sources ""`), so a stray hook, plugin or CLAUDE.md on their machine can't change how
 // the app behaves. Auth is unaffected: it lives in the keychain, not in settings.
@@ -142,7 +158,7 @@ function exec(cmd, args, { env, timeout = 10_000 } = {}) {
     let stderr = "";
     let child;
     try {
-      child = spawn(cmd, args, { env, stdio: ["ignore", "pipe", "pipe"] });
+      child = spawn(cmd, args, { env, stdio: ["ignore", "pipe", "pipe"], windowsHide: true });
     } catch (error) {
       resolve({ code: -1, stdout, stderr: String(error) });
       return;
@@ -172,24 +188,43 @@ async function readText(file) {
 // ───────────── agents ─────────────
 
 // An app launched from the Dock doesn't inherit the shell's PATH, so ask a login shell for it and
-// add the usual install locations. The login shell is slow, so ask once and again only on a recheck.
+// add the usual install locations. On Windows the PATH a new terminal gets is in the registry, and
+// this process's copy dates from when Coalesce started, so read the registry. Either is slow-ish,
+// so ask once and again only on a recheck.
 let pathPromise;
 function resolvePath(force = false) {
   if (!pathPromise || force) pathPromise = readPath();
   return pathPromise;
 }
 async function readPath() {
+  const win = process.platform === "win32";
   const parts = [];
-  if (process.platform !== "win32") {
+  if (win) parts.push(...(await registryPath()));
+  else {
     const shell = process.env.SHELL || "/bin/zsh";
     const r = await exec(shell, ["-ilc", 'printf "__P__%s__P__" "$PATH"'], { timeout: 6000 });
     const m = r.stdout.match(/__P__(.*?)__P__/s);
     if (m) parts.push(...m[1].split(path.delimiter));
   }
-  parts.push(...(process.env.PATH || "").split(path.delimiter));
-  const home = os.homedir();
-  parts.push(path.join(home, ".local", "bin"), path.join(home, ".claude", "local"), "/opt/homebrew/bin", "/usr/local/bin");
-  return [...new Set(parts.filter(Boolean))].join(path.delimiter);
+  parts.push(...locate.splitPath(locate.getEnv(process.env, "PATH"), process.platform));
+  parts.push(...locate.knownDirs({ platform: process.platform, env: process.env, home: os.homedir() }));
+  const seen = new Set();
+  return parts
+    .filter((d) => {
+      const k = win ? d.toLowerCase().replace(/[\\/]+$/, "") : d;
+      if (!d || seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    })
+    .join(path.delimiter);
+}
+
+// The system PATH, then the user's, as a newly opened terminal would put them together.
+async function registryPath() {
+  const reg = path.join(process.env.SystemRoot || "C:\\Windows", "System32", "reg.exe");
+  const keys = ["HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment", "HKCU\\Environment"];
+  const values = await Promise.all(keys.map((k) => exec(reg, ["query", k, "/v", "Path"], { timeout: 5000 })));
+  return values.flatMap((r) => locate.splitPath(locate.expandWindowsVars(locate.parseRegQuery(r.stdout), process.env), "win32"));
 }
 
 // Ignoring the user's settings also drops their `env` block, which is where Bedrock, Vertex,
@@ -223,33 +258,58 @@ async function activeAgent(force = false) {
 
 async function locateAgent(agent) {
   const PATH = await resolvePath();
-  const env = { ...process.env, ...(agent.id === "claude" ? await providerEnv() : {}), PATH, COALESCE_APP: "build-with-agents" };
+  const env = locate.withPath({ ...process.env, ...(agent.id === "claude" ? await providerEnv() : {}), COALESCE_APP: "build-with-agents" }, PATH, process.platform);
   delete env.ELECTRON_RUN_AS_NODE;
   // If Coalesce was started from inside a Claude Code session, that session's variables (its id,
   // plugin dirs, messaging socket) would leak into ours. Keep only the ones that choose a provider.
   delete env.CLAUDECODE;
   for (const k of Object.keys(env)) if (/^CLAUDE_CODE_/.test(k) && !PROVIDER_ENV.test(k) && k !== "CLAUDE_CODE_OAUTH_TOKEN") delete env[k];
-  const exe = process.platform === "win32" ? `${agent.exe}.exe` : agent.exe;
-  const candidates = process.env[agent.override]
-    ? [process.env[agent.override]]
-    : PATH.split(path.delimiter).map((dir) => path.join(dir, exe));
-  for (const candidate of candidates) {
-    try {
-      await fsp.access(candidate, fs.constants.X_OK);
-    } catch {
-      continue;
-    }
-    const [r, auth] = await Promise.all([
-      exec(candidate, ["--version"], { env, timeout: 20_000 }),
-      exec(candidate, agent.id === "cortex" ? ["connections", "list"] : ["auth", "status"], { env, timeout: 20_000 }),
-    ]);
+  const ctx = commandContext(env, PATH);
+  // `path` is the program the app runs, and `args` go before every command line it builds. For a
+  // Windows launcher script they're the program the script starts (and the script it hands to Node,
+  // for an npm install). `foundAt` is what PATH led to.
+  const runs = await locate.findCommands(agent.exe, ctx, {
+    dirs: locate.splitPath(PATH, process.platform),
+    override: process.env[agent.override],
+    versionedRoots: agent.versioned ? agent.versioned(env) : [],
+  });
+  for (const run of runs) {
+    // Check --version first so an unrelated binary on PATH isn't invoked with auth subcommands
+    // (or left blocking for the full timeout when --version already ruled it out).
+    const r = await exec(run.cmd, [...run.args, "--version"], { env, timeout: 20_000 });
     if (r.code !== 0 || (agent.signature && !agent.signature.test(r.stdout))) continue;
     // "2.1.5 (Claude Code)" and "Cortex Code v1.2.46".
     const version = (r.stdout.match(/\d+(?:\.\d+)+/) || [r.stdout.trim()])[0];
+    const auth = await exec(run.cmd, [...run.args, ...(agent.id === "cortex" ? ["connections", "list"] : ["auth", "status"])], { env, timeout: 20_000 });
     const account = agent.id === "cortex" ? cortexAccount(auth, env) : claudeAccount(auth);
-    return { ...agent, found: true, path: candidate, version, env, account };
+    return { ...agent, found: true, path: run.cmd, args: run.args, foundAt: run.foundAt, version, env, account };
   }
   return { ...agent, found: false, env };
+}
+
+// The file checks locate.js needs. On macOS and Linux a candidate must be executable; Windows has no
+// such bit, so there it only has to be a file.
+function commandContext(env, PATH) {
+  const isFile = async (file) => {
+    try {
+      if (!(await fsp.stat(file)).isFile()) return false;
+      if (process.platform !== "win32") await fsp.access(file, fs.constants.X_OK);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  return {
+    platform: process.platform,
+    env,
+    isFile,
+    readFile: readText,
+    readdir: (dir) => fsp.readdir(dir),
+    findNode: async () => {
+      for (const c of locate.commandCandidates("node.exe", locate.splitPath(PATH, process.platform), { platform: process.platform })) if (await isFile(c)) return c;
+      return null;
+    },
+  };
 }
 
 function claudeAccount(auth) {
@@ -288,18 +348,24 @@ function billsByUsage(account) {
 
 // ───────────── skills and connectors ─────────────
 
-// The vendored plugin's name, version and skills, read from the files Claude loads.
+// The vendored plugin's name, version and skills, read from the files Claude loads, followed by the
+// app's own skills (app-skills/).
+async function pluginSkills(dir) {
+  const items = [];
+  for (const name of (await fsp.readdir(path.join(dir, "skills"))).sort()) {
+    const text = await readText(path.join(dir, "skills", name, "SKILL.md"));
+    const front = text?.match(/^---\n([\s\S]*?)\n---/)?.[1] || "";
+    const description = front.match(/^description:\s*(.+)$/m)?.[1]?.trim() || "";
+    items.push({ name, description });
+  }
+  return items;
+}
+
 async function skillsInfo() {
   try {
     const manifest = JSON.parse(await fsp.readFile(path.join(SKILLS_DIR, ".claude-plugin", "plugin.json"), "utf8"));
-    const dirs = await fsp.readdir(path.join(SKILLS_DIR, "skills"));
-    const items = [];
-    for (const dir of dirs.sort()) {
-      const text = await readText(path.join(SKILLS_DIR, "skills", dir, "SKILL.md"));
-      const front = text?.match(/^---\n([\s\S]*?)\n---/)?.[1] || "";
-      const description = front.match(/^description:\s*(.+)$/m)?.[1]?.trim() || "";
-      items.push({ name: dir, description });
-    }
+    const items = await pluginSkills(SKILLS_DIR);
+    items.push(...(await pluginSkills(APP_SKILLS_DIR).catch(() => [])));
     return { name: manifest.displayName || manifest.name, version: manifest.version, homepage: manifest.homepage, items };
   } catch {
     return null;
@@ -313,7 +379,7 @@ async function listConnectors(force) {
   if (connectorsCache && !force && Date.now() - connectorsCache.at < 5 * 60_000) return connectorsCache.value;
   const claude = await findAgent("claude");
   if (!claude.found) return { items: [], error: "Claude Code isn't installed." };
-  const r = await exec(claude.path, ["mcp", "list"], { env: claude.env, timeout: 90_000 });
+  const r = await exec(claude.path, [...claude.args, "mcp", "list"], { env: claude.env, timeout: 90_000 });
   const items = [];
   for (const line of r.stdout.split("\n")) {
     const m = line.match(/^(.+?): (\S.*?) - (✔|✓|✗|✘|!|⏸)\s*(.*)$/);
@@ -359,8 +425,12 @@ async function writeSettings(patch) {
 }
 
 // The app's Claude Code settings plus the person's compaction choice, as a JSON string for --settings.
-async function claudeSettingsJson(settings) {
+async function claudeSettingsJson(settings, { restrictWrites = false } = {}) {
   const base = JSON.parse(await fsp.readFile(CLAUDE_SETTINGS, "utf8"));
+  if (restrictWrites) {
+    base.permissions.defaultMode = "default";
+    base.permissions.allow = base.permissions.allow.filter((t) => t !== "Write" && t !== "Edit");
+  }
   if (settings.compact === "off") base.autoCompactEnabled = false;
   else base.autoCompactWindow = settings.compact === "200k" ? 200000 : 500000;
   return JSON.stringify(base);
@@ -446,6 +516,147 @@ function lineCounts(before, after) {
   let removed = 0;
   for (const n of bag.values()) removed += n;
   return { added, removed };
+}
+
+// ───────────── data model (Data Modeler app) ─────────────
+
+// The Data Modeler app, if the workspace has it installed: apps/<id>/package.json named
+// data-modeler (or its stub, which names the app in coalesceApp).
+async function findDataModeler() {
+  let dirs = [];
+  try {
+    dirs = await fsp.readdir(path.join(WORKSPACE, "apps"));
+  } catch {
+    return null;
+  }
+  for (const dir of dirs.sort()) {
+    try {
+      const pkg = JSON.parse(await fsp.readFile(path.join(WORKSPACE, "apps", dir, "package.json"), "utf8"));
+      const ids = [pkg.name, pkg.coalesceApp?.id, pkg.coalesceApp?.name, dir].filter(Boolean).map(String);
+      if (ids.some((id) => /^(coalesce-app-)?data[- ]?modell?er$/i.test(id))) return { dir: `apps/${dir}`, version: pkg.version || "" };
+    } catch {
+      // Not an app.
+    }
+  }
+  return null;
+}
+
+const sha1 = (text) => crypto.createHash("sha1").update(text).digest("hex");
+const previewDir = (id) => path.join(runDir(id), "model-preview");
+
+// A permission rule path for the agent's file tools: "//" + an absolute path.
+function permissionPath(abs) {
+  const posix = toPosix(abs);
+  return process.platform === "win32" ? `//${posix.replace(/^([A-Za-z]):/, (_, d) => d.toLowerCase())}` : `/${posix}`;
+}
+
+// Planning may only write the data model. Whatever else a planning turn wrote is put back as it
+// was (the tool permissions already refuse it for Claude Code; this also covers Cortex Code).
+async function revertPlanWrites(run) {
+  const reverted = [];
+  for (const c of await computeChanges(run)) {
+    if (run.dataModeler && isModelPath(c.path)) continue;
+    const target = path.join(workDir(run.id), c.path);
+    if (c.status === "added") await fsp.rm(target, { force: true });
+    else await copyInto(path.join(baseDir(run.id), c.path), target);
+    reverted.push(c.path);
+  }
+  if (reverted.length) emit(run, { type: "notice", text: `Put back ${reverted.length} file${reverted.length === 1 ? "" : "s"} the agent changed while planning: ${reverted.join(", ")}. Planning only writes the data model.` });
+}
+
+// "Show in Data Modeler": the thread's model/ changes, copied into the workspace so the Data
+// Modeler app can show the planned future state. The originals are saved to put back, and what was
+// copied is remembered by hash so later edits made in the Data Modeler can be told apart.
+async function syncPreview(run) {
+  const preview = run.modelPreview || { at: now(), files: {} };
+  const skipped = [];
+  const changes = (await computeChanges(run)).filter((c) => isModelPath(c.path));
+  const paths = new Set([...changes.map((c) => c.path), ...Object.keys(preview.files)]);
+  for (const rel of paths) {
+    const target = path.join(WORKSPACE, rel);
+    const [inWorkspace, work] = await Promise.all([readText(target), readText(path.join(workDir(run.id), rel))]);
+    const entry = preview.files[rel];
+    if (entry) {
+      // Edited in the workspace since it was copied: that edit wins; it is pulled into the thread.
+      if ((inWorkspace === null ? null : sha1(inWorkspace)) !== entry.hash) {
+        skipped.push(rel);
+        continue;
+      }
+    } else {
+      if (inWorkspace !== null && inWorkspace !== (await readText(path.join(baseDir(run.id), rel)))) {
+        skipped.push(rel);
+        continue;
+      }
+      if (inWorkspace !== null) await copyInto(target, path.join(previewDir(run.id), rel));
+      preview.files[rel] = { existed: inWorkspace !== null };
+    }
+    if (work === null) await fsp.rm(target, { force: true });
+    else await copyInto(path.join(workDir(run.id), rel), target);
+    preview.files[rel].hash = work === null ? null : sha1(work);
+  }
+  run.modelPreview = preview;
+  return { files: Object.keys(preview.files).length, skipped };
+}
+
+// Edits made in the Data Modeler while the preview is in the workspace (a saved layout, a changed
+// planned node) go back into the thread's copy, so the agent builds what the person validated.
+async function pullPreviewEdits(run) {
+  if (!run.modelPreview) return [];
+  const pulled = [];
+  const inWorkspace = await walk(path.join(WORKSPACE, MODEL_DIR));
+  const rels = new Set([...[...inWorkspace.keys()].map((r) => `${MODEL_DIR}/${r}`), ...Object.keys(run.modelPreview.files)]);
+  for (const rel of rels) {
+    const [ws, work, base] = await Promise.all([readText(path.join(WORKSPACE, rel)), readText(path.join(workDir(run.id), rel)), readText(path.join(baseDir(run.id), rel))]);
+    const entry = run.modelPreview.files[rel];
+    const editedInWorkspace = entry ? (ws === null ? null : sha1(ws)) !== entry.hash : ws !== base;
+    if (!editedInWorkspace || ws === work) continue;
+    if (ws === null) await fsp.rm(path.join(workDir(run.id), rel), { force: true });
+    else await copyInto(path.join(WORKSPACE, rel), path.join(workDir(run.id), rel));
+    if (entry) entry.hash = ws === null ? null : sha1(ws);
+    pulled.push(rel);
+  }
+  if (pulled.length) scheduleChangeRefresh(run, 0);
+  return pulled;
+}
+
+// Takes the preview out of the workspace again. Files edited there since are left alone.
+async function removePreview(run) {
+  if (!run.modelPreview) return { kept: [] };
+  const kept = [];
+  for (const [rel, entry] of Object.entries(run.modelPreview.files)) {
+    const target = path.join(WORKSPACE, rel);
+    const ws = await readText(target);
+    if ((ws === null ? null : sha1(ws)) !== entry.hash) {
+      kept.push(rel);
+      continue;
+    }
+    if (entry.existed) await copyInto(path.join(previewDir(run.id), rel), target);
+    else await fsp.rm(target, { force: true });
+  }
+  await fsp.rm(previewDir(run.id), { recursive: true, force: true });
+  delete run.modelPreview;
+  return { kept };
+}
+
+async function showPreview(run) {
+  if (!run.dataModeler) throw httpError(409, "The Data Modeler app isn't installed in this workspace.");
+  if (run.child) throw httpError(409, "The agent is still working.");
+  if (run.status !== "plan" && run.status !== "review") throw httpError(409, "This thread is closed.");
+  await pullPreviewEdits(run);
+  const { files, skipped } = await syncPreview(run);
+  emit(run, {
+    type: "notice",
+    text: `The planned data model is in your workspace (${files} file${files === 1 ? "" : "s"} in model/, not committed). Open the Data Modeler app to check it; planned nodes have a dashed outline. Changes you save there are picked up before the agent's next step.${skipped.length ? ` Left alone because you edited them: ${skipped.join(", ")}.` : ""}`,
+  });
+  await saveRun(run);
+}
+
+async function hidePreview(run) {
+  if (run.child) throw httpError(409, "The agent is still working.");
+  await pullPreviewEdits(run);
+  const { kept } = await removePreview(run);
+  emit(run, { type: "notice", text: `Took the planned data model out of your workspace again.${kept.length ? ` Edited there since, so left in place: ${kept.join(", ")}.` : ""}` });
+  await saveRun(run);
 }
 
 // ───────────── sessions ─────────────
@@ -691,6 +902,11 @@ async function startTurn(run, prompt, { phase = run.phase, fixing = false } = {}
   const settings = await readSettings();
   const planning = phase === "plan";
   const cortex = agent.id === "cortex";
+  const pulled = await pullPreviewEdits(run);
+  if (pulled.length) {
+    emit(run, { type: "notice", text: `Picked up your Data Modeler changes: ${pulled.join(", ")}.` });
+    prompt += `\n\nThe person edited the data model in the Data Modeler app; these files in model/ now hold their version: ${pulled.join(", ")}. Treat what they changed as decided, and plan or build accordingly.`;
+  }
   const args = cortex ? await cortexArgs(run, prompt, settings, planning) : await claudeArgs(run, settings, planning, agent);
 
   run.usedDefaultModel = !(cortex ? settings.cortexModel : settings.model);
@@ -699,7 +915,7 @@ async function startTurn(run, prompt, { phase = run.phase, fixing = false } = {}
   run.stopping = false;
   run.stderrTail = "";
   run.turnStarted = Date.now();
-  const child = spawn(agent.path, args, { cwd: workDir(run.id), env: agent.env, stdio: ["pipe", "pipe", "pipe"] });
+  const child = spawn(agent.path, [...agent.args, ...args], { cwd: workDir(run.id), env: agent.env, stdio: ["pipe", "pipe", "pipe"], windowsHide: true });
   run.child = child;
   run.phase = phase;
   run.fixing = fixing;
@@ -747,11 +963,16 @@ async function startTurn(run, prompt, { phase = run.phase, fixing = false } = {}
     }
     const finished = run.sawResult && !run.stopping;
     run.stopping = false;
-    // A plan waits for the person; nothing was written, so there's nothing to validate.
+    // A plan waits for the person. Only the data model may have been written, so there's nothing
+    // to validate; a preview in the workspace follows the revised plan.
     if (planning) {
+      await revertPlanWrites(run).catch((error) => console.error("reverting plan writes failed", error));
+      if (run.modelPreview) await syncPreview(run).catch((error) => console.error("preview refresh failed", error));
+      scheduleChangeRefresh(run, 0);
       await setStatus(run, "plan");
       return;
     }
+    if (run.modelPreview) await syncPreview(run).catch((error) => console.error("preview refresh failed", error));
     scheduleChangeRefresh(run, 0);
     // Check the nodes with Coalesce's own validator. Problems go back to the agent once per reply;
     // if they survive that, the person sees them next to the review.
@@ -782,21 +1003,26 @@ async function startTurn(run, prompt, { phase = run.phase, fixing = false } = {}
 }
 
 async function claudeArgs(run, settings, planning, claude) {
-  const tools = (planning ? PLAN_TOOLS : TOOLS).join(",");
+  // Planning with the Data Modeler may write, but only in model/: no blanket Write/Edit permission,
+  // and an Edit rule (it covers every file-writing tool) for that folder; anything else is refused.
+  const modelPlanning = planning && Boolean(run.dataModeler);
+  const tools = (modelPlanning ? [...PLAN_TOOLS, "Write", "Edit"] : planning ? PLAN_TOOLS : TOOLS).join(",");
+  const allowed = modelPlanning ? [...PLAN_TOOLS, `Edit(${permissionPath(path.join(workDir(run.id), MODEL_DIR))}/**)`].join(",") : tools;
   const args = [
     "-p",
     "--output-format", "stream-json",
     "--verbose",
     "--setting-sources", "",
-    "--settings", await claudeSettingsJson(settings),
+    "--settings", await claudeSettingsJson(settings, { restrictWrites: modelPlanning }),
     "--strict-mcp-config",
     "--plugin-dir", SKILLS_DIR,
-    "--permission-mode", "acceptEdits",
+    "--plugin-dir", APP_SKILLS_DIR,
+    "--permission-mode", modelPlanning ? "default" : "acceptEdits",
     "--max-turns", String(settings.maxTurns),
-    "--append-system-prompt", GUIDE,
+    "--append-system-prompt", guideFor(run),
     "--json-schema", planning ? PLAN_SCHEMA : REVIEW_SCHEMA,
     "--tools", tools,
-    "--allowedTools", tools,
+    "--allowedTools", allowed,
   ];
   // The first turn fixes the session id, so the session is ours to find from the start; later turns
   // resume it. The name tags it in `claude --resume` pickers, and the working directory (under
@@ -818,12 +1044,14 @@ async function cortexArgs(run, prompt, settings, planning) {
   // in the thread's copy, under a folder the change list ignores.
   const definition = path.join(workDir(run.id), ".cortex", "agents", `${CORTEX_AGENT}.md`);
   await fsp.mkdir(path.dirname(definition), { recursive: true });
-  await fsp.writeFile(definition, `---\nname: ${CORTEX_AGENT}\ndescription: "The agent behind ${APP_NAME}."\n---\n\n${GUIDE}`);
+  await fsp.writeFile(definition, `---\nname: ${CORTEX_AGENT}\ndescription: "The agent behind ${APP_NAME}."\n---\n\n${guideFor(run)}`);
   if (prompt.length > MAX_ARG_PROMPT) {
     await fsp.writeFile(promptFile(run.id), prompt);
     prompt = `Your instructions for this turn are in ${promptFile(run.id)}. Read that file now and follow it.`;
   }
-  const allowed = cortexNames(planning ? PLAN_TOOLS : TOOLS);
+  // Planning with the Data Modeler gets the write tools for model/; revertPlanWrites() undoes
+  // anything a planning turn writes elsewhere.
+  const allowed = cortexNames(planning ? (run.dataModeler ? [...PLAN_TOOLS, "Write", "Edit"] : PLAN_TOOLS) : TOOLS);
   const hidden = [...CORTEX_HIDDEN, ...cortexNames(TOOLS).filter((name) => !allowed.includes(name))];
   const args = [
     // One argument with "=", so a prompt that starts with a dash isn't read as a flag.
@@ -834,6 +1062,7 @@ async function cortexArgs(run, prompt, settings, planning) {
     "--only-explicit-skills",
     "--only-explicit-plugins",
     "--plugin-dir", SKILLS_DIR,
+    "--plugin-dir", APP_SKILLS_DIR,
     "--agent", CORTEX_AGENT,
     "--max-turns", String(settings.maxTurns),
     "--json-schema", planning ? PLAN_SCHEMA : REVIEW_SCHEMA,
@@ -913,6 +1142,8 @@ async function createRun(spec) {
     createdAt: now(),
     updatedAt: now(),
     sessionId: crypto.randomUUID(),
+    // The Data Modeler app, when installed: the thread then plans a future state data model.
+    dataModeler: await findDataModeler(),
     turnCount: 0,
     costUsd: 0,
     todos: [],
@@ -928,7 +1159,9 @@ async function createRun(spec) {
     // Validate the starting copy while the agent plans, so the first build's check only runs once.
     run.baseIssues = coaValidate(baseDir(id)).catch(() => null);
     emit(run, { type: "user", text: spec, kind: "spec" });
-    const prompt = `Plan the pipeline this spec describes, in the Coalesce workspace in the current directory. Read what you need, but don't write anything yet: the person approves the plan first.\n\n<spec>\n${spec}\n</spec>`;
+    const prompt = run.dataModeler
+      ? `Plan the pipeline this spec describes, in the Coalesce workspace in the current directory. Read what you need. Don't write any nodes yet: the person approves the plan first. The Data Modeler app is installed, so first plan the future state data model in model/ as the data model guide describes; that folder is the only place you can write while planning.\n\n<spec>\n${spec}\n</spec>`
+      : `Plan the pipeline this spec describes, in the Coalesce workspace in the current directory. Read what you need, but don't write anything yet: the person approves the plan first.\n\n<spec>\n${spec}\n</spec>`;
     await startTurn(run, prompt, { phase: "plan" });
   } catch (error) {
     // Don't leave a thread stuck at "running" with no agent behind it.
@@ -944,7 +1177,7 @@ async function followUp(run, text) {
   if (run.child) throw httpError(409, "The agent is still working.");
   if (run.status !== "review" && run.status !== "plan") throw httpError(409, "This thread is closed.");
   emit(run, { type: "user", text, kind: "message" });
-  await startTurn(run, run.phase === "plan" ? `${text}\n\nRevise the plan; don't write anything yet.` : text);
+  await startTurn(run, run.phase === "plan" ? `${text}\n\nRevise the plan; don't write any nodes yet.${run.dataModeler ? " Update the planned data model in model/ to match." : ""}` : text);
 }
 
 async function approvePlan(run, changes) {
@@ -970,7 +1203,11 @@ function restoreOriginal(run, rel, replaced) {
 async function keepRun(run, force) {
   if (run.child) throw httpError(409, "Stop the agent before adding the changes.");
   if (run.status !== "review") throw httpError(409, "This thread is closed.");
+  await pullPreviewEdits(run);
+  if (run.modelPreview) await syncPreview(run);
   const changes = await computeChanges(run);
+  // Files the data model preview already put in the workspace: their originals are the preview's.
+  const previewed = run.modelPreview?.files || {};
   // A file the user changed in the workspace since this thread started is a conflict.
   const files = await Promise.all(changes.map(async (c) => {
     const [inWorkspace, base, work] = await Promise.all([
@@ -978,6 +1215,7 @@ async function keepRun(run, force) {
       readText(path.join(baseDir(run.id), c.path)),
       readText(path.join(workDir(run.id), c.path)),
     ]);
+    if (previewed[c.path]) return { rel: c.path, exists: previewed[c.path].existed, conflict: false, previewed: true };
     return { rel: c.path, exists: inWorkspace !== null, conflict: inWorkspace !== base && inWorkspace !== work };
   }));
   const conflicts = files.filter((f) => f.conflict).map((f) => f.rel);
@@ -987,7 +1225,7 @@ async function keepRun(run, force) {
   // Save what the workspace had so the add can be undone.
   await fsp.rm(beforeDir(run.id), { recursive: true, force: true });
   const replaced = files.filter((f) => f.exists).map((f) => f.rel);
-  for (const rel of replaced) await copyInto(path.join(WORKSPACE, rel), path.join(beforeDir(run.id), rel));
+  for (const f of files.filter((x) => x.exists)) await copyInto(path.join(f.previewed ? previewDir(run.id) : WORKSPACE, f.rel), path.join(beforeDir(run.id), f.rel));
   // All or nothing: if a copy fails partway, put back what was already applied.
   const applied = [];
   try {
@@ -1006,6 +1244,11 @@ async function keepRun(run, force) {
   }
   run.changes = changes;
   emit(run, { type: "changes", changes });
+  // The preview is part of what was applied now; Undo puts back the true originals.
+  if (run.modelPreview) {
+    delete run.modelPreview;
+    await fsp.rm(previewDir(run.id), { recursive: true, force: true });
+  }
   run.added = { at: now(), replaced };
   emit(run, { type: "notice", text: `Applied ${changes.length} file${changes.length === 1 ? "" : "s"} to your workspace. Nothing is committed yet.` });
   await setStatus(run, "kept");
@@ -1058,6 +1301,8 @@ async function undoAdd(run) {
 async function discardRun(run) {
   if (run.child) throw httpError(409, "Stop the agent before discarding.");
   if (run.status !== "review" && run.status !== "plan") throw httpError(409, "This thread is closed.");
+  const { kept } = await removePreview(run);
+  if (kept.length) emit(run, { type: "notice", text: `Left in your workspace because you edited them in the Data Modeler: ${kept.join(", ")}.` });
   await Promise.all([
     fsp.rm(baseDir(run.id), { recursive: true, force: true }),
     fsp.rm(workDir(run.id), { recursive: true, force: true }),
@@ -1070,6 +1315,8 @@ async function discardRun(run) {
 // stay in the workspace; deleting a thread never touches the workspace.
 async function deleteRun(run) {
   if (run.child || run.status === "running") throw httpError(409, "Stop the agent before deleting this thread.");
+  // A data model preview is the thread's, not applied work: take it out with the thread.
+  await removePreview(run).catch((error) => console.error("removing the model preview failed", error));
   run.disposed = true;
   clearTimeout(run.refreshTimer);
   for (const client of run.clients) client.end();
@@ -1256,6 +1503,8 @@ async function route(req, res) {
     const a = agent.account;
     return sendJson(res, 200, {
       dev: DEV,
+      // The setup help shows the install command for this computer's system.
+      platform: process.platform,
       ready: checks.every((c) => c.ok || c.optional),
       checks,
       agent: {
@@ -1263,6 +1512,7 @@ async function route(req, res) {
         name: agent.name,
         found: agent.found,
         version: agent.version,
+        location: agent.foundAt,
         signedIn: Boolean(a && a.loggedIn),
         unsure: Boolean(a && a.unsure),
         account: !a
@@ -1322,6 +1572,14 @@ async function route(req, res) {
   if (run && m[2] === "keep" && req.method === "POST") {
     const { force } = await readBody(req);
     await keepRun(run, Boolean(force));
+    return sendJson(res, 200, publicRun(run));
+  }
+  if (run && m[2] === "model-preview" && req.method === "POST") {
+    await showPreview(run);
+    return sendJson(res, 200, publicRun(run));
+  }
+  if (run && m[2] === "model-preview" && req.method === "DELETE") {
+    await hidePreview(run);
     return sendJson(res, 200, publicRun(run));
   }
   if (run && m[2] === "landing" && req.method === "GET") return sendJson(res, 200, await landing(run));

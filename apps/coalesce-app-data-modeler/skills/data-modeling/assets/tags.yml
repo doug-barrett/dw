@@ -1,0 +1,79 @@
+# Coalesce Data Modeler vocabulary.
+#
+# roles: the fixed structural vocabulary. The app cannot add or rename roles; only label/emoji/colour.
+#   businessKeyPart    Part of the column set that identifies one row of the entity (its grain).
+#                      Exported as the DBML primary key; composite when more than one column has it.
+#   unitOfWorkMember   Refers to another entity's business key; the columns of one node with this
+#                      role form a relationship (a Data Vault link / a fact's dimension references).
+#   dependentChildKey  Further qualifies a relationship or a business key without identifying an
+#                      entity of its own (line number, sequence). Becomes a link/sat dependent child.
+#   drivingKey         The side of a relationship whose change ends the previous relationship
+#                      (effectivity satellites).
+#   changeTracking     Attribute whose history must be kept (satellite change, type-2 dimension).
+#   systemAudit        Technical load metadata (LDTS, RSRC, hash diffs, SCD dates).
+#   descriptive        Plain descriptive attribute; history optional.
+#   ignore             Not carried into downstream models.
+#
+# tags: free-form classification, many per column. Add your own freely.
+
+roles:
+  businessKeyPart:
+    label: Business key
+    emoji: 🔑
+    color: "#F5A623"
+  unitOfWorkMember:
+    label: Unit of work member
+    emoji: 🔗
+    color: "#4C8BF5"
+  dependentChildKey:
+    label: Dependent child key
+    emoji: 🧩
+    color: "#F8E71C"
+  drivingKey:
+    label: Driving key
+    emoji: 🚦
+    color: "#BD10E0"
+  changeTracking:
+    label: Change tracking
+    emoji: 📈
+    color: "#50E3C2"
+  systemAudit:
+    label: System / audit
+    emoji: ⚙️
+    color: "#9B9B9B"
+  descriptive:
+    label: Descriptive
+    emoji: 📝
+    color: "#B8B8B8"
+  ignore:
+    label: Ignore
+    emoji: 🚫
+    color: "#6E6E6E"
+tags:
+  pii:
+    label: PII
+    emoji: 🔒
+    color: "#D0021B"
+  currency:
+    label: Currency amount
+    emoji: 💶
+    color: "#7ED321"
+  measure:
+    label: Measure
+    color: "#722ED1"
+  code:
+    label: Code / reference value
+    color: "#FA8C16"
+  eventDate:
+    label: Event date
+    color: "#2F54EB"
+  freeText:
+    label: Free text
+    color: "#8C8C8C"
+  surrogateKey:
+    label: Surrogate key
+    color: "#13C2C2"
+  deprecated:
+    label: Deprecated
+    emoji: ⚠️
+    color: "#000000"

@@ -1,0 +1,422 @@
+# Worked example: the TPC-H source model of this workspace (8 Source nodes, 10 relations).
+# Apply with: node ../scripts/apply-spec.js tpch-source.spec.yml
+
+models:
+  source:
+    name: TPC-H source
+    type: Source
+    include:
+      nodeTypes:
+        - Source
+      locations: []
+nodes:
+  EXTERNAL-CUSTOMER:
+    label: Customer
+    columns:
+      c_custkey:
+        label: Customer number
+        roles:
+          - businessKeyPart
+      c_name:
+        label: Customer name
+        roles:
+          - changeTracking
+        tags:
+          - pii
+      c_address:
+        label: Customer address
+        roles:
+          - changeTracking
+        tags:
+          - pii
+      c_nationkey:
+        label: Customer nation
+        roles:
+          - unitOfWorkMember
+      c_phone:
+        label: Customer phone
+        roles:
+          - changeTracking
+        tags:
+          - pii
+      c_acctbal:
+        label: Account balance
+        roles:
+          - changeTracking
+        tags:
+          - currency
+      c_mktsegment:
+        label: Market segment
+        roles:
+          - changeTracking
+        tags:
+          - code
+      c_comment:
+        label: Customer comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+    relations:
+      - to: SRC_TPCH-NATION
+        label: customer located in
+        cardinality: many-to-one
+        columns:
+          c_nationkey: N_NATIONKEY
+  SRC_TPCH-LINEITEM:
+    label: Order line
+    columns:
+      L_ORDERKEY:
+        label: Order number
+        roles:
+          - businessKeyPart
+          - unitOfWorkMember
+      L_PARTKEY:
+        label: Part number
+        roles:
+          - unitOfWorkMember
+      L_SUPPKEY:
+        label: Supplier number
+        roles:
+          - unitOfWorkMember
+      L_LINENUMBER:
+        label: Line number
+        roles:
+          - businessKeyPart
+          - dependentChildKey
+      L_QUANTITY:
+        label: Quantity
+        roles:
+          - descriptive
+        tags:
+          - measure
+      L_EXTENDEDPRICE:
+        label: Extended price
+        roles:
+          - descriptive
+        tags:
+          - measure
+          - currency
+      L_DISCOUNT:
+        label: Discount rate
+        roles:
+          - descriptive
+        tags:
+          - measure
+      L_TAX:
+        label: Tax rate
+        roles:
+          - descriptive
+        tags:
+          - measure
+      L_RETURNFLAG:
+        label: Return flag
+        roles:
+          - changeTracking
+        tags:
+          - code
+      L_LINESTATUS:
+        label: Line status
+        roles:
+          - changeTracking
+        tags:
+          - code
+      L_SHIPDATE:
+        label: Ship date
+        roles:
+          - changeTracking
+        tags:
+          - eventDate
+      L_COMMITDATE:
+        label: Commit date
+        roles:
+          - descriptive
+        tags:
+          - eventDate
+      L_RECEIPTDATE:
+        label: Receipt date
+        roles:
+          - changeTracking
+        tags:
+          - eventDate
+      L_SHIPINSTRUCT:
+        label: Shipping instruction
+        roles:
+          - descriptive
+        tags:
+          - code
+      L_SHIPMODE:
+        label: Ship mode
+        roles:
+          - descriptive
+        tags:
+          - code
+      L_COMMENT:
+        label: Line comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+    relations:
+      - to: SRC_TPCH-ORDERS
+        label: line of order
+        cardinality: many-to-one
+        columns:
+          L_ORDERKEY: O_ORDERKEY
+      - to: SRC_TPCH-PARTSUPP
+        label: fulfilled from supply
+        cardinality: many-to-one
+        columns:
+          L_PARTKEY: PS_PARTKEY
+          L_SUPPKEY: PS_SUPPKEY
+      - to: SRC_TPCH-PART
+        label: line part
+        cardinality: many-to-one
+        columns:
+          L_PARTKEY: P_PARTKEY
+      - to: SRC_TPCH-SUPPLIER
+        label: line supplier
+        cardinality: many-to-one
+        columns:
+          L_SUPPKEY: S_SUPPKEY
+  SRC_TPCH-NATION:
+    label: Nation
+    columns:
+      N_NATIONKEY:
+        label: Nation number
+        roles:
+          - businessKeyPart
+      N_NAME:
+        label: Nation name
+        roles:
+          - descriptive
+      N_REGIONKEY:
+        label: Region number
+        roles:
+          - unitOfWorkMember
+      N_COMMENT:
+        label: Nation comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+    relations:
+      - to: SRC_TPCH-REGION
+        label: nation in region
+        cardinality: many-to-one
+        columns:
+          N_REGIONKEY: R_REGIONKEY
+  SRC_TPCH-ORDERS:
+    label: Order
+    columns:
+      O_ORDERKEY:
+        label: Order number
+        roles:
+          - businessKeyPart
+      O_CUSTKEY:
+        label: Customer number
+        roles:
+          - unitOfWorkMember
+      O_ORDERSTATUS:
+        label: Order status
+        roles:
+          - changeTracking
+        tags:
+          - code
+      O_TOTALPRICE:
+        label: Order total
+        roles:
+          - changeTracking
+        tags:
+          - measure
+          - currency
+      O_ORDERDATE:
+        label: Order date
+        roles:
+          - descriptive
+        tags:
+          - eventDate
+      O_ORDERPRIORITY:
+        label: Order priority
+        roles:
+          - descriptive
+        tags:
+          - code
+      O_CLERK:
+        label: Clerk
+        roles:
+          - descriptive
+      O_SHIPPRIORITY:
+        label: Ship priority
+        roles:
+          - descriptive
+      O_COMMENT:
+        label: Order comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+    relations:
+      - to: EXTERNAL-CUSTOMER
+        label: placed by
+        cardinality: many-to-one
+        columns:
+          O_CUSTKEY: c_custkey
+  SRC_TPCH-PART:
+    label: Part
+    columns:
+      P_PARTKEY:
+        label: Part number
+        roles:
+          - businessKeyPart
+      P_NAME:
+        label: Part name
+        roles:
+          - descriptive
+      P_MFGR:
+        label: Manufacturer
+        roles:
+          - descriptive
+        tags:
+          - code
+      P_BRAND:
+        label: Brand
+        roles:
+          - descriptive
+        tags:
+          - code
+      P_TYPE:
+        label: Part type
+        roles:
+          - descriptive
+        tags:
+          - code
+      P_SIZE:
+        label: Size
+        roles:
+          - descriptive
+      P_CONTAINER:
+        label: Container
+        roles:
+          - descriptive
+        tags:
+          - code
+      P_RETAILPRICE:
+        label: Retail price
+        roles:
+          - changeTracking
+        tags:
+          - currency
+      P_COMMENT:
+        label: Part comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+  SRC_TPCH-PARTSUPP:
+    label: Part supply
+    columns:
+      PS_PARTKEY:
+        label: Part number
+        roles:
+          - businessKeyPart
+          - unitOfWorkMember
+      PS_SUPPKEY:
+        label: Supplier number
+        roles:
+          - businessKeyPart
+          - unitOfWorkMember
+      PS_AVAILQTY:
+        label: Available quantity
+        roles:
+          - changeTracking
+        tags:
+          - measure
+      PS_SUPPLYCOST:
+        label: Supply cost
+        roles:
+          - changeTracking
+        tags:
+          - measure
+          - currency
+      PS_COMMENT:
+        label: Part supply comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+    relations:
+      - to: SRC_TPCH-PART
+        label: supply of part
+        cardinality: many-to-one
+        columns:
+          PS_PARTKEY: P_PARTKEY
+      - to: SRC_TPCH-SUPPLIER
+        label: supplied by
+        cardinality: many-to-one
+        columns:
+          PS_SUPPKEY: S_SUPPKEY
+  SRC_TPCH-REGION:
+    label: Region
+    columns:
+      R_REGIONKEY:
+        label: Region number
+        roles:
+          - businessKeyPart
+      R_NAME:
+        label: Region name
+        roles:
+          - descriptive
+      R_COMMENT:
+        label: Region comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+  SRC_TPCH-SUPPLIER:
+    label: Supplier
+    columns:
+      S_SUPPKEY:
+        label: Supplier number
+        roles:
+          - businessKeyPart
+      S_NAME:
+        label: Supplier name
+        roles:
+          - changeTracking
+        tags:
+          - pii
+      S_ADDRESS:
+        label: Supplier address
+        roles:
+          - changeTracking
+        tags:
+          - pii
+      S_NATIONKEY:
+        label: Supplier nation
+        roles:
+          - unitOfWorkMember
+      S_PHONE:
+        label: Supplier phone
+        roles:
+          - changeTracking
+        tags:
+          - pii
+      S_ACCTBAL:
+        label: Account balance
+        roles:
+          - changeTracking
+        tags:
+          - currency
+      S_COMMENT:
+        label: Supplier comment
+        roles:
+          - descriptive
+        tags:
+          - freeText
+    relations:
+      - to: SRC_TPCH-NATION
+        label: supplier located in
+        cardinality: many-to-one
+        columns:
+          S_NATIONKEY: N_NATIONKEY

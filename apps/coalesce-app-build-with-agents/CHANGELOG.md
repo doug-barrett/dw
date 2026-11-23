@@ -4,6 +4,24 @@ All notable changes to the Build with Agents app. Format follows [Keep a Changel
 
 ## [Unreleased]
 
+### Added
+- **Future state data model with the Data Modeler app.** When the Data Modeler app is installed in the workspace, every thread designs the data model before it builds:
+  - The agent works out the modeling style of each layer (source, staging, Data Vault, star schema, …) and builds into all layers unless your request says otherwise.
+  - Each layer gets a data model in `model/` with its existing nodes and their relations, and the nodes the plan adds or changes are added as planned nodes (the Data Modeler's planned-node feature). Planning may write in `model/` and nowhere else: anything else it writes is put back.
+  - The plan and review cards have a **Data model** section: the styles found, the models changed and their planned nodes. **Show in Data Modeler** puts just those `model/` files in your workspace (uncommitted) so you can check the design in the Data Modeler; **Take it out again** removes them. The preview follows plan revisions, and what you save in the Data Modeler (a layout, a changed planned node) goes back to the agent before its next step. Applying, discarding or deleting the thread handles the preview, and Undo after applying restores the original files.
+- **Uses the Data Modeler's metadata** when building: business keys, relations, PII/measure/code tags and labels guide grains, joins, keys, annotations, checks and descriptions, planned nodes are built exactly as designed, and new nodes are documented in `model/`. The skill ships in `app-skills/` (a second plugin, so updating the vendored skills keeps it) and is listed on the setup page.
+
+## [0.2.1] - 2026-11-19
+
+### Fixed
+- **Finding Claude Code and Cortex Code on Windows.** The app now finds an agent the way PowerShell and Command Prompt do: through `.cmd`, `.bat` and `.ps1` launchers as well as `.exe` files, so Cortex Code's installer (which puts only `cortex.cmd` on PATH) and npm installs of Claude Code (`claude.cmd`) are found. It runs the program the launcher starts rather than the launcher itself. It also looks in the usual install folders, and in Cortex Code's versioned install folder if the launcher can't be read.
+- **Check again on Windows** reads PATH from the registry, so an agent installed or added to PATH after Coalesce started is found without restarting Coalesce.
+- **The setup help on Windows** shows the PowerShell install command for each agent instead of the macOS and Linux one.
+- **No console windows on Windows** flash up while the app checks or runs the agent.
+
+### Added
+- The agent page shows where the app found the agent.
+
 ## [0.2.0] - 2026-11-18
 
 ### Added

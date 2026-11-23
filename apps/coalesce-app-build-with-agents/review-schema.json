@@ -99,6 +99,71 @@
           "why"
         ]
       }
+    },
+    "dataModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Only when the Data Modeler app is installed: the future state data model you wrote in model/. Leave it out otherwise.",
+      "properties": {
+        "changed": {
+          "type": "boolean",
+          "description": "True when you added or changed files in model/ in this session."
+        },
+        "styles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The modeling style of each layer you found, like 'Source (SRC_TPCH, EXTERNAL)', 'Data Vault (CORE)', 'Star schema (DATAMART)'."
+        },
+        "models": {
+          "type": "array",
+          "description": "Every data model (model/models/<slug>.yml) you created or changed.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "file": {
+                "type": "string",
+                "description": "Workspace-relative path, like model/models/data-vault.yml."
+              },
+              "name": {
+                "type": "string"
+              },
+              "change": {
+                "type": "string",
+                "enum": [
+                  "added",
+                  "modified"
+                ]
+              },
+              "planned": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Planned (future) nodes it now shows, by name."
+              }
+            },
+            "required": [
+              "file",
+              "name",
+              "change",
+              "planned"
+            ]
+          }
+        },
+        "summary": {
+          "type": "string",
+          "description": "One plain sentence, under twenty-five words, on what changed in the data model, like 'Planned 6 hubs, 6 links and 9 satellites in the Data Vault model; documented the existing sources.'"
+        }
+      },
+      "required": [
+        "changed",
+        "styles",
+        "models",
+        "summary"
+      ]
     }
   },
   "required": [
